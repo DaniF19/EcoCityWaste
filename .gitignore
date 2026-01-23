@@ -1,0 +1,11 @@
+# Pastas de compilação (lixo)
+bin/
+obj/
+
+# Ficheiros temporários do Visual Studio
+.vs/
+*.user
+
+# Ficheiros de sistema
+Thumbs.db
+Desktop.ini
