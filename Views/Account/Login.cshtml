@@ -1,0 +1,86 @@
+@{
+    Layout = null; /* Define que esta página não usa o _Layout.cshtml padrão (sem menu de topo/rodapé) */
+}
+
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCityWaste - Login</title>
+    <link rel="stylesheet" href="~/css/login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+
+        <div class="left-panel">
+            <div class="logo-container">
+                <img src="~/img/logo.png" alt="EcoCityWaste Logótipo" class="logo" style="transform: translateX(50px);">
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="auth-box">
+
+                <div class="auth-header">
+                    <h1 class="active">Login</h1>
+                    <h2 class="inactive">Registar</h2>
+                </div>
+
+                @if (ViewBag.Erro != null)
+                {
+                    <div style="color: red; margin-bottom: 20px; font-weight: 600; text-align: center; background-color: #ffe6e6; padding: 10px; border-radius: 10px;">
+                        @ViewBag.Erro
+                    </div>
+                }
+
+                <form asp-controller="Account" asp-action="Login" method="post">
+
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fa-solid fa-key input-icon"></i>
+                        <input id ="password-field" type="password" name="password" placeholder="Palavra-Passe" required>
+                        <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+
+                    <div class="form-footer">
+                        <a href="#" class="forgot-password">Esqueceu a palavra-passe?</a>
+
+                        <div class="action-buttons">
+                            <a asp-controller="Account" asp-action="LoginGoogle" class="btn-google" title="Entrar com Google">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo">
+                            </a>
+
+                            <button type="submit" class="btn-login">Login</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password-field');
+
+    togglePassword.addEventListener('click', function (e) {
+        // 1. Alternar o tipo do input entre 'password' e 'text'
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+
+        // 2. Alternar o ícone (olho aberto / olho riscado)
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>

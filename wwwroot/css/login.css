@@ -1,0 +1,254 @@
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Definição das cores conforme pedido */
+    --cor-castanho: rgb(141, 110, 99);
+    --cor-bege: rgb(224, 205, 169);
+    --cor-fundo-claro: rgb(243, 242, 235);
+    --cor-preto: rgb(0, 0, 0);
+    --cor-cinza-claro: #ccc; /* Para o texto inativo */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    overflow: hidden; /* Evita scroll desnecessário */
+}
+
+/* Layout Principal: Flexbox para dividir a tela */
+.main-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+/* --- PAINEL ESQUERDO (Castanho) --- */
+.left-panel {
+    width: 35%; /* Ajustável conforme necessidade */
+    background-color: var(--cor-castanho);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.logo {
+    max-width: 80%;
+    height: auto;
+}
+
+/* --- PAINEL DIREITO (Branco/Claro) --- */
+.right-panel {
+    width: 65%;
+    background-color: #ffffff; /* Fundo branco puro na área do form, ou use var(--cor-fundo-claro) se preferir */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    text-align: center;
+}
+
+/* Cabeçalho do Login */
+.auth-header {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 50px;
+    align-items: baseline;
+}
+
+    .auth-header h1.active {
+        color: var(--cor-castanho);
+        font-weight: 700;
+        font-size: 2.5rem;
+        cursor: default;
+    }
+
+    .auth-header h2.inactive {
+        color: #e0e0e0; /* Cinza muito claro para parecer inativo */
+        font-weight: 700;
+        font-size: 2.5rem;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+        .auth-header h2.inactive:hover {
+            color: var(--cor-bege);
+        }
+
+/* Inputs */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+
+/* Simulação do ícone circular dentro do input */
+.input-icon {
+    position: absolute;
+    left: 15px;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    z-index: 10;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 55px; /* Espaço à esquerda para o ícone */
+    border: 1px solid #777; /* Borda fina escura */
+    border-radius: 50px; /* Borda totalmente arredondada (Pill shape) */
+    font-size: 1.1rem;
+    outline: none;
+    font-family: 'Segoe UI', sans-serif;
+    color: #555;
+}
+
+    .input-group input:focus {
+        border: 2px solid var(--cor-castanho) !important;
+        background-color: #fffcf5; 
+        box-shadow: 0 0 8px rgba(141, 110, 99, 0.4);
+        outline: none;
+    }
+
+.input-icon {
+    position: absolute;
+    left: 20px; 
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem; 
+    color: #999; 
+    z-index: 10;
+    transition: color 0.3s;
+    border: none;
+    width: auto;
+    height: auto;
+}
+
+.input-group:focus-within .input-icon {
+    color: var(--cor-castanho);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    font-size: 1.1rem;
+    z-index: 10;
+}
+
+    .password-toggle:hover {
+        color: var(--cor-castanho);
+    }
+
+/* Rodapé do formulário */
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre o botão Google e o Login */
+}
+
+/* Estilo do Botão Google */
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+}
+
+    /* Tamanho do logótipo "G" dentro do botão */
+    .btn-google img {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Efeito Hover no Google */
+    .btn-google:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+.forgot-password {
+    color: var(--cor-castanho); 
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+    .forgot-password:hover {
+        text-decoration: underline;
+    }
+
+.btn-login {
+    background-color: var(--cor-bege);
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.3s ease, transform 0.1s;
+}
+
+    .btn-login:hover {
+        background-color: var(--cor-castanho);
+    }
+
+    .btn-login:active {
+        transform: scale(0.98);
+    }
+
+/* Responsividade básica para telemóveis */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        width: 100%;
+        height: 200px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+
+    .right-panel {
+        width: 100%;
+    }
+
+    .logo {
+        max-width: 80%;
+        height: auto;
+    }
+}
