@@ -1,0 +1,163 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.recover-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.recover-left {
+    width: 35%;
+    min-height: 100vh;
+    background-color: #8b7366; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.recover-left img {
+    max-width: 70%;
+}
+
+.recover-right {
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.recover-box {
+    width: 60%;
+    max-width: 500px;
+}
+
+.recover-box h1 {
+    font-size: 42px;
+    color: #8b7366;
+    margin-bottom: 10px;
+}
+
+.recover-box hr {
+    border: none;
+    height: 1px;
+    background-color: #8b7366;
+    margin-bottom: 25px;
+}
+
+.recover-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #8b7366;
+}
+
+.recover-actions {
+    margin-top: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link {
+    color: #8b7366;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.send-btn {
+    background-color: #8b7366;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.send-btn:hover {
+    background-color: #755f54;
+}
+
+.input-group {
+    margin-bottom: 10px;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Pop up email enviado */
+.modal-box {
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-box h1 {
+    font-size: 36px;
+    color: #8b7366;
+    margin-bottom: 10px;
+}
+
+.modal-box hr {
+    border: none;
+    height: 1px;
+    background-color: #8b7366;
+    margin: 20px 0;
+}
+
+.modal-box p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.modal-box .small-text {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.modal-box .send-btn {
+    display: inline-block;
+    text-decoration: none;
+}

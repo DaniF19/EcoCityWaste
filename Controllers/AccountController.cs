@@ -3,11 +3,20 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using EcoCityWaste.Models;
+using BCrypt.Net;
 
 namespace EcoCityWaste.Controllers
 {
 	public class AccountController : Controller
 	{
+        private readonly EmailService _emailService;
+
+        public AccountController(EmailService emailService)
+        {
+            _emailService = emailService;
+        }
+
 		// GET: /Account/Login
 		public IActionResult Login()
 		{
@@ -25,14 +34,14 @@ namespace EcoCityWaste.Controllers
                 return View();
             }
 
-            // Verifica se é um email válido
+            // Verifica se ï¿½ um email vï¿½lido
             if (!email.Contains("@") || !email.Contains("."))
             {
-                ViewBag.Erro = "O email inserido não é válido.";
+                ViewBag.Erro = "O email inserido nï¿½o ï¿½ vï¿½lido.";
                 return View();
             }
 
-            // Aqui depois é a consulta a BD 
+            // Aqui depois ï¿½ a consulta a BD 
             if (email == "admin@ecocity.com" && password == "123456")
             {
                 // Criar a Identidade do Utilizador
@@ -46,7 +55,7 @@ namespace EcoCityWaste.Controllers
 
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = true, // Mantém o login mesmo se fechar o browser
+                    IsPersistent = true, // Mantï¿½m o login mesmo se fechar o browser
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
                 };
 
@@ -59,7 +68,7 @@ namespace EcoCityWaste.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Se a password ou email não corresponderem ao utilizador de teste
+            // Se a password ou email nï¿½o corresponderem ao utilizador de teste
             ViewBag.Erro = "Email ou Palavra-passe incorretos.";
             return View();
         }
@@ -72,12 +81,12 @@ namespace EcoCityWaste.Controllers
 
         public async Task<IActionResult> GoogleResponse()
         {
-            // Verifica o resultado da autenticação
+            // Verifica o resultado da autenticaï¿½ï¿½o
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             if (result.Succeeded)
             {
-                // O google já cria o cookie
+                // O google jï¿½ cria o cookie
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -89,11 +98,125 @@ namespace EcoCityWaste.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            // Isto apaga o Cookie e termina a sessão
+            // Isto apaga o Cookie e termina a sessï¿½o
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Login", "Account");
         }
 
+        // RECOVER PASSWORD ------------------------------------------------
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // POST
+        [HttpPost]
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = FakeDatabase.Users
+                .FirstOrDefault(u => u.Email == model.Email);
+
+            if (user != null)
+            {
+                user.ResetPasswordToken = Guid.NewGuid().ToString();
+                user.ResetPasswordExpiry = DateTime.Now.AddMinutes(30);
+
+                var resetLink = Url.Action(
+                    "ResetPassword",
+                    "Account",
+                    new { token = user.ResetPasswordToken },
+                    Request.Scheme
+                );
+
+                string body = $@"
+                    <h2>Password Reset</h2>
+                    <p>Click the link below to reset your password:</p>
+                    <p><a href='{resetLink}'>Reset Password</a></p>
+                    <p>This link expires in 30 minutes.</p>
+                ";
+
+                _emailService.SendEmail(
+                    user.Email,
+                    "EcoCityWaste - Password Reset",
+                    body
+                );
+            }
+            ViewBag.ShowModal = true; // flag para abrir o modal do pop up
+            return View();
+        }
+
+        // GET
+        public ActionResult ResetPassword(string token)
+        {
+            var user = FakeDatabase.Users.FirstOrDefault(u =>
+                u.ResetPasswordToken == token &&
+                u.ResetPasswordExpiry > DateTime.Now);
+
+            if (user == null)
+                return View("InvalidToken");
+
+            return View(new ResetPasswordViewModel { Token = token });
+        }
+
+        // POST
+        [HttpPost]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = FakeDatabase.Users.FirstOrDefault(u =>
+                u.ResetPasswordToken == model.Token &&
+                u.ResetPasswordExpiry > DateTime.Now);
+
+            if (user == null)
+                return View("InvalidToken");
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+            user.ResetPasswordToken = null;
+            user.ResetPasswordExpiry = null;
+
+            return RedirectToAction("Loginteste");
+        }
+
+        // login teste
+        public ActionResult Loginteste()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Loginteste(LogintesteViewModel model)
+        {
+            var user = FakeDatabase.Users
+                .FirstOrDefault(u => u.Email == model.Email);
+
+            if (user == null)
+            {
+                ViewBag.Error = "Invalid email or password";
+                return View();
+            }
+
+            bool passwordOk = BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash);
+            
+            if (!passwordOk)
+            {
+                ViewBag.Error = "Invalid email or password";
+                return View();
+            }
+
+            // teste apenas
+            return Content("LOGIN SUCCESS ! Password is correct.");
+        }
+    
+    
     }
+
+    
+    
 }
