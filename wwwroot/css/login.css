@@ -327,3 +327,21 @@ body {
     justify-content: center;
     z-index: 1000;
 }
+
+.text-danger {
+    color: #a94442;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: block;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.field-error {
+    position: absolute;
+    bottom: -18px;
+    left: 55px;
+    font-size: 0.8rem;
+    color: #a94442;
+    white-space: nowrap;
+}
