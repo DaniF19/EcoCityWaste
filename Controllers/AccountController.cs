@@ -147,7 +147,7 @@ namespace EcoCityWaste.Controllers
                 );
             }
             ViewBag.ShowModal = true; // flag para abrir o modal do pop up
-            return View();
+            return View(model);
         }
 
         // GET

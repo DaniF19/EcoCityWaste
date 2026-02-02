@@ -64,11 +64,9 @@ html, body {
 
 .input-group input {
     width: 100%;
-    padding: 16px 20px;
+    padding: 16px 20px 16px 55px; /* left padding for icon */
     border-radius: 30px;
     border: 1px solid #ccc;
-    font-size: 16px;
-    outline: none;
 }
 
 .input-group input:focus {
