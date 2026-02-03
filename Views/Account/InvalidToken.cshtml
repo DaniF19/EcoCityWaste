@@ -1,0 +1,56 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Inválido - EcoCityWaste</title>
+    <link rel="stylesheet" href="~/css/login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="main-container">
+    
+    <div class="left-panel">
+        <div class="logo-container">
+            <img src="~/img/logo.png" alt="EcoCityWaste Logo" class="logo" style="transform: translateX(50px);">
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="auth-box">
+
+            <div class="auth-header">
+                <h1 class="active" style="font-size: 2rem;">Link Inválido</h1>
+            </div>
+
+            <hr class="recover-divider" style="margin-top: -10px; margin-bottom: 25px;" />
+
+            <p class="instruction-text" style="color: #333;">
+                Este link de recuperação é inválido ou expirou.
+            </p>
+
+            <p class="instruction-text" style="font-weight: normal; color: #666; margin-top: -10px;">
+                Por favor, solicite um novo email de recuperação.
+            </p>
+
+            <div class="form-footer" style="justify-content: center; margin-top: 40px;">
+                <a asp-controller="Account"
+                   asp-action="ForgotPassword"
+                   class="btn-login"
+                   style="text-decoration: none;">
+                    Tentar novamente
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
