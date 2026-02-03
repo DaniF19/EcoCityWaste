@@ -5,16 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using EcoCityWaste.Models;
 using BCrypt.Net;
+using EcoCityWaste.Data;
 
 namespace EcoCityWaste.Controllers
 {
 	public class AccountController : Controller
 	{
         private readonly EmailService _emailService;
+        private readonly AppDbContext _context;
 
-        public AccountController(EmailService emailService)
+        public AccountController(EmailService emailService, AppDbContext context)
         {
             _emailService = emailService;
+            _context = context;
         }
 
 		// GET: /Account/Login
@@ -118,18 +121,23 @@ namespace EcoCityWaste.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = FakeDatabase.Users
+            /*var user = FakeDatabase.Users
+                .FirstOrDefault(u => u.Email == model.Email);*/
+
+            var user = _context.Users
                 .FirstOrDefault(u => u.Email == model.Email);
 
             if (user != null)
             {
-                user.ResetPasswordToken = Guid.NewGuid().ToString();
-                user.ResetPasswordExpiry = DateTime.Now.AddMinutes(30);
+                user.Token = Guid.NewGuid().ToString();
+                user.TokenExpiry = DateTime.Now.AddMinutes(30);
+
+                _context.SaveChanges(); // novo
 
                 var resetLink = Url.Action(
                     "ResetPassword",
                     "Account",
-                    new { token = user.ResetPasswordToken },
+                    new { token = user.Token },
                     Request.Scheme
                 );
 
@@ -153,9 +161,13 @@ namespace EcoCityWaste.Controllers
         // GET
         public ActionResult ResetPassword(string token)
         {
-            var user = FakeDatabase.Users.FirstOrDefault(u =>
+            /*var user = FakeDatabase.Users.FirstOrDefault(u =>
                 u.ResetPasswordToken == token &&
-                u.ResetPasswordExpiry > DateTime.Now);
+                u.ResetPasswordExpiry > DateTime.Now);*/
+
+            var user = _context.Users.FirstOrDefault(u =>
+                u.Token == token &&
+                u.TokenExpiry > DateTime.Now);
 
             if (user == null)
                 return View("InvalidToken");
@@ -170,16 +182,26 @@ namespace EcoCityWaste.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = FakeDatabase.Users.FirstOrDefault(u =>
+            /*var user = FakeDatabase.Users.FirstOrDefault(u =>
                 u.ResetPasswordToken == model.Token &&
-                u.ResetPasswordExpiry > DateTime.Now);
+                u.ResetPasswordExpiry > DateTime.Now);*/
+
+            var user = _context.Users.FirstOrDefault(u =>
+                u.Token == model.Token &&
+                u.TokenExpiry > DateTime.Now);
 
             if (user == null)
                 return View("InvalidToken");
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+            /*user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
             user.ResetPasswordToken = null;
-            user.ResetPasswordExpiry = null;
+            user.ResetPasswordExpiry = null;*/
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+            user.Token = null;
+            user.TokenExpiry = null;
+
+            _context.SaveChanges();
 
             return RedirectToAction("Loginteste");
         }
@@ -193,7 +215,7 @@ namespace EcoCityWaste.Controllers
         [HttpPost]
         public ActionResult Loginteste(LogintesteViewModel model)
         {
-            var user = FakeDatabase.Users
+            /*var user = FakeDatabase.Users
                 .FirstOrDefault(u => u.Email == model.Email);
 
             if (user == null)
@@ -208,7 +230,7 @@ namespace EcoCityWaste.Controllers
             {
                 ViewBag.Error = "Invalid email or password";
                 return View();
-            }
+            }*/
 
             // teste apenas
             return Content("LOGIN SUCCESS ! Password is correct.");

@@ -2,7 +2,7 @@ using BCrypt.Net;
 
 public class FakeDatabase
 {
-    public static List<User> Users = new List<User>
+    /*public static List<User> Users = new List<User>
     {
         new User
         {
@@ -22,6 +22,6 @@ public class FakeDatabase
             Email="danielmarquesfernandes99@gmail.com",
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("daniel")
         }
-    };
+    };*/
 
 }
