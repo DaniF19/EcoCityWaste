@@ -107,7 +107,7 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        // RECOVER PASSWORD ------------------------------------------------
+        // Recover Password Functionality
 
         public ActionResult ForgotPassword()
         {
@@ -121,9 +121,6 @@ namespace EcoCityWaste.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            /*var user = FakeDatabase.Users
-                .FirstOrDefault(u => u.Email == model.Email);*/
-
             var user = _context.Users
                 .FirstOrDefault(u => u.Email == model.Email);
 
@@ -132,7 +129,7 @@ namespace EcoCityWaste.Controllers
                 user.Token = Guid.NewGuid().ToString();
                 user.TokenExpiry = DateTime.Now.AddMinutes(30);
 
-                _context.SaveChanges(); // novo
+                _context.SaveChanges();
 
                 var resetLink = Url.Action(
                     "ResetPassword",
@@ -161,10 +158,6 @@ namespace EcoCityWaste.Controllers
         // GET
         public ActionResult ResetPassword(string token)
         {
-            /*var user = FakeDatabase.Users.FirstOrDefault(u =>
-                u.ResetPasswordToken == token &&
-                u.ResetPasswordExpiry > DateTime.Now);*/
-
             var user = _context.Users.FirstOrDefault(u =>
                 u.Token == token &&
                 u.TokenExpiry > DateTime.Now);
@@ -182,10 +175,6 @@ namespace EcoCityWaste.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            /*var user = FakeDatabase.Users.FirstOrDefault(u =>
-                u.ResetPasswordToken == model.Token &&
-                u.ResetPasswordExpiry > DateTime.Now);*/
-
             var user = _context.Users.FirstOrDefault(u =>
                 u.Token == model.Token &&
                 u.TokenExpiry > DateTime.Now);
@@ -193,52 +182,15 @@ namespace EcoCityWaste.Controllers
             if (user == null)
                 return View("InvalidToken");
 
-            /*user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
-            user.ResetPasswordToken = null;
-            user.ResetPasswordExpiry = null;*/
-
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
             user.Token = null;
             user.TokenExpiry = null;
 
             _context.SaveChanges();
 
-            return RedirectToAction("Loginteste");
+            return RedirectToAction("Login");
         }
 
-        // login teste
-        public ActionResult Loginteste()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Loginteste(LogintesteViewModel model)
-        {
-            /*var user = FakeDatabase.Users
-                .FirstOrDefault(u => u.Email == model.Email);
-
-            if (user == null)
-            {
-                ViewBag.Error = "Invalid email or password";
-                return View();
-            }
-
-            bool passwordOk = BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash);
-            
-            if (!passwordOk)
-            {
-                ViewBag.Error = "Invalid email or password";
-                return View();
-            }*/
-
-            // teste apenas
-            return Content("LOGIN SUCCESS ! Password is correct.");
-        }
-    
-    
     }
 
-    
-    
 }
