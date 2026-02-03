@@ -1,5 +1,5 @@
 @{
-    Layout = null; /* Define que esta página não usa o _Layout.cshtml padrão (sem menu de topo/rodapé) */
+    Layout = null; /* Define que esta pï¿½gina nï¿½o usa o _Layout.cshtml padrï¿½o (sem menu de topo/rodapï¿½) */
 }
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
 
         <div class="left-panel">
             <div class="logo-container">
-                <img src="~/img/logo.png" alt="EcoCityWaste Logótipo" class="logo" style="transform: translateX(50px);">
+                <img src="~/img/logo.png" alt="EcoCityWaste Logï¿½tipo" class="logo" style="transform: translateX(50px);">
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="form-footer">
-                        <a href="#" class="forgot-password">Esqueceu a palavra-passe?</a>
+                        <a asp-controller="Account" asp-action="ForgotPassword" class="forgot-password">Esqueceu a palavra-passe?</a>
 
                         <div class="action-buttons">
                             <a asp-controller="Account" asp-action="LoginGoogle" class="btn-google" title="Entrar com Google">
@@ -79,7 +79,7 @@
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
 
-        // 2. Alternar o ícone (olho aberto / olho riscado)
+        // 2. Alternar o ï¿½cone (olho aberto / olho riscado)
         this.classList.toggle('fa-eye');
         this.classList.toggle('fa-eye-slash');
     });
