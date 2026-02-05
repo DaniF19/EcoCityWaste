@@ -28,38 +28,31 @@ namespace EcoCityWaste.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-
-            // Verifica se os campos vieram vazios
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            if (!ModelState.IsValid)
             {
-                ViewBag.Erro = "Por favor, preencha todos os campos.";
-                return View();
+                return View(model);
             }
 
-            // Verifica se � um email v�lido
-            if (!email.Contains("@") || !email.Contains("."))
-            {
-                ViewBag.Erro = "O email inserido n�o � v�lido.";
-                return View();
-            }
+            // Procura user pelo email na BD
+            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
 
-            // Aqui depois � a consulta a BD 
-            if (email == "admin@ecocity.com" && password == "123456")
+            // Verifica se o user existe e se a password corresponde
+            if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             {
-                // Criar a Identidade do Utilizador
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, email),
-                    new Claim(ClaimTypes.Email, email)
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = true, // Mant�m o login mesmo se fechar o browser
+                    IsPersistent = true, // Mantem o login mesmo se fechar o browser
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
                 };
 
@@ -72,9 +65,9 @@ namespace EcoCityWaste.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Se a password ou email n�o corresponderem ao utilizador de teste
+            // Se a password ou email não corresponderem ao utilizador
             ViewBag.Erro = "Email ou Palavra-passe incorretos.";
-            return View();
+            return View(model);
         }
 
         public IActionResult LoginGoogle()
@@ -85,12 +78,33 @@ namespace EcoCityWaste.Controllers
 
         public async Task<IActionResult> GoogleResponse()
         {
-            // Verifica o resultado da autentica��o
+            // Verifica o resultado da autenticacao 
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             if (result.Succeeded)
             {
-                // O google j� cria o cookie
+                // Extrai o email e o nome vindos do Google através das Claims
+                var email = result.Principal.FindFirstValue(ClaimTypes.Email);
+                var name = result.Principal.FindFirstValue(ClaimTypes.Name);
+
+                // Verifica se o utilizador já existe na tabela Users
+                var user = _context.Users.FirstOrDefault(u => u.Email == email);
+
+                if (user == null)
+                {
+                    // Se não existir, cria um novo registo na base de dados
+                    user = new User
+                    {
+                        Email = email,
+                        Username = name, // Usa o nome do Google como username
+                        PasswordHash = "GOOGLE_AUTH", // Identificador para utilizadores sem password local
+                        Token = null,
+                        TokenExpiry = null
+                    };
+
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction("Index", "Home");
             }
             else

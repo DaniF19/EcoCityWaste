@@ -2,10 +2,11 @@ using EcoCityWaste.Controllers;
 using EcoCityWaste.Data;
 using EcoCityWaste.Models;
 using EcoCityWaste.Services;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;   
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Http;   
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -131,5 +132,92 @@ public class AccountControllerTests
         Assert.Null(user.Token);
         Assert.Null(user.TokenExpiry);
         Assert.Equal("Login", result!.ActionName);
+    }
+
+    [Fact]
+    public async Task Login_ComCredenciaisValidas_DeveRedirecionarParaHome()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+        var controller = new AccountController(null, context);
+
+        // criar utilizador na BD 
+        var password = "123456";
+        context.Users.Add(new User
+        {
+            Email = "admin@ecocity.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+            Username = "Admin"
+        });
+        await context.SaveChangesAsync();
+
+        var model = new LoginViewModel { Email = "admin@ecocity.com", Password = password };
+
+        // Mock de autenticação e URL helper
+        var authServiceMock = new Mock<IAuthenticationService>();
+        var urlHelperMock = new Mock<IUrlHelper>();
+        var serviceProviderMock = new Mock<IServiceProvider>();
+
+        serviceProviderMock.Setup(s => s.GetService(typeof(IAuthenticationService))).Returns(authServiceMock.Object);
+
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext { RequestServices = serviceProviderMock.Object }
+        };
+        controller.Url = urlHelperMock.Object;
+
+        // Act
+        var result = await controller.Login(model) as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Index", result.ActionName);
+        Assert.Equal("Home", result.ControllerName);
+    }
+
+    [Fact]
+    public void LoginGoogle_DeveRetornarChallenge()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+        var controller = new AccountController(null, context);
+
+        // Mock do UrlHelper
+        var urlHelperMock = new Mock<IUrlHelper>();
+        controller.Url = urlHelperMock.Object;
+
+        // Act
+        var result = controller.LoginGoogle();
+
+        // Assert
+        Assert.IsType<ChallengeResult>(result);
+    }
+
+    [Fact]
+    public async Task Logout_DeveRedirecionarParaLogin()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+        var controller = new AccountController(null, context);
+
+        // Mocks para as Cookies e as Rotas
+        var authServiceMock = new Mock<IAuthenticationService>();
+        var urlHelperMock = new Mock<IUrlHelper>();
+        var serviceProviderMock = new Mock<IServiceProvider>();
+
+        serviceProviderMock.Setup(s => s.GetService(typeof(IAuthenticationService))).Returns(authServiceMock.Object);
+
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext { RequestServices = serviceProviderMock.Object }
+        };
+        controller.Url = urlHelperMock.Object;
+
+        // Act
+        var result = await controller.Logout() as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Login", result.ActionName);
     }
 }

@@ -1,5 +1,6 @@
+@model EcoCityWaste.Models.LoginViewModel
 @{
-    Layout = null; /* Define que esta p�gina n�o usa o _Layout.cshtml padr�o (sem menu de topo/rodap�) */
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -40,12 +41,12 @@
 
                     <div class="input-group">
                         <i class="fa-solid fa-envelope input-icon"></i>
-                        <input type="email" name="email" placeholder="Email" required>
+                        <input asp-for="Email" placeholder="Email" required>
                     </div>
 
                     <div class="input-group">
                         <i class="fa-solid fa-key input-icon"></i>
-                        <input id ="password-field" type="password" name="password" placeholder="Palavra-Passe" required>
+                        <input asp-for="Password" id="password-field" placeholder="Palavra-Passe" required>
                         <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
                     </div>
 

@@ -1,8 +1,9 @@
+using EcoCityWaste.Data;
+using EcoCityWaste.Models;
+using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using EcoCityWaste.Data;
 using Microsoft.EntityFrameworkCore;
-using EcoCityWaste.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +51,22 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-    // .WithStaticAssets();
+// .WithStaticAssets();
 
+// Cria um User automatico para testes, caso nao exista
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    if (!context.Users.Any(u => u.Email == "teste@gmail.com"))
+    {
+        context.Users.Add(new User
+        {
+            Username = "Admin",
+            Email = "teste@gmail.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
+        });
+        context.SaveChanges();
+    }
+}
 
 app.Run();
