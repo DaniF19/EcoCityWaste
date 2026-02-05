@@ -1,7 +1,9 @@
 using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
+using EcoCityWaste.Services;
 
-public class EmailService
+public class EmailService : IEmailService
 {
     private readonly IConfiguration _config;
 

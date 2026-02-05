@@ -1,0 +1,135 @@
+using EcoCityWaste.Controllers;
+using EcoCityWaste.Data;
+using EcoCityWaste.Models;
+using EcoCityWaste.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Http;   
+using Moq;
+using Xunit;
+
+public class AccountControllerTests
+{
+    private AppDbContext GetInMemoryDb()
+    {
+        var options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .EnableSensitiveDataLogging()
+            .Options;
+
+        return new AppDbContext(options);
+    }
+
+    [Fact]
+    public void ForgotPassword_EmailDoesNotExist_DoesNothing()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+        var emailMock = new Mock<IEmailService>();
+        var controller = new AccountController(emailMock.Object, context);
+
+        var model = new ForgotPasswordViewModel
+        {
+            Email = "missing@test.com"
+        };
+
+        // Act
+        var result = controller.ForgotPassword(model) as ViewResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(context.Users);
+        Assert.True((bool)controller.ViewBag.ShowModal);
+    }
+
+    [Fact]
+    public void ForgotPassword_ExistingEmail_CreatesToken()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+        context.Users.Add(new User
+        {
+            Username = "TestUser",
+            Email = "user@test.com",
+            PasswordHash = "hash",
+            Token = null,
+            TokenExpiry = null
+        });
+        context.SaveChanges();
+
+        var emailMock = new Mock<IEmailService>();
+        emailMock.Setup(e => e.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+
+        var controller = new AccountController(emailMock.Object, context);
+        controller.ViewBag.ShowModal = false;
+
+        // Mock url action
+        var urlHelperMock = new Mock<IUrlHelper>();
+        urlHelperMock
+            .Setup(x => x.Action(It.IsAny<UrlActionContext>()))
+            .Returns("http://localhost/reset-link");
+        controller.Url = urlHelperMock.Object;
+
+        // Mock request scheme
+        var httpContextMock = new Mock<HttpContext>();
+        var requestMock = new Mock<HttpRequest>();
+        requestMock.Setup(r => r.Scheme).Returns("http");
+        requestMock.Setup(r => r.Host).Returns(new HostString("localhost"));
+        httpContextMock.Setup(x => x.Request).Returns(requestMock.Object);
+
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = httpContextMock.Object
+        };
+
+        // Act
+        var result = controller.ForgotPassword(new ForgotPasswordViewModel
+        {
+            Email = "user@test.com"
+        }) as ViewResult;
+
+        // Assert
+        var user = context.Users.First();
+        Assert.NotNull(user.Token);
+        Assert.NotNull(user.TokenExpiry);
+        Assert.True((bool)controller.ViewBag.ShowModal);
+        emailMock.Verify(e => e.SendEmail("user@test.com", It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+    }
+
+    [Fact]
+    public void ResetPassword_ValidToken_UpdatesPassword()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+
+        context.Users.Add(new User
+        {
+            Username = "TestUser",
+            Email = "user@test.com",
+            PasswordHash = "oldhash",
+            Token = "token123",
+            TokenExpiry = DateTime.Now.AddMinutes(5)
+        });
+        context.SaveChanges();
+
+        var emailMock = new Mock<IEmailService>();
+        var controller = new AccountController(emailMock.Object, context);
+
+        // Act
+        var result = controller.ResetPassword(new ResetPasswordViewModel
+        {
+            Token = "token123",
+            NewPassword = "NewPassword123!",
+            ConfirmPassword = "NewPassword123!"
+        }) as RedirectToActionResult;
+
+        // Assert
+        var user = context.Users.First();
+        Assert.NotNull(result);
+        Assert.NotEqual("oldhash", user.PasswordHash);
+        Assert.Null(user.Token);
+        Assert.Null(user.TokenExpiry);
+        Assert.Equal("Login", result!.ActionName);
+    }
+}

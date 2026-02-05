@@ -6,15 +6,16 @@ using System.Security.Claims;
 using EcoCityWaste.Models;
 using BCrypt.Net;
 using EcoCityWaste.Data;
+using EcoCityWaste.Services;
 
 namespace EcoCityWaste.Controllers
 {
 	public class AccountController : Controller
 	{
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         private readonly AppDbContext _context;
 
-        public AccountController(EmailService emailService, AppDbContext context)
+        public AccountController(IEmailService emailService, AppDbContext context)
         {
             _emailService = emailService;
             _context = context;
