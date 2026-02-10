@@ -202,9 +202,31 @@ namespace EcoCityWaste.Controllers
             user.TokenExpiry = null;
 
             _context.SaveChanges();
-
+            
             return RedirectToAction("Login");
         }
+
+
+
+        public IActionResult Register()
+        {
+            return View(new RegisterViewModel());
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                TempData["SuccessMessage"] = "Conta criada com sucesso!";
+
+                return RedirectToAction("Login");
+            }
+
+            return View(model);
+        }
+
 
     }
 

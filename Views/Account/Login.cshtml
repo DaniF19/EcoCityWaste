@@ -27,7 +27,9 @@
 
                 <div class="auth-header">
                     <h1 class="active">Login</h1>
-                    <h2 class="inactive">Registar</h2>
+                    <h2 class="inactive">
+                        <a asp-controller="Account" asp-action="Register">Registar</a>
+                    </h2>
                 </div>
 
                 @if (ViewBag.Erro != null)

@@ -1,0 +1,32 @@
+﻿/* =====================================
+   REGISTER PAGE OVERRIDES
+   ===================================== */
+
+/* Remove underline do link */
+.auth-header a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Força o MESMO tamanho do Login */
+.auth-header h2.active,
+.auth-header h2.inactive {
+    font-size: 2.5rem; /* igual ao Login */
+    font-weight: 700;
+}
+
+/* Cores */
+.auth-header h2.active {
+    color: var(--cor-castanho);
+    cursor: default;
+}
+
+.auth-header h2.inactive {
+    color: var(--cor-cinza-claro);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+    .auth-header h2.inactive:hover {
+        color: var(--cor-bege);
+    }
