@@ -1,137 +1,174 @@
-﻿@model EcoCityWaste.Models.RegisterViewModel
-
+@model EcoCityWaste.Models.RegisterViewModel
 @{
-    Layout = null;
+Layout = null;
 }
 
 <!DOCTYPE html>
+
 <html lang="pt-pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoCityWaste - Registar</title>
-
-    <!-- CSS base (Login) -->
     <link rel="stylesheet" href="~/css/login.css">
-
-    <!-- CSS específico do Register -->
-    <link rel="stylesheet" href="~/css/register.css">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-
 <body>
 
-    <div class="main-container">
+<div class="main-container">
 
-        <!-- PAINEL ESQUERDO -->
-        <div class="left-panel">
-            <div class="logo-container">
-                <img src="~/img/logo.png"
-                     alt="EcoCityWaste Logótipo"
-                     class="logo"
-                     style="transform: translateX(50px);">
-            </div>
+
+<!-- LEFT PANEL -->
+<div class="left-panel">
+    <div class="logo-container">
+        <img src="~/img/logo.png"
+             alt="EcoCityWaste Logo"
+             class="logo"
+             style="transform: translateX(50px);" />
+    </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+
+    <div class="auth-box">
+
+        <!-- HEADER -->
+        <div class="auth-header">
+            <h2 class="inactive">
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   style="text-decoration:none;color:inherit;">
+                    Login
+                </a>
+            </h2>
+
+            <h1 class="active">Registar</h1>
         </div>
 
-        <!-- PAINEL DIREITO -->
-        <div class="right-panel">
-            <div class="auth-box">
+        <!-- VALIDATION SUMMARY -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <!-- HEADER LOGIN / REGISTAR -->
-                <div class="auth-header">
+        <!-- FORM -->
+        <form asp-controller="Account"
+              asp-action="Register"
+              method="post">
 
-                    <h2 class="inactive">
-                        <a asp-controller="Account" asp-action="Login">Login</a>
-                    </h2>
+            @Html.AntiForgeryToken()
 
-                    <h2 class="active">Registar</h2>
+            <!-- USERNAME -->
+            <div class="input-group">
+                <i class="fa-solid fa-user input-icon"></i>
 
+                <input asp-for="Username"
+                       placeholder="Username"
+                       required />
+
+                <span asp-validation-for="Username"
+                      class="field-error"></span>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="input-group">
+                <i class="fa-solid fa-envelope input-icon"></i>
+
+                <input asp-for="Email"
+                       placeholder="Email"
+                       required />
+
+                <span asp-validation-for="Email"
+                      class="field-error"></span>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="input-group">
+                <i class="fa-solid fa-key input-icon"></i>
+
+                <input asp-for="Password"
+                       id="password"
+                       type="password"
+                       placeholder="Palavra-Passe"
+                       required />
+
+                <i class="fa-solid fa-eye password-toggle"
+                   data-target="password"></i>
+
+                <span asp-validation-for="Password"
+                      class="field-error"></span>
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="input-group">
+                <i class="fa-solid fa-key input-icon"></i>
+
+                <input asp-for="ConfirmPassword"
+                       id="confirmPassword"
+                       type="password"
+                       placeholder="Confirmar Palavra-Passe"
+                       required />
+
+                <i class="fa-solid fa-eye password-toggle"
+                   data-target="confirmPassword"></i>
+
+                <span asp-validation-for="ConfirmPassword"
+                      class="field-error"></span>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="form-footer">
+
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="forgot-password">
+                    Já tem conta?
+                </a>
+
+                <div class="action-buttons">
+                    <button type="submit"
+                            class="btn-login">
+                        Registar
+                    </button>
                 </div>
-
-                <!-- ERROS -->
-                @if (!ViewData.ModelState.IsValid)
-                {
-                    <div style="color:red; margin-bottom:20px; font-weight:600; text-align:center; background-color:#ffe6e6; padding:10px; border-radius:10px;">
-                        @Html.ValidationSummary()
-                    </div>
-                }
-
-                <!-- FORM -->
-                <form asp-controller="Account"
-                      asp-action="Register"
-                      method="post">
-
-                    <!-- NOME -->
-                    <div class="input-group">
-                        <i class="fa-solid fa-user input-icon"></i>
-                        <input asp-for="Name"
-                               placeholder="Nome"
-                               required />
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="input-group">
-                        <i class="fa-solid fa-envelope input-icon"></i>
-                        <input asp-for="Email"
-                               type="email"
-                               placeholder="Email"
-                               required />
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="input-group">
-                        <i class="fa-solid fa-key input-icon"></i>
-                        <input asp-for="Password"
-                               id="password-field"
-                               type="password"
-                               placeholder="Palavra-passe"
-                               required />
-                        <i class="fa-solid fa-eye password-toggle"
-                           id="togglePassword"></i>
-                    </div>
-
-                    <!-- CONFIRMAR PASSWORD -->
-                    <div class="input-group">
-                        <i class="fa-solid fa-key input-icon"></i>
-                        <input asp-for="ConfirmPassword"
-                               type="password"
-                               placeholder="Confirmar Palavra-passe"
-                               required />
-                    </div>
-
-                    <div class="form-footer">
-                        <div class="action-buttons">
-                            <button type="submit" class="btn-login">
-                                Registar
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
-
             </div>
-        </div>
+
+        </form>
 
     </div>
+</div>
+
+
+</div>
+
+<!-- PASSWORD TOGGLE SCRIPT -->
+
+<script>
+    document.querySelectorAll(".password-toggle").forEach(toggle => {
+        toggle.addEventListener("click", function () {
+
+            const input = document.getElementById(this.dataset.target);
+
+            if (!input) return;
+
+            if (input.type === "password") {
+                input.type = "text";
+                this.classList.remove("fa-eye");
+                this.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                this.classList.remove("fa-eye-slash");
+                this.classList.add("fa-eye");
+            }
+        });
+    });
+</script>
+
+<!-- VALIDATION SCRIPTS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>
-
-<script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#password-field');
-
-    togglePassword.addEventListener('click', function () {
-
-        const type = password.getAttribute('type') === 'password'
-            ? 'text'
-            : 'password';
-
-        password.setAttribute('type', type);
-
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
-
-    });
-</script>

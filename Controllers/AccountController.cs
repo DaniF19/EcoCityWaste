@@ -207,24 +207,58 @@ namespace EcoCityWaste.Controllers
         }
 
 
-
+        // register
         public IActionResult Register()
         {
-            return View(new RegisterViewModel());
+            return User.Identity.IsAuthenticated 
+                ? RedirectToAction("Index", "Home") 
+                : View();
         }
 
         [HttpPost]
-
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                TempData["SuccessMessage"] = "Conta criada com sucesso!";
+            if (!ModelState.IsValid)
+                return View(model);
 
-                return RedirectToAction("Login");
+            // Check if email already exists
+            var existingUser = _context.Users
+                .FirstOrDefault(u => u.Email == model.Email);
+
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Email", "Este email já está registado.");
+                return View(model);
             }
 
-            return View(model);
+            var user = new User
+            {
+                Username = model.Username,
+                Email = model.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
+                Token = null,
+                TokenExpiry = null
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+
+            return RedirectToAction("Index", "Home");
         }
 
 

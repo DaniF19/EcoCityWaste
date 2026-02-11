@@ -1,8 +1,164 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "EcoCityWaste";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .hero {
+        background: linear-gradient(135deg, rgb(141,110,99), rgb(224,205,169));
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+        border-radius: 0 0 40px 40px;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        margin-top: 15px;
+        opacity: 0.95;
+    }
+
+    .hero .btn-main {
+        margin-top: 30px;
+        background-color: white;
+        color: rgb(141,110,99);
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s ease;
+        display: inline-block;
+    }
+
+    .hero .btn-main:hover {
+        background-color: rgb(243,242,235);
+        transform: translateY(-2px);
+    }
+
+    .features {
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .features h2 {
+        color: rgb(141,110,99);
+        margin-bottom: 40px;
+        font-weight: 700;
+    }
+
+    .feature-box {
+        padding: 25px;
+        border-radius: 20px;
+        background-color: rgb(243,242,235);
+        transition: 0.3s ease;
+        height: 100%;
+    }
+
+    .feature-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .feature-box i {
+        font-size: 40px;
+        color: rgb(141,110,99);
+        margin-bottom: 15px;
+    }
+
+    .feature-box h5 {
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .feature-box p {
+        font-size: 0.95rem;
+        color: #555;
+    }
+
+    .cta-section {
+        background-color: rgb(141,110,99);
+        color: white;
+        padding: 50px 20px;
+        text-align: center;
+        border-radius: 40px 40px 0 0;
+    }
+
+    .cta-section a {
+        background-color: rgb(224,205,169);
+        color: white;
+        padding: 10px 25px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .cta-section a:hover {
+        background-color: white;
+        color: rgb(141,110,99);
+    }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <h1>EcoCityWaste</h1>
+    <p>Smart Waste Management for a Cleaner and Greener City.</p>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Account" asp-action="Register" class="btn-main">
+            Começar Agora
+        </a>
+    }
+</div>
+
+<!-- FEATURES SECTION -->
+<div class="features container">
+    <h2>O Que Oferecemos</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="feature-box">
+                <i class="fa-solid fa-recycle"></i>
+                <h5>Gestão Sustentável</h5>
+                <p>Promovemos práticas ecológicas para melhorar a gestão de resíduos urbanos.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-box">
+                <i class="fa-solid fa-chart-line"></i>
+                <h5>Monitorização Inteligente</h5>
+                <p>Acompanhe dados e desempenho da recolha de resíduos em tempo real.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-box">
+                <i class="fa-solid fa-city"></i>
+                <h5>Cidades Mais Limpas</h5>
+                <p>Trabalhamos para tornar os espaços urbanos mais limpos e sustentáveis.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- CTA SECTION -->
+<div class="cta-section">
+    <h3>Juntos por um futuro mais sustentável 🌱</h3>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Account" asp-action="Register">
+            Criar Conta
+        </a>
+    }
 </div>

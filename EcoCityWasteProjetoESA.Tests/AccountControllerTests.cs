@@ -153,7 +153,7 @@ public class AccountControllerTests
 
         var model = new LoginViewModel { Email = "admin@ecocity.com", Password = password };
 
-        // Mock de autenticação e URL helper
+        // Mock de autenticaï¿½ï¿½o e URL helper
         var authServiceMock = new Mock<IAuthenticationService>();
         var urlHelperMock = new Mock<IUrlHelper>();
         var serviceProviderMock = new Mock<IServiceProvider>();
@@ -220,4 +220,91 @@ public class AccountControllerTests
         Assert.NotNull(result);
         Assert.Equal("Login", result.ActionName);
     }
+
+    [Fact]
+    public async Task Register_ValidUser_CreatesUserAndRedirects()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+        var emailMock = new Mock<IEmailService>();
+
+        var controller = new AccountController(emailMock.Object, context);
+
+        var model = new RegisterViewModel
+        {
+            Username = "NewUser",
+            Email = "new@test.com",
+            Password = "Password123!",
+            ConfirmPassword = "Password123!"
+        };
+
+        // Mock authentication service (needed for SignInAsync)
+        var authServiceMock = new Mock<IAuthenticationService>();
+        var serviceProviderMock = new Mock<IServiceProvider>();
+
+        serviceProviderMock
+            .Setup(s => s.GetService(typeof(IAuthenticationService)))
+            .Returns(authServiceMock.Object);
+
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                RequestServices = serviceProviderMock.Object
+            }
+        };
+
+        var urlHelperMock = new Mock<IUrlHelper>();
+        controller.Url = urlHelperMock.Object;
+
+        // Act
+        var result = await controller.Register(model) as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Index", result.ActionName);
+        Assert.Equal("Home", result.ControllerName);
+
+        var user = context.Users.FirstOrDefault(u => u.Email == "new@test.com");
+        Assert.NotNull(user);
+        Assert.Equal("NewUser", user!.Username);
+        Assert.True(BCrypt.Net.BCrypt.Verify("Password123!", user.PasswordHash));
+    }
+
+    [Fact]
+    public async Task Register_EmailAlreadyExists_ReturnsViewWithModelError()
+    {
+        // Arrange
+        var context = GetInMemoryDb();
+
+        context.Users.Add(new User
+        {
+            Username = "Existing",
+            Email = "existing@test.com",
+            PasswordHash = "hash"
+        });
+        context.SaveChanges();
+
+        var emailMock = new Mock<IEmailService>();
+        var controller = new AccountController(emailMock.Object, context);
+
+        var model = new RegisterViewModel
+        {
+            Username = "NewUser",
+            Email = "existing@test.com",
+            Password = "Password123!",
+            ConfirmPassword = "Password123!"
+        };
+
+        // Act
+        var result = await controller.Register(model) as ViewResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.False(controller.ModelState.IsValid);
+        Assert.True(controller.ModelState.ContainsKey("Email"));
+        Assert.Single(context.Users); // no new user created
+    }
+
+
 }
