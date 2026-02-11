@@ -202,7 +202,7 @@ namespace EcoCityWaste.Controllers
             user.TokenExpiry = null;
 
             _context.SaveChanges();
-
+            
             return RedirectToAction("Login");
         }
 
@@ -244,7 +244,6 @@ namespace EcoCityWaste.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Optional: Auto login after register
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),

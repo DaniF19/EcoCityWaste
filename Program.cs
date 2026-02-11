@@ -53,6 +53,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 // .WithStaticAssets();
 
+/*
 // Cria um User automatico para testes, caso nao exista
 using (var scope = app.Services.CreateScope())
 {
@@ -68,5 +69,7 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
     }
 }
+*/
+
 
 app.Run();

@@ -1,3 +1,5 @@
+
+
 /* Reset B�sico */
 * {
     margin: 0;
@@ -344,4 +346,13 @@ body {
     font-size: 0.8rem;
     color: #a94442;
     white-space: nowrap;
+}
+
+.auth-header a {
+    text-decoration: none; /* remove underline */
+    color: inherit; /* herda a cor do h2.inactive */
+}
+
+.auth-header h2.inactive a:hover {
+    color: var(--cor-bege); /* mantém o hover igual ao definido */
 }

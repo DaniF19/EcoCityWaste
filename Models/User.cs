@@ -8,6 +8,10 @@
         public string PasswordHash { get; set; }
         public string? Token { get; set; }
         public DateTime? TokenExpiry { get; set; }
+
+        // Login externo
+        public string? AuthProvider { get; set; }
+        public string? ProviderUserId { get; set; }
     }
 
 }
