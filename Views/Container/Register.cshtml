@@ -1,0 +1,88 @@
+@model EcoCityWaste.Models.ContainerRegisterViewModel
+
+
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registar Contentor - EcoCityWaste</title>
+
+    <link rel="stylesheet" href="~/css/app.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="card-box">
+
+        <div class="card-title">
+            Registar Contentor
+        </div>
+
+        @if (ViewBag.Success != null)
+        {
+            <div class="alert-success">
+                @ViewBag.Success
+            </div>
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert-error">
+                @ViewBag.Error
+            </div>
+        }
+
+        <form asp-action="Register" method="post">
+            @Html.AntiForgeryToken()
+
+            <!-- LOCATION -->
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot input-icon"></i>
+                <input asp-for="Location" placeholder="Localização" />
+                <span asp-validation-for="Location" class="field-error"></span>
+            </div>
+
+            <!-- TYPE -->
+            <div class="input-group">
+                <i class="fa-solid fa-recycle input-icon"></i>
+                <select asp-for="Type">
+                    <option value="">Tipo de Contentor</option>
+                    <option>Plástico</option>
+                    <option>Vidro</option>
+                    <option>Papel</option>
+                    <option>Orgânico</option>
+                </select>
+                <span asp-validation-for="Type" class="field-error"></span>
+            </div>
+
+            <!-- INITIAL STATE -->
+            <div class="input-group">
+                <i class="fa-solid fa-box-open input-icon"></i>
+                <select asp-for="InitialState">
+                    <option value="">Estado Inicial</option>
+                    <option>Vazio</option>
+                    <option>Parcial</option>
+                    <option>Cheio</option>
+                </select>
+                <span asp-validation-for="InitialState" class="field-error"></span>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                Registar
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>

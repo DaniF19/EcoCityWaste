@@ -1,0 +1,130 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(243, 242, 235);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Centered container */
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* Card style */
+.card-box {
+    background: white;
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+}
+
+/* Title */
+.card-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: rgb(141, 110, 99);
+    margin-bottom: 40px;
+}
+
+/* Input Group */
+.input-group {
+    width: 100%;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 14px 20px 14px 50px; 
+    border-radius: 50px !important;
+    border: 1px solid #aaa;
+    font-size: 1rem;
+    height: 48px;              
+    line-height: normal;         
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: rgb(141, 110, 99);
+    box-shadow: 0 0 8px rgba(141, 110, 99, 0.2);
+}
+
+/* Icons */
+/* Update your existing .input-icon rule */
+.input-icon {
+    position: absolute;
+    left: 18px;
+    /* Change from top: 50% to a fixed position */
+    top: 24px; 
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #888;
+    pointer-events: none;
+    z-index: 10; /* Ensure it stays above the input */
+}
+
+input.input-validation-error,
+select.input-validation-error {
+    border: 1px solid #e74c3c;  /* same thickness as normal border*/
+}
+
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background-color: rgb(224, 205, 169);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: rgb(141, 110, 99);
+}
+
+/* Alerts */
+.alert-success {
+    background-color: #e6ffed;
+    color: #1b5e20;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.alert-error {
+    background-color: #ffe6e6;
+    color: #a94442;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Validation */
+.field-error {
+    font-size: 0.85rem;
+    color: #a94442;
+    padding-left: 15px;
+}
