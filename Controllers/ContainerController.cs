@@ -42,5 +42,11 @@ namespace EcoCityWaste.Controllers
                 return View(model);
             }
         }
+
+        public IActionResult List()
+        {
+            var containers = ContainerRepository.GetAll();
+            return View(containers);
+        }
     }
 }

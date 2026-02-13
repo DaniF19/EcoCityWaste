@@ -1,0 +1,44 @@
+@model List<EcoCityWaste.Models.Container>
+
+@{
+    ViewData["Title"] = "Lista de Contentores";
+}
+
+<div class="page-container">
+
+    <div class="card-box" style="max-width: 900px;">
+
+        <div class="card-title">
+            Lista de Contentores
+        </div>
+
+        @if (!Model.Any())
+        {
+            <p style="text-align:center;">Nenhum contentor registado.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Localização</th>
+                        <th>Tipo</th>
+                        <th>Estado Inicial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var container in Model)
+                    {
+                        <tr>
+                            <td>@container.Location</td>
+                            <td>@container.Type</td>
+                            <td>@container.InitialState</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+</div>

@@ -12,12 +12,13 @@ body {
 
 /* Centered container */
 .page-container {
-    min-height: 100vh;
+    min-height: calc(100vh - 90px); /* subtract navbar height */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
+    padding: 20px 20px 40px 20px; /* less bottom pressure */
 }
+
 
 /* Card style */
 .card-box {
@@ -49,15 +50,15 @@ body {
 .input-group input,
 .input-group select {
     width: 100%;
-    padding: 14px 20px 14px 50px; 
+    padding: 0 20px 0 50px;
     border-radius: 50px !important;
     border: 1px solid #aaa;
     font-size: 1rem;
-    height: 48px;              
-    line-height: normal;         
+    height: 50px;
     outline: none;
     transition: 0.3s;
 }
+
 
 .input-group input:focus,
 .input-group select:focus {
@@ -127,4 +128,59 @@ select.input-validation-error {
     font-size: 0.85rem;
     color: #a94442;
     padding-left: 15px;
+}
+
+/* ================================
+   DASHBOARD
+================================ */
+
+.dashboard-container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: rgb(141, 110, 99); /* castanho */
+    margin-bottom: 60px;
+}
+
+.dashboard-grid {
+    display: flex;
+    gap: 80px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dashboard-card {
+    width: 260px;
+    height: 260px;
+    background-color: rgb(224, 205, 169); /* bege */
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: rgb(141, 110, 99);
+    font-size: 22px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    background-color: rgb(141, 110, 99);
+    color: white;
+}
+
+.dashboard-icon {
+    font-size: 70px;
+    margin-bottom: 25px;
 }
