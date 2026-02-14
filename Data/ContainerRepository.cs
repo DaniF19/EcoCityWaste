@@ -1,4 +1,5 @@
 using EcoCityWaste.Models;
+using System.Linq;
 
 namespace EcoCityWaste.Data
 {
@@ -17,5 +18,23 @@ namespace EcoCityWaste.Data
         {
             return _containers;
         }
+
+        public static Container GetById(int id)
+        {
+            return _containers.FirstOrDefault(c => c.Id == id);
+        }
+
+        public static void Update(Container updatedContainer)
+        {
+            var container = GetById(updatedContainer.Id);
+
+            if (container == null)
+                return;
+
+            container.Location = updatedContainer.Location;
+            container.Type = updatedContainer.Type;
+            container.InitialState = updatedContainer.InitialState;
+        }
+
     }
 }

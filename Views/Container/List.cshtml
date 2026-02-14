@@ -4,6 +4,10 @@
     ViewData["Title"] = "Lista de Contentores";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
 <div class="page-container">
 
     <div class="card-box" style="max-width: 900px;">
@@ -24,6 +28,7 @@
                         <th>Localização</th>
                         <th>Tipo</th>
                         <th>Estado Inicial</th>
+                        <th style="text-align:center;">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +38,15 @@
                             <td>@container.Location</td>
                             <td>@container.Type</td>
                             <td>@container.InitialState</td>
+                            <td style="text-align:center;">
+                                <a asp-controller="Container"
+                                   asp-action="Edit"
+                                   asp-route-id="@container.Id"
+                                   class="btn-primary"
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Editar
+                                </a>
+                            </td>
                         </tr>
                     }
                 </tbody>

@@ -48,5 +48,36 @@ namespace EcoCityWaste.Controllers
             var containers = ContainerRepository.GetAll();
             return View(containers);
         }
+
+        public IActionResult Edit(int id)
+        {
+            var container = ContainerRepository.GetById(id);
+
+            if (container == null)
+                return NotFound();
+
+            return View(container);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Container model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                ContainerRepository.Update(model);
+                return RedirectToAction("List");
+            }
+            catch
+            {
+                ViewBag.Error = "Erro ao atualizar o contentor.";
+                return View(model);
+            }
+        }
+
+        
     }
 }
