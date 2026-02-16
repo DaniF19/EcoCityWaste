@@ -40,12 +40,12 @@
 
             <div class="input-group">
                 <i class="fa-solid fa-box-open input-icon"></i>
-                <select asp-for="InitialState">
+                <select asp-for="Status">
                     <option>Vazio</option>
                     <option>Parcial</option>
                     <option>Cheio</option>
                 </select>
-                <span asp-validation-for="InitialState" class="field-error"></span>
+                <span asp-validation-for="Status" class="field-error"></span>
             </div>
 
             <button type="submit" class="btn-primary">

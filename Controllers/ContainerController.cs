@@ -26,7 +26,7 @@ namespace EcoCityWaste.Controllers
                 {
                     Location = model.Location,
                     Type = model.Type,
-                    InitialState = model.InitialState
+                    Status = model.Status
                 };
 
                 ContainerRepository.Add(container);

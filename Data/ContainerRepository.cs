@@ -33,7 +33,7 @@ namespace EcoCityWaste.Data
 
             container.Location = updatedContainer.Location;
             container.Type = updatedContainer.Type;
-            container.InitialState = updatedContainer.InitialState;
+            container.Status = updatedContainer.Status;
         }
 
     }

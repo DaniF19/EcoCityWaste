@@ -11,7 +11,7 @@ namespace EcoCityWaste.Models
         public string Type { get; set; }
 
         [Required(ErrorMessage = "O estado inicial é obrigatório.")]
-        public string InitialState { get; set; }
+        public string Status { get; set; }
     }
     
 }
