@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<style>
+    body {
+        background-color: linear-gradient(135deg, rgb(141,110,99), rgb(224,205,169));
+    }
+
+    .access-container {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+    }
+
+    .access-card {
+        background-color: rgb(243,242,235);
+        padding: 50px 40px;
+        border-radius: 25px;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(141,110,99,0.15);
+        transition: 0.3s ease;
+    }
+
+    .access-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .access-card i {
+        font-size: 55px;
+        color: rgb(141,110,99);
+        margin-bottom: 20px;
+    }
+
+    .access-card h2 {
+        color: rgb(141,110,99);
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .access-card p {
+        color: #555;
+        margin-bottom: 25px;
+        font-size: 1rem;
+    }
+
+    .btn-home {
+        display: inline-block;
+        background-color: rgb(141,110,99);
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+
+    .btn-home:hover {
+        background-color: rgb(224,205,169);
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<div class="access-container">
+    <div class="access-card">
+        <i class="fa-solid fa-lock"></i>
+        <h2>Acesso Negado</h2>
+        <p>Apenas administradores têm acesso ao Dashboard Administrativo.</p>
+
+        <a asp-controller="Home" asp-action="Index" class="btn-home">
+            Voltar à Página Inicial
+        </a>
+    </div>
+</div>

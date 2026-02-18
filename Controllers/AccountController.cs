@@ -45,7 +45,8 @@ namespace EcoCityWaste.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -237,6 +238,7 @@ namespace EcoCityWaste.Controllers
                 Username = model.Username,
                 Email = model.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
+                Role = "Cidadao",
                 Token = null,
                 TokenExpiry = null
             };
@@ -261,6 +263,10 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult AccessDenied() // to block admin dashboard for non admin users
+        {
+            return View();
+        }
 
     }
 
