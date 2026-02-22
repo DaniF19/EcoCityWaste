@@ -114,6 +114,15 @@ select.input-validation-error {
     text-align: center;
 }
 
+.alert-success-addcontainer {
+    background-color: rgb(141, 110, 99);
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 .alert-error {
     background-color: #ffe6e6;
     color: #a94442;
@@ -183,4 +192,79 @@ select.input-validation-error {
 .dashboard-icon {
     font-size: 70px;
     margin-bottom: 25px;
+}
+
+/* Label for the sections - Matches your title color */
+.field-label {
+    display: block;
+    font-weight: 700;
+    margin: 20px 0 10px 5px;
+    color: rgb(141, 110, 99);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Container for the items */
+.selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+/* Hide the actual radio input */
+.selection-item input[type="radio"] {
+    display: none;
+}
+
+/* The card style - Matches your background/beige tones */
+.selection-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
+    background: white;
+    border: 2px solid rgb(224, 205, 169); /* Beige border */
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.selection-content i {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    color: rgb(224, 205, 169); /* Beige icons by default */
+}
+
+.selection-content span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #888;
+}
+
+/* Hover effect - Subtle lift like your dashboard cards */
+.selection-item:hover .selection-content {
+    border-color: rgb(141, 110, 99);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* Selected State - Using your Brown/Earth tone */
+.selection-item input[type="radio"]:checked + .selection-content {
+    border-color: rgb(141, 110, 99);
+    background-color: rgb(141, 110, 99);
+}
+
+.selection-item input[type="radio"]:checked + .selection-content i,
+.selection-item input[type="radio"]:checked + .selection-content span {
+    color: white;
+}
+
+/* Optional: Validation highlight for the selection grid */
+.field-error {
+    display: block;
+    margin-top: 5px;
+    font-weight: 500;
 }

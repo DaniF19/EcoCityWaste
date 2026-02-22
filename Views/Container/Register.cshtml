@@ -17,7 +17,7 @@
 
         @if (ViewBag.Success != null)
         {
-            <div class="alert-success">
+            <div class="alert-success-addcontainer">
                 @ViewBag.Success
             </div>
         }
@@ -38,30 +38,66 @@
                 <span asp-validation-for="Location" class="field-error"></span>
             </div>
 
-            <div class="input-group">
-                <i class="fa-solid fa-recycle input-icon"></i>
-                <select asp-for="Type">
-                    <option value="">Tipo de Contentor</option>
-                    <option>Plástico</option>
-                    <option>Vidro</option>
-                    <option>Papel</option>
-                    <option>Orgânico</option>
-                </select>
-                <span asp-validation-for="Type" class="field-error"></span>
+            <label class="field-label">Tipo de Contentor</label>
+            <div class="selection-grid">
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Plástico" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-recycle"></i>
+                        <span>Plástico</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Vidro" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-wine-glass"></i>
+                        <span>Vidro</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Papel" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-note-sticky"></i>
+                        <span>Papel</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Orgânico" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <span>Orgânico</span>
+                    </div>
+                </label>
             </div>
+            <span asp-validation-for="Type" class="field-error"></span>
 
-            <div class="input-group">
-                <i class="fa-solid fa-box-open input-icon"></i>
-                <select asp-for="Status">
-                    <option value="">Estado Inicial</option>
-                    <option>Vazio</option>
-                    <option>Parcial</option>
-                    <option>Cheio</option>
-                </select>
-                <span asp-validation-for="Status" class="field-error"></span>
+            <label class="field-label">Estado Inicial</label>
+            <div class="selection-grid">
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Vazio" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-battery-empty"></i>
+                        <span>Vazio</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Parcial" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-battery-half"></i>
+                        <span>Parcial</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Cheio" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-battery-full"></i>
+                        <span>Cheio</span>
+                    </div>
+                </label>
             </div>
+            <span asp-validation-for="Status" class="field-error"></span>
 
-            <button type="submit" class="btn-primary">
+            <button type="submit" class="btn-primary" style="margin-top: 20px;">
                 Registar
             </button>
         </form>
