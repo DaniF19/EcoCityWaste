@@ -1,0 +1,474 @@
+﻿@model IEnumerable<EcoCityWaste.Models.Container>
+
+@{
+    ViewData["Title"] = "Monitorização de Contentores";
+}
+
+@functions {
+    string GetTypeIcon(string type)
+    {
+        return type?.ToLower().Trim() switch
+        {
+            "plástico" or "plastico" => "fa-bottle-water",
+            "papel" or "cartão" or "cartao" => "fa-box-archive",
+            "vidro" => "fa-wine-glass-empty",
+            "indiferenciado" => "fa-trash-can",
+            _ => "fa-dumpster"
+        };
+    }
+}
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<div class="container">
+    <div class="eco-page-container">
+
+        <div class="eco-header">
+            <h1>Monitorização de Contentores</h1>
+        </div>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; border: 1px solid #f5c6cb;">
+                <strong>Atenção:</strong> @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <div class="dashboard-cards">
+            <a asp-action="Index" asp-route-statusFilter="" class="stat-card">
+                <p>Total Registados</p>
+                <h3>@ViewBag.TotalContainers</h3>
+            </a>
+            <a asp-action="Index" asp-route-statusFilter="Critico" class="stat-card danger">
+                <p>Contentores Cheios</p>
+                <h3>@ViewBag.TotalCheios</h3>
+            </a>
+            <a asp-action="Index" asp-route-statusFilter="Avariado" class="stat-card warning">
+                <p>Avariados</p>
+                <h3>@ViewBag.TotalAvariados</h3>
+            </a>
+            <a asp-action="Index" asp-route-statusFilter="Ativos" class="stat-card success">
+                <p>Ativos no Sistema</p>
+                <h3>@ViewBag.TotalAtivos</h3>
+            </a>
+        </div>
+
+        <form asp-action="Index" method="get" class="eco-filter-form">
+            <input type="text" name="searchString" value="@ViewBag.CurrentSearch" class="eco-input" placeholder="Pesquisar por Código ou Localização..." style="flex: 2; min-width: 250px;" />
+
+            <select name="statusFilter" class="eco-input" onchange="this.form.submit()">
+                <option value="">Todos os Contentores</option>
+
+                <optgroup label="Estado Físico">
+                    <option value="Bom" selected="@(ViewBag.CurrentStatus == "Bom")">Bom</option>
+                    <option value="Avariado" selected="@(ViewBag.CurrentStatus == "Avariado")">Avariado</option>
+                    <option value="Manutenção" selected="@(ViewBag.CurrentStatus == "Manutenção")">Em Manutenção</option>
+                </optgroup>
+
+                <optgroup label="Tipo de Resíduo">
+                    <option value="Plástico" selected="@(ViewBag.CurrentStatus == "Plástico")">Plástico</option>
+                    <option value="Papel" selected="@(ViewBag.CurrentStatus == "Papel")">Papel / Cartão</option>
+                    <option value="Vidro" selected="@(ViewBag.CurrentStatus == "Vidro")">Vidro</option>
+                    <option value="Indiferenciado" selected="@(ViewBag.CurrentStatus == "Indiferenciado")">Indiferenciado</option>
+                </optgroup>
+
+                <optgroup label="Nível de Enchimento">
+                    <option value="Critico" selected="@(ViewBag.CurrentStatus == "Critico")">Nível Crítico (>= 90%)</option>
+                    <option value="Medio" selected="@(ViewBag.CurrentStatus == "Medio")">Nível Médio (50-89%)</option>
+                    <option value="Baixo" selected="@(ViewBag.CurrentStatus == "Baixo")">Nível Baixo (< 50%)</option>
+                </optgroup>
+
+                <optgroup label="Disponibilidade">
+                    <option value="Ativos" selected="@(ViewBag.CurrentStatus == "Ativos")">Apenas Ativos</option>
+                    <option value="Inativos" selected="@(ViewBag.CurrentStatus == "Inativos")">Apenas Inativos</option>
+                </optgroup>
+            </select>
+
+            <button type="submit" class="btn-eco" style="margin: 0;">Filtrar</button>
+            <a asp-action="Index" class="btn-eco btn-eco-outline" style="margin: 0;">Limpar</a>
+        </form>
+
+        <table class="eco-table">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewBag.CodeSortParam" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-statusFilter="@ViewBag.CurrentStatus" class="sort-link">
+                            Código <i class="fa-solid fa-sort"></i>
+                        </a>
+                    </th>
+                    <th><span class="sort-link" style="cursor: default; color: white;">Localização</span></th>
+                    <th><span class="sort-link" style="cursor: default; color: white;">Tipo</span></th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewBag.StatusSortParam" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-statusFilter="@ViewBag.CurrentStatus" class="sort-link">
+                            Estado <i class="fa-solid fa-sort"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewBag.LevelSortParam" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-statusFilter="@ViewBag.CurrentStatus" class="sort-link">
+                            Nível <i class="fa-solid fa-sort"></i>
+                        </a>
+                    </th>
+                    <th><span class="sort-link" style="cursor: default; color: white;">Instalação</span></th>
+                    <th><span class="sort-link" style="cursor: default; color: white;">Última Atualização</span></th>
+                    <th><span class="sort-link" style="cursor: default; color: white;">Ativo</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="font-weight: 600; color: var(--cor-castanho);">@item.Code</td>
+                            <td>@item.Location</td>
+                            <td>
+                                <i class="fa-solid @GetTypeIcon(item.Type)" style="color: var(--cor-castanho); margin-right: 8px;"></i>
+                                @item.Type
+                            </td>
+                            <td style="font-weight: 600; color: @(item.Status == "Avariado" ? "var(--cor-aviso)" :
+                                                                     item.Status == "Manutenção" ? "var(--cor-manutencao)" :
+                                                                     "var(--cor-sucesso)");">
+                                @item.Status
+                            </td>
+                            <td style="min-width: 120px;">
+                                @if (item.FillLevel >= 90)
+                                {
+                                    <div class="pulse-alert" title="Nível Crítico!"></div>
+                                }
+                                <div class="fill-progress-bg" style="display: inline-block; width: 80px; vertical-align: middle;">
+                                    <div class="fill-progress-bar"
+                                         style="width: @item.FillLevel%;
+                            background-color: @(item.FillLevel >= 90 ? "var(--cor-vermelho-erro)" :
+                                                                                  item.FillLevel >= 60 ? "var(--cor-aviso)" :
+                                                                                  "var(--cor-sucesso)");">
+                                    </div>
+                                </div>
+                                <span style="font-size: 0.85rem; font-weight: bold; color: #555; margin-left: 5px;">@item.FillLevel%</span>
+                            </td>
+                            <td>@item.InstallationDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="badge-status badge-active">Sim</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status badge-inactive">Não</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px 20px; color: #777; font-size: 1.1rem;">
+                            <i class="fa-solid fa-inbox" style="font-size: 2rem; color: #ccc; margin-bottom: 10px; display: block;"></i>
+                            Não existem contentores que correspondam a essa pesquisa ou não há dados disponíveis.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+    // Atualiza a página automaticamente a cada 30 segundos
+    // para refletir os novos dados dos sensores
+    setTimeout(function () {
+        location.reload();
+    }, 30000);
+</script>
+
+<style>
+    @@keyframes pulse-red {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(169, 68, 66, 0.7);
+        }
+
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(169, 68, 66, 0);
+        }
+
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(169, 68, 66, 0);
+        }
+    }
+
+    .fill-progress-bg {
+        width: 100px;
+        background-color: #eee;
+        border-radius: 10px;
+        height: 10px;
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .fill-progress-bar {
+        height: 100%;
+        transition: width 0.5s ease;
+    }
+
+    :root {
+        --cor-castanho: rgb(141, 110, 99);
+        --cor-bege: rgb(224, 205, 169);
+        --cor-fundo-claro: rgb(243, 242, 235);
+        --cor-vermelho-erro: #a94442;
+        --cor-aviso: #f1c40f; /* Amarelo para Avariado */
+        --cor-sucesso: #27ae60; /* Verde para Bom */
+        --cor-manutencao: #3498db; /* Azul para Manutenção */
+    }
+
+    /* Animação para o Alerta de Nível Crítico */
+    .pulse-alert {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: var(--cor-vermelho-erro);
+        border-radius: 50%;
+        margin-right: 5px;
+        animation: pulse-red 1.5s infinite;
+    }
+
+    .eco-page-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--cor-fundo-claro);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
+
+    .eco-header h1 {
+        color: var(--cor-castanho);
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    /* --- CARTÕES DE ESTATÍSTICA (DASHBOARD) --- */
+    .dashboard-cards {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+
+    .stat-card {
+        flex: 1;
+        min-width: 200px;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        border-left: 5px solid var(--cor-castanho);
+        text-decoration: none; /* Remove o sublinhado do link */
+        display: block;
+        transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animação suave */
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-card.danger {
+            border-left-color: var(--cor-vermelho-erro);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--cor-aviso);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--cor-sucesso);
+        }
+
+        .stat-card p {
+            margin: 0;
+            color: #777;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .stat-card h3 {
+            margin: 5px 0 0 0;
+            font-size: 2rem;
+            color: var(--cor-castanho);
+        }
+
+        .stat-card.danger h3 {
+            color: var(--cor-vermelho-erro);
+        }
+
+        .stat-card.warning h3 {
+            color: var(--cor-aviso);
+        }
+
+        .stat-card.success h3 {
+            color: var(--cor-sucesso);
+        }
+
+    /* --- ZONA DE FILTROS --- */
+    .eco-filter-form {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .eco-input {
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        outline: none;
+        font-family: inherit;
+        font-size: 0.95rem;
+        color: #555;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+        .eco-input:hover, .eco-input:focus {
+            border-color: var(--cor-castanho);
+            background-color: #fffcf5;
+        }
+
+    /* Estilo para o Dropdown */
+    select.eco-input {
+        cursor: pointer;
+        /* Remove o estilo e a seta nativa do browser */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        /* seta personalizada castanha */
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%238d6e63%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px top 50%;
+        background-size: 12px auto;
+        padding-right: 40px; 
+    }
+
+    .btn-eco {
+        background-color: var(--cor-bege);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 25px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-eco:hover {
+            background-color: var(--cor-castanho);
+            color: white;
+        }
+
+    .btn-eco-outline {
+        background-color: transparent;
+        color: var(--cor-castanho);
+        border: 2px solid var(--cor-castanho);
+    }
+
+        .btn-eco-outline:hover {
+            background-color: var(--cor-castanho);
+            color: white;
+        }
+
+    /* --- TABELA E RESTANTES ESTILOS --- */
+    .eco-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+        .eco-table th {
+            background-color: var(--cor-castanho);
+            padding: 18px 15px;
+            text-align: left;
+        }
+
+    /* Links de Ordenação no Cabeçalho */
+    .sort-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .sort-link:hover {
+            color: var(--cor-bege);
+        }
+
+    .eco-table td {
+        padding: 15px;
+        border-bottom: 1px solid var(--cor-bege);
+        color: #555;
+        vertical-align: middle;
+        font-size: 0.95rem;
+    }
+
+    .eco-table tbody tr:hover {
+        background-color: #fffcf5;
+    }
+
+    .eco-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .fill-progress-bg {
+        width: 100%;
+        background-color: var(--cor-fundo-claro);
+        border-radius: 10px;
+        height: 12px;
+        margin-bottom: 5px;
+        overflow: hidden;
+    }
+
+    .fill-progress-bar {
+        height: 100%;
+        border-radius: 10px;
+        background-color: var(--cor-castanho);
+    }
+
+    .badge-status {
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .badge-active {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .badge-inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
