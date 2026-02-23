@@ -263,7 +263,7 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult AccessDenied() // to block admin dashboard for non admin users
+        public IActionResult AccessDenied() // to block users with no specific roles to access certain pages
         {
             return View();
         }

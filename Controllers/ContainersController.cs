@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace EcoCityWaste.Controllers
 {
-    // [Authorize(Roles = "Admin, Funcionario")]
+    [Authorize(Roles = "Admin,Funcionario")]
     public class ContainersController : Controller
     {
         private readonly AppDbContext _context;
@@ -119,7 +119,7 @@ namespace EcoCityWaste.Controllers
                     LastUpdated = DateTime.Now,
                     IsActive = true
                 };
-                
+
                 _context.Contentores.Add(container);
                 await _context.SaveChangesAsync();
 
@@ -211,6 +211,5 @@ namespace EcoCityWaste.Controllers
             return $"CNT-{count:D3}";
         }
 
-    
     }
 }
