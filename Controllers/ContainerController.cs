@@ -26,7 +26,13 @@ namespace EcoCityWaste.Controllers
                 {
                     Location = model.Location,
                     Type = model.Type,
-                    Status = model.Status
+                    Status = model.Status,
+                    Latitude = null,
+                    Longitude = null,
+                    FillLevel = 0,
+                    InstallationDate = DateTime.Now,
+                    LastUpdated = DateTime.Now,
+                    IsActive = true
                 };
 
                 ContainerRepository.Add(container);
@@ -68,6 +74,7 @@ namespace EcoCityWaste.Controllers
 
             try
             {
+                model.LastUpdated = DateTime.Now;
                 ContainerRepository.Update(model);
                 return RedirectToAction("List");
             }

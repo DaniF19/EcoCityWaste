@@ -34,6 +34,7 @@ namespace EcoCityWaste.Data
             container.Location = updatedContainer.Location;
             container.Type = updatedContainer.Type;
             container.Status = updatedContainer.Status;
+            container.LastUpdated = updatedContainer.LastUpdated;
         }
 
     }
