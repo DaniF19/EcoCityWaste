@@ -1,0 +1,270 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(243, 242, 235);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Centered container */
+.page-container {
+    min-height: calc(100vh - 90px); /* subtract navbar height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px 40px 20px; /* less bottom pressure */
+}
+
+
+/* Card style */
+.card-box {
+    background: white;
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 700px;
+    overflow: hidden;
+}
+
+/* Title */
+.card-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: rgb(141, 110, 99);
+    margin-bottom: 40px;
+}
+
+/* Input Group */
+.input-group {
+    width: 100%;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 0 20px 0 50px;
+    border-radius: 50px !important;
+    border: 1px solid #aaa;
+    font-size: 1rem;
+    height: 50px;
+    outline: none;
+    transition: 0.3s;
+}
+
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: rgb(141, 110, 99);
+    box-shadow: 0 0 8px rgba(141, 110, 99, 0.2);
+}
+
+/* Icons */
+/* Update your existing .input-icon rule */
+.input-icon {
+    position: absolute;
+    left: 18px;
+    /* Change from top: 50% to a fixed position */
+    top: 24px; 
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #888;
+    pointer-events: none;
+    z-index: 10; /* Ensure it stays above the input */
+}
+
+input.input-validation-error,
+select.input-validation-error {
+    border: 1px solid #e74c3c;  /* same thickness as normal border*/
+}
+
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background-color: rgb(224, 205, 169);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: rgb(141, 110, 99);
+}
+
+/* Alerts */
+.alert-success {
+    background-color: #e6ffed;
+    color: #1b5e20;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.alert-success-addcontainer {
+    background-color: rgb(141, 110, 99);
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.alert-error {
+    background-color: #ffe6e6;
+    color: #a94442;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Validation */
+.field-error {
+    font-size: 0.85rem;
+    color: #a94442;
+    padding-left: 15px;
+}
+
+/* ================================
+   DASHBOARD
+================================ */
+
+.dashboard-container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: rgb(141, 110, 99); /* castanho */
+    margin-bottom: 60px;
+}
+
+.dashboard-grid {
+    display: flex;
+    gap: 80px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dashboard-card {
+    width: 260px;
+    height: 260px;
+    background-color: rgb(224, 205, 169); /* bege */
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: rgb(141, 110, 99);
+    font-size: 22px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    background-color: rgb(141, 110, 99);
+    color: white;
+}
+
+.dashboard-icon {
+    font-size: 70px;
+    margin-bottom: 25px;
+}
+
+/* Label for the sections - Matches your title color */
+.field-label {
+    display: block;
+    font-weight: 700;
+    margin: 20px 0 10px 5px;
+    color: rgb(141, 110, 99);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Container for the items */
+.selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+/* Hide the actual radio input */
+.selection-item input[type="radio"] {
+    display: none;
+}
+
+/* The card style - Matches your background/beige tones */
+.selection-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
+    background: white;
+    border: 2px solid rgb(224, 205, 169); /* Beige border */
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.selection-content i {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    color: rgb(224, 205, 169); /* Beige icons by default */
+}
+
+.selection-content span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #888;
+}
+
+/* Hover effect - Subtle lift like your dashboard cards */
+.selection-item:hover .selection-content {
+    border-color: rgb(141, 110, 99);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* Selected State - Using your Brown/Earth tone */
+.selection-item input[type="radio"]:checked + .selection-content {
+    border-color: rgb(141, 110, 99);
+    background-color: rgb(141, 110, 99);
+}
+
+.selection-item input[type="radio"]:checked + .selection-content i,
+.selection-item input[type="radio"]:checked + .selection-content span {
+    color: white;
+}
+
+/* Optional: Validation highlight for the selection grid */
+.field-error {
+    display: block;
+    margin-top: 5px;
+    font-weight: 500;
+}

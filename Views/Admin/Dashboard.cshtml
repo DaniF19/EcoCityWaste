@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
+
+<div class="dashboard-container">
+
+    <h1 class="dashboard-title">Admin Dashboard</h1>
+
+    <div class="dashboard-grid">
+
+        <!-- Registar contentor -->
+        <a asp-controller="Containers" asp-action="Register" class="dashboard-card">
+            <i class="fa-solid fa-book dashboard-icon"></i>
+            <span>Registar Contentor</span>
+        </a>
+
+        <!-- Consultar contentores -->
+        <a asp-controller="Containers" asp-action="List" class="dashboard-card">
+            <i class="fa-solid fa-magnifying-glass dashboard-icon"></i>
+            <span>Consultar Contentores</span>
+        </a>
+
+        <!-- Consultar Rota -->
+        <a asp-controller="Route" asp-action="Index" class="dashboard-card">
+            <i class="fa-solid fa-route dashboard-icon"></i>
+            <span>Consultar Rota</span>
+        </a>
+
+        <!-- Estado de Recolha -->
+        <a asp-controller="Collection" asp-action="Status" class="dashboard-card">
+            <i class="fa-solid fa-clock dashboard-icon"></i>
+            <span>Estado de Recolha</span>
+        </a>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+}

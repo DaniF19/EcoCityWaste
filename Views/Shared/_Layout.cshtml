@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/recover.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EcoCityWaste.styles.css" asp-append-version="true" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    @RenderSection("Styles", required: false)
+
+
 </head>
 <body>
     <header>
@@ -24,6 +30,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">Admin</a>
 
                         <li class="nav-item">
                         <!-- Colocar aqui apenas para funcionarios e admins -->
@@ -58,6 +66,8 @@
             @RenderBody()
         </main>
     </div>
+
+
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Regista o serviço de simulação de sensores
+// Regista o serviï¿½o de simulaï¿½ï¿½o de sensores
 builder.Services.AddHostedService<EcoCityWaste.Services.SensorSimulationService>();
 
 // Add services to the container.
@@ -31,6 +31,11 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 // DbContext 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
 
 var app = builder.Build();
 
@@ -74,22 +79,22 @@ using (var scope = app.Services.CreateScope())
 }
 */
 
-// Cria contentores automáticos para testes, caso a tabela esteja vazia
+// Cria contentores automï¿½ticos para testes, caso a tabela esteja vazia
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    // Verifica se não existe nenhum contentor na base de dados
+    // Verifica se nï¿½o existe nenhum contentor na base de dados
     if (!context.Contentores.Any())
     {
         context.Contentores.AddRange(
             new EcoCityWaste.Models.Container
             {
                 Code = "CNT-001",
-                Location = "Praça do Bocage, Setúbal",
+                Location = "PraÃ§a do Bocage, SetÃºbal",
                 Latitude = 38.5244,
                 Longitude = -8.8882,
-                Type = "Plástico",
+                Type = "PlÃ¡stico",
                 Status = "Bom",
                 FillLevel = 85,
                 InstallationDate = DateTime.Now.AddDays(-120),
@@ -99,7 +104,7 @@ using (var scope = app.Services.CreateScope())
             new EcoCityWaste.Models.Container
             {
                 Code = "CNT-002",
-                Location = "Avenida Luísa Todi, Setúbal",
+                Location = "Avenida LuÃ­sa Todi, SetÃºbal",
                 Latitude = 38.5220,
                 Longitude = -8.8920,
                 Type = "Vidro",
@@ -112,7 +117,7 @@ using (var scope = app.Services.CreateScope())
             new EcoCityWaste.Models.Container
             {
                 Code = "CNT-003",
-                Location = "Parque do Bonfim, Setúbal",
+                Location = "Parque do Bonfim, SetÃºbal",
                 Latitude = 38.5275,
                 Longitude = -8.8890,
                 Type = "Papel",
@@ -125,11 +130,11 @@ using (var scope = app.Services.CreateScope())
             new EcoCityWaste.Models.Container
             {
                 Code = "CNT-004",
-                Location = "Mercado do Livramento, Setúbal",
+                Location = "Mercado do Livramento, SetÃºbal",
                 Latitude = 38.5235,
                 Longitude = -8.8950,
                 Type = "Indiferenciado",
-                Status = "Manutenção",
+                Status = "ManutenÃ§Ã£o",
                 FillLevel = 98,
                 InstallationDate = DateTime.Now.AddDays(-50),
                 LastUpdated = DateTime.Now.AddMinutes(-10),
@@ -138,10 +143,10 @@ using (var scope = app.Services.CreateScope())
             new EcoCityWaste.Models.Container
             {
                 Code = "CNT-005",
-                Location = "Jardim do Quebedo, Setúbal",
+                Location = "Jardim do Quebedo, SetÃºbal",
                 Latitude = 38.5260,
                 Longitude = -8.8840,
-                Type = "Plástico",
+                Type = "PlÃ¡stico",
                 Status = "Bom",
                 FillLevel = 60,
                 InstallationDate = DateTime.Now.AddDays(-150),

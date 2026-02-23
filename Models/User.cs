@@ -12,6 +12,9 @@
         // Login externo
         public string? AuthProvider { get; set; }
         public string? ProviderUserId { get; set; }
+
+        // roles 
+        public string Role { get; set; } = "Cidadao";
     }
 
 }

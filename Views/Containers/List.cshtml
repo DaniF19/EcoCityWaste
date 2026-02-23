@@ -1,0 +1,62 @@
+@model List<EcoCityWaste.Models.Container>
+
+@{
+    ViewData["Title"] = "Lista de Contentores";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
+<div class="page-container">
+
+    <div class="card-box" style="max-width: 900px;">
+
+        <div class="card-title">
+            Lista de Contentores
+        </div>
+
+        @if (!Model.Any())
+        {
+            <p style="text-align:center;">Nenhum contentor registado.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Localização</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Data Instalação</th>
+                        <th>Última Atualização</th>
+                        <th style="text-align:center;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var container in Model)
+                    {
+                        <tr>
+                            <td>@container.Location</td>
+                            <td>@container.Type</td>
+                            <td>@container.Status</td>
+                            <td>@container.InstallationDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@container.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td style="text-align:center;">
+                                <a asp-controller="Containers"
+                                   asp-action="Edit"
+                                   asp-route-id="@container.Id"
+                                   class="btn-primary"
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+</div>
