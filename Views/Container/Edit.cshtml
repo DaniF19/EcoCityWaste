@@ -32,21 +32,21 @@
                 <label class="selection-item">
                     <input type="radio" asp-for="Type" value="Plástico" />
                     <div class="selection-content">
-                        <i class="fa-solid fa-recycle"></i>
+                        <i class="fa-solid fa-bottle-water"></i>
                         <span>Plástico</span>
                     </div>
                 </label>
                 <label class="selection-item">
                     <input type="radio" asp-for="Type" value="Vidro" />
                     <div class="selection-content">
-                        <i class="fa-solid fa-wine-glass"></i>
+                        <i class="fa-solid fa-wine-glass-empty"></i>
                         <span>Vidro</span>
                     </div>
                 </label>
                 <label class="selection-item">
                     <input type="radio" asp-for="Type" value="Papel" />
                     <div class="selection-content">
-                        <i class="fa-solid fa-note-sticky"></i>
+                        <i class="fa-solid fa-box-archive"></i>
                         <span>Papel</span>
                     </div>
                 </label>
@@ -57,30 +57,37 @@
                         <span>Orgânico</span>
                     </div>
                 </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Indiferenciado" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Indiferenciado</span>
+                    </div>
+                </label>
             </div>
             <span asp-validation-for="Type" class="field-error"></span>
 
             <label class="field-label">Estado Atual</label>
             <div class="selection-grid">
                 <label class="selection-item">
-                    <input type="radio" asp-for="Status" value="Vazio" />
+                    <input type="radio" asp-for="Status" value="Bom" />
                     <div class="selection-content">
-                        <i class="fa-solid fa-battery-empty"></i>
-                        <span>Vazio</span>
+                        <i class="fa-solid fa-thumbs-up"></i>
+                        <span>Bom</span>
                     </div>
                 </label>
                 <label class="selection-item">
-                    <input type="radio" asp-for="Status" value="Parcial" />
+                    <input type="radio" asp-for="Status" value="Manutenção" />
                     <div class="selection-content">
-                        <i class="fa-solid fa-battery-half"></i>
-                        <span>Parcial</span>
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <span>Manutenção</span>
                     </div>
                 </label>
                 <label class="selection-item">
-                    <input type="radio" asp-for="Status" value="Cheio" />
+                    <input type="radio" asp-for="Status" value="Avariado" />
                     <div class="selection-content">
-                        <i class="fa-solid fa-battery-full"></i>
-                        <span>Cheio</span>
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Avariado</span>
                     </div>
                 </label>
             </div>

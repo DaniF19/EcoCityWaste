@@ -21,6 +21,6 @@ namespace EcoCityWaste.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "As passwords não coincidem.")]
         public string ConfirmPassword { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

@@ -27,7 +27,7 @@
                     <tr>
                         <th>Localização</th>
                         <th>Tipo</th>
-                        <th>Estado Inicial</th>
+                        <th>Estado</th>
                         <th>Data Instalação</th>
                         <th>Última Atualização</th>
                         <th style="text-align:center;">Ações</th>
@@ -40,8 +40,8 @@
                             <td>@container.Location</td>
                             <td>@container.Type</td>
                             <td>@container.Status</td>
-                            <td>@container.InstallationDate?.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>@container.LastUpdated?.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@container.InstallationDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@container.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
                             <td style="text-align:center;">
                                 <a asp-controller="Container"
                                    asp-action="Edit"
