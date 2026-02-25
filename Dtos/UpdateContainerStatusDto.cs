@@ -2,6 +2,8 @@
 {
     public class UpdateContainerStatusDto
     {
-        public string Status { get; set; }
+        public int Id { get; set; }
+        public string Status { get; set; } = string.Empty;
     }
+
 }
