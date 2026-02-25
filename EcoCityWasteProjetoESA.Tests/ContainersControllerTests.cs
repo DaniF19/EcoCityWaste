@@ -1,5 +1,6 @@
 ﻿using EcoCityWaste.Controllers;
 using EcoCityWaste.Data;
+using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -128,5 +129,66 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Single(model);
             Assert.Equal("Vidro", model[0].Type);
         }
+        [Fact]
+        public async Task UpdateStatus_ReturnsOk_WhenContainerExists()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            var dto = new UpdateContainerStatusDto
+            {
+                Status = "Cheio"
+            };
+
+            // Act
+            var result = await controller.UpdateStatus(1, dto);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+
+            var updated = await context.Contentores.FindAsync(1);
+            Assert.Equal(Container.ContainerStatus.Full, updated.Status);
+        }
+
+        [Fact]
+        public async Task UpdateStatus_ReturnsNotFound_WhenContainerDoesNotExist()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            var dto = new UpdateContainerStatusDto
+            {
+                Status = "Cheio"
+            };
+
+            // Act
+            var result = await controller.UpdateStatus(999, dto);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(result);
+        }
+        [Fact]
+        public async Task UpdateStatus_ReturnsBadRequest_WhenEstadoInvalido()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            var dto = new UpdateContainerStatusDto
+            {
+                Status = "Bingo" // estado inválido
+            };
+
+            // Act
+            var result = await controller.UpdateStatus(1, dto);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+
+
     }
 }
