@@ -242,6 +242,21 @@ namespace EcoCityWaste.Controllers
             return Ok(new { message = "Estado atualizado com sucesso." });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditStatus(int id)
+        {
+            var container = await _context.Contentores.FindAsync(id);
+            if (container == null)
+                return NotFound();
+
+            var model = new UpdateContainerStatusDto
+            {
+                Id = container.Id,
+                Status = container.Status.ToString()
+            };
+
+            return View(model);
+        }
 
         // Container code generator
         private string GenerateContainerCode()
