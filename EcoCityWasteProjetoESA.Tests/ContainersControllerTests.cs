@@ -128,5 +128,153 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Single(model);
             Assert.Equal("Vidro", model[0].Type);
         }
+
+        [Fact]
+        public async Task Register_Post_ValidModel_AddsContainer()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            var model = new ContainerRegisterViewModel
+            {
+                Location = "Avenida Luísa Todi",
+                Type = "Plástico",
+                Status = "Bom"
+            };
+
+            // Act
+            var result = await controller.Register(model) as ViewResult;
+
+            // Assert
+            var containers = await context.Contentores.ToListAsync();
+
+            Assert.Equal(4, containers.Count); // 3 originais + 1 novo
+
+            var newContainer = containers.Last();
+
+            Assert.Equal("Avenida Luísa Todi", newContainer.Location);
+            Assert.Equal("Plástico", newContainer.Type);
+            Assert.Equal("Bom", newContainer.Status);
+            Assert.True(newContainer.IsActive);
+            Assert.Equal(0, newContainer.FillLevel);
+            Assert.NotNull(result);
+            Assert.True(controller.ViewBag.Success != null);
+        }
+
+        [Fact]
+        public async Task Register_Post_InvalidModel_ReturnsView_WithoutAdding()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            controller.ModelState.AddModelError("Location", "Required");
+
+            var model = new ContainerRegisterViewModel();
+
+            // Act
+            var result = await controller.Register(model) as ViewResult;
+
+            // Assert
+            var containers = await context.Contentores.ToListAsync();
+
+            Assert.Equal(3, containers.Count); // continua igual
+            Assert.NotNull(result);
+            Assert.Equal(model, result.Model);
+        }
+
+        [Fact]
+        public async Task Edit_Get_ValidId_ReturnsView()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            // Act
+            var result = await controller.Edit(1) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            var model = Assert.IsType<Container>(result.Model);
+            Assert.Equal(1, model.Id);
+        }
+
+        [Fact]
+        public async Task Edit_Get_InvalidId_ReturnsNotFound()
+        {
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            var result = await controller.Edit(999);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task Edit_Post_ValidModel_UpdatesContainer()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            var model = new ContainerEditViewModel
+            {
+                Id = 1,
+                Location = "Nova Localização",
+                Type = "Vidro",
+                Status = "Manutenção"
+            };
+
+            // Act
+            var result = await controller.Edit(model);
+
+            // Assert
+            var updated = await context.Contentores.FindAsync(1);
+
+            Assert.Equal("Nova Localização", updated.Location);
+            Assert.Equal("Vidro", updated.Type);
+            Assert.Equal("Manutenção", updated.Status);
+
+            Assert.IsType<RedirectToActionResult>(result);
+        }
+
+        [Fact]
+        public async Task Edit_Post_InvalidModel_ReturnsView()
+        {
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            controller.ModelState.AddModelError("Location", "Required");
+
+            var model = new ContainerEditViewModel
+            {
+                Id = 1
+            };
+
+            var result = await controller.Edit(model);
+
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task Edit_Post_InvalidId_ReturnsNotFound()
+        {
+            using var context = GetDbContext();
+            var controller = new ContainersController(context);
+
+            var model = new ContainerEditViewModel
+            {
+                Id = 999,
+                Location = "X",
+                Type = "Vidro",
+                Status = "Bom"
+            };
+
+            var result = await controller.Edit(model);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
     }
 }
