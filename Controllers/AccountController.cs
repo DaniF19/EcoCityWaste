@@ -7,6 +7,11 @@ using EcoCityWaste.Models;
 using BCrypt.Net;
 using EcoCityWaste.Data;
 using EcoCityWaste.Services;
+using System.Security.Cryptography;
+using Microsoft.Extensions.Configuration;
+using System.Text;
+using System.Security.Claims;
+
 
 namespace EcoCityWaste.Controllers
 {
@@ -14,11 +19,13 @@ namespace EcoCityWaste.Controllers
 	{
         private readonly IEmailService _emailService;
         private readonly AppDbContext _context;
+        private readonly IConfiguration _config;
 
-        public AccountController(IEmailService emailService, AppDbContext context)
+        public AccountController(IEmailService emailService, AppDbContext context, IConfiguration config)
         {
             _emailService = emailService;
             _context = context;
+            _config = config;
         }
 
 		// GET: /Account/Login
@@ -240,11 +247,39 @@ namespace EcoCityWaste.Controllers
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
                 Role = "Cidadao",
                 Token = null,
-                TokenExpiry = null
+                TokenExpiry = null,
+                EmailVerified = false
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            // Generate email verification code (plain for sending) and store hashed
+            var code = GenerateVerificationCode();
+            user.EmailVerificationCodeHash = ComputeVerificationHash(code);
+            user.EmailVerificationExpiry = DateTime.Now.AddMinutes(15);
+            user.EmailVerificationSentAt = DateTime.Now;
+            _context.SaveChanges();
+
+            var verifyLink = Url.Action(
+                "Verify",
+                "Account",
+                null,
+                Request.Scheme
+            );
+
+            string body = $@"
+                <h2>Verificação de Email</h2>
+                <p>O seu código de verificação é: <strong>{code}</strong></p>
+                <p>Ou clique no link para verificar: <a href='{verifyLink}'>Verificar conta</a></p>
+                <p>O código expira em 15 minutos.</p>
+            ";
+
+            _emailService.SendEmail(
+                user.Email,
+                "EcoCityWaste - Verificação de Conta",
+                body
+            );
 
             var claims = new List<Claim>
             {
@@ -266,6 +301,161 @@ namespace EcoCityWaste.Controllers
         public IActionResult AccessDenied() // to block users with no specific roles to access certain pages
         {
             return View();
+        }
+
+        // Generate a 6-digit verification code
+        private static string GenerateVerificationCode()
+        {
+            int value = RandomNumberGenerator.GetInt32(0, 1000000);
+            return value.ToString("D6");
+        }
+
+        private string ComputeVerificationHash(string code)
+        {
+            var key = _config["AppSettings:VerificationKey"] ?? "default_verification_key_change_in_production";
+            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
+            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(code));
+            return Convert.ToBase64String(hash);
+        }
+
+        // GET: /Account/Verify
+        [HttpGet]
+        public IActionResult Verify()
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login");
+
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                return RedirectToAction("Login");
+
+            ViewBag.Email = user.Email;
+            var remaining = 0;
+            if (user.EmailVerificationExpiry.HasValue)
+            {
+                var rem = user.EmailVerificationExpiry.Value - DateTime.Now;
+                if (rem.TotalSeconds > 0)
+                    remaining = (int)rem.TotalSeconds;
+            }
+            ViewBag.Remaining = remaining;
+
+            return View();
+        }
+
+        // POST: /Account/Verify
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Verify(string code)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login");
+
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                return RedirectToAction("Login");
+
+            if (user.EmailVerified)
+            {
+                TempData["Info"] = "Email já verificado.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError(string.Empty, "Insira o código de verificação.");
+                return View();
+            }
+
+            // Check block
+            if (user.EmailVerificationBlockedUntil.HasValue && user.EmailVerificationBlockedUntil.Value > DateTime.Now)
+            {
+                ModelState.AddModelError(string.Empty, "Muitas tentativas falhadas. Tente novamente mais tarde.");
+                return View();
+            }
+
+            // Check expiry
+            if (!user.EmailVerificationExpiry.HasValue || user.EmailVerificationExpiry.Value < DateTime.Now)
+            {
+                ModelState.AddModelError(string.Empty, "O código expirou. Peça um novo código.");
+                return View();
+            }
+
+            var providedHash = ComputeVerificationHash(code.Trim());
+            if (user.EmailVerificationCodeHash == providedHash)
+            {
+                user.EmailVerified = true;
+                user.EmailVerificationCodeHash = null;
+                user.EmailVerificationExpiry = null;
+                user.EmailVerificationSentAt = null;
+                user.EmailVerificationAttempts = 0;
+                user.EmailVerificationBlockedUntil = null;
+                _context.SaveChanges();
+
+                TempData["Success"] = "Email verificado com sucesso.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // invalid code
+            user.EmailVerificationAttempts++;
+            if (user.EmailVerificationAttempts >= 5)
+            {
+                user.EmailVerificationBlockedUntil = DateTime.Now.AddMinutes(15);
+            }
+            _context.SaveChanges();
+            ModelState.AddModelError(string.Empty, "Código inválido.");
+            return View();
+        }
+
+        // POST: /Account/Resend
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Resend()
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login");
+
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                return RedirectToAction("Login");
+
+            // Check block
+            if (user.EmailVerificationBlockedUntil.HasValue && user.EmailVerificationBlockedUntil.Value > DateTime.Now)
+            {
+                TempData["Error"] = "Conta temporariamente bloqueada por muitas tentativas falhadas.";
+                return RedirectToAction("Verify");
+            }
+
+            // Cooldown: disallow resend within 60 seconds of last send
+            if (user.EmailVerificationSentAt.HasValue)
+            {
+                var since = DateTime.Now - user.EmailVerificationSentAt.Value;
+                if (since.TotalSeconds < 60)
+                {
+                    TempData["Error"] = "Aguarde antes de reenviar o código (60s).";
+                    return RedirectToAction("Verify");
+                }
+            }
+
+            var code = GenerateVerificationCode();
+            user.EmailVerificationCodeHash = ComputeVerificationHash(code);
+            user.EmailVerificationExpiry = DateTime.Now.AddMinutes(15);
+            user.EmailVerificationSentAt = DateTime.Now;
+            user.EmailVerificationAttempts = 0;
+            _context.SaveChanges();
+
+            string body = $@"
+                <h2>Verificação de Email</h2>
+                <p>O seu novo código de verificação é: <strong>{code}</strong></p>
+                <p>O código expira em 15 minutos.</p>
+            ";
+
+            _emailService.SendEmail(user.Email, "EcoCityWaste - Verificação de Conta", body);
+
+            TempData["Info"] = "Código reenviado (se a conta existir).";
+            return RedirectToAction("Verify");
         }
 
     }

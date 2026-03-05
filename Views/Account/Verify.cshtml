@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Verificar Conta";
+}
+
+<h2>Verificar Conta</h2>
+
+<p>Enviámos um código para: <strong>@ViewBag.Email</strong></p>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Info"] != null)
+{
+    <div class="alert alert-info">@TempData["Info"]</div>
+}
+
+<form asp-action="Verify" method="post" id="verifyForm">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="code-input-0">Código (6 dígitos)</label>
+        <div id="otp" class="d-flex" style="gap:6px;">
+            <input class="form-control otp-input" id="code-input-0" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 1" />
+            <input class="form-control otp-input" id="code-input-1" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 2" />
+            <input class="form-control otp-input" id="code-input-2" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 3" />
+            <input class="form-control otp-input" id="code-input-3" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 4" />
+            <input class="form-control otp-input" id="code-input-4" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 5" />
+            <input class="form-control otp-input" id="code-input-5" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 6" />
+        </div>
+        <input type="hidden" id="code" name="code" />
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <span class="text-danger">@Html.ValidationSummary(false)</span>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary" id="confirmBtn">Confirmar</button>
+    <noscript>
+        <div class="mt-2">
+            <label for="code-noscript">Sem JavaScript? Insira o código completo</label>
+            <input id="code-noscript" name="code" class="form-control mt-1" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="one-time-code" required />
+        </div>
+    </noscript>
+</form>
+
+<form asp-action="Resend" method="post" id="resendForm" style="display:inline; margin-left:10px;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-link" id="resendBtn">Reenviar código</button>
+    <span id="countdown" style="margin-left:8px;">@((ViewBag.Remaining != null && ViewBag.Remaining > 0) ? ("(" + ViewBag.Remaining + "s)") : "")</span>
+</form>
+
+@section Scripts {
+    <script src="/js/verify.js"></script>
+}

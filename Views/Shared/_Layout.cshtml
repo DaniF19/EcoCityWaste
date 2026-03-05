@@ -62,6 +62,7 @@
         </nav>
     </header>
     <div class="container">
+        @await Component.InvokeAsync("EmailVerificationBanner")
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
