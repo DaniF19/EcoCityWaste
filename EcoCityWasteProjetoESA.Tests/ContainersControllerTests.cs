@@ -25,9 +25,9 @@ namespace EcoCityWasteProjetoESA.Tests
 
             // Dados de Teste
             context.Contentores.AddRange(
-                new Container { Id = 1, Code = "CNT-00500", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Plástico", Status = "Bom", FillLevel = 85, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
-                new Container { Id = 2, Code = "CNT-00200", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Vidro", Status = "Avariado", FillLevel = 40, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
-                new Container { Id = 3, Code = "CNT-00300", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Papel", Status = "Bom", FillLevel = 10, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = false }
+                new Container { Id = 1, Code = "CNT-00500", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Plástico", Status = Container.ContainerStatus.Good, FillLevel = 85, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
+                new Container { Id = 2, Code = "CNT-00200", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Vidro", Status = Container.ContainerStatus.Broken, FillLevel = 40, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
+                new Container { Id = 3, Code = "CNT-00300", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Papel", Status = Container.ContainerStatus.Good, FillLevel = 10, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = false }
             );
 
             context.SaveChanges();
@@ -37,32 +37,29 @@ namespace EcoCityWasteProjetoESA.Tests
         [Fact]
         public async Task Data_Persistance()
         {
-            // Prepara o contexto
             using var context = GetDbContext();
             var containerOriginal = await context.Contentores.FirstAsync();
 
-            // Valores simulados pelo SensorService
             int nivelSimulado = 88;
-            string estadoSimulado = "Manutenção";
+            var estadoSimulado = Container.ContainerStatus.Maintenance;
             DateTime horaSimulada = new DateTime(2026, 02, 22, 14, 0, 0);
 
-            // Aplica as mudanças e grava
             containerOriginal.FillLevel = nivelSimulado;
             containerOriginal.Status = estadoSimulado;
             containerOriginal.LastUpdated = horaSimulada;
 
             await context.SaveChangesAsync();
 
-            // Abre uma nova consulta para verificar se os dados ficaram gravados
             var containerNaBD = await context.Contentores
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == containerOriginal.Id);
 
             Assert.NotNull(containerNaBD);
-            Assert.Equal(nivelSimulado, containerNaBD.FillLevel); // Verifica se o nível subiu na BD
-            Assert.Equal(estadoSimulado, containerNaBD.Status);   // Verifica se o estado mudou na BD
-            Assert.Equal(horaSimulada, containerNaBD.LastUpdated); // Verifica se a data foi persistida
+            Assert.Equal(nivelSimulado, containerNaBD.FillLevel);
+            Assert.Equal(estadoSimulado, containerNaBD.Status);
+            Assert.Equal(horaSimulada, containerNaBD.LastUpdated);
         }
+
 
         [Fact]
         public async Task SensorService_LevelLimit()
