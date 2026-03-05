@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
@@ -14,11 +16,31 @@ public class EmailService : IEmailService
 
     public void SendEmail(string to, string subject, string body)
     {
+        var smtpServer = _config["EmailSettings:SmtpServer"];
+
+        // If SMTP not configured, simulate send by writing to a log file for local/dev testing
+        if (string.IsNullOrWhiteSpace(smtpServer))
+        {
+            try
+            {
+                var logDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
+                Directory.CreateDirectory(logDir);
+                var path = Path.Combine(logDir, "emails.log");
+                var entry = $"[{DateTime.UtcNow:O}] To: {to}\nSubject: {subject}\nBody:\n{body}\n---\n";
+                File.AppendAllText(path, entry);
+            }
+            catch
+            {
+                // Swallow errors in simulation mode
+            }
+            return;
+        }
+
         var smtp = new SmtpClient
         {
-            Host = _config["EmailSettings:SmtpServer"],
-            Port = int.Parse(_config["EmailSettings:Port"]),
-            EnableSsl = true,
+            Host = smtpServer,
+            Port = int.Parse(_config["EmailSettings:Port"] ?? "25"),
+            EnableSsl = bool.TryParse(_config["EmailSettings:EnableSsl"], out var ssl) ? ssl : true,
             Credentials = new NetworkCredential(
                 _config["EmailSettings:Username"],
                 _config["EmailSettings:Password"]

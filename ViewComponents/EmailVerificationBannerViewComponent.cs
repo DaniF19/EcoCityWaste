@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Linq;
 using EcoCityWaste.Data;
 
 namespace EcoCityWaste.ViewComponents
@@ -18,7 +19,8 @@ namespace EcoCityWaste.ViewComponents
             if (!User.Identity.IsAuthenticated)
                 return Content(string.Empty);
 
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var claimsPrincipal = User as ClaimsPrincipal;
+            var email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email);
             if (string.IsNullOrEmpty(email))
                 return Content(string.Empty);
 

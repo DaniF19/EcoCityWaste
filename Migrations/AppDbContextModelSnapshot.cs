@@ -90,6 +90,24 @@ namespace EcoCityWaste.Migrations
                     b.Property<string>("ProviderUserId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("EmailVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("EmailVerificationCodeHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EmailVerificationExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EmailVerificationSentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EmailVerificationBlockedUntil")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmailVerificationAttempts")
+                        .HasColumnType("int");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

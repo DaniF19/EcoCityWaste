@@ -19,9 +19,10 @@ namespace EcoCityWaste.Controllers
 	{
         private readonly IEmailService _emailService;
         private readonly AppDbContext _context;
-        private readonly IConfiguration _config;
+        private readonly IConfiguration? _config;
 
-        public AccountController(IEmailService emailService, AppDbContext context, IConfiguration config)
+        // IConfiguration is optional (defaults to null) to keep tests/simple DI usage working
+        public AccountController(IEmailService emailService, AppDbContext context, IConfiguration? config = null)
         {
             _emailService = emailService;
             _context = context;
@@ -312,7 +313,21 @@ namespace EcoCityWaste.Controllers
 
         private string ComputeVerificationHash(string code)
         {
-            var key = _config["AppSettings:VerificationKey"] ?? "default_verification_key_change_in_production";
+            var defaultKey = "default_verification_key_change_in_production";
+            var key = defaultKey;
+            try
+            {
+                if (_config != null)
+                {
+                    var cfg = _config["AppSettings:VerificationKey"];
+                    if (!string.IsNullOrEmpty(cfg)) key = cfg;
+                }
+            }
+            catch
+            {
+                // ignore and use defaultKey
+            }
+
             using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
             var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(code));
             return Convert.ToBase64String(hash);
@@ -325,7 +340,8 @@ namespace EcoCityWaste.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login");
 
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var claimsPrincipal = User as ClaimsPrincipal;
+            var email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email);
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
                 return RedirectToAction("Login");
@@ -351,7 +367,8 @@ namespace EcoCityWaste.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login");
 
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var claimsPrincipal = User as ClaimsPrincipal;
+            var email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email);
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
                 return RedirectToAction("Login");
@@ -416,7 +433,8 @@ namespace EcoCityWaste.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login");
 
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var claimsPrincipal = User as ClaimsPrincipal;
+            var email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email);
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
                 return RedirectToAction("Login");
