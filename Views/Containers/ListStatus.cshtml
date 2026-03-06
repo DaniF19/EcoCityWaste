@@ -1,0 +1,66 @@
+@model List<EcoCityWaste.Models.Container>
+
+@{
+    ViewData["Title"] = "Atualizar Estado dos Contentores";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
+<div class="page-container">
+
+    <div class="card-box" style="max-width: 900px;">
+
+        <div class="card-title">
+            Atualizar Estado dos Contentores
+        </div>
+
+        @if (!Model.Any())
+        {
+            <p style="text-align:center;">Nenhum contentor disponível.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Localização</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Nível</th>
+                        <th style="text-align:center;">Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var container in Model)
+                    {
+                        <tr>
+                            <td>@container.Code</td>
+                            <td>@container.Location</td>
+                            <td>@container.Type</td>
+                            <td>@container.Status</td>
+                            <td>@container.FillLevel %</td>
+
+                            <td style="text-align:center;">
+                                <a asp-controller="Containers"
+                                   asp-action="EditStatus"
+                                   asp-route-id="@container.Id"
+                                   class="btn-primary"
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Editar Estado
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        }
+
+    </div>
+
+</div>

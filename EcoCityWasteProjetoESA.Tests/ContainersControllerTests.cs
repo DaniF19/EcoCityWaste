@@ -126,6 +126,7 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Single(model);
             Assert.Equal("Vidro", model[0].Type);
         }
+        
         [Fact]
         public async Task UpdateStatus_ReturnsOk_WhenContainerExists()
         {
@@ -184,7 +185,7 @@ namespace EcoCityWasteProjetoESA.Tests
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
         }
-
+        
 
 
     }
