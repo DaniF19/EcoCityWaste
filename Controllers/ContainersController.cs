@@ -228,18 +228,32 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction("List");
         }
 
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateContainerStatusDto dto)
+        public async Task<IActionResult> ListStatus()
         {
-            var container = await _context.Contentores.FindAsync(id);
-            if (container == null) return NotFound("Contentor não encontrado.");
-            // Tentar converter a string para enum
-            if (!Enum.TryParse<Models.Container.ContainerStatus>(dto.Status, true, out var newStatus))
+            var containers = await _context.Contentores
+                .Where(c => c.IsActive)
+                .ToListAsync();
+
+            return View(containers);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int id, UpdateContainerStatusDto dto)
+        {
+            var container = await _context.Contentores.FindAsync(dto.Id);
+
+            if (container == null)
+                return NotFound("Contentor não encontrado.");
+
+            if (!Enum.TryParse<Container.ContainerStatus>(dto.Status, true, out var newStatus))
                 return BadRequest("Estado inválido.");
+
             container.Status = newStatus;
             container.LastUpdated = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
-            return Ok(new { message = "Estado atualizado com sucesso." });
+
+            return RedirectToAction(nameof(ListStatus));
         }
 
         [HttpGet]

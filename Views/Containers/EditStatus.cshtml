@@ -1,7 +1,4 @@
 ﻿@model EcoCityWaste.Dtos.UpdateContainerStatusDto
-@using System.ComponentModel.DataAnnotations
-@using EcoCityWaste.Models
-
 @{
     ViewData["Title"] = "Atualizar Estado";
 }
@@ -11,54 +8,65 @@
 }
 
 <div class="page-container">
-
     <div class="card-box">
-
         <div class="card-title">
             Atualizar Estado do Contentor
         </div>
 
-        <div class="field-label" style="margin-bottom: 10px;">
-            Contentor ID: @Model.Id
-        </div>
-
-        <div class="field-label" style="margin-bottom: 10px;">
-            Estado atual: @Model.Status
+        <div class="field-label" style="margin-bottom: 20px;">
+            Contentor ID: @Model.Id | Estado atual: <strong>@Model.Status</strong>
         </div>
 
         <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
-            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
 
-            <label class="field-label">Novo Estado</label>
-
+            <label class="field-label">Selecione o novo estado</label>
             <div class="selection-grid">
-                @foreach (var value in Enum.GetValues(typeof(Container.ContainerStatus)))
-                {
-                    var enumValue = (Container.ContainerStatus)value;
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Full" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Cheio</span>
+                    </div>
+                </label>
 
-                    var display = enumValue
-                    .GetType()
-                    .GetMember(enumValue.ToString())[0]
-                    .GetCustomAttributes(typeof(DisplayAttribute), false)
-                    .Cast<DisplayAttribute>()
-                    .FirstOrDefault()?.Name
-                    ?? enumValue.ToString();
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Empty" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-trash"></i>
+                        <span>Vazio</span>
+                    </div>
+                </label>
 
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Status" value="@display" />
-                        <div class="selection-content">
-                            <span>@display</span>
-                        </div>
-                    </label>
-                }
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Good" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-thumbs-up"></i>
+                        <span>Bom</span>
+                    </div>
+                </label>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Broken" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Avariado</span>
+                    </div>
+                </label>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Maintenance" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <span>Manutenção</span>
+                    </div>
+                </label>
             </div>
+            <span asp-validation-for="Status" class="field-error"></span>
 
             <button type="submit" class="btn-primary" style="margin-top: 30px;">
-                Guardar Estado
+                Atualizar Estado
             </button>
-
         </form>
-
     </div>
-
 </div>
