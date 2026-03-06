@@ -1,6 +1,5 @@
 ﻿using EcoCityWaste.Models;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
 
 namespace EcoCityWaste.Data
 {

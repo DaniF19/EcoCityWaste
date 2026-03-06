@@ -15,6 +15,9 @@ namespace EcoCityWaste.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+
+            await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 using (var scope = _serviceProvider.CreateScope())
@@ -33,7 +36,7 @@ namespace EcoCityWaste.Services
                         container.LastUpdated = DateTime.Now;
                     }
 
-                    await context.SaveChangesAsync();
+                    await context.SaveChangesAsync(stoppingToken);
                 }
 
                 // Aguarda 30 segundos antes da próxima atualização

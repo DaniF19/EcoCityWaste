@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using EcoCityWaste.Data;
+using EcoCityWaste.Dtos;
+using EcoCityWaste.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EcoCityWaste.Data;
-using EcoCityWaste.Models;
-using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
+using static EcoCityWaste.Models.Container;
 
 namespace EcoCityWaste.Controllers
 {
@@ -28,7 +31,7 @@ namespace EcoCityWaste.Controllers
                 // Estatísticas para o dashboard
                 ViewBag.TotalContainers = await _context.Contentores.CountAsync();
                 ViewBag.TotalCheios = await _context.Contentores.CountAsync(c => c.FillLevel >= 90);
-                ViewBag.TotalAvariados = await _context.Contentores.CountAsync(c => c.Status == "Avariado");
+                ViewBag.TotalAvariados = await _context.Contentores.CountAsync(c => c.Status == ContainerStatus.Broken);
                 ViewBag.TotalAtivos = await _context.Contentores.CountAsync(c => c.IsActive);
 
                 // Manter os valores para a View
@@ -47,6 +50,16 @@ namespace EcoCityWaste.Controllers
                 {
                     containers = containers.Where(c => c.Code.Contains(searchString) || c.Location.Contains(searchString));
                 }
+                Container.ContainerStatus? statusEnum = statusFilter switch
+                {
+                    "Bom" => Container.ContainerStatus.Good,
+                    "Cheio" => Container.ContainerStatus.Full,
+                    "Vazio" => Container.ContainerStatus.Empty,
+                    "Avariado" => Container.ContainerStatus.Broken,
+                    "Manutenção" => Container.ContainerStatus.Maintenance,
+                    _ => null
+                };
+
 
                 // Filtros
                 if (!String.IsNullOrEmpty(statusFilter))
@@ -62,11 +75,14 @@ namespace EcoCityWaste.Controllers
                         "Medio" => containers.Where(c => c.FillLevel >= 50 && c.FillLevel < 90),
                         "Baixo" => containers.Where(c => c.FillLevel < 50),
 
-                        // Filtros de Tipo de Residuo
-                        "Plástico" or "Papel" or "Vidro" or "Indiferenciado" => containers.Where(c => c.Type == statusFilter),
+                        // Filtros de Tipo de Resíduo
+                        "Plástico" or "Papel" or "Vidro" or "Indiferenciado"
+                            => containers.Where(c => c.Type == statusFilter),
 
-                        // Filtros Físicos
-                        _ => containers.Where(c => c.Status == statusFilter)
+                        // Filtros Físicos (ENUM)
+                        _ => statusEnum.HasValue
+                                ? containers.Where(c => c.Status == statusEnum.Value)
+                                : containers
                     };
                 }
 
@@ -105,12 +121,19 @@ namespace EcoCityWaste.Controllers
 
             try
             {
+                // Converter Status (string → enum)
+                if (!Enum.TryParse<ContainerStatus>(model.Status, out var statusEnum))
+                {
+                    ModelState.AddModelError("Status", "Estado inválido.");
+                    return View(model);
+                }
+
                 var container = new Container
                 {
                     Code = GenerateContainerCode(),
                     Location = model.Location,
                     Type = model.Type,
-                    Status = model.Status,
+                    Status = statusEnum,
                     Latitude = 0,
                     Longitude = 0,
                     FillLevel = 0,
@@ -133,6 +156,7 @@ namespace EcoCityWaste.Controllers
                 return View(model);
             }
         }
+
 
         public async Task<IActionResult> List()
         {
@@ -200,6 +224,50 @@ namespace EcoCityWaste.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("List");
+        }
+
+        public async Task<IActionResult> ListStatus()
+        {
+            var containers = await _context.Contentores
+                .Where(c => c.IsActive)
+                .ToListAsync();
+
+            return View(containers);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int id, UpdateContainerStatusDto dto)
+        {
+            var container = await _context.Contentores.FindAsync(dto.Id);
+
+            if (container == null)
+                return NotFound("Contentor não encontrado.");
+
+            if (!Enum.TryParse<Container.ContainerStatus>(dto.Status, true, out var newStatus))
+                return BadRequest("Estado inválido.");
+
+            container.Status = newStatus;
+            container.LastUpdated = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ListStatus));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditStatus(int id)
+        {
+            var container = await _context.Contentores.FindAsync(id);
+            if (container == null)
+                return NotFound();
+
+            var model = new UpdateContainerStatusDto
+            {
+                Id = container.Id,
+                Status = container.Status.ToString()
+            };
+
+            return View(model);
         }
 
         // Container code generator
