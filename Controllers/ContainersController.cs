@@ -114,7 +114,6 @@ namespace EcoCityWaste.Controllers
 
         // POST: /Container/Register
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(ContainerRegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -179,7 +178,6 @@ namespace EcoCityWaste.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ContainerEditViewModel model)
         {
             if (!ModelState.IsValid)
