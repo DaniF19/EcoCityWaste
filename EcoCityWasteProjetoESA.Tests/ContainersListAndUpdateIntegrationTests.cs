@@ -28,8 +28,8 @@ namespace EcoCityWasteProjetoESA.Tests
             // Arrange
             using var context = GetDatabaseContext();
             context.Contentores.AddRange(
-                new Container { Id = 1, Code = "CNT-001", Location = "Praça do Bocage", Type = "Vidro", Status = "Bom", IsActive = true },
-                new Container { Id = 2, Code = "CNT-002", Location = "Avenida Luísa Todi", Type = "Papel", Status = "Cheio", IsActive = false }
+                new Container { Id = 1, Code = "CNT-001", Location = "Praça do Bocage", Type = "Vidro", Status = Container.ContainerStatus.Good, IsActive = true },
+                new Container { Id = 2, Code = "CNT-002", Location = "Avenida Luísa Todi", Type = "Papel", Status = Container.ContainerStatus.Full, IsActive = false }
             );
             await context.SaveChangesAsync();
 
@@ -56,7 +56,7 @@ namespace EcoCityWasteProjetoESA.Tests
                 Code = "CNT-001",
                 Location = "Localização Antiga",
                 Type = "Vidro",
-                Status = "Bom",
+                Status = Container.ContainerStatus.Good,
                 LastUpdated = DateTime.Now.AddDays(-2)
             };
             context.Contentores.Add(initialContainer);
@@ -68,7 +68,7 @@ namespace EcoCityWasteProjetoESA.Tests
                 Id = 1,
                 Location = "Localização Nova",
                 Type = "Plástico",
-                Status = "Avariado"
+                Status = Container.ContainerStatus.Broken
             };
 
             // Act
@@ -81,7 +81,7 @@ namespace EcoCityWasteProjetoESA.Tests
             // Valida se os campos persistem na base de dados
             Assert.Equal("Localização Nova", updatedContainer.Location);
             Assert.Equal("Plástico", updatedContainer.Type);
-            Assert.Equal("Avariado", updatedContainer.Status);
+            Assert.Equal(Container.ContainerStatus.Broken, updatedContainer.Status);
 
             // Verifica se a data de atualização foi atualizada
             Assert.True(updatedContainer.LastUpdated > DateTime.Now.AddMinutes(-1));
@@ -103,7 +103,7 @@ namespace EcoCityWasteProjetoESA.Tests
                 Location = "Localização Antiga",
                 Type = "Vidro",
                 IsActive = true,
-                Status = "Bom"
+                Status = Container.ContainerStatus.Good
             };
             context.Contentores.Add(container);
             await context.SaveChangesAsync();
