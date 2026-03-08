@@ -9,6 +9,48 @@ document.addEventListener('DOMContentLoaded', function () {
         if (m) remaining = parseInt(m[1], 10);
     }
 
+    // Resend via AJAX
+    const resendForm = document.getElementById('resendForm');
+    if (resendForm) {
+        resendForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // get antiforgery token
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            const token = tokenInput ? tokenInput.value : null;
+            if (!token) {
+                if (verifyMessage) verifyMessage.textContent = 'Erro interno: token antifalsificação em falta.';
+                return;
+            }
+
+            if (resendBtn) resendBtn.disabled = true;
+
+            try {
+                const res = await fetch('/Account/ResendAjax', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    if (verifyMessage) verifyMessage.textContent = data.message || 'Código reenviado.';
+                    startCooldown(data.remaining || 60);
+                } else if (data.needsLogin && data.loginUrl) {
+                    window.location.href = data.loginUrl;
+                    return;
+                } else {
+                    if (verifyMessage) verifyMessage.textContent = data.message || 'Erro ao reenviar.';
+                    if (data.remaining) startCooldown(data.remaining);
+                }
+            } catch (err) {
+                if (verifyMessage) verifyMessage.textContent = 'Erro de rede ao reenviar.';
+            } finally {
+                // button state handled by cooldown
+            }
+        });
+    }
+
     function startCooldown(sec) {
         let t = sec;
         if (resendBtn) resendBtn.disabled = true;
@@ -26,8 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (remaining > 0) startCooldown(remaining);
 
+    // message element for aria-live
+    const verifyMessage = document.getElementById('verifyMessage');
+
     // OTP inputs (6 separate fields) behavior
-    const otpInputs = Array.from(document.querySelectorAll('.otp-input'));
+    const otpInputs = Array.from(document.querySelectorAll('.otp-input')); 
     const hiddenCode = document.getElementById('code');
     const verifyForm = document.getElementById('verifyForm');
     const confirmBtn = document.getElementById('confirmBtn');
@@ -61,20 +106,74 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // On submit, combine into hidden field
-        if (verifyForm) {
-            verifyForm.addEventListener('submit', (e) => {
+        // On submit, combine into hidden field and submit via AJAX
+        if (verifyForm) { 
+            verifyForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
                 const code = otpInputs.map(i => i.value || '').join('');
                 if (hiddenCode) hiddenCode.value = code;
                 // basic validation
                 if (code.length !== 6) {
-                    e.preventDefault();
-                    alert('Insira o código de 6 dígitos.');
+                    if (verifyMessage) verifyMessage.textContent = 'Insira o código de 6 dígitos.';
                     otpInputs[0].focus();
-                    return false;
+                    return;
                 }
-                if (confirmBtn) confirmBtn.disabled = true;
+
+                // get antiforgery token
+                const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+                const token = tokenInput ? tokenInput.value : null;
+
+                if (confirmBtn) {
+                    confirmBtn.disabled = true;
+                    document.getElementById('confirmBtnText').textContent = 'A verificar...';
+                    document.getElementById('confirmSpinner').classList.remove('d-none');
+                }
+
+                if (!token) { 
+                    if (verifyMessage) verifyMessage.textContent = 'Erro interno: token antifalsificação em falta.';
+                    resetConfirmBtn();
+                    return;
+                }
+
+                try {
+                    const res = await fetch('/Account/VerifyAjax', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token
+                        },
+                        body: JSON.stringify({ code })
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        // redirect if provided
+                        if (data.redirectUrl) {
+                            window.location.href = data.redirectUrl;
+                            return;
+                        }
+                        if (verifyMessage) verifyMessage.textContent = data.message || 'Verificado com sucesso.';
+                    } else {
+                        if (data.needsLogin && data.loginUrl) {
+                            window.location.href = data.loginUrl;
+                            return;
+                        }
+                        if (verifyMessage) verifyMessage.textContent = data.message || 'Erro na verificação.';
+                    }
+                } catch (err) {
+                    if (verifyMessage) verifyMessage.textContent = 'Erro de rede. Tente novamente.'; 
+                } finally {
+                    resetConfirmBtn();
+                }
             });
+        }
+
+        function resetConfirmBtn() {
+            if (confirmBtn) {
+                confirmBtn.disabled = false;
+                document.getElementById('confirmBtnText').textContent = 'Confirmar';
+                document.getElementById('confirmSpinner').classList.add('d-none');
+            }
         }
     }
 

@@ -29,6 +29,60 @@ namespace EcoCityWaste.Controllers
             _config = config;
         }
 
+        // AJAX endpoint for verification (returns JSON)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult VerifyAjax([FromBody] VerifyAjaxRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.Code))
+                return Json(new { success = false, message = "Código inválido." });
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { success = false, needsLogin = true, loginUrl = Url.Action("Login", "Account") });
+            }
+
+            var claimsPrincipal = User as ClaimsPrincipal;
+            var email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                return Json(new { success = false, message = "Conta não encontrada." });
+
+            if (user.EmailVerified)
+                return Json(new { success = true, message = "Email já verificado.", redirectUrl = Url.Action("Index", "Home") });
+
+            if (user.EmailVerificationBlockedUntil.HasValue && user.EmailVerificationBlockedUntil.Value > DateTime.Now)
+                return Json(new { success = false, message = "Muitas tentativas falhadas. Tente novamente mais tarde." });
+
+            if (!user.EmailVerificationExpiry.HasValue || user.EmailVerificationExpiry.Value < DateTime.Now)
+                return Json(new { success = false, message = "O código expirou. Peça um novo código." });
+
+            var providedHash = ComputeVerificationHash(request.Code.Trim());
+            if (user.EmailVerificationCodeHash == providedHash)
+            {
+                user.EmailVerified = true;
+                user.EmailVerificationCodeHash = null;
+                user.EmailVerificationExpiry = null;
+                user.EmailVerificationSentAt = null;
+                user.EmailVerificationAttempts = 0;
+                user.EmailVerificationBlockedUntil = null;
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Email verificado com sucesso.", redirectUrl = Url.Action("Index", "Home") });
+            }
+
+            user.EmailVerificationAttempts++;
+            if (user.EmailVerificationAttempts >= 5)
+            {
+                user.EmailVerificationBlockedUntil = DateTime.Now.AddMinutes(15);
+            }
+            _context.SaveChanges();
+
+            return Json(new { success = false, message = "Código inválido." });
+        }
+
+        public class VerifyAjaxRequest { public string Code { get; set; } = string.Empty; }
+
 		// GET: /Account/Login
 		public IActionResult Login()
 		{
@@ -476,6 +530,50 @@ namespace EcoCityWaste.Controllers
 
             TempData["Info"] = "Código reenviado (se a conta existir).";
             return RedirectToAction("Verify");
+        }
+
+        // AJAX resend endpoint
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResendAjax()
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Json(new { success = false, needsLogin = true, loginUrl = Url.Action("Login", "Account") });
+
+            var claimsPrincipal = User as ClaimsPrincipal;
+            var email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                return Json(new { success = false, message = "Se a conta existir, enviámos o código." });
+
+            if (user.EmailVerificationBlockedUntil.HasValue && user.EmailVerificationBlockedUntil.Value > DateTime.Now)
+                return Json(new { success = false, message = "Conta temporariamente bloqueada por muitas tentativas falhadas." });
+
+            if (user.EmailVerificationSentAt.HasValue)
+            {
+                var since = DateTime.Now - user.EmailVerificationSentAt.Value;
+                if (since.TotalSeconds < 60)
+                {
+                    return Json(new { success = false, message = "Aguarde antes de reenviar o código (60s).", remaining = 60 - (int)since.TotalSeconds });
+                }
+            }
+
+            var code = GenerateVerificationCode();
+            user.EmailVerificationCodeHash = ComputeVerificationHash(code);
+            user.EmailVerificationExpiry = DateTime.Now.AddMinutes(15);
+            user.EmailVerificationSentAt = DateTime.Now;
+            user.EmailVerificationAttempts = 0;
+            _context.SaveChanges();
+
+            string body = $@"
+                <h2>Verificação de Email</h2>
+                <p>O seu novo código de verificação é: <strong>{code}</strong></p>
+                <p>O código expira em 15 minutos.</p>
+            ";
+
+            _emailService.SendEmail(user.Email, "EcoCityWaste - Verificação de Conta", body);
+
+            return Json(new { success = true, message = "Código reenviado.", remaining = 60 });
         }
 
         // Public endpoint to confirm email via link in email (no authentication required)
