@@ -580,25 +580,30 @@ namespace EcoCityWaste.Controllers
         [HttpGet]
         public IActionResult ConfirmEmail(string email, string code)
         {
+            ViewBag.Email = email;
+
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(code))
             {
-                TempData["Error"] = "Link inválido.";
-                return RedirectToAction("Login");
+                ViewBag.Success = false;
+                ViewBag.Message = "Link inválido.";
+                return View("ConfirmEmail");
             }
 
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
                 // Do not reveal account existence
-                TempData["Info"] = "Se a conta existir, foi verificada.";
-                return RedirectToAction("Login");
+                ViewBag.Success = true;
+                ViewBag.Message = "Se a conta existir, foi verificada. Pode iniciar sessão.";
+                return View("ConfirmEmail");
             }
 
             // Check expiry
             if (!user.EmailVerificationExpiry.HasValue || user.EmailVerificationExpiry.Value < DateTime.Now)
             {
-                TempData["Error"] = "O código expirou.";
-                return RedirectToAction("Login");
+                ViewBag.Success = false;
+                ViewBag.Message = "O código expirou. Peça um novo código.";
+                return View("ConfirmEmail");
             }
 
             var providedHash = ComputeVerificationHash(code.Trim());
@@ -612,12 +617,14 @@ namespace EcoCityWaste.Controllers
                 user.EmailVerificationBlockedUntil = null;
                 _context.SaveChanges();
 
-                TempData["Success"] = "Email verificado com sucesso. Pode iniciar sessão.";
-                return RedirectToAction("Login");
+                ViewBag.Success = true;
+                ViewBag.Message = "Email verificado com sucesso. Pode iniciar sessão.";
+                return View("ConfirmEmail");
             }
 
-            TempData["Error"] = "Código inválido.";
-            return RedirectToAction("Login");
+            ViewBag.Success = false;
+            ViewBag.Message = "Código inválido.";
+            return View("ConfirmEmail");
         }
 
     }
