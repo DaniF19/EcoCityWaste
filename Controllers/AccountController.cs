@@ -263,9 +263,9 @@ namespace EcoCityWaste.Controllers
             _context.SaveChanges();
 
             var verifyLink = Url.Action(
-                "Verify",
+                "ConfirmEmail",
                 "Account",
-                null,
+                new { email = user.Email, code = code },
                 Request.Scheme
             );
 
@@ -281,6 +281,8 @@ namespace EcoCityWaste.Controllers
                 "EcoCityWaste - Verificação de Conta",
                 body
             );
+
+            // If user clicks the verification link in the email, they can confirm without being logged in
 
             var claims = new List<Claim>
             {
@@ -474,6 +476,50 @@ namespace EcoCityWaste.Controllers
 
             TempData["Info"] = "Código reenviado (se a conta existir).";
             return RedirectToAction("Verify");
+        }
+
+        // Public endpoint to confirm email via link in email (no authentication required)
+        [HttpGet]
+        public IActionResult ConfirmEmail(string email, string code)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(code))
+            {
+                TempData["Error"] = "Link inválido.";
+                return RedirectToAction("Login");
+            }
+
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                // Do not reveal account existence
+                TempData["Info"] = "Se a conta existir, foi verificada.";
+                return RedirectToAction("Login");
+            }
+
+            // Check expiry
+            if (!user.EmailVerificationExpiry.HasValue || user.EmailVerificationExpiry.Value < DateTime.Now)
+            {
+                TempData["Error"] = "O código expirou.";
+                return RedirectToAction("Login");
+            }
+
+            var providedHash = ComputeVerificationHash(code.Trim());
+            if (user.EmailVerificationCodeHash == providedHash)
+            {
+                user.EmailVerified = true;
+                user.EmailVerificationCodeHash = null;
+                user.EmailVerificationExpiry = null;
+                user.EmailVerificationSentAt = null;
+                user.EmailVerificationAttempts = 0;
+                user.EmailVerificationBlockedUntil = null;
+                _context.SaveChanges();
+
+                TempData["Success"] = "Email verificado com sucesso. Pode iniciar sessão.";
+                return RedirectToAction("Login");
+            }
+
+            TempData["Error"] = "Código inválido.";
+            return RedirectToAction("Login");
         }
 
     }
