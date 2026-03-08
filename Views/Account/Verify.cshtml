@@ -2,35 +2,39 @@
     ViewData["Title"] = "Verificar Conta";
 }
 
-<h2>Verificar Conta</h2>
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title mb-3">Verificar Conta</h3>
 
-<p>Enviámos um código para: <strong>@ViewBag.Email</strong></p>
+                <p class="text-muted mb-3">Enviámos um código para: <strong>@ViewBag.Email</strong></p>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
-@if (TempData["Info"] != null)
-{
-    <div class="alert alert-info">@TempData["Info"]</div>
-}
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Success"]</div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["Error"]</div>
+                }
+                @if (TempData["Info"] != null)
+                {
+                    <div class="alert alert-info">@TempData["Info"]</div>
+                }
 
-<form asp-action="Verify" method="post" id="verifyForm">
+                <form asp-action="Verify" method="post" id="verifyForm" class="mt-3">
     @Html.AntiForgeryToken()
     <div class="form-group">
-        <label for="code-input-0">Código (6 dígitos)</label>
-        <div id="otp" class="d-flex" style="gap:6px;">
-            <input class="form-control otp-input" id="code-input-0" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 1" />
-            <input class="form-control otp-input" id="code-input-1" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 2" />
-            <input class="form-control otp-input" id="code-input-2" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 3" />
-            <input class="form-control otp-input" id="code-input-3" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 4" />
-            <input class="form-control otp-input" id="code-input-4" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 5" />
-            <input class="form-control otp-input" id="code-input-5" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 6" />
-        </div>
+            <label for="code-input-0" class="form-label">Código (6 dígitos)</label>
+            <div id="otp" class="d-flex justify-content-center flex-wrap mb-2" style="gap:0.5rem;">
+                <input class="form-control otp-input text-center" id="code-input-0" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 1" />
+                <input class="form-control otp-input text-center" id="code-input-1" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 2" />
+                <input class="form-control otp-input text-center" id="code-input-2" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 3" />
+                <input class="form-control otp-input text-center" id="code-input-3" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 4" />
+                <input class="form-control otp-input text-center" id="code-input-4" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 5" />
+                <input class="form-control otp-input text-center" id="code-input-5" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 6" />
+            </div>
         <input type="hidden" id="code" name="code" />
 
         @if (!ViewData.ModelState.IsValid)
@@ -38,25 +42,38 @@
             <span class="text-danger">@Html.ValidationSummary(false)</span>
         }
     </div>
-    <button type="submit" class="btn btn-primary" id="confirmBtn">
-        <span id="confirmBtnText">Confirmar</span>
-        <span id="confirmSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
-    </button>
-    <div id="verifyMessage" class="mt-2" aria-live="polite"></div>
+                    <div class="d-flex align-items-center gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary flex-grow-1" id="confirmBtn">
+                            <span id="confirmBtnText">Confirmar</span>
+                            <span id="confirmSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                        <div id="verifyMessage" class="mt-0 ms-2" aria-live="polite"></div>
+                    </div>
     <noscript>
         <div class="mt-2">
             <label for="code-noscript">Sem JavaScript? Insira o código completo</label>
             <input id="code-noscript" name="code" class="form-control mt-1" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="one-time-code" required />
         </div>
     </noscript>
-</form>
+                </form>
 
-<form asp-action="Resend" method="post" id="resendForm" style="display:inline; margin-left:10px;">
-    @Html.AntiForgeryToken()
-    <button type="submit" class="btn btn-link" id="resendBtn">Reenviar código</button>
-    <span id="countdown" style="margin-left:8px;">@((ViewBag.Remaining != null && ViewBag.Remaining > 0) ? ("(" + ViewBag.Remaining + "s)") : "")</span>
-</form>
+                <div class="mt-3">
+                    <form asp-action="Resend" method="post" id="resendForm" class="d-inline-block">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-link p-0 align-baseline" id="resendBtn">Reenviar código</button>
+                    </form>
+                    <small id="countdown" class="text-muted ms-2">@((ViewBag.Remaining != null && ViewBag.Remaining > 0) ? ("(" + ViewBag.Remaining + "s)") : "")</small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="/js/verify.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/verify.css" asp-append-version="true" />
 }

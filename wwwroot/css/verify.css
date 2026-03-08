@@ -1,0 +1,44 @@
+:root{
+  --otp-size:3.5rem;
+  --otp-gap:0.5rem;
+}
+
+/* OTP container */
+#otp{display:flex;gap:var(--otp-gap);align-items:center}
+.otp-input{width:var(--otp-size);height:var(--otp-size);text-align:center;font-size:1.25rem;border:1px solid var(--bs-border-color);border-radius:.375rem;padding:0;line-height:var(--otp-size);}
+.otp-input:focus{outline:none;border-color:var(--bs-primary);box-shadow:0 0 0 .2rem rgba(13,110,253,.12)}
+
+/* responsive */
+@media(max-width:576px){
+  :root{--otp-size:3rem}
+  .otp-input{font-size:1rem}
+}
+
+/* verify message */
+#verifyMessage{min-height:1.4rem}
+#verifyMessage.error{color:var(--bs-danger)}
+#verifyMessage.success{color:var(--bs-success)}
+
+/* Confirm button spinner alignment */
+#confirmBtn{display:inline-flex;align-items:center}
+
+/* small text for countdown */
+#countdown{color:var(--bs-gray);font-size:0.95rem}
+
+/* banner styling override (if any) */
+.alert-warning .btn{margin-left:0.5rem}
+
+/* accessibility focus for resend button */
+#resendBtn:focus{outline:2px dashed rgba(13,110,253,.35);outline-offset:2px}
+
+/* subtle transitions */
+.otp-input, #confirmBtn{transition:all .12s ease-in-out}
+
+/* form layout adjustments */
+.form-group label{font-weight:600}
+
+/* make inputs larger on desktop */
+@media(min-width:992px){
+  :root{--otp-size:4rem}
+  .otp-input{font-size:1.5rem}
+}
