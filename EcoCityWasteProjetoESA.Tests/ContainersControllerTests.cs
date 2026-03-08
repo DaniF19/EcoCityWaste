@@ -22,7 +22,6 @@ namespace EcoCityWasteProjetoESA.Tests
                 .Options;
 
             var context = new AppDbContext(options);
-
             // Dados de Teste
             context.Contentores.AddRange(
                 new Container { Id = 1, Code = "CNT-00500", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Plástico", Status = Container.ContainerStatus.Good, FillLevel = 85, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
