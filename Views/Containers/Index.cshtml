@@ -126,11 +126,13 @@
                                 <i class="fa-solid @GetTypeIcon(item.Type)" style="color: var(--cor-castanho); margin-right: 8px;"></i>
                                 @item.Type
                             </td>
-                            <td style="font-weight: 600; color: @(item.Status == "Avariado" ? "var(--cor-aviso)" :
-                                                                     item.Status == "Manutenção" ? "var(--cor-manutencao)" :
-                                                                     "var(--cor-sucesso)");">
-                                @item.Status
-                            </td>
+                            <td style="font-weight: 600; color: @(
+                                item.Status == Container.ContainerStatus.Broken ? "var(--cor-aviso)" :
+                                item.Status == Container.ContainerStatus.Maintenance ? "var(--cor-manutencao)" :
+                                "var(--cor-sucesso)"); ">
+                        @item.Status
+                    </td>
+
                             <td style="min-width: 120px;">
                                 @if (item.FillLevel >= 90)
                                 {

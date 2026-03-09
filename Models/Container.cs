@@ -1,7 +1,14 @@
-﻿namespace EcoCityWaste.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EcoCityWaste.Models
 {
     public class Container
     {
+        public enum ContainerStatus
+        {
+            [Display(Name = "Bom")] Good, [Display(Name = "Cheio")] Full, [Display(Name = "Vazio")] Empty,
+            [Display(Name = "Avariado")] Broken, [Display(Name = "Manutenção")] Maintenance
+        }
         public int Id { get; set; }
 
         // Código único do contentor (ex.: CNT-00123)
@@ -18,7 +25,7 @@
         public string Type { get; set; }
 
         // Estado atual (ex.: Cheio, Vazio, Avariado)
-        public string Status { get; set; }
+        public ContainerStatus Status { get; set; }
 
         // Percentagem de enchimento (0–100)
         public int FillLevel { get; set; }

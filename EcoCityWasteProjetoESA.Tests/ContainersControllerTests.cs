@@ -1,5 +1,6 @@
 ﻿using EcoCityWaste.Controllers;
 using EcoCityWaste.Data;
+using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,9 @@ namespace EcoCityWasteProjetoESA.Tests
 
             // Dados de Teste
             context.Contentores.AddRange(
-                new Container { Id = 1, Code = "CNT-00500", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Plástico", Status = "Bom", FillLevel = 85, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
-                new Container { Id = 2, Code = "CNT-00200", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Vidro", Status = "Avariado", FillLevel = 40, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
-                new Container { Id = 3, Code = "CNT-00300", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Papel", Status = "Bom", FillLevel = 10, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = false }
+                new Container { Id = 1, Code = "CNT-00500", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Plástico", Status = Container.ContainerStatus.Good, FillLevel = 85, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
+                new Container { Id = 2, Code = "CNT-00200", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Vidro", Status = Container.ContainerStatus.Broken, FillLevel = 40, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = true },
+                new Container { Id = 3, Code = "CNT-00300", Location = "Praça do Bocage, Setúbal", Latitude = 38.5244, Longitude = -8.8882, Type = "Papel", Status = Container.ContainerStatus.Good, FillLevel = 10, InstallationDate = DateTime.Now.AddDays(-120), LastUpdated = DateTime.Now.AddMinutes(-30), IsActive = false }
             );
 
             context.SaveChanges();
@@ -36,32 +37,29 @@ namespace EcoCityWasteProjetoESA.Tests
         [Fact]
         public async Task Data_Persistance()
         {
-            // Prepara o contexto
             using var context = GetDbContext();
             var containerOriginal = await context.Contentores.FirstAsync();
 
-            // Valores simulados pelo SensorService
             int nivelSimulado = 88;
-            string estadoSimulado = "Manutenção";
+            var estadoSimulado = Container.ContainerStatus.Maintenance;
             DateTime horaSimulada = new DateTime(2026, 02, 22, 14, 0, 0);
 
-            // Aplica as mudanças e grava
             containerOriginal.FillLevel = nivelSimulado;
             containerOriginal.Status = estadoSimulado;
             containerOriginal.LastUpdated = horaSimulada;
 
             await context.SaveChangesAsync();
 
-            // Abre uma nova consulta para verificar se os dados ficaram gravados
             var containerNaBD = await context.Contentores
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == containerOriginal.Id);
 
             Assert.NotNull(containerNaBD);
-            Assert.Equal(nivelSimulado, containerNaBD.FillLevel); // Verifica se o nível subiu na BD
-            Assert.Equal(estadoSimulado, containerNaBD.Status);   // Verifica se o estado mudou na BD
-            Assert.Equal(horaSimulada, containerNaBD.LastUpdated); // Verifica se a data foi persistida
+            Assert.Equal(nivelSimulado, containerNaBD.FillLevel);
+            Assert.Equal(estadoSimulado, containerNaBD.Status);
+            Assert.Equal(horaSimulada, containerNaBD.LastUpdated);
         }
+
 
         [Fact]
         public async Task SensorService_LevelLimit()
@@ -129,6 +127,86 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Equal("Vidro", model[0].Type);
         }
 
+        // funcionario edit
+
+        [Fact]
+        public async Task ListStatus_ReturnsOnlyActiveContainers()
+        {
+            // Arrange
+            using var context = GetDbContext();
+
+            context.Contentores.AddRange(
+                new Container
+                {
+                    Code = "CNT-900",
+                    Location = "Centro",
+                    Type = "Vidro",
+                    Status = Container.ContainerStatus.Good,
+                    IsActive = true
+                },
+                new Container
+                {
+                    Code = "CNT-901",
+                    Location = "Bairro",
+                    Type = "Papel",
+                    Status = Container.ContainerStatus.Full,
+                    IsActive = false
+                }
+            );
+
+            await context.SaveChangesAsync();
+
+            var controller = new ContainersController(context);
+
+            // Act
+            var result = await controller.ListStatus() as ViewResult;
+            var model = result?.Model as List<Container>;
+
+            // Assert
+            Assert.NotNull(model);
+
+            // Verify that ALL returned containers are active
+            Assert.All(model, c => Assert.True(c.IsActive));
+        }
+
+        [Fact]
+        public async Task UpdateStatus_Post_ValidStatus_UpdatesContainer()
+        {
+            // Arrange
+            using var context = GetDbContext();
+
+            var container = new Container
+            {
+                Code = "CNT-001",
+                Location = "Centro",
+                Type = "Vidro",
+                Status = Container.ContainerStatus.Good,
+                IsActive = true
+            };
+
+            context.Contentores.Add(container);
+            await context.SaveChangesAsync();
+
+            var controller = new ContainersController(context);
+
+            var dto = new UpdateContainerStatusDto
+            {
+                Id = container.Id,
+                Status = "Broken"
+            };
+
+            // Act
+            var result = await controller.UpdateStatus(container.Id, dto);
+
+            // Assert
+            var updated = await context.Contentores.FindAsync(container.Id);
+
+            Assert.Equal(Container.ContainerStatus.Broken, updated.Status);
+
+            var redirect = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ListStatus", redirect.ActionName);
+        }
+
         [Fact]
         public async Task Register_Post_ValidModel_AddsContainer()
         {
@@ -140,7 +218,7 @@ namespace EcoCityWasteProjetoESA.Tests
             {
                 Location = "Avenida Luísa Todi",
                 Type = "Plástico",
-                Status = "Bom"
+                Status = "Good"
             };
 
             // Act
@@ -155,7 +233,7 @@ namespace EcoCityWasteProjetoESA.Tests
 
             Assert.Equal("Avenida Luísa Todi", newContainer.Location);
             Assert.Equal("Plástico", newContainer.Type);
-            Assert.Equal("Bom", newContainer.Status);
+            Assert.Equal(Container.ContainerStatus.Good, newContainer.Status);
             Assert.True(newContainer.IsActive);
             Assert.Equal(0, newContainer.FillLevel);
             Assert.NotNull(result);
@@ -179,7 +257,7 @@ namespace EcoCityWasteProjetoESA.Tests
             // Assert
             var containers = await context.Contentores.ToListAsync();
 
-            Assert.Equal(3, containers.Count); // continua igual
+            Assert.Equal(3, containers.Count);
             Assert.NotNull(result);
             Assert.Equal(model, result.Model);
         }
@@ -223,7 +301,7 @@ namespace EcoCityWasteProjetoESA.Tests
                 Id = 1,
                 Location = "Nova Localização",
                 Type = "Vidro",
-                Status = "Manutenção"
+                Status = Container.ContainerStatus.Maintenance
             };
 
             // Act
@@ -234,7 +312,7 @@ namespace EcoCityWasteProjetoESA.Tests
 
             Assert.Equal("Nova Localização", updated.Location);
             Assert.Equal("Vidro", updated.Type);
-            Assert.Equal("Manutenção", updated.Status);
+            Assert.Equal(Container.ContainerStatus.Maintenance, updated.Status);
 
             Assert.IsType<RedirectToActionResult>(result);
         }
@@ -268,13 +346,14 @@ namespace EcoCityWasteProjetoESA.Tests
                 Id = 999,
                 Location = "X",
                 Type = "Vidro",
-                Status = "Bom"
+                Status = Container.ContainerStatus.Good
             };
 
             var result = await controller.Edit(model);
 
             Assert.IsType<NotFoundResult>(result);
         }
+
 
     }
 }
