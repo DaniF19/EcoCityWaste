@@ -8,6 +8,8 @@ namespace EcoCityWaste.Data
     { public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<Models.Container> Contentores { get; set; }
+
+        public DbSet<ContainerStatusHistory> ContainerStatusHistories { get; set; }
     }
 
     }
