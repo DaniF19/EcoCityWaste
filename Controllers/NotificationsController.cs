@@ -1,9 +1,11 @@
 using EcoCityWaste.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EcoCityWaste.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class NotificationsController : Controller
     {
         private readonly AppDbContext _context;
