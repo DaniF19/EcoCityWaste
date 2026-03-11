@@ -1,0 +1,277 @@
+﻿@model IEnumerable<EcoCityWaste.Models.Notification>
+
+@{
+    ViewData["Title"] = "Notificações";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<div class="container">
+    <div class="eco-page-container">
+
+        <div class="eco-header">
+            <h1>
+                <i class="fa-solid fa-bell" style="margin-right: 15px;"></i>
+                Notificações
+            </h1>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div style="display:flex; justify-content:flex-end; margin-bottom:20px; gap:10px;">
+                <form asp-action="ClearAll" method="post">
+                    <button type="submit" class="btn-eco btn-eco-outline">
+                        <i class="fa-solid fa-trash"></i> Limpar Todas
+                    </button>
+                </form>
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="eco-empty">
+                <i class="fa-solid fa-envelope-open"></i>
+                <p>Não existem notificações disponíveis de momento.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="eco-table">
+    <thead>
+        <tr>
+            <th><span class="sort-link"><i class="fa-solid fa-box"></i> Contentor</span></th>
+            <th><span class="sort-link"><i class="fa-solid fa-message"></i> Mensagem</span></th>
+            <th><span class="sort-link"><i class="fa-solid fa-calendar-days"></i> Data</span></th>
+            <th><span class="sort-link"><i class="fa-solid fa-circle-info"></i> Estado</span></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var notification in Model)
+        {
+            <tr class="@(notification.IsRead ? "" : "notification-unread")">
+
+                <td class="container-code">
+                    #@notification.ContainerId
+                </td>
+
+                <td>
+                    <i class="fa-solid fa-triangle-exclamation text-danger"
+                       style="margin-right:8px;"></i>
+
+                    @notification.Message
+                </td>
+
+                <td class="notification-date">
+                    @notification.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                </td>
+
+                <td>
+
+                    @if (notification.IsRead)
+                    {
+                        <span class="badge-status badge-active">
+                            <i class="fa-solid fa-check-double"></i>
+                            Lida
+                        </span>
+                    }
+                    else
+                    {
+                        <div style="display:flex; align-items:center; gap:10px;">
+
+                            <span class="badge-status badge-unread">
+                                <i class="fa-solid fa-envelope"></i>
+                                Não Lida
+                            </span>
+
+                            <form asp-action="MarkAsRead"
+                                  method="post"
+                                  style="margin:0;">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@notification.Id" />
+
+                                <button type="submit"
+                                        class="btn-action-read"
+                                        title="Marcar como lida">
+
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+
+                            </form>
+
+                        </div>
+                    }
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+            </div>
+        }
+
+    </div>
+</div>
+
+<style>
+
+    :root {
+        --cor-castanho: rgb(141,110,99);
+        --cor-bege: rgb(224,205,169);
+        --cor-fundo-claro: rgb(243,242,235);
+        --cor-sucesso: #27ae60;
+        --cor-vermelho-erro: #a94442;
+    }
+
+    .eco-page-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--cor-fundo-claro);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
+
+    .eco-header h1 {
+        color: var(--cor-castanho);
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .eco-empty {
+        text-align: center;
+        padding: 60px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        color: #777;
+        font-size: 1.1rem;
+    }
+
+    .eco-empty i {
+        font-size: 3rem;
+        color: var(--cor-bege);
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .eco-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .eco-table th {
+        background-color: var(--cor-castanho);
+        padding: 18px 15px;
+        text-align: left;
+    }
+
+    .sort-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .eco-table td {
+        padding: 18px 15px;
+        border-bottom: 1px solid var(--cor-bege);
+        color: #555;
+        vertical-align: middle;
+    }
+
+    .eco-table tbody tr:hover {
+        background-color: #fcfaf2;
+    }
+
+    .notification-unread {
+        background-color: #fffdf5;
+        font-weight: 500;
+    }
+
+    .container-code {
+        font-weight: 600;
+        color: var(--cor-castanho);
+    }
+
+    .notification-date {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .badge-status {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .badge-active {
+        background-color: #e8f5e9;
+        color: var(--cor-sucesso);
+    }
+
+    .badge-unread {
+        background-color: #fff3e0;
+        color: #e67e22;
+    }
+
+    .btn-action-read {
+        border: none;
+        background: var(--cor-sucesso);
+        color: white;
+        padding: 6px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-action-read:hover {
+        background: #1f8a4d;
+    }
+
+    .btn-eco {
+        background-color: var(--cor-bege);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 25px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn-eco-outline {
+        background-color: transparent;
+        color: var(--cor-castanho);
+        border: 2px solid var(--cor-castanho);
+    }
+
+    .btn-eco-outline:hover {
+        background-color: var(--cor-castanho);
+        color: white;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+</style>

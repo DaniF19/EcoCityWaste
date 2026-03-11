@@ -26,6 +26,7 @@ namespace EcoCityWaste.Services
 
                     // Vai buscar todos os contentores ativos
                     var containers = await context.Contentores.Where(c => c.IsActive).ToListAsync();
+                    var notificationService = scope.ServiceProvider.GetRequiredService<NotificationService>();
 
                     foreach (var container in containers)
                     {
@@ -34,6 +35,11 @@ namespace EcoCityWaste.Services
                         container.FillLevel = Math.Min(100, container.FillLevel + increase);
 
                         container.LastUpdated = DateTime.Now;
+
+                        if (container.FillLevel >= 90)
+                        {
+                            await notificationService.CreateCriticalLevelNotification(container);
+                        }
                     }
 
                     await context.SaveChangesAsync(stoppingToken);

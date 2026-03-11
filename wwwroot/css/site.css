@@ -29,3 +29,60 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.navbar-nav.ms-auto {
+    display: flex;
+    align-items: center; 
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+    color: #555;
+    position: relative;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100%; 
+    transition: 0.3s;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px; 
+    right: -8px; 
+    background: #a94442;
+    color: white;
+    font-size: 0.65rem;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 1px solid white;
+}
+
+.navbar-nav.ms-auto .nav-link {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    line-height: 1; 
+}
+
+.notification-icon.has-notifications {
+    color: #a94442;
+}
+
+/* icon de notificacoes rotation */
+.notification-icon.has-notifications i {
+    animation: bell-shake 1.5s infinite;
+}
+
+@keyframes bell-shake {
+    0% { transform: rotate(0); }
+    20% { transform: rotate(-15deg); }
+    40% { transform: rotate(15deg); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+    100% { transform: rotate(0); }
+}

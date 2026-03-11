@@ -4,6 +4,7 @@ using EcoCityWaste.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcoCityWaste.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260309172909_AddNotifications")]
+    partial class AddNotifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,7 +71,6 @@ namespace EcoCityWaste.Migrations
                     b.ToTable("Contentores");
                 });
 
-            modelBuilder.Entity("EcoCityWaste.Models.ContainerStatusHistory", b =>
             modelBuilder.Entity("EcoCityWaste.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -77,30 +79,6 @@ namespace EcoCityWaste.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ContainerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FillLevel")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContainerId");
-
-                    b.ToTable("ContainerStatusHistories");
                     b.Property<int>("ContainerId")
                         .HasColumnType("int");
 
@@ -158,17 +136,6 @@ namespace EcoCityWaste.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EcoCityWaste.Models.ContainerStatusHistory", b =>
-                {
-                    b.HasOne("EcoCityWaste.Models.Container", "Container")
-                        .WithMany()
-                        .HasForeignKey("ContainerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Container");
                 });
 #pragma warning restore 612, 618
         }
