@@ -10,7 +10,7 @@
         public Container Container { get; set; }
 
         // estado do contentor no momento da alteração
-        public string Status { get; set; }
+        public Container.ContainerStatus Status { get; set; }
 
         public int FillLevel { get; set; }
 
