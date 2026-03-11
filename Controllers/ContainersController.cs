@@ -13,7 +13,7 @@ using static EcoCityWaste.Models.Container;
 
 namespace EcoCityWaste.Controllers
 {
-    [Authorize(Roles = "Admin,Funcionario")]
+     [Authorize(Roles = "Admin,Funcionario")]
     public class ContainersController : Controller
     {
         private readonly AppDbContext _context;
@@ -128,6 +128,13 @@ namespace EcoCityWaste.Controllers
                     return View(model);
                 }
 
+                // Definir se o contentor é criado ativo ou inativo
+                bool isContainerActive = true;
+                if (statusEnum == ContainerStatus.Broken || statusEnum == ContainerStatus.Maintenance)
+                {
+                    isContainerActive = false;
+                }
+
                 var container = new Container
                 {
                     Code = GenerateContainerCode(),
@@ -139,7 +146,7 @@ namespace EcoCityWaste.Controllers
                     FillLevel = 0,
                     InstallationDate = DateTime.Now,
                     LastUpdated = DateTime.Now,
-                    IsActive = true
+                    IsActive = isContainerActive
                 };
 
                 _context.Contentores.Add(container);
@@ -195,10 +202,15 @@ namespace EcoCityWaste.Controllers
                 container.Location = model.Location;
                 container.Type = model.Type;
                 container.Status = model.Status;
-                /*container.Latitude = model.Latitude;
-                container.Longitude = model.Longitude;
-                container.FillLevel = model.FillLevel;
-                container.IsActive = model.IsActive;*/
+                // Desativar o contentor se estiver avariado ou em manutenção
+                if (model.Status == ContainerStatus.Broken || model.Status == ContainerStatus.Maintenance)
+                {
+                    container.IsActive = false;
+                }
+                else
+                {
+                    container.IsActive = true;
+                }
                 container.LastUpdated = DateTime.Now;
 
                 await _context.SaveChangesAsync();
@@ -282,6 +294,16 @@ namespace EcoCityWaste.Controllers
                 return BadRequest("Estado inválido.");
 
             container.Status = newStatus;
+            // Desativar o contentor se estiver avariado ou em manutenção
+            if (newStatus == Container.ContainerStatus.Broken || newStatus == Container.ContainerStatus.Maintenance)
+            {
+                container.IsActive = false;
+            }
+            else
+            {
+                container.IsActive = true;
+            }
+
             container.LastUpdated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
