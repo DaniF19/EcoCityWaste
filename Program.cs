@@ -30,7 +30,15 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IEmailService, EmailService>();
 // DbContext 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"),
+    sqlServerOptionsAction: sqlOptions =>
+    {
+        // Ativa tentativas automáticas em caso de falha de ligação
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5, // Número máximo de tentativas
+            maxRetryDelay: TimeSpan.FromSeconds(10), // Espera máxima entre tentativas
+            errorNumbersToAdd: null);
+    }));
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -87,7 +95,7 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    // Verifica se n�o existe nenhum contentor na base de dados
+    // Verifica se não existe nenhum contentor na base de dados
     if (!context.Contentores.Any())
     {
         context.Contentores.AddRange(

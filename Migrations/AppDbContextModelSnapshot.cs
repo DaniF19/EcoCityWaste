@@ -117,7 +117,7 @@ namespace EcoCityWaste.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notifications");
-                });
+                }));
 
             modelBuilder.Entity("EcoCityWaste.Models.User", b =>
                 {
