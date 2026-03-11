@@ -42,13 +42,21 @@
                             <td>@container.Status</td>
                             <td>@container.InstallationDate.ToString("dd/MM/yyyy HH:mm")</td>
                             <td>@container.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td style="text-align:center;">
+                            <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
                                 <a asp-controller="Containers"
                                    asp-action="Edit"
                                    asp-route-id="@container.Id"
                                    class="btn-primary"
                                    style="padding:6px 12px; font-size:14px;">
                                     Editar
+                                </a>
+
+                                <a asp-controller="Containers"
+                                   asp-action="History"
+                                   asp-route-id="@container.Id"
+                                   class="btn-primary"
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Histórico
                                 </a>
                             </td>
                         </tr>

@@ -1,4 +1,4 @@
-﻿using EcoCityWaste.Data;
+using EcoCityWaste.Data;
 using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -144,6 +144,8 @@ namespace EcoCityWaste.Controllers
 
                 _context.Contentores.Add(container);
                 await _context.SaveChangesAsync();
+                //ricardo
+                await AddHistory(container);
 
                 ViewBag.Success = "Contentor registado com sucesso!";
                 ModelState.Clear();
@@ -200,7 +202,8 @@ namespace EcoCityWaste.Controllers
                 container.LastUpdated = DateTime.Now;
 
                 await _context.SaveChangesAsync();
-
+                //Ricardo
+                await AddHistory(container);
                 return RedirectToAction("List");
             }
             catch
@@ -223,9 +226,41 @@ namespace EcoCityWaste.Controllers
 
             await _context.SaveChangesAsync();
 
+            //ricardo
+            await AddHistory(container);
             return RedirectToAction("List");
         }
 
+
+
+        //Historico do contentor
+
+        public async Task<IActionResult> History(int id)
+        {
+            var history = await _context.ContainerStatusHistories
+                .Where(h => h.ContainerId == id)
+                .OrderByDescending(h => h.ChangedAt)
+                .ToListAsync();
+
+            return View(history);
+        }
+
+        private async Task AddHistory(Container container)
+        {
+            var history = new ContainerStatusHistory
+            {
+                ContainerId = container.Id,
+                Status = container.Status,
+                FillLevel = container.FillLevel,
+                IsActive = container.IsActive,
+                ChangedAt = DateTime.Now,
+                ChangedBy = User.Identity?.Name ?? "Sistema"
+            };
+
+            _context.ContainerStatusHistories.Add(history);
+            await _context.SaveChangesAsync();
+        }
+        
         public async Task<IActionResult> ListStatus()
         {
             var containers = await _context.Contentores
