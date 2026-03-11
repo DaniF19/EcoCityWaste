@@ -13,7 +13,7 @@ using static EcoCityWaste.Models.Container;
 
 namespace EcoCityWaste.Controllers
 {
-    // [Authorize(Roles = "Admin,Funcionario")]
+     [Authorize(Roles = "Admin,Funcionario")]
     public class ContainersController : Controller
     {
         private readonly AppDbContext _context;
