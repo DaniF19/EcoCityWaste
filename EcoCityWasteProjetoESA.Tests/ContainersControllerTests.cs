@@ -356,6 +356,89 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.IsType<NotFoundResult>(result);
         }
 
+        // history status containers tests
+
+        [Fact]
+        public async Task UpdateStatus_CreatesHistoryRecord()
+        {
+            // Arrange
+            using var context = GetDbContext();
+
+            context.ContainerStatusHistories = context.Set<ContainerStatusHistory>();
+
+            var container = new Container
+            {
+                Code = "CNT-100",
+                Location = "Centro",
+                Type = "Vidro",
+                Status = Container.ContainerStatus.Good,
+                IsActive = true
+            };
+
+            context.Contentores.Add(container);
+            await context.SaveChangesAsync();
+
+            var controller = new ContainersController(context);
+
+            var dto = new UpdateContainerStatusDto
+            {
+                Id = container.Id,
+                Status = "Broken"
+            };
+
+            // Act
+            await controller.UpdateStatus(container.Id, dto);
+
+            // Assert
+            var history = await context.ContainerStatusHistories
+                .Where(h => h.ContainerId == container.Id)
+                .ToListAsync();
+
+            Assert.Single(history);
+            Assert.Equal(Container.ContainerStatus.Broken, history[0].Status);
+        }
+
+        [Fact]
+        public async Task History_ReturnsContainerHistory()
+        {
+            // Arrange
+            using var context = GetDbContext();
+
+            context.ContainerStatusHistories = context.Set<ContainerStatusHistory>();
+
+            context.ContainerStatusHistories.AddRange(
+                new ContainerStatusHistory
+                {
+                    ContainerId = 1,
+                    Status = Container.ContainerStatus.Good,
+                    FillLevel = 50,
+                    IsActive = true,
+                    ChangedAt = DateTime.Now,
+                    ChangedBy = "TestUser"
+                },
+                new ContainerStatusHistory
+                {
+                    ContainerId = 1,
+                    Status = Container.ContainerStatus.Full,
+                    FillLevel = 95,
+                    IsActive = true,
+                    ChangedAt = DateTime.Now,
+                    ChangedBy = "TestUser"
+                }
+            );
+
+            await context.SaveChangesAsync();
+
+            var controller = new ContainersController(context);
+
+            // Act
+            var result = await controller.History(1) as ViewResult;
+            var model = result.Model as List<ContainerStatusHistory>;
+
+            // Assert
+            Assert.NotNull(model);
+            Assert.Equal(2, model.Count);
+        }
 
     }
 }
