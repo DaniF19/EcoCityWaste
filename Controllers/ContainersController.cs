@@ -259,6 +259,9 @@ namespace EcoCityWaste.Controllers
 
         private async Task AddHistory(Container container)
         {
+            if (_context.ContainerStatusHistories == null)
+                return;
+
             var history = new ContainerStatusHistory
             {
                 ContainerId = container.Id,
@@ -266,17 +269,16 @@ namespace EcoCityWaste.Controllers
                 FillLevel = container.FillLevel,
                 IsActive = container.IsActive,
                 ChangedAt = DateTime.Now,
-                ChangedBy = User.Identity?.Name ?? "Sistema"
+                ChangedBy = User?.Identity?.Name ?? "Sistema"
             };
 
             _context.ContainerStatusHistories.Add(history);
             await _context.SaveChangesAsync();
         }
-        
+
         public async Task<IActionResult> ListStatus()
         {
             var containers = await _context.Contentores
-                .Where(c => c.IsActive)
                 .ToListAsync();
 
             return View(containers);
@@ -307,6 +309,8 @@ namespace EcoCityWaste.Controllers
             container.LastUpdated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
+
+            await AddHistory(container);
 
             return RedirectToAction(nameof(ListStatus));
         }
