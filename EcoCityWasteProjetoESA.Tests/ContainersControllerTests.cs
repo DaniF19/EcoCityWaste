@@ -130,7 +130,7 @@ namespace EcoCityWasteProjetoESA.Tests
         // funcionario edit
 
         [Fact]
-        public async Task ListStatus_ReturnsOnlyActiveContainers()
+        public async Task ListStatus_ReturnsAllContainers()
         {
             // Arrange
             using var context = GetDbContext();
@@ -165,8 +165,10 @@ namespace EcoCityWasteProjetoESA.Tests
             // Assert
             Assert.NotNull(model);
 
-            // Verify that ALL returned containers are active
-            Assert.All(model, c => Assert.True(c.IsActive));
+            Assert.Equal(5, model.Count);
+
+            Assert.Contains(model, c => c.IsActive);
+            Assert.Contains(model, c => !c.IsActive);
         }
 
         [Fact]
