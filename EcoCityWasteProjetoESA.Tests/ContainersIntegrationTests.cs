@@ -103,5 +103,36 @@ namespace EcoCityWasteProjetoESA.Tests
             // Assert
             Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
         }
+
+        // history status containers integration tests
+        [Fact]
+        public async Task History_ReturnsHistoryPage()
+        {
+            // Arrange – create container first
+            var createContent = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string,string>("Location","History Street"),
+                new KeyValuePair<string,string>("Type","Vidro"),
+                new KeyValuePair<string,string>("Status","Good")
+            });
+
+            await _client.PostAsync("/Containers/Register", createContent);
+
+            // Act
+            var response = await _client.GetAsync("/Containers/History/1");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task List_ReturnsContainersPage()
+        {
+            // Act
+            var response = await _client.GetAsync("/Containers/List");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
     }
 }
