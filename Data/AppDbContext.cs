@@ -10,6 +10,8 @@ namespace EcoCityWaste.Data
 
         public DbSet<ContainerStatusHistory> ContainerStatusHistories { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+
+        public DbSet<Occurrence> Occurrences { get; set; }
     }
 
 }
