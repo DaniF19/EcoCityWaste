@@ -48,6 +48,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 // servico de notificacoes
 builder.Services.AddScoped<NotificationService>();
 
+// servico de optimizacao rotas
+builder.Services.AddScoped<RouteOptimisationService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,0 +1,338 @@
+@model EcoCityWaste.Models.Route
+@{
+    ViewData["Title"] = $"Rota {Model.Code}";
+    bool isAdmin = User.IsInRole("Admin");
+    var orderedStops = Model.RouteContainers
+        .OrderBy(rc => rc.PickupOrder)
+        .ToList();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <style>
+        :root {
+            --blue: #3b82f6; --green: #22c55e; --amber: #f59e0b;
+            --red: #ef4444;  --purple: #8b5cf6; --cyan: #06b6d4;
+            --s2: #1e293b;   --s3: #334155;
+            --border: rgba(255,255,255,.07);
+            --text: #f1f5f9; --muted: #94a3b8;
+        }
+
+        .details-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .route-headline { display: flex; flex-direction: column; gap: 6px; }
+
+        .route-headline h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .meta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+        .badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 12px; border-radius: 20px;
+            font-size: .77rem; font-weight: 600;
+        }
+
+        .badge-pending    { background: rgba(245,158,11,.15); color: var(--amber); }
+        .badge-inprogress { background: rgba(59,130,246,.15); color: var(--blue); }
+        .badge-completed  { background: rgba(34,197,94,.15);  color: var(--green); }
+        .badge-cancelled  { background: rgba(239,68,68,.15);  color: var(--red); }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @@media(max-width:860px) { .details-grid { grid-template-columns: 1fr; } }
+
+        .panel {
+            background: var(--s2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .panel-title {
+            font-size: .95rem; font-weight: 700; color: var(--text);
+            margin-bottom: 18px; display: flex; align-items: center; gap: 8px;
+        }
+
+        .panel-title i { color: var(--blue); }
+
+        /* ── Stop list ── */
+        .stop-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: var(--s3);
+            border: 1px solid var(--border);
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .stop-item:last-child { margin-bottom: 0; }
+
+        .stop-num {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: var(--blue); color: #fff;
+            font-size: .8rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stop-connector {
+            position: absolute; left: 33px; bottom: -9px;
+            width: 2px; height: 9px; background: var(--s3);
+        }
+
+        .stop-item:last-child .stop-connector { display: none; }
+
+        .stop-info { flex: 1; min-width: 0; }
+
+        .stop-code {
+            font-family: monospace; font-size: .78rem;
+            color: var(--blue); background: rgba(59,130,246,.1);
+            padding: 2px 7px; border-radius: 4px; margin-right: 6px;
+        }
+
+        .stop-loc { font-size: .85rem; color: var(--text); margin-top: 2px; }
+
+        .stop-type { font-size: .78rem; color: var(--muted); }
+
+        .fill-pill {
+            font-size: .75rem; font-weight: 700;
+            padding: 3px 9px; border-radius: 12px; flex-shrink: 0;
+        }
+
+        .fill-low  { background: rgba(34,197,94,.15);  color: var(--green); }
+        .fill-mid  { background: rgba(245,158,11,.15); color: var(--amber); }
+        .fill-high { background: rgba(239,68,68,.15);  color: var(--red); }
+
+        /* ── Info card ── */
+        .info-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: .87rem;
+        }
+
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: var(--muted); }
+        .info-value { color: var(--text); font-weight: 600; text-align: right; }
+
+        /* ── Action buttons ── */
+        .action-btn {
+            display: flex; align-items: center; gap: 8px;
+            width: 100%; padding: 11px 16px;
+            border-radius: 10px; border: 1px solid var(--border);
+            background: var(--s3); color: var(--text);
+            font-size: .87rem; font-weight: 600;
+            text-decoration: none; cursor: pointer;
+            transition: all .15s; margin-bottom: 8px;
+        }
+
+        .action-btn:last-child { margin-bottom: 0; }
+        .action-btn:hover { border-color: transparent; color: #fff; }
+        .action-btn.blue:hover   { background: var(--blue); }
+        .action-btn.green:hover  { background: var(--green); }
+        .action-btn.amber:hover  { background: var(--amber); }
+        .action-btn.purple:hover { background: var(--purple); }
+        .action-btn.cyan:hover   { background: var(--cyan); }
+        .action-btn.red:hover    { background: var(--red); }
+
+        .fill-bar-container {
+            height: 6px; background: var(--s3);
+            border-radius: 3px; overflow: hidden; margin-top: 4px;
+        }
+
+        .fill-bar-inner { height: 100%; border-radius: 3px; }
+    </style>
+}
+
+<div class="page-container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-success-addcontainer" style="margin-bottom:16px;">
+            <i class="fa-solid fa-circle-check"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div style="margin-bottom:16px;">
+        <a asp-action="Index" style="color:var(--muted);text-decoration:none;font-size:.85rem;">
+            <i class="fa-solid fa-chevron-left"></i> Rotas
+        </a>
+    </div>
+
+    <div class="details-header">
+        <div class="route-headline">
+            <div class="meta-row">
+                <span style="font-family:monospace;font-size:.85rem;color:var(--blue);background:rgba(59,130,246,.1);padding:4px 10px;border-radius:6px;">
+                    @Model.Code
+                </span>
+                @{
+                    var (badgeClass, badgeIcon, badgeLabel) = Model.Status switch
+                    {
+                        EcoCityWaste.Models.Route.RouteStatus.Pending    => ("badge-pending",    "fa-clock",        "Pendente"),
+                        EcoCityWaste.Models.Route.RouteStatus.InProgress => ("badge-inprogress", "fa-truck",        "Em Curso"),
+                        EcoCityWaste.Models.Route.RouteStatus.Completed  => ("badge-completed",  "fa-circle-check", "Concluída"),
+                        EcoCityWaste.Models.Route.RouteStatus.Cancelled  => ("badge-cancelled",  "fa-ban",          "Cancelada"),
+                        _ => ("badge-pending", "fa-clock", "Pendente")
+                    };
+                }
+                <span class="badge @badgeClass">
+                    <i class="fa-solid @badgeIcon"></i> @badgeLabel
+                </span>
+            </div>
+            <h1>@Model.Name</h1>
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <p style="color:var(--muted);margin:0;font-size:.88rem;">@Model.Description</p>
+            }
+        </div>
+    </div>
+
+    <div class="details-grid">
+        <!-- Main: ordered stops -->
+        <div>
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fa-solid fa-list-ol"></i>
+                    Paragens (@orderedStops.Count)
+                </div>
+
+                @if (!orderedStops.Any())
+                {
+                    <p style="color:var(--muted);font-size:.85rem;text-align:center;padding:20px;">
+                        Nenhum contentor nesta rota.
+                    </p>
+                }
+                else
+                {
+                    @foreach (var stop in orderedStops)
+                    {
+                        var c = stop.Container;
+                        var fillClass = c.FillLevel >= 80 ? "fill-high" : c.FillLevel >= 50 ? "fill-mid" : "fill-low";
+                        var typeIcon = c.Type switch {
+                            "Plástico"       => "fa-bottle-water",
+                            "Vidro"          => "fa-wine-glass-empty",
+                            "Papel"          => "fa-box-archive",
+                            "Orgânico"       => "fa-apple-whole",
+                            "Indiferenciado" => "fa-trash-can",
+                            _ => "fa-trash-can"
+                        };
+                        var barColor = c.FillLevel >= 80 ? "#ef4444" : c.FillLevel >= 50 ? "#f59e0b" : "#22c55e";
+                        <div class="stop-item">
+                            <div class="stop-connector"></div>
+                            <div class="stop-num">@stop.PickupOrder</div>
+                            <div class="stop-info">
+                                <div>
+                                    <span class="stop-code">@c.Code</span>
+                                    <span class="stop-type">
+                                        <i class="fa-solid @typeIcon"></i> @c.Type
+                                    </span>
+                                </div>
+                                <div class="stop-loc">@c.Location</div>
+                                <div class="fill-bar-container">
+                                    <div class="fill-bar-inner" style="width:@c.FillLevel%;background:@barColor;"></div>
+                                </div>
+                            </div>
+                            <span class="fill-pill @fillClass">@c.FillLevel%</span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar: info + actions -->
+        <div>
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-circle-info"></i> Detalhes</div>
+
+                <div class="info-row">
+                    <span class="info-label">Criada por</span>
+                    <span class="info-value">@Model.CreatedBy</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Data de criação</span>
+                    <span class="info-value">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Atribuída a</span>
+                    <span class="info-value">
+                        @(Model.AssignedEmployee?.Username ?? "—")
+                    </span>
+                </div>
+                @if (Model.AssignedAt.HasValue)
+                {
+                    <div class="info-row">
+                        <span class="info-label">Atribuída em</span>
+                        <span class="info-value">@Model.AssignedAt.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                }
+                @if (Model.CompletedAt.HasValue)
+                {
+                    <div class="info-row">
+                        <span class="info-label">Concluída em</span>
+                        <span class="info-value">@Model.CompletedAt.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                }
+                @if (Model.EstimatedDistanceKm.HasValue)
+                {
+                    <div class="info-row">
+                        <span class="info-label">Distância estimada</span>
+                        <span class="info-value">@Model.EstimatedDistanceKm.Value km</span>
+                    </div>
+                }
+            </div>
+
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-bolt"></i> Ações</div>
+
+                <a asp-action="Map" asp-route-id="@Model.Id" class="action-btn green">
+                    <i class="fa-solid fa-map"></i> Ver no Mapa
+                </a>
+
+                @if (isAdmin)
+                {
+                    <a asp-action="Optimise" asp-route-id="@Model.Id" class="action-btn cyan">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Optimizar Rota
+                    </a>
+                    <a asp-action="Assign" asp-route-id="@Model.Id" class="action-btn purple">
+                        <i class="fa-solid fa-user-plus"></i> Atribuir Funcionário
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="action-btn amber">
+                        <i class="fa-solid fa-pen"></i> Editar Rota
+                    </a>
+                }
+
+                @if (Model.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress ||
+                     (User.IsInRole("Funcionario") && Model.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress))
+                {
+                    <form asp-action="Complete" asp-route-id="@Model.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="action-btn green"
+                                onclick="return confirm('Marcar rota como concluída?')">
+                            <i class="fa-solid fa-circle-check"></i> Marcar como Concluída
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
