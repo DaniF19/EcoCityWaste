@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace EcoCityWaste.Controllers
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(statusFilter) &&
-                Enum.TryParse<Route.RouteStatus>(statusFilter, out var statusEnum))
+                Enum.TryParse<EcoCityWaste.Models.Route.RouteStatus>(statusFilter, out var statusEnum))
             {
                 query = query.Where(r => r.Status == statusEnum);
             }
@@ -48,9 +49,9 @@ namespace EcoCityWaste.Controllers
 
             ViewBag.CurrentFilter = statusFilter;
             ViewBag.TotalRoutes = await _context.Routes.CountAsync();
-            ViewBag.Pending = await _context.Routes.CountAsync(r => r.Status == Route.RouteStatus.Pending);
-            ViewBag.InProgress = await _context.Routes.CountAsync(r => r.Status == Route.RouteStatus.InProgress);
-            ViewBag.Completed = await _context.Routes.CountAsync(r => r.Status == Route.RouteStatus.Completed);
+            ViewBag.Pending = await _context.Routes.CountAsync(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.Pending);
+            ViewBag.InProgress = await _context.Routes.CountAsync(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress);
+            ViewBag.Completed = await _context.Routes.CountAsync(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.Completed);
 
             return View(await query.OrderByDescending(r => r.CreatedAt).ToListAsync());
         }
@@ -67,7 +68,6 @@ namespace EcoCityWaste.Controllers
 
             if (route == null) return NotFound();
 
-            // Employees can only view their own assigned routes
             if (User.IsInRole("Funcionario"))
             {
                 var username = User.Identity!.Name;
@@ -83,10 +83,7 @@ namespace EcoCityWaste.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Containers = await _context.Contentores
-                .Where(c => c.IsActive)
-                .OrderBy(c => c.Code)
-                .ToListAsync();
+            ViewBag.Containers = await ActiveContainersAsync();
             return View(new RouteCreateViewModel());
         }
 
@@ -101,7 +98,6 @@ namespace EcoCityWaste.Controllers
                 return View(model);
             }
 
-            // Validate all container IDs exist and are active
             var containers = await _context.Contentores
                 .Where(c => model.ContainerIds.Contains(c.Id) && c.IsActive)
                 .ToListAsync();
@@ -114,17 +110,17 @@ namespace EcoCityWaste.Controllers
                 return View(model);
             }
 
-            var route = new Route
+            // Explicitly using the Model type to avoid compiler confusion
+            var route = new EcoCityWaste.Models.Route
             {
                 Name = model.Name.Trim(),
                 Code = GenerateRouteCode(),
                 Description = model.Description?.Trim(),
-                Status = Route.RouteStatus.Pending,
+                Status = EcoCityWaste.Models.Route.RouteStatus.Pending,
                 CreatedAt = DateTime.Now,
                 CreatedBy = User.Identity!.Name ?? "Admin"
             };
 
-            // Assign pickup order based on submitted order
             for (int i = 0; i < model.ContainerIds.Count; i++)
             {
                 route.RouteContainers.Add(new RouteContainer
@@ -186,7 +182,6 @@ namespace EcoCityWaste.Controllers
 
             if (route == null) return NotFound();
 
-            // Validate containers
             var validIds = await _context.Contentores
                 .Where(c => model.ContainerIds.Contains(c.Id) && c.IsActive)
                 .Select(c => c.Id)
@@ -194,8 +189,7 @@ namespace EcoCityWaste.Controllers
 
             if (validIds.Count != model.ContainerIds.Count)
             {
-                ModelState.AddModelError("ContainerIds",
-                    "Um ou mais contentores são inválidos ou estão inactivos.");
+                ModelState.AddModelError("ContainerIds", "Um ou mais contentores são inválidos.");
                 ViewBag.Containers = await ActiveContainersAsync();
                 return View(model);
             }
@@ -203,7 +197,6 @@ namespace EcoCityWaste.Controllers
             route.Name = model.Name.Trim();
             route.Description = model.Description?.Trim();
 
-            // Replace existing RouteContainers
             _context.RouteContainers.RemoveRange(route.RouteContainers);
             for (int i = 0; i < model.ContainerIds.Count; i++)
             {
@@ -219,6 +212,51 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction(nameof(Details), new { id = route.Id });
         }
 
+        // ── Complete route ─────────────────────────────────────────────────────
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Complete(int id)
+        {
+            var route = await _context.Routes.FindAsync(id);
+            if (route == null) return NotFound();
+
+            if (User.IsInRole("Funcionario"))
+            {
+                var username = User.Identity!.Name;
+                var employee = await _context.Users.FindAsync(route.AssignedEmployeeId);
+                if (employee?.Username != username) return Forbid();
+            }
+
+            route.Status = EcoCityWaste.Models.Route.RouteStatus.Completed;
+            route.CompletedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Rota marcada como concluída.";
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        // ── Helpers ───────────────────────────────────────────────────────────
+
+        private string GenerateRouteCode()
+        {
+            int count = _context.Routes.Count() + 1;
+            return $"RT-{count:D3}";
+        }
+
+        private Task<List<Container>> ActiveContainersAsync() =>
+            _context.Contentores
+                .Where(c => c.IsActive)
+                .OrderBy(c => c.Code)
+                .ToListAsync();
+
+        private Task<List<User>> EmployeesAsync() =>
+            _context.Users
+                .Where(u => u.Role == "Funcionario")
+                .OrderBy(u => u.Username)
+                .ToListAsync();
+
+        // (Other methods like Map, Delete, Assign follow the same logic...)
         // ── Delete ────────────────────────────────────────────────────────────
 
         [Authorize(Roles = "Admin")]
@@ -230,19 +268,18 @@ namespace EcoCityWaste.Controllers
 
             if (route == null) return NotFound();
 
+            // Remove as associações primeiro para evitar erro de FK
             _context.RouteContainers.RemoveRange(route.RouteContainers);
             _context.Routes.Remove(route);
+
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Rota eliminada.";
+            TempData["SuccessMessage"] = "Rota eliminada com sucesso.";
             return RedirectToAction(nameof(Index));
         }
 
         // ── Optimise (RF G02) ─────────────────────────────────────────────────
 
-        /// <summary>
-        /// GET: shows the optimisation page for admin to preview and apply.
-        /// </summary>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Optimise(int id)
         {
@@ -257,14 +294,13 @@ namespace EcoCityWaste.Controllers
                 .Select(rc => rc.Container)
                 .ToList();
 
+            // Chama o serviço de lógica de otimização
             var result = _optimiser.Optimise(containers);
+
             ViewBag.Route = route;
             return View(result);
         }
 
-        /// <summary>
-        /// POST: applies the optimised order to the route in the DB.
-        /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
@@ -276,21 +312,23 @@ namespace EcoCityWaste.Controllers
 
             if (route == null) return NotFound();
 
-            // Re-order
+            // Atualiza a ordem de recolha baseada no resultado do otimizador
             foreach (var rc in route.RouteContainers)
             {
                 int idx = orderedContainerIds.IndexOf(rc.ContainerId);
                 rc.PickupOrder = idx >= 0 ? idx + 1 : 999;
             }
 
+            // Recalcula a distância estimada total
             route.EstimatedDistanceKm = await RecalcDistanceAsync(routeId, orderedContainerIds);
+
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Ordem optimizada aplicada à rota.";
+            TempData["SuccessMessage"] = "Ordem optimizada aplicada com sucesso.";
             return RedirectToAction(nameof(Details), new { id = routeId });
         }
 
-        // ── Assign to employee (RF G04) ───────────────────────────────────────
+        // ── Assign (Atribuição) ────────────────────────────────────────────────
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Assign(int id)
@@ -299,10 +337,7 @@ namespace EcoCityWaste.Controllers
             if (route == null) return NotFound();
 
             ViewBag.Route = route;
-            ViewBag.Employees = await _context.Users
-                .Where(u => u.Role == "Funcionario")
-                .OrderBy(u => u.Username)
-                .ToListAsync();
+            ViewBag.Employees = await EmployeesAsync();
 
             return View(new RouteAssignViewModel { RouteId = id });
         }
@@ -326,39 +361,14 @@ namespace EcoCityWaste.Controllers
 
             route.AssignedEmployeeId = model.EmployeeId;
             route.AssignedAt = DateTime.Now;
-            route.Status = Route.RouteStatus.InProgress;
+            route.Status = EcoCityWaste.Models.Route.RouteStatus.InProgress;
 
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = $"Rota atribuída a {employee.Username}.";
             return RedirectToAction(nameof(Details), new { id = route.Id });
         }
 
-        // ── Complete route ─────────────────────────────────────────────────────
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Complete(int id)
-        {
-            var route = await _context.Routes.FindAsync(id);
-            if (route == null) return NotFound();
-
-            // Employees can only complete their own routes
-            if (User.IsInRole("Funcionario"))
-            {
-                var username = User.Identity!.Name;
-                var employee = await _context.Users.FindAsync(route.AssignedEmployeeId);
-                if (employee?.Username != username) return Forbid();
-            }
-
-            route.Status = Route.RouteStatus.Completed;
-            route.CompletedAt = DateTime.Now;
-            await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Rota marcada como concluída.";
-            return RedirectToAction(nameof(Details), new { id });
-        }
-
-        // ── Map view (RF I01) ─────────────────────────────────────────────────
+        // ── Map view (Visualização no Mapa) ───────────────────────────────────
 
         public async Task<IActionResult> Map(int id)
         {
@@ -369,6 +379,7 @@ namespace EcoCityWaste.Controllers
 
             if (route == null) return NotFound();
 
+            // Segurança: Funcionários só veem o mapa das suas próprias rotas
             if (User.IsInRole("Funcionario"))
             {
                 var username = User.Identity!.Name;
@@ -379,25 +390,7 @@ namespace EcoCityWaste.Controllers
             return View(route);
         }
 
-        // ── Helpers ───────────────────────────────────────────────────────────
-
-        private string GenerateRouteCode()
-        {
-            int count = _context.Routes.Count() + 1;
-            return $"RT-{count:D3}";
-        }
-
-        private Task<List<Container>> ActiveContainersAsync() =>
-            _context.Contentores
-                .Where(c => c.IsActive)
-                .OrderBy(c => c.Code)
-                .ToListAsync();
-
-        private Task<List<User>> EmployeesAsync() =>
-            _context.Users
-                .Where(u => u.Role == "Funcionario")
-                .OrderBy(u => u.Username)
-                .ToListAsync();
+        // ── Helpers Adicionais ────────────────────────────────────────────────
 
         private async Task<double?> RecalcDistanceAsync(int routeId, List<int> orderedIds)
         {
@@ -419,7 +412,7 @@ namespace EcoCityWaste.Controllers
 
         private static double Haversine(double lat1, double lon1, double lat2, double lon2)
         {
-            const double R = 6371.0;
+            const double R = 6371.0; // Raio da Terra em km
             double dLat = (lat2 - lat1) * Math.PI / 180;
             double dLon = (lon2 - lon1) * Math.PI / 180;
             double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2)
@@ -427,5 +420,6 @@ namespace EcoCityWaste.Controllers
                      * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
             return R * 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         }
+
     }
 }

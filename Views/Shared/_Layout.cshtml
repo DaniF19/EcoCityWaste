@@ -45,6 +45,10 @@
                             <!-- Colocar aqui apenas para funcionarios e admins -->
                             <a class="nav-link text-dark" asp-area="" asp-controller="Containers" asp-action="Index">Contentores</a>
                         </li>
+                        <li class="nav-item">
+                            <!-- rotas -->
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Routes" asp-action="Index">Rotas</a>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto d-flex align-items-center"> @if (User.Identity.IsAuthenticated)
