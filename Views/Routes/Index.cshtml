@@ -5,434 +5,457 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
-    <style>
-        :root {
-            --route-green:   #22c55e;
-            --route-amber:   #f59e0b;
-            --route-blue:    #3b82f6;
-            --route-red:     #ef4444;
-            --route-gray:    #6b7280;
-            --surface:       #0f172a;
-            --surface-2:     #1e293b;
-            --surface-3:     #334155;
-            --border:        rgba(255,255,255,.07);
-            --text:          #f1f5f9;
-            --text-muted:    #94a3b8;
-        }
 
-        .routes-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
+<style>
 
-        .routes-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -.5px;
-        }
+:root{
+    --cor-castanho: rgb(141,110,99);
+    --cor-bege: rgb(224,205,169);
+    --cor-fundo-claro: rgb(243,242,235);
 
-        /* ── Stats Row ── */
-        .stat-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 14px;
-            margin-bottom: 28px;
-        }
+    --cor-sucesso:#27ae60;
+    --cor-aviso:#f1c40f;
+    --cor-vermelho-erro:#a94442;
+    --cor-manutencao:#3498db;
 
-        .stat-card {
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px 20px;
-            position: relative;
-            overflow: hidden;
-        }
+    --border:#e6e6e6;
+    --text:#444;
+    --text-muted:#777;
 
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 3px;
-            height: 100%;
-            background: var(--accent);
-        }
+    --surface:#ffffff;
+    --surface-2:#ffffff;
+    --surface-3:#f7f6f2;
+}
 
-        .stat-card[data-accent="total"]    { --accent: var(--route-blue); }
-        .stat-card[data-accent="pending"]  { --accent: var(--route-amber); }
-        .stat-card[data-accent="active"]   { --accent: var(--route-green); }
-        .stat-card[data-accent="done"]     { --accent: var(--route-gray); }
+.page-container{
+    background:var(--cor-fundo-claro);
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text);
-            line-height: 1;
-        }
+.routes-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
 
-        .stat-label {
-            font-size: .78rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: .06em;
-        }
+.routes-title{
+    font-size:2rem;
+    font-weight:700;
+    color:var(--cor-castanho);
+}
 
-        /* ── Filter Bar ── */
-        .filter-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
+.btn-new-route{
+    background:var(--cor-castanho);
+    color:white;
+    padding:10px 20px;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.2s;
+}
 
-        .filter-btn {
-            padding: 7px 16px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            background: var(--surface-2);
-            color: var(--text-muted);
-            font-size: .82rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all .15s;
-        }
+.btn-new-route:hover{
+    background:var(--cor-bege);
+}
 
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--route-blue);
-            border-color: var(--route-blue);
-            color: #fff;
-        }
+/* STATS */
 
-        /* ── Table ── */
-        .routes-table-wrapper {
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-        }
+.stat-row{
+    display:flex;
+    gap:20px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
 
-        .routes-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+.stat-card{
+    flex:1;
+    min-width:180px;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.03);
+    border-left:5px solid var(--cor-castanho);
+}
 
-        .routes-table thead th {
-            padding: 14px 18px;
-            text-align: left;
-            font-size: .75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: .07em;
-            color: var(--text-muted);
-            background: var(--surface-3);
-            border-bottom: 1px solid var(--border);
-        }
+.stat-card[data-accent="pending"]{
+    border-left-color:var(--cor-aviso);
+}
 
-        .routes-table tbody tr {
-            border-bottom: 1px solid var(--border);
-            transition: background .12s;
-        }
+.stat-card[data-accent="active"]{
+    border-left-color:var(--cor-sucesso);
+}
 
-        .routes-table tbody tr:last-child { border-bottom: none; }
-        .routes-table tbody tr:hover { background: rgba(255,255,255,.03); }
+.stat-card[data-accent="done"]{
+    border-left-color:var(--cor-manutencao);
+}
 
-        .routes-table td {
-            padding: 14px 18px;
-            font-size: .88rem;
-            color: var(--text);
-            vertical-align: middle;
-        }
+.stat-number{
+    font-size:2rem;
+    font-weight:700;
+    color:var(--cor-castanho);
+}
 
-        .route-code {
-            font-family: 'Courier New', monospace;
-            font-size: .8rem;
-            color: var(--route-blue);
-            background: rgba(59,130,246,.1);
-            padding: 3px 8px;
-            border-radius: 5px;
-        }
+.stat-label{
+    font-size:0.85rem;
+    color:var(--text-muted);
+}
 
-        /* ── Status Badges ── */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 11px;
-            border-radius: 20px;
-            font-size: .77rem;
-            font-weight: 600;
-        }
+/* FILTER */
 
-        .badge-pending    { background: rgba(245,158,11,.15); color: var(--route-amber); }
-        .badge-inprogress { background: rgba(59,130,246,.15); color: var(--route-blue); }
-        .badge-completed  { background: rgba(34,197,94,.15);  color: var(--route-green); }
-        .badge-cancelled  { background: rgba(239,68,68,.15);  color: var(--route-red); }
+.filter-bar{
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
 
-        /* ── Fill-level mini bar ── */
-        .fill-bars {
-            display: flex;
-            gap: 3px;
-        }
+.filter-btn{
+    padding:8px 16px;
+    border-radius:20px;
+    border:1px solid var(--cor-castanho);
+    background:white;
+    color:var(--cor-castanho);
+    text-decoration:none;
+    font-size:0.85rem;
+}
 
-        .fill-bar {
-            width: 6px;
-            height: 18px;
-            border-radius: 2px;
-            background: var(--surface-3);
-        }
+.filter-btn.active{
+    background:var(--cor-castanho);
+    color:white;
+}
 
-        .fill-bar.filled-low  { background: var(--route-green); }
-        .fill-bar.filled-mid  { background: var(--route-amber); }
-        .fill-bar.filled-high { background: var(--route-red); }
+/* TABLE */
 
-        /* ── Action buttons ── */
-        .action-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
+.routes-table-wrapper{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.03);
+}
 
-        .btn-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--surface-3);
-            color: var(--text-muted);
-            font-size: .85rem;
-            text-decoration: none;
-            transition: all .15s;
-            cursor: pointer;
-        }
+.routes-table{
+    width:100%;
+    border-collapse:collapse;
+}
 
-        .btn-icon:hover { color: #fff; border-color: transparent; }
-        .btn-icon.view:hover    { background: var(--route-blue); }
-        .btn-icon.map:hover     { background: var(--route-green); }
-        .btn-icon.edit:hover    { background: var(--route-amber); }
-        .btn-icon.assign:hover  { background: #8b5cf6; }
-        .btn-icon.optimise:hover{ background: #06b6d4; }
-        .btn-icon.delete:hover  { background: var(--route-red); }
+.routes-table th{
+    background:var(--cor-castanho);
+    color:white;
+    padding:15px;
+    text-align:left;
+}
 
-        .btn-new-route {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: var(--route-blue);
-            color: #fff;
-            font-size: .88rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: opacity .15s;
-        }
+.routes-table td{
+    padding:15px;
+    border-bottom:1px solid var(--cor-bege);
+}
 
-        .btn-new-route:hover { opacity: .85; color: #fff; }
+.routes-table tr:hover{
+    background:#fffcf5;
+}
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-        }
+.route-code{
+    font-family:monospace;
+    background:#f3ebe8;
+    padding:3px 8px;
+    border-radius:6px;
+    color:var(--cor-castanho);
+}
 
-        .empty-state i { font-size: 3rem; margin-bottom: 14px; opacity: .4; display: block; }
+/* BADGES */
 
-        @@media (max-width: 768px) {
-            .routes-table thead { display: none; }
-            .routes-table td    { display: block; padding: 8px 16px; }
-            .routes-table td:first-child { padding-top: 14px; }
-            .routes-table td:last-child  { padding-bottom: 14px; }
-        }
-    </style>
+.badge{
+    padding:5px 10px;
+    border-radius:15px;
+    font-size:0.8rem;
+    font-weight:600;
+}
+
+.badge-pending{
+    background:#fff3cd;
+    color:var(--cor-aviso);
+}
+
+.badge-inprogress{
+    background:#d6eaf8;
+    color:var(--cor-manutencao);
+}
+
+.badge-completed{
+    background:#d4edda;
+    color:var(--cor-sucesso);
+}
+
+.badge-cancelled{
+    background:#f8d7da;
+    color:var(--cor-vermelho-erro);
+}
+
+/* ACTION BUTTONS */
+
+.action-group{
+    display:flex;
+    gap:8px;
+}
+
+.btn-icon{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#555;
+    text-decoration:none;
+    background:white;
+}
+
+.btn-icon:hover{
+    background:var(--cor-castanho);
+    color:white;
+}
+
+/* EMPTY STATE */
+
+.empty-state{
+    text-align:center;
+    padding:50px;
+    color:#777;
+}
+
+</style>
 }
 
 <div class="page-container">
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert-success-addcontainer" style="margin-bottom:16px;">
-            <i class="fa-solid fa-circle-check"></i> @TempData["SuccessMessage"]
-        </div>
-    }
+@if (TempData["SuccessMessage"] != null)
+{
+<div class="alert-success-addcontainer" style="margin-bottom:16px;">
+<i class="fa-solid fa-circle-check"></i> @TempData["SuccessMessage"]
+</div>
+}
 
-    <div class="routes-header">
-        <h1 class="routes-title">
-            <i class="fa-solid fa-route" style="color:var(--route-blue);margin-right:10px;"></i>
-            Gestão de Rotas
-        </h1>
-        @if (isAdmin)
-        {
-            <a asp-action="Create" class="btn-new-route">
-                <i class="fa-solid fa-plus"></i> Nova Rota
-            </a>
-        }
-    </div>
+<div class="routes-header">
 
-    <!-- Stats -->
-    <div class="stat-row">
-        <div class="stat-card" data-accent="total">
-            <div class="stat-number">@ViewBag.TotalRoutes</div>
-            <div class="stat-label">Total de Rotas</div>
-        </div>
-        <div class="stat-card" data-accent="pending">
-            <div class="stat-number">@ViewBag.Pending</div>
-            <div class="stat-label">Pendentes</div>
-        </div>
-        <div class="stat-card" data-accent="active">
-            <div class="stat-number">@ViewBag.InProgress</div>
-            <div class="stat-label">Em Curso</div>
-        </div>
-        <div class="stat-card" data-accent="done">
-            <div class="stat-number">@ViewBag.Completed</div>
-            <div class="stat-label">Concluídas</div>
-        </div>
-    </div>
+<h1 class="routes-title">
+<i class="fa-solid fa-route"></i>
+Gestão de Rotas
+</h1>
 
-    <!-- Filter bar -->
-    <div class="filter-bar">
-        <a asp-action="Index" class="filter-btn @(string.IsNullOrEmpty(ViewBag.CurrentFilter as string) ? "active" : "")">
-            Todas
-        </a>
-        <a asp-action="Index" asp-route-statusFilter="Pending"
-           class="filter-btn @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">
-            Pendentes
-        </a>
-        <a asp-action="Index" asp-route-statusFilter="InProgress"
-           class="filter-btn @(ViewBag.CurrentFilter == "InProgress" ? "active" : "")">
-            Em Curso
-        </a>
-        <a asp-action="Index" asp-route-statusFilter="Completed"
-           class="filter-btn @(ViewBag.CurrentFilter == "Completed" ? "active" : "")">
-            Concluídas
-        </a>
-    </div>
+@if(isAdmin)
+{
+<a asp-action="Create" class="btn-new-route">
+<i class="fa-solid fa-plus"></i> Nova Rota
+</a>
+}
 
-    <!-- Table -->
-    <div class="routes-table-wrapper">
-        @if (!Model.Any())
-        {
-            <div class="empty-state">
-                <i class="fa-solid fa-route"></i>
-                <p>Nenhuma rota encontrada.</p>
-                @if (isAdmin)
-                {
-                    <a asp-action="Create" class="btn-new-route" style="margin-top:12px;">
-                        <i class="fa-solid fa-plus"></i> Criar Primeira Rota
-                    </a>
-                }
-            </div>
-        }
-        else
-        {
-            <table class="routes-table">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Estado</th>
-                        <th>Contentores</th>
-                        <th>Atribuído a</th>
-                        <th>Criado em</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var route in Model)
-                    {
-                        <tr>
-                            <td><span class="route-code">@route.Code</span></td>
-                            <td><strong>@route.Name</strong></td>
-                            <td>
-                                @{
-                                    var (badgeClass, icon) = route.Status switch
-                                    {
-                                        EcoCityWaste.Models.Route.RouteStatus.Pending    => ("badge-pending",    "fa-clock"),
-                                        EcoCityWaste.Models.Route.RouteStatus.InProgress => ("badge-inprogress", "fa-truck"),
-                                        EcoCityWaste.Models.Route.RouteStatus.Completed  => ("badge-completed",  "fa-circle-check"),
-                                        EcoCityWaste.Models.Route.RouteStatus.Cancelled  => ("badge-cancelled",  "fa-ban"),
-                                        _ => ("badge-pending", "fa-clock")
-                                    };
-                                }
-                                <span class="badge @badgeClass">
-                                    <i class="fa-solid @icon"></i>
-                                    @route.Status.ToString() switch {
-                                        "Pending"    => "Pendente",
-                                        "InProgress" => "Em Curso",
-                                        "Completed"  => "Concluída",
-                                        "Cancelled"  => "Cancelada",
-                                        _ => route.Status.ToString()
-                                    }
-                                </span>
-                            </td>
-                            <td>
-                                <span style="font-weight:600;">@route.RouteContainers.Count</span>
-                                <span style="color:var(--text-muted);font-size:.8rem;"> contentor(es)</span>
-                            </td>
-                            <td>
-                                @if (route.AssignedEmployee != null)
-                                {
-                                    <span style="color:var(--text);">
-                                        <i class="fa-solid fa-user" style="color:#8b5cf6;margin-right:4px;"></i>
-                                        @route.AssignedEmployee.Username
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span style="color:var(--text-muted);font-style:italic;">Não atribuída</span>
-                                }
-                            </td>
-                            <td style="color:var(--text-muted);font-size:.82rem;">
-                                @route.CreatedAt.ToString("dd/MM/yyyy")
-                            </td>
-                            <td>
-                                <div class="action-group">
-                                    <a asp-action="Details" asp-route-id="@route.Id"
-                                       class="btn-icon view" title="Ver detalhes">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                    <a asp-action="Map" asp-route-id="@route.Id"
-                                       class="btn-icon map" title="Ver mapa">
-                                        <i class="fa-solid fa-map"></i>
-                                    </a>
-                                    @if (isAdmin)
-                                    {
-                                        <a asp-action="Optimise" asp-route-id="@route.Id"
-                                           class="btn-icon optimise" title="Optimizar rota">
-                                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                        </a>
-                                        <a asp-action="Assign" asp-route-id="@route.Id"
-                                           class="btn-icon assign" title="Atribuir funcionário">
-                                            <i class="fa-solid fa-user-plus"></i>
-                                        </a>
-                                        <a asp-action="Edit" asp-route-id="@route.Id"
-                                           class="btn-icon edit" title="Editar">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </a>
-                                        <form asp-action="Delete" asp-route-id="@route.Id"
-                                              method="post" style="display:inline;"
-                                              onsubmit="return confirm('Eliminar esta rota?')">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn-icon delete" title="Eliminar">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    }
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    </div>
+</div>
+
+<div class="stat-row">
+
+<div class="stat-card">
+<div class="stat-number">@ViewBag.TotalRoutes</div>
+<div class="stat-label">Total de Rotas</div>
+</div>
+
+<div class="stat-card" data-accent="pending">
+<div class="stat-number">@ViewBag.Pending</div>
+<div class="stat-label">Pendentes</div>
+</div>
+
+<div class="stat-card" data-accent="active">
+<div class="stat-number">@ViewBag.InProgress</div>
+<div class="stat-label">Em Curso</div>
+</div>
+
+<div class="stat-card" data-accent="done">
+<div class="stat-number">@ViewBag.Completed</div>
+<div class="stat-label">Concluídas</div>
+</div>
+
+</div>
+
+<div class="filter-bar">
+
+<a asp-action="Index"
+class="filter-btn @(string.IsNullOrEmpty(ViewBag.CurrentFilter as string) ? "active" : "")">
+Todas
+</a>
+
+<a asp-action="Index"
+asp-route-statusFilter="Pending"
+class="filter-btn @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">
+Pendentes
+</a>
+
+<a asp-action="Index"
+asp-route-statusFilter="InProgress"
+class="filter-btn @(ViewBag.CurrentFilter == "InProgress" ? "active" : "")">
+Em Curso
+</a>
+
+<a asp-action="Index"
+asp-route-statusFilter="Completed"
+class="filter-btn @(ViewBag.CurrentFilter == "Completed" ? "active" : "")">
+Concluídas
+</a>
+
+</div>
+
+<div class="routes-table-wrapper">
+
+@if(!Model.Any())
+{
+<div class="empty-state">
+<i class="fa-solid fa-route"></i>
+<p>Nenhuma rota encontrada.</p>
+
+@if(isAdmin)
+{
+<a asp-action="Create" class="btn-new-route">
+<i class="fa-solid fa-plus"></i> Criar Primeira Rota
+</a>
+}
+
+</div>
+}
+else
+{
+
+<table class="routes-table">
+
+<thead>
+<tr>
+<th>Código</th>
+<th>Nome</th>
+<th>Estado</th>
+<th>Contentores</th>
+<th>Atribuído</th>
+<th>Criado</th>
+<th>Ações</th>
+</tr>
+</thead>
+
+<tbody>
+
+@foreach(var route in Model)
+{
+
+<tr>
+
+<td>
+<span class="route-code">@route.Code</span>
+</td>
+
+<td>
+<strong>@route.Name</strong>
+</td>
+
+<td>
+
+@{
+var (badgeClass, icon) = route.Status switch
+{
+EcoCityWaste.Models.Route.RouteStatus.Pending => ("badge-pending","fa-clock"),
+EcoCityWaste.Models.Route.RouteStatus.InProgress => ("badge-inprogress","fa-truck"),
+EcoCityWaste.Models.Route.RouteStatus.Completed => ("badge-completed","fa-circle-check"),
+EcoCityWaste.Models.Route.RouteStatus.Cancelled => ("badge-cancelled","fa-ban"),
+_ => ("badge-pending","fa-clock")
+};
+}
+
+<span class="badge @badgeClass">
+<i class="fa-solid @icon"></i>
+@route.Status
+</span>
+
+</td>
+
+<td>
+@route.RouteContainers.Count
+</td>
+
+<td>
+
+@if(route.AssignedEmployee != null)
+{
+@route.AssignedEmployee.Username
+}
+else
+{
+<span style="color:#777;">Não atribuída</span>
+}
+
+</td>
+
+<td>
+@route.CreatedAt.ToString("dd/MM/yyyy")
+</td>
+
+<td>
+
+<div class="action-group">
+
+<a asp-action="Details" asp-route-id="@route.Id" class="btn-icon">
+    <i class="fa-solid fa-eye"></i>
+</a>
+
+
+@* <a asp-action="Map" asp-route-id="@route.Id" class="btn-icon">
+    <i class="fa-solid fa-map"></i>
+</a> *@
+
+@if(isAdmin)
+{
+
+@* <a asp-action="Optimise"
+asp-route-id="@route.Id"
+class="btn-icon">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+</a>
+
+<a asp-action="Assign"
+asp-route-id="@route.Id"
+class="btn-icon">
+<i class="fa-solid fa-user-plus"></i>
+</a>
+
+<a asp-action="Edit"
+asp-route-id="@route.Id"
+class="btn-icon">
+<i class="fa-solid fa-pen"></i>
+</a> *@
+
+<form asp-action="Delete" asp-route-id="@route.Id" method="post" style="display:inline;" onsubmit="return confirm('Eliminar esta rota?')">
+
+@Html.AntiForgeryToken()
+
+<button type="submit" class="btn-icon">
+<i class="fa-solid fa-trash"></i>
+</button>
+
+</form>
+
+}
+
+</div>
+
+</td>
+
+</tr>
+
+}
+
+</tbody>
+
+</table>
+
+}
+
+</div>
+
 </div>
