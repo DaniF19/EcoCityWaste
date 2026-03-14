@@ -51,6 +51,9 @@ builder.Services.AddScoped<NotificationService>();
 // servico de optimizacao rotas
 builder.Services.AddScoped<RouteOptimisationService>();
 
+// servico para obter coordenadas da location introduzida
+builder.Services.AddHttpClient<GeocodingService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
