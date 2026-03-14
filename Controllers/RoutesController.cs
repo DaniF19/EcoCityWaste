@@ -256,7 +256,6 @@ namespace EcoCityWaste.Controllers
                 .OrderBy(u => u.Username)
                 .ToListAsync();
 
-        // (Other methods like Map, Delete, Assign follow the same logic...)
         // ── Delete ────────────────────────────────────────────────────────────
 
         [Authorize(Roles = "Admin")]
