@@ -1,0 +1,93 @@
+@{
+    ViewData["Title"] = "Dashboard de Cidadão";
+}
+
+<div class="dashboard-container">
+    <h2 class="dashboard-title">Dashboard de Cidadão</h2>
+
+    <div class="cards-grid">
+        <a asp-controller="Occurrences" asp-action="Report" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Reportar Anomalia</span>
+            </div>
+        </a>
+
+        <a asp-controller="Occurrences" asp-action="Status" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Estado do Reporte</span>
+            </div>
+        </a>
+
+        <a asp-controller="Routes" asp-action="Map" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Verificar Rota</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<style>
+    /* Contentor Principal */
+    .dashboard-container {
+        text-align: center;
+        padding: 40px 20px;
+        /* Se a tua página de funcionário tiver um fundo bege ligeiro na div, podes usar: background-color: #f6f5f0; */
+    }
+
+    /* Título */
+    .dashboard-title {
+        color: #8d6e63; /* O teu castanho característico */
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 50px;
+    }
+
+    /* Grelha dos Cards */
+    .cards-grid {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    /* Remove o sublinhado dos links */
+    .dashboard-card-link {
+        text-decoration: none;
+    }
+
+    /* O Card (Bege, quadrado, cantos arredondados) */
+    .dashboard-card {
+        background-color: #e4d4b8; /* Cor bege do fundo do card */
+        border-radius: 25px;
+        width: 220px;
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(141, 110, 99, 0.2);
+        }
+
+        /* Ícone do Card */
+        .dashboard-card i {
+            color: #795c4d; /* Castanho escuro para o ícone */
+            font-size: 4rem;
+            margin-bottom: 25px;
+        }
+
+        /* Texto do Card */
+        .dashboard-card span {
+            color: #795c4d; /* Castanho escuro para o texto */
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+</style>
