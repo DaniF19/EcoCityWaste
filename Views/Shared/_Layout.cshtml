@@ -23,67 +23,56 @@
         @{
             var unreadCount = context.Notifications.Count(n => !n.IsRead);
         }
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EcoCityWaste</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-4 p-3">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index" style="color: #8d6e63; font-size: 1.5rem;">
+                    <i class="fa-solid fa-leaf text-success me-2"></i> EcoCityWaste
+                </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="Occurrences" asp-action="Report">
-                                <i class="fa-solid fa-triangle-exclamation text-warning me-1"></i> Reportar Anomalia
-                            </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">Admin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Funcionario" asp-action="Dashboard">Funcionário</a>
-                        </li>
-                        <li class="nav-item">
-                            <!-- Colocar aqui apenas para funcionarios e admins -->
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Containers" asp-action="Index">Contentores</a>
-                        </li>
-                    </ul>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
 
-                    <ul class="navbar-nav ms-auto d-flex align-items-center"> @if (User.Identity.IsAuthenticated)
+                    <ul class="navbar-nav align-items-center">
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item me-3">
+                            <li class="nav-item me-4">
                                 <a class="nav-link notification-icon p-0 @(unreadCount > 0 ? "has-notifications" : "")"
                                    asp-controller="Notifications"
-                                   asp-action="Index">
+                                   asp-action="Index" style="color: #8d6e63;">
 
-                                    <i class="fa-solid fa-bell"></i>
+                                    <i class="fa-solid fa-bell fs-5"></i>
 
                                     @if (unreadCount > 0)
                                     {
                                         <span class="notification-badge">@unreadCount</span>
                                     }
-
                                 </a>
                             </li>
-                            <li class="nav-item me-3">
-                                <span class="nav-link text-dark p-0">Olá, @User.Identity.Name</span>
+
+                            <li class="nav-item me-4">
+                                <span class="nav-link p-0 fw-bold" style="color: #795c4d;">Olá, @User.Identity.Name</span>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link text-danger fw-bold p-0" asp-controller="Account" asp-action="Logout">Sair</a>
+                                <a asp-controller="Account" asp-action="Logout" class="btn-logout-custom">
+                                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Sair
+                                </a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="btn btn-outline-primary" asp-controller="Account" asp-action="Login">Login</a>
+                                <a asp-controller="Account" asp-action="Login" class="btn-login-custom">
+                                    <i class="fa-solid fa-user me-2"></i> Entrar
+                                </a>
                             </li>
                         }
                     </ul>
-
                 </div>
             </div>
         </nav>
@@ -102,3 +91,46 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    /* Estilo do Botão Entrar */
+    .btn-login-custom {
+        background-color: #8d6e63;
+        color: white !important;
+        padding: 8px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+        .btn-login-custom:hover {
+            background-color: #795c4d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.3);
+            color: white !important;
+        }
+
+    /* Estilo do Botão Sair */
+    .btn-logout-custom {
+        background-color: #e4d4b8;
+        color: #795c4d !important;
+        padding: 8px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        border: 2px solid #e4d4b8;
+    }
+
+        .btn-logout-custom:hover {
+            background-color: #d6c3a3;
+            border-color: #d6c3a3;
+            transform: translateY(-2px);
+        }
+</style>
