@@ -72,23 +72,59 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 // .WithStaticAssets();
 
-/*
-// Cria um User automatico para testes, caso nao exista
+
+// Cria Utilizadores automáticos, caso não existam
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (!context.Users.Any(u => u.Email == "teste@gmail.com"))
+    bool hasChanges = false;
+
+    // ADMIN
+    if (!context.Users.Any(u => u.Email == "admin@teste.com"))
     {
         context.Users.Add(new User
         {
-            Username = "Admin",
-            Email = "teste@gmail.com",
+            Username = "Administrador",
+            Email = "admin@teste.com",
+            Role = "Admin",
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
         });
+        hasChanges = true;
+    }
+
+    // FUNCIONÁRIO
+    if (!context.Users.Any(u => u.Email == "funcionario@teste.com"))
+    {
+        context.Users.Add(new User
+        {
+            Username = "Trabalhador EcoCity",
+            Email = "funcionario@teste.com",
+            Role = "Funcionario",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
+        });
+        hasChanges = true;
+    }
+
+    // CIDADÃO
+    if (!context.Users.Any(u => u.Email == "cidadao@teste.com"))
+    {
+        context.Users.Add(new User
+        {
+            Username = "Cidadão Teste",
+            Email = "cidadao@teste.com",
+            Role = "Cidadao",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
+        });
+        hasChanges = true;
+    }
+
+    // Guarda, so se houver novos utilizadores
+    if (hasChanges)
+    {
         context.SaveChanges();
     }
 }
-*/
+
 
 // Cria contentores autom�ticos para testes, caso a tabela esteja vazia
 using (var scope = app.Services.CreateScope())
