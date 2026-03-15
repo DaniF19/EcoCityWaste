@@ -12,8 +12,14 @@
 
     <div class="card-box" style="max-width: 900px;">
 
-        <div class="card-title">
-            Lista de Contentores
+        <div class="card-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">Lista de Contentores</span>
+
+            <a asp-controller="Containers" asp-action="Index" class="btn-vista-analitica">
+                <i class="fa-solid fa-chart-pie"></i> Vista Analítica
+            </a>
+
         </div>
 
         @if (!Model.Any())
@@ -39,7 +45,7 @@
                         <tr>
                             <td>@container.Location</td>
                             <td>@container.Type</td>
-                            <td>@container.Status</td>
+                            <td>@Html.DisplayFor(modelItem => container.Status)</td>
                             <td>@container.InstallationDate.ToString("dd/MM/yyyy HH:mm")</td>
                             <td>@container.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
                             <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
@@ -68,3 +74,29 @@
     </div>
 
 </div>
+
+<style>
+    .btn-vista-analitica {
+        background-color: #e4d4b8; /* Fundo bege para contrastar com o botão da outra página */
+        color: #795c4d !important; /* Texto castanho escuro */
+        padding: 10px 24px;
+        border-radius: 50px;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px; /* Espaço entre o ícone e o texto */
+        transition: all 0.3s ease;
+        border: 2px solid #e4d4b8;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+        .btn-vista-analitica:hover {
+            background-color: #d6c3a3; /* Um bege ligeiramente mais escuro no hover */
+            border-color: #d6c3a3;
+            color: #795c4d !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
+        }
+</style>

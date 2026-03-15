@@ -24,8 +24,14 @@
 <div class="container">
     <div class="eco-page-container">
 
-        <div class="eco-header">
-            <h1>Monitorização de Contentores</h1>
+        <div class="eco-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+            <h1 style="margin: 0;">Monitorização de Contentores</h1>
+
+            <a asp-controller="Containers" asp-action="List" class="btn-vista-gestao">
+                <i class="fa-solid fa-list-check"></i> Vista de Gestão
+            </a>
+
         </div>
 
         @if (TempData["ErrorMessage"] != null)
@@ -130,7 +136,7 @@
                                 item.Status == Container.ContainerStatus.Broken ? "var(--cor-aviso)" :
                                 item.Status == Container.ContainerStatus.Maintenance ? "var(--cor-manutencao)" :
                                 "var(--cor-sucesso)"); ">
-                        @item.Status
+                                @Html.DisplayFor(modelItem => item.Status)
                     </td>
 
                             <td style="min-width: 120px;">
@@ -203,6 +209,28 @@
             box-shadow: 0 0 0 0 rgba(169, 68, 66, 0);
         }
     }
+
+    .btn-vista-gestao {
+        background-color: #8d6e63; /* O teu castanho característico */
+        color: white !important; /* Força a cor do texto a ser branca em vez de azul */
+        padding: 10px 24px;
+        border-radius: 50px; /* Deixa-o redondinho como o botão Limpar */
+        text-decoration: none !important; /* Remove o sublinhado chato */
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px; /* Dá um espacinho entre o ícone e o texto */
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+        .btn-vista-gestao:hover {
+            background-color: #795c4d; /* Fica ligeiramente mais escuro quando passas o rato */
+            transform: translateY(-2px); /* Dá um efeitinho de levantar */
+            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.3);
+            color: white !important;
+        }
 
     .fill-progress-bg {
         width: 100px;

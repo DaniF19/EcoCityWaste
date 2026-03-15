@@ -14,7 +14,17 @@
         </div>
 
         <div class="field-label" style="margin-bottom: 20px;">
-            Contentor ID: @Model.Id | Estado atual: <strong>@Model.Status</strong>
+            Contentor ID: @Model.Id | Estado atual: <strong>
+                @(Model.Status switch
+                {
+                    "Good" => "BOM",
+                    "Full" => "CHEIO",
+                    "Empty" => "VAZIO",
+                    "Broken" => "AVARIADO",
+                    "Maintenance" => "MANUTENÇÃO",
+                    _ => "DESCONHECIDO"
+                })
+            </strong>
         </div>
 
         <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
