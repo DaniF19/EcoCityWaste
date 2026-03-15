@@ -405,41 +405,14 @@ else
 </a>
 
 
-@* <a asp-action="Map" asp-route-id="@route.Id" class="btn-icon">
-    <i class="fa-solid fa-map"></i>
-</a> *@
-
 @if(isAdmin)
 {
-
-@* <a asp-action="Optimise"
-asp-route-id="@route.Id"
-class="btn-icon">
-<i class="fa-solid fa-wand-magic-sparkles"></i>
-</a>
-
-<a asp-action="Assign"
-asp-route-id="@route.Id"
-class="btn-icon">
-<i class="fa-solid fa-user-plus"></i>
-</a>
-
-<a asp-action="Edit"
-asp-route-id="@route.Id"
-class="btn-icon">
-<i class="fa-solid fa-pen"></i>
-</a> *@
-
-<form asp-action="Delete" asp-route-id="@route.Id" method="post" style="display:inline;" onsubmit="return confirm('Eliminar esta rota?')">
-
-@Html.AntiForgeryToken()
-
-<button type="submit" class="btn-icon">
-<i class="fa-solid fa-trash"></i>
-</button>
-
-</form>
-
+    <form asp-action="Delete" asp-route-id="@route.Id" method="post" id="delete-form-@route.Id" style="display:inline;">
+        @Html.AntiForgeryToken()
+        <button type="button" class="btn-icon" onclick="confirmDelete(@route.Id)">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+    </form>
 }
 
 </div>
@@ -459,3 +432,23 @@ class="btn-icon">
 </div>
 
 </div>
+
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Eliminar Rota?',
+            text: "Esta ação não pode ser revertida!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(141, 110, 99)', // Your brown
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, eliminar!',
+            cancelButtonText: 'Cancelar',
+            borderRadius: '15px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        })
+    }
+</script>

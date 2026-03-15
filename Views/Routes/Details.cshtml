@@ -439,22 +439,13 @@ Ações
 
 @if(Model.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress)
 {
-
-<form asp-action="Complete" asp-route-id="@Model.Id" method="post">
-
-@Html.AntiForgeryToken()
-
-<button type="submit"
-class="action-btn"
-onclick="return confirm('Marcar rota como concluída?')">
-
-<i class="fa-solid fa-circle-check"></i>
-Marcar como Concluída
-
-</button>
-
-</form>
-
+    <form asp-action="Complete" asp-route-id="@Model.Id" method="post" id="complete-form">
+        @Html.AntiForgeryToken()
+        <button type="button" class="action-btn" onclick="confirmComplete()">
+            <i class="fa-solid fa-circle-check"></i>
+            Marcar como Concluída
+        </button>
+    </form>
 }
 
 </div>
@@ -464,3 +455,23 @@ Marcar como Concluída
 </div>
 
 </div>
+
+<script>
+    function confirmComplete() {
+        Swal.fire({
+            title: 'Concluir Rota?',
+            text: "Deseja marcar esta recolha como finalizada?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(141, 110, 99)',
+            cancelButtonColor: '#777',
+            confirmButtonText: 'Sim, concluir',
+            cancelButtonText: 'Voltar',
+            borderRadius: '15px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('complete-form').submit();
+            }
+        })
+    }
+</script>

@@ -365,15 +365,14 @@
                 </div>
 
                 <!-- Apply form -->
-                <form asp-action="ApplyOptimisation" method="post">
+                <form asp-action="ApplyOptimisation" method="post" id="apply-optimisation-form">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="routeId" value="@route?.Id" />
                     @foreach (var s in Model.Stops)
                     {
                         <input type="hidden" name="orderedContainerIds" value="@s.ContainerId" />
                     }
-                    <button type="submit" class="btn-apply"
-                            onclick="return confirm('Aplicar esta ordem optimizada à rota?')">
+                    <button type="button" class="btn-apply" onclick="confirmOptimisation()">
                         <i class="fa-solid fa-check" style="margin-right:6px;"></i>
                         Aplicar Optimização
                     </button>
@@ -386,3 +385,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmOptimisation() {
+        Swal.fire({
+            title: 'Aplicar Optimização?',
+            text: "A nova ordem de paragens será guardada nesta rota.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(141, 110, 99)',
+            cancelButtonColor: '#777',
+            confirmButtonText: 'Sim, aplicar',
+            cancelButtonText: 'Cancelar',
+            borderRadius: '15px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('apply-optimisation-form').submit();
+            }
+        })
+    }
+</script>
