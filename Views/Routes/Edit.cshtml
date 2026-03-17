@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Editar Rota";
     var containers = ViewBag.Containers as List<Container> ?? new List<Container>();
-    // Pre-selected IDs in order
+    // IDs dos contentores por ordem
     var preselected = Model.ContainerIds ?? new List<int>();
 }
 
@@ -324,7 +324,7 @@
         <a asp-action="Details" asp-route-id="@Model.Id" style="color:var(--muted);text-decoration:none;font-size:.88rem;">
             <i class="fa-solid fa-chevron-left"></i> Rota
         </a>
-        <h1 style="font-size:1.5rem;font-weight:700;color:var(--text);margin:0;">
+        <h1 style="font-size:1.5rem;font-weight:700;color:var(--cor-castanho);margin:0;">
             <i class="fa-solid fa-pen" style="color:var(--amber);"></i> Editar Rota
         </h1>
     </div>
