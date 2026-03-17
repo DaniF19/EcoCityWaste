@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcoCityWaste.Models
 {
@@ -17,10 +18,19 @@ namespace EcoCityWaste.Models
         [Required]
         public string Description { get; set; }
 
-        // Data exata em que o cidadão fez o reporte
+        // Data em que o cidadão fez o reporte
         public DateTime ReportDate { get; set; }
 
-        // Estado do reporte (ex: Pendente, Em Resolução, Concluído)
+        // Estado do reporte
         public string Status { get; set; }
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+    }
+
+    public enum OccurrenceStatus
+    {
+        Pendente, EmAnalise, EmResolucao, Resolvido, Rejeitado
     }
 }
