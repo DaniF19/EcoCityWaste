@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EcoCityWaste.Data;
+﻿using EcoCityWaste.Data;
 using EcoCityWaste.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace EcoCityWaste.Controllers
 {
@@ -57,10 +60,10 @@ namespace EcoCityWaste.Controllers
 
         // POST: Occurrences/Report
         [HttpPost]
-        [ValidateAntiForgeryToken] // Segurança contra ataques CSRF
+        [ValidateAntiForgeryToken] // Segurança contra ataques
         public async Task<IActionResult> Report(ReportOccurrenceViewModel model)
         {
-            // Validação de dados (DoD) - Verifica se os campos obrigatórios vieram preenchidos
+            // Verifica se os campos obrigatórios vieram preenchidos
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -68,6 +71,10 @@ namespace EcoCityWaste.Controllers
 
             try
             {
+                // Ir buscar o id do utilizador autenticado
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                int.TryParse(userIdString, out int userId); // Converte para int com segurança
+
                 // Mapear os dados do formulário para a entidade da Base de Dados
                 var occurrence = new Occurrence
                 {
@@ -75,14 +82,15 @@ namespace EcoCityWaste.Controllers
                     OccurrenceType = model.OccurrenceType,
                     Description = model.Description,
                     ReportDate = DateTime.Now,
-                    Status = "Pendente" // Ocorrência guardada com estado inicial (DoD)
+                    Status = OccurrenceStatus.Pendente.ToString(), // Ocorrência guardada com estado inicial
+                    UserId = userId
                 };
 
                 // Guardar na base de dados
                 _context.Occurrences.Add(occurrence);
                 await _context.SaveChangesAsync();
 
-                // Feedback ao utilizador (DoD) - Limpa o formulário e mostra a mensagem
+                // Feedback ao utilizador
                 ModelState.Clear();
                 ViewBag.Success = "Obrigado! A anomalia foi registada e será analisada pela nossa equipa.";
 
@@ -94,6 +102,25 @@ namespace EcoCityWaste.Controllers
                 ViewBag.Error = "Ocorreu um problema técnico ao tentar enviar o reporte. Por favor, tente novamente.";
                 return View(model);
             }
+        }
+
+        public async Task<IActionResult> Status()
+        {
+            // Busca o utilizador logado
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdString, out int userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Vai à base de dados buscar apenas as ocorrências deste cidadão
+            var reports = await _context.Occurrences
+                .Where(o => o.UserId == userId)
+                .OrderByDescending(o => o.ReportDate)
+                .ToListAsync();
+
+            return View(reports);
         }
     }
 }
