@@ -63,15 +63,15 @@
             <label class="field-label">Informação do Contentor</label>
             <div class="info-grid">
                 <div class="info-item">
-                    <i class="fa-solid fa-heart-pulse"></i>
+                    <i id="statusIcon" class="fa-solid fa-heart-pulse"></i>
                     <input type="text" id="auto-status" readonly placeholder="Estado" />
                 </div>
                 <div class="info-item">
-                    <i class="fa-solid fa-percent"></i>
+                    <i id="fillIcon" class="fa-solid fa-percent"></i>
                     <input type="text" id="auto-occupation" readonly placeholder="Ocupação" />
                 </div>
                 <div class="info-item">
-                    <i class="fa-solid fa-box-archive"></i>
+                    <i id="typeIcon" class="fa-solid fa-box-archive"></i>
                     <input type="text" id="auto-type" readonly placeholder="Tipo" />
                 </div>
             </div>
@@ -257,7 +257,53 @@
                 }
 
                 autoType.value = container.Type || 'N/D';
+
+                updateInfoColors(autoStatus.value, autoOccupation.value, autoType.value);
             }
         }
+
+         function updateInfoColors(status, fillLevel, type) {
+
+            // 1. Cor do Estado
+            const statusIcon = document.getElementById('statusIcon');
+            if (statusIcon) {
+                switch (status.toLowerCase()) {
+                    case 'bom': statusIcon.style.color = '#27ae60'; break; // Verde
+                    case 'avariado':
+                    case 'cheio': statusIcon.style.color = '#e74c3c'; break; // Vermelho
+                    case 'manutenção': statusIcon.style.color = '#f39c12'; break; // Laranja
+                    default: statusIcon.style.color = '#95a5a6'; // Cinzento
+                }
+            }
+
+            // 2. Cor da Ocupação (Lê o número, tirando o símbolo %)
+            const fillIcon = document.getElementById('fillIcon');
+            if (fillIcon) {
+                let level = parseInt(fillLevel.replace('%', ''));
+
+                if (level >= 80) {
+                    fillIcon.style.color = '#e74c3c'; // Vermelho (Alerta)
+                } else if (level >= 50) {
+                    fillIcon.style.color = '#f39c12'; // Laranja (Atenção)
+                } else {
+                    fillIcon.style.color = '#27ae60'; // Verde (Tranquilo)
+                }
+            }
+
+            // 3. Cor do Tipo de Resíduo
+            const iconType = document.getElementById('typeIcon');
+            if (iconType) {
+                switch (type.toLowerCase()) {
+                    case 'plástico':
+                    case 'embalagens': iconType.style.color = '#f1c40f'; break; // Amarelo
+                    case 'papel':
+                    case 'cartão': iconType.style.color = '#3498db'; break; // Azul
+                    case 'vidro': iconType.style.color = '#27ae60'; break; // Verde
+                    case 'indiferenciado': iconType.style.color = '#34495e'; break; // Cinzento Escuro
+                    default: iconType.style.color = '#95a5a6';
+                }
+            }
+        }
+
     </script>
 }
