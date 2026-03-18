@@ -89,7 +89,7 @@ namespace EcoCityWaste.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RouteCreateViewModel model)
         {
             if (!ModelState.IsValid)
@@ -167,7 +167,7 @@ namespace EcoCityWaste.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(RouteEditViewModel model)
         {
             if (!ModelState.IsValid)
@@ -215,7 +215,7 @@ namespace EcoCityWaste.Controllers
         // ── Complete route ─────────────────────────────────────────────────────
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Complete(int id)
         {
             var route = await _context.Routes.FindAsync(id);
@@ -302,7 +302,7 @@ namespace EcoCityWaste.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ApplyOptimisation(int routeId, List<int> orderedContainerIds)
         {
             var route = await _context.Routes
@@ -343,7 +343,7 @@ namespace EcoCityWaste.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Assign(RouteAssignViewModel model)
         {
             var route = await _context.Routes.FindAsync(model.RouteId);
