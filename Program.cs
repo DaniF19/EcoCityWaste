@@ -118,6 +118,28 @@ using (var scope = app.Services.CreateScope())
         hasChanges = true;
     }
 
+    if (!context.Occurrences.Any())
+    {
+        // Buscar um utilizador Cidadão para associar à ocorrência
+        var cidadao = context.Users.FirstOrDefault(u => u.Role == "Cidadao");
+
+        if (cidadao != null)
+        {
+            context.Occurrences.Add(new Occurrence
+            {
+                ContainerCode = "CNT-001", // um dos contentores que já criaste
+                OccurrenceType = "Lixo",
+                Description = "Contentor cheio e a transbordar",
+                ReportDate = DateTime.Now.AddHours(-3),
+                Status = OccurrenceStatus.Pendente.ToString(),
+                UserId = cidadao.Id,
+                AssignedEmployeeId = null,
+                AssignedAt = null
+            });
+
+            context.SaveChanges();
+        }
+    }
     // Guarda, so se houver novos utilizadores
     if (hasChanges)
     {

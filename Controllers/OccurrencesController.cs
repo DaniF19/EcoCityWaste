@@ -1,5 +1,6 @@
 ﻿using EcoCityWaste.Data;
 using EcoCityWaste.Models;
+using EcoCityWaste.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -122,5 +123,59 @@ namespace EcoCityWaste.Controllers
 
             return View(reports);
         }
+        [HttpGet]
+        public async Task<IActionResult> Assign()
+        {
+            var occurrences = await _context.Occurrences
+                .Where(o => o.AssignedEmployeeId == null)
+                .ToListAsync();
+
+            var employees = await _context.Users
+                .Where(u => u.Role == "Funcionario")
+                .ToListAsync();
+
+            var occurrenceCounts = await _context.Occurrences
+                .Where(o => o.AssignedEmployeeId.HasValue)
+                .GroupBy(o => o.AssignedEmployeeId.Value)
+                .ToDictionaryAsync(g => g.Key, g => g.Count());
+
+            var vm = new AssignOccurrenceViewModel
+            {
+                Occurrences = occurrences,
+                Employees = employees,
+                EmployeeOccurrenceCounts = occurrenceCounts
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Assign(AssignOccurrenceViewModel model)
+        {
+            // Validação: impedir submit vazio
+            if (model.SelectedOccurrenceId == 0 || model.SelectedEmployeeId == 0)
+            {
+                TempData["Error"] = "Tem de selecionar uma ocorrência e um funcionário.";
+                return RedirectToAction("Assign");
+            }
+
+            var occurrence = await _context.Occurrences.FindAsync(model.SelectedOccurrenceId);
+
+            if (occurrence == null)
+            {
+                TempData["Error"] = "A ocorrência selecionada não existe.";
+                return RedirectToAction("Assign");
+            }
+
+            occurrence.AssignedEmployeeId = model.SelectedEmployeeId;
+            occurrence.Status = OccurrenceStatus.EmAnalise.ToString();
+            occurrence.AssignedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Ocorrência atribuída com sucesso!";
+            return RedirectToAction("Assign");
+        }
+
     }
 }

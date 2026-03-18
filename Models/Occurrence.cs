@@ -27,10 +27,14 @@ namespace EcoCityWaste.Models
 
         [ForeignKey("UserId")]
         public User User { get; set; }
+        public int? AssignedEmployeeId { get; set; }
+        [ForeignKey(nameof(AssignedEmployeeId))]
+        public User? AssignedEmployee { get; set; }
+        public DateTime? AssignedAt { get; set; }
     }
 
     public enum OccurrenceStatus
     {
         Pendente, EmAnalise, EmResolucao, Resolvido, Rejeitado
     }
-}
+}   
