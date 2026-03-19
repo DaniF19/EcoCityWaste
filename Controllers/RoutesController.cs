@@ -17,11 +17,13 @@ namespace EcoCityWaste.Controllers
     {
         private readonly AppDbContext _context;
         private readonly RouteOptimisationService _optimiser;
+        private readonly ContainerHistoryService _historyService;
 
-        public RoutesController(AppDbContext context, RouteOptimisationService optimiser)
+        public RoutesController(AppDbContext context, RouteOptimisationService optimiser, ContainerHistoryService historyService)
         {
             _context = context;
             _optimiser = optimiser;
+            _historyService = historyService;
         }
 
         // ── Index ─────────────────────────────────────────────────────────────
@@ -218,7 +220,12 @@ namespace EcoCityWaste.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Complete(int id)
         {
-            var route = await _context.Routes.FindAsync(id);
+            // include the containers to set the fill level to 0 after
+            var route = await _context.Routes
+                .Include(r => r.RouteContainers)
+                    .ThenInclude(rc => rc.Container)
+                .FirstOrDefaultAsync(r => r.Id == id);
+              
             if (route == null) return NotFound();
 
             if (User.IsInRole("Funcionario"))
@@ -228,8 +235,22 @@ namespace EcoCityWaste.Controllers
                 if (employee?.Username != username) return Forbid();
             }
 
+            foreach (var rc in route.RouteContainers)
+            {
+                var container = rc.Container;
+
+                if (container != null)
+                {
+                    container.FillLevel = 0;
+                    container.LastUpdated = DateTime.Now;
+
+                    await _historyService.AddHistory(container, User?.Identity?.Name);
+                }
+            }
+
             route.Status = EcoCityWaste.Models.Route.RouteStatus.Completed;
             route.CompletedAt = DateTime.Now;
+
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Rota marcada como concluída.";

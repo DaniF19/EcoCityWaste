@@ -19,12 +19,14 @@ namespace EcoCityWaste.Controllers
     {
         private readonly AppDbContext _context;
         private readonly GeocodingService _geo;
+        private readonly ContainerHistoryService _historyService;
 
 
-        public ContainersController(AppDbContext context, GeocodingService geo)
+        public ContainersController(AppDbContext context, GeocodingService geo, ContainerHistoryService historyService)
         {
             _context = context;
             _geo = geo;
+            _historyService = historyService;
         }
 
         // GET: Containers
@@ -158,7 +160,7 @@ namespace EcoCityWaste.Controllers
                 _context.Contentores.Add(container);
                 await _context.SaveChangesAsync();
                 //ricardo
-                await AddHistory(container);
+                await _historyService.AddHistory(container, User?.Identity?.Name);
 
                 ViewBag.Success = "Contentor registado com sucesso!";
                 ModelState.Clear();
@@ -226,7 +228,7 @@ namespace EcoCityWaste.Controllers
 
                 await _context.SaveChangesAsync();
                 //Ricardo
-                await AddHistory(container);
+                await _historyService.AddHistory(container, User?.Identity?.Name);
                 return RedirectToAction("List");
             }
             catch
@@ -250,7 +252,7 @@ namespace EcoCityWaste.Controllers
             await _context.SaveChangesAsync();
 
             //ricardo
-            await AddHistory(container);
+            await _historyService.AddHistory(container, User?.Identity?.Name);
             return RedirectToAction("List");
         }
 
@@ -321,7 +323,7 @@ namespace EcoCityWaste.Controllers
 
             await _context.SaveChangesAsync();
 
-            await AddHistory(container);
+            await _historyService.AddHistory(container, User?.Identity?.Name);
 
             return RedirectToAction(nameof(ListStatus));
         }

@@ -36,7 +36,9 @@ namespace EcoCityWasteProjetoESA.Tests
         private RoutesController GetController(AppDbContext context, string username = "admin", string role = "Admin")
         {
             var optimiser = new RouteOptimisationService();
-            var controller = new RoutesController(context, optimiser);
+            var historyService = new ContainerHistoryService(context);
+
+            var controller = new RoutesController(context, optimiser, historyService);
 
             // simular user identity
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
