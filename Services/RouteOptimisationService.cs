@@ -7,49 +7,51 @@ using System.Linq;
 namespace EcoCityWaste.Services
 {
     /// <summary>
-    /// Greedy Nearest-Neighbour route optimiser.
-    /// Prioritises containers with high fill levels (≥ 80 %) and then minimises
-    /// total travel distance using a nearest-neighbour heuristic.
+    /// servico otimizacao de rotas usando algoritmo Greedy
+    /// 1. prioriza contentores quase cheios (≥ 80%)
+    /// 2. depois escolhe sempre o contentor mais próximo (nearest-neighbour)
     /// </summary>
     public class RouteOptimisationService
     {
-        private const int HighFillThreshold = 80;
+        private const int HighFillThreshold = 80; // percentagem a partir do qual um contentor e prioritario
 
         /// <summary>
-        /// Returns an ordered list of stops for the supplied containers.
-        /// Containers without valid coordinates (0,0) are appended at the end.
+        /// devolve lista ordenada de paragens (contentores)
+        /// contentores sem coordenadas lat/long sao colocados no fim
         /// </summary>
         public OptimisedRouteDto Optimise(IEnumerable<Container> containers)
         {
-            var all = containers.ToList();
+            var all = containers.ToList(); // lista para evitar multiplas iteracoes 
 
             if (!all.Any())
                 return new OptimisedRouteDto { Message = "Nenhum contentor fornecido." };
 
-            // Separate containers with and without GPS coordinates
+            // separar contentores com e sem coordenadas
             var withCoords = all.Where(c => c.Latitude != 0 || c.Longitude != 0).ToList();
             var withoutCoords = all.Where(c => c.Latitude == 0 && c.Longitude == 0).ToList();
 
             if (!withCoords.Any())
                 return BuildResult(all, 0, "Nenhum contentor tem coordenadas válidas — ordem mantida.");
 
-            // ── Greedy nearest-neighbour starting from the highest-priority container ──
-            // Priority score: fill level drives the start; then we build the tour greedily.
+            // Greedy nearest-neighbour
+            // 1 contentores com nível >= 80%
+            // 2 maior nível de enchimento
             var prioritised = withCoords
                 .OrderByDescending(c => c.FillLevel >= HighFillThreshold ? 1 : 0)
                 .ThenByDescending(c => c.FillLevel)
                 .ToList();
 
             var ordered = new List<Container>();
-            var remaining = new List<Container>(prioritised);
+            var remaining = new List<Container>(prioritised); // contentores n visitados 
 
-            // Start at the highest-priority container
+            // comeca no contentor mais prioritario 
             var current = remaining[0];
             ordered.Add(current);
             remaining.RemoveAt(0);
 
             while (remaining.Any())
             {
+                // escolhe o contentor mais prox do atual
                 var next = remaining
                     .OrderBy(c => HaversineKm(current.Latitude, current.Longitude,
                                               c.Latitude, c.Longitude))
@@ -59,10 +61,12 @@ namespace EcoCityWaste.Services
                 current = next;
             }
 
-            // Append containers without coordinates at the end (original order)
+            // contentores sem coord ficam no fim
             ordered.AddRange(withoutCoords);
 
+            // calcula distancia total da rota
             double totalKm = CalculateTotalDistance(ordered);
+            
             string msg = withoutCoords.Any()
                 ? $"Rota optimizada. {withoutCoords.Count} contentor(es) sem coordenadas adicionados no final."
                 : "Rota optimizada com sucesso.";
@@ -70,8 +74,7 @@ namespace EcoCityWaste.Services
             return BuildResult(ordered, totalKm, msg);
         }
 
-        // ── Helpers ───────────────────────────────────────────────────────────
-
+        // auxiliares
         private static OptimisedRouteDto BuildResult(
             IEnumerable<Container> ordered, double distKm, string message)
         {
@@ -106,7 +109,7 @@ namespace EcoCityWaste.Services
             return total;
         }
 
-        /// <summary>Haversine formula — distance in km between two GPS points.</summary>
+        // metodo que calcula a distancia entre dois pontos lat/long
         private static double HaversineKm(double lat1, double lon1, double lat2, double lon2)
         {
             const double R = 6371.0;
