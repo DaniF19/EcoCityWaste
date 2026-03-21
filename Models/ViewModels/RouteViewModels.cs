@@ -3,8 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EcoCityWaste.Models.ViewModels
 {
-    // ── Create / Edit ──────────────────────────────────────────────────────────
-
+    // criar/editar rota
     public class RouteCreateViewModel
     {
         [Required(ErrorMessage = "O nome da rota é obrigatório.")]
@@ -15,7 +14,7 @@ namespace EcoCityWaste.Models.ViewModels
         [Display(Name = "Descrição")]
         public string? Description { get; set; }
 
-        /// <summary>Ordered list of container IDs submitted from the UI</summary>
+        /// <summary>lista ordenada dos IDs dos contentores (introduzidos pelo user no formulario)</summary>
         [Required(ErrorMessage = "Selecione pelo menos um contentor.")]
         public List<int> ContainerIds { get; set; } = new();
     }
@@ -32,13 +31,12 @@ namespace EcoCityWaste.Models.ViewModels
         [Display(Name = "Descrição")]
         public string? Description { get; set; }
 
-        /// <summary>Ordered list of container IDs (after drag-and-drop reordering)</summary>
+        /// <summary>lista ordenada dos IDs dos contentores (dps de arrastar)
         [Required(ErrorMessage = "Selecione pelo menos um contentor.")]
         public List<int> ContainerIds { get; set; } = new();
     }
 
-    // ── Assign ─────────────────────────────────────────────────────────────────
-
+    // atribuir rota
     public class RouteAssignViewModel
     {
         public int RouteId { get; set; }
@@ -48,8 +46,7 @@ namespace EcoCityWaste.Models.ViewModels
         public int EmployeeId { get; set; }
     }
 
-    // ── Optimise result (returned to view as JSON / partial) ──────────────────
-
+    // otimizar rota
     public class OptimisedRouteDto
     {
         public List<OptimisedStopDto> Stops { get; set; } = new();

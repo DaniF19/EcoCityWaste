@@ -21,7 +21,7 @@ namespace EcoCityWaste.Models
         [StringLength(100, ErrorMessage = "O nome não pode exceder 100 caracteres.")]
         public string Name { get; set; } = string.Empty;
 
-        /// <summary>Auto-generated identifier, e.g. RT-001</summary>
+        /// <summary>codigo da rota</summary>
         public string Code { get; set; } = string.Empty;
 
         public string? Description { get; set; }
@@ -34,36 +34,35 @@ namespace EcoCityWaste.Models
 
         public DateTime? CompletedAt { get; set; }
 
-        /// <summary>FK to the employee this route is assigned to (null = unassigned)</summary>
+        /// <summary>FK do funcionario que foi atribuida a rota</summary>
         public int? AssignedEmployeeId { get; set; }
 
         [ForeignKey(nameof(AssignedEmployeeId))]
         public virtual User? AssignedEmployee { get; set; }
 
-        /// <summary>Username of admin who created the route</summary>
+        /// <summary>nome do admin que criou a rota</summary>
         public string CreatedBy { get; set; } = string.Empty;
 
-        /// <summary>Total estimated distance in km (populated by optimiser)</summary>
+        /// <summary>distancia total estimada em km</summary>
         public double? EstimatedDistanceKm { get; set; }
 
-        // Navigation
         public virtual ICollection<RouteContainer> RouteContainers { get; set; } = new List<RouteContainer>();
     }
 
-    /// <summary>Join entity: which container is in which route, and at which position</summary>
+    /// <summary>join - que container esta em cada rota e em que posicao</summary>
     public class RouteContainer
     {
         public int Id { get; set; }
-
         public int RouteId { get; set; }
+
         [ForeignKey(nameof(RouteId))]
         public virtual Route Route { get; set; } = null!;
 
         public int ContainerId { get; set; }
+        
         [ForeignKey(nameof(ContainerId))]
         public virtual Container Container { get; set; } = null!;
 
-        /// <summary>1-based pickup order within the route</summary>
         public int PickupOrder { get; set; }
     }
 }

@@ -26,8 +26,6 @@
     --surface-3:#f7f6f2;
 }
 
-/* Layout */
-
 .create-grid{
     display:grid;
     grid-template-columns:1fr 420px;
@@ -40,8 +38,6 @@
         grid-template-columns:1fr;
     }
 }
-
-/* Panels */
 
 .panel{
     background:var(--surface);
@@ -64,8 +60,6 @@
 .panel-title i{
     color:var(--cor-castanho);
 }
-
-/* Form */
 
 .field-group{
     margin-bottom:18px;
@@ -105,8 +99,6 @@
     display:block;
 }
 
-/* Search */
-
 .search-input{
     width:100%;
     background:white;
@@ -122,8 +114,6 @@
 .search-input:focus{
     border-color:var(--cor-castanho);
 }
-
-/* Container list */
 
 .container-pool{
     max-height:380px;
@@ -175,8 +165,6 @@
     color:var(--text);
 }
 
-/* Fill levels */
-
 .fill-pill{
     font-size:.75rem;
     font-weight:700;
@@ -198,8 +186,6 @@
     background:#fdecea;
     color:var(--cor-vermelho-erro);
 }
-
-/* Route order */
 
 .route-order-list{
     min-height:120px;
@@ -274,8 +260,6 @@
     border-radius:9px;
 }
 
-/* Submit */
-
 .btn-submit{
     width:100%;
     padding:13px;
@@ -306,8 +290,6 @@
     font-weight:700;
 }
 
-/* Tip box */
-
 .tip{
     background:#f3ebe8;
     border:1px solid var(--cor-bege);
@@ -337,11 +319,9 @@
 
     <form id="createForm" asp-action="Create" method="post">
         @Html.AntiForgeryToken()
-        <!-- Hidden ordered container IDs (populated by JS) -->
         <div id="hiddenInputs"></div>
 
         <div class="create-grid">
-            <!-- LEFT: Info + Container Pool -->
             <div>
                 <div class="panel" style="margin-bottom:20px;">
                     <div class="panel-title"><i class="fa-solid fa-pen-to-square"></i> Informações da Rota</div>
@@ -359,7 +339,6 @@
                     </div>
                 </div>
 
-                <!-- Container pool -->
                 <div class="panel">
                     <div class="panel-title">
                         <i class="fa-solid fa-trash-can"></i>
@@ -403,7 +382,6 @@
                 </div>
             </div>
 
-            <!-- RIGHT: Ordered route -->
             <div>
                 <div class="panel" style="position:sticky;top:20px;">
                     <div class="panel-title">
@@ -460,7 +438,6 @@
             if (idx === -1) return;
             selectedIds.splice(idx, 1);
 
-            // Re-enable pool item
             const poolItem = document.querySelector(`.pool-item[data-id="${id}"]`);
             if (poolItem) poolItem.classList.remove('selected');
 
@@ -506,29 +483,30 @@
                         <i class="fa-solid fa-xmark"></i>
                     </button>`;
 
-                // Drag events
+                // arrastar os contentores
                 item.addEventListener('dragstart', e => {
-                    e.dataTransfer.setData('text/plain', id);
+                    e.dataTransfer.setData('text/plain', id); // guarda o id do contentor que esta a ser arrastado
                     item.classList.add('dragging');
                 });
                 item.addEventListener('dragend',  () => item.classList.remove('dragging'));
-                item.addEventListener('dragover',  e => { e.preventDefault(); item.classList.add('drag-over'); });
+                item.addEventListener('dragover',  e => { e.preventDefault(); item.classList.add('drag-over'); }); // quando passa por cima de outro
                 item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
-                item.addEventListener('drop', e => {
+                item.addEventListener('drop', e => { // quando solta - reeordenacao
                     e.preventDefault();
                     item.classList.remove('drag-over');
-                    const draggedId = e.dataTransfer.getData('text/plain');
-                    const fromIdx   = selectedIds.indexOf(draggedId);
-                    const toIdx     = i;
+                    const draggedId = e.dataTransfer.getData('text/plain'); // id do contentor que foi arrastado
+                    const fromIdx   = selectedIds.indexOf(draggedId); // posicao antiga
+                    const toIdx     = i; // nova posicao (onde foi solto)
                     if (fromIdx === toIdx) return;
-                    selectedIds.splice(fromIdx, 1);
-                    selectedIds.splice(toIdx, 0, draggedId);
-                    renderOrder();
+
+                    // reorganiza o arr
+                    selectedIds.splice(fromIdx, 1); // remove da posicao antiga
+                    selectedIds.splice(toIdx, 0, draggedId); // insere na nova posicao
+                    renderOrder(); // renderiza novamente para mostrar nova ordem
                 });
 
                 list.appendChild(item);
 
-                // Hidden input for form submission
                 const inp = document.createElement('input');
                 inp.type  = 'hidden';
                 inp.name  = 'ContainerIds';
@@ -537,7 +515,7 @@
             });
         }
 
-        // Search filter
+        // filtro procura
         document.getElementById('searchPool').addEventListener('input', function () {
             const q = this.value.toLowerCase();
             document.querySelectorAll('.pool-item').forEach(el => {
@@ -547,7 +525,7 @@
             });
         });
 
-        // Validate before submit
+        // validar antes de submeter
         document.getElementById('createForm').addEventListener('submit', function (e) {
             const errEl = document.getElementById('containerIdsError');
             if (selectedIds.length === 0) {
