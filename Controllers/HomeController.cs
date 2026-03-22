@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using EcoCityWaste.Models;
+using EcoCityWaste.ViewModels;
 
 namespace EcoCityWaste.Controllers;
 

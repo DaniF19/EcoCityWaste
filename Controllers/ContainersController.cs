@@ -1,6 +1,7 @@
 using EcoCityWaste.Data;
 using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
+using EcoCityWaste.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

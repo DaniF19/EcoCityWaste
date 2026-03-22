@@ -7,6 +7,7 @@ using EcoCityWaste.Models;
 using BCrypt.Net;
 using EcoCityWaste.Data;
 using EcoCityWaste.Services;
+using EcoCityWaste.ViewModels;
 
 namespace EcoCityWaste.Controllers
 {
