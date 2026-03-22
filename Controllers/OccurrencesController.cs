@@ -8,16 +8,20 @@ using System;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace EcoCityWaste.Controllers
 {
     public class OccurrencesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public OccurrencesController(AppDbContext context)
+        public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Occurrences/Report
@@ -76,6 +80,33 @@ namespace EcoCityWaste.Controllers
                 var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 int.TryParse(userIdString, out int userId); // Converte para int com segurança
 
+                string photoPath = null;
+
+                if (model.Photo != null && model.Photo.Length > 0)
+                {
+                    // Define a pasta onde guardar
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "ocorrencias");
+
+                    // Cria a pasta se ela não existir
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    // Cria um nome único para não haver ficheiros substituídos com o mesmo nome
+                    string nameFile = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.Photo.FileName);
+                    string completePath = Path.Combine(uploadsFolder, nameFile);
+
+                    // Copia o ficheiro para o servidor
+                    using (var fileStream = new FileStream(completePath, FileMode.Create))
+                    {
+                        await model.Photo.CopyToAsync(fileStream);
+                    }
+
+                    // Guarda o caminho relativo que vai ser gravado na BD
+                    photoPath = "/uploads/ocorrencias/" + nameFile;
+                }
+
                 // Mapear os dados do formulário para a entidade da Base de Dados
                 var occurrence = new Occurrence
                 {
@@ -84,7 +115,8 @@ namespace EcoCityWaste.Controllers
                     Description = model.Description,
                     ReportDate = DateTime.Now,
                     Status = OccurrenceStatus.Pendente.ToString(), // Ocorrência guardada com estado inicial
-                    UserId = userId
+                    UserId = userId,
+                    ImagePath = photoPath
                 };
 
                 // Guardar na base de dados
@@ -99,7 +131,7 @@ namespace EcoCityWaste.Controllers
             }
             catch (Exception)
             {
-                // Gestão de erros (DoD) - Mostra mensagem amigável se a base de dados falhar
+                //Mostra mensagem se a base de dados falhar
                 ViewBag.Error = "Ocorreu um problema técnico ao tentar enviar o reporte. Por favor, tente novamente.";
                 return View(model);
             }
