@@ -7,8 +7,10 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <style>
-        /* Override page-container so the map can fill the viewport */
+        .leaflet-routing-container { display: none !important; }
+
         .map-page-wrapper {
             display: flex;
             flex-direction: column;
@@ -285,8 +287,10 @@
 
 @section Scripts {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
 <script>
     const stopsData = [
+        // lista de paragens com as coordenadas lat/long
         @foreach (var stop in stops)
         {
             var c = stop.Container;
@@ -300,7 +304,7 @@
 
         const map = L.map('map', { zoomControl: true });
 
-        // Using standard OSM tiles (no API key needed, always works)
+        // mapa base
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
             maxZoom: 19
@@ -319,6 +323,7 @@
 
         const markers = {};
 
+        // criar os marcadores para cada paragem
         validStops.forEach(s => {
             const marker = L.marker([s.lat, s.lng], { icon: makeIcon(s.order, s.fill) })
                 .addTo(map)
@@ -337,15 +342,35 @@
             markers[s.id] = marker;
         });
 
+        // mostrar rotas pelas ruas - calculo da rota pelas ruas
         if (validStops.length > 1) {
-            L.polyline(validStops.map(s => [s.lat, s.lng]),
-                { color: '#3b82f6', weight: 3, opacity: .8, dashArray: '6 5' }).addTo(map);
-        }
-
-        if (validStops.length > 0) {
-            map.fitBounds(L.latLngBounds(validStops.map(s => [s.lat, s.lng])), { padding: [50, 50] });
+            L.Routing.control({
+                waypoints: validStops.map(s => L.latLng(s.lat, s.lng)), // os pontos que a rota tem de seguir (ordem definida pelo admin qnd cria a rota)
+                
+                // motor de rotas OSRM - quem escolhe as ruas 
+                router: L.Routing.osrmv1({
+                    serviceUrl: 'https://router.project-osrm.org/route/v1',
+                    profile: 'driving'
+                }),
+                routeWhileDragging: false,
+                addWaypoints: false,
+                draggableWaypoints: false,
+                fitSelectedRoutes: true,
+                show: false,                    
+                createMarker: () => null,       
+                
+                // apenas desenha a linha no mapa (pq a rota ja vem calculada)
+                lineOptions: {
+                    styles: [
+                        { color: '#3b82f6', weight: 5, opacity: 0.85 }  
+                    ],
+                    extendToWaypoints: true,
+                    missingRouteTolerance: 0
+                }
+            }).addTo(map);
+        } else if (validStops.length === 1) {
+            map.setView([validStops[0].lat, validStops[0].lng], 16);
         } else {
-            // Default: Setúbal centre — adjust if your city is different
             map.setView([38.5244, -8.8882], 14);
         }
 
