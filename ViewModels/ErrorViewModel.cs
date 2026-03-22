@@ -1,4 +1,4 @@
-namespace EcoCityWaste.Models;
+namespace EcoCityWaste.ViewModels;
 
 public class ErrorViewModel
 {

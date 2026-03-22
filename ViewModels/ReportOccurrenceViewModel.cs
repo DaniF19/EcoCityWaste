@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EcoCityWaste.Models
+namespace EcoCityWaste.ViewModels
 {
     public class ReportOccurrenceViewModel
     {
@@ -13,5 +13,7 @@ namespace EcoCityWaste.Models
         [Required(ErrorMessage = "Por favor, descreva o problema.")]
         [MinLength(10, ErrorMessage = "A descrição deve ter pelo menos 10 caracteres.")]
         public string Description { get; set; } = string.Empty;
+
+        public IFormFile Photo { get; set; }
     }
 }

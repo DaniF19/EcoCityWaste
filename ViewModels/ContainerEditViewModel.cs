@@ -1,10 +1,12 @@
-namespace EcoCityWaste.Models
+using EcoCityWaste.Models;
+
+namespace EcoCityWaste.ViewModels
 {
     public class ContainerEditViewModel
     {
         public int Id { get; set; }
         public string Location { get; set; }
         public string Type { get; set; }
-        public Models.Container.ContainerStatus Status { get; set; }
+        public Container.ContainerStatus Status { get; set; }
     }
 }

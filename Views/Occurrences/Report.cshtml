@@ -1,4 +1,4 @@
-﻿@model EcoCityWaste.Models.ReportOccurrenceViewModel
+﻿@model EcoCityWaste.ViewModels.ReportOccurrenceViewModel
 
 @{
     ViewData["Title"] = "Reportar Ocorrência";
@@ -10,8 +10,14 @@
 
 <div class="page-container">
     <div class="card-box">
-        <div class="card-title">
-            Reportar Ocorrência
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+
+            <h2 style="color: #8d6e63; font-weight: bold; margin: 0;">Reportar Ocorrência</h2>
+
+            <a asp-controller="Occurrences" asp-action="Status" class="btn-primary" style="display: inline-flex; align-items: center; width: fit-content; text-decoration: none; padding: 10px 24px; margin: 0;">
+                <i class="fa-solid fa-list-check me-2"></i> Ocorrências
+            </a>
+
         </div>
 
         @if (ViewBag.Success != null)
@@ -28,7 +34,7 @@
             </div>
         }
 
-        <form asp-action="Report" method="post">
+        <form asp-action="Report" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             <div class="input-group">
@@ -126,8 +132,27 @@
                 <span asp-validation-for="Description" class="field-error"></span>
             </div>
 
+            <div style="margin-top: 20px;">
+                <label class="field-label" style="display: block; margin-bottom: 8px; font-weight: 600; color: #8d6e63; text-transform: uppercase; font-size: 0.85rem;">
+                    <i class="fa-solid fa-camera me-2"></i> Anexar Fotografia (Opcional)
+                </label>
+
+                <div style="position: relative; display: flex; align-items: center; background-color: white; border: 1px solid #ddd; border-radius: 10px; padding: 6px; overflow: hidden;">
+
+                    <input type="file" asp-for="Photo" id="file-input" accept="image/*" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2;" />
+
+                    <div style="background-color: #e4d4b8; color: #795c4d; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; margin-right: 15px; pointer-events: none;">
+                        <i class="fa-solid fa-upload me-2"></i> Escolher Ficheiro
+                    </div>
+
+                    <span id="fileName" style="color: #999; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 1;">
+                        Nenhuma fotografia selecionada
+                    </span>
+                </div>
+            </div>
+
             <button type="submit" class="btn-primary" style="margin-top: 20px;">
-                Enviar Reporte
+                Enviar Ocorrência
             </button>
         </form>
     </div>
@@ -304,6 +329,21 @@
                 }
             }
         }
+
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            var fileName = document.getElementById('fileName');
+
+            // Verifica se algum ficheiro foi selecionado
+            if (e.target.files && e.target.files.length > 0) {
+                fileName.textContent = e.target.files[0].name;
+                fileName.style.color = '#8d6e63'; // Fica castanho para dar destaque
+                fileName.style.fontWeight = '600';
+            } else {
+                fileName.textContent = 'Nenhuma fotografia selecionada';
+                fileName.style.color = '#999';
+                fileName.style.fontWeight = 'normal';
+            }
+        });
 
     </script>
 }
