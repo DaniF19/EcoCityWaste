@@ -65,7 +65,6 @@ namespace EcoCityWaste.Controllers
 
         // POST: Occurrences/Report
         [HttpPost]
-        [ValidateAntiForgeryToken] // Segurança contra ataques
         public async Task<IActionResult> Report(ReportOccurrenceViewModel model)
         {
             // Verifica se os campos obrigatórios vieram preenchidos
