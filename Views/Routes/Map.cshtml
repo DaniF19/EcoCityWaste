@@ -1,0 +1,396 @@
+@model EcoCityWaste.Models.Route
+@{
+    ViewData["Title"] = $"Mapa – {Model.Code}";
+    var stops = Model.RouteContainers.OrderBy(rc => rc.PickupOrder).ToList();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <style>
+        .leaflet-routing-container { display: none !important; }
+
+        .map-page-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 80px);
+            padding: 0 16px 16px;
+            box-sizing: border-box;
+        }
+
+        .map-topbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            flex-shrink: 0;
+        }
+
+        .map-body {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 16px;
+            flex: 1;
+            min-height: 0; /* critical – lets children fill the remaining height */ 
+        }
+
+        
+
+        #map {
+            width: 100%;
+            height: 100%;
+            min-height: 450px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,.07);
+            background: #1e293b;
+        }
+
+        .sidebar {
+            display: flex; flex-direction: column; gap: 12px;
+            overflow-y: auto; min-height: 0;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+        .panel{
+            background:white;
+            border:1px solid #e6e6e6;
+            border-radius:12px;
+            padding:16px;
+        }
+
+        .panel-title{
+            font-size:.85rem;
+            font-weight:700;
+            color:rgb(141,110,99);
+            margin-bottom:12px;
+            display:flex;
+            align-items:center;
+            gap:7px;
+        }
+
+        .panel-title i{
+            color:rgb(141,110,99);
+        }
+
+        .map-stop {
+            display:flex;
+            align-items:center;
+            gap:9px;
+            padding:8px 11px;
+            border-radius:8px;
+            background:#f7f6f2;
+            border:1px solid #e6e6e6;
+            margin-bottom:6px;
+            cursor:pointer;
+            transition:border-color .12s, background .12s;
+        }
+
+        .map-stop:last-child {
+            margin-bottom:0;
+        }
+
+        .map-stop:hover {
+            border-color:rgb(141,110,99);
+            background:#f3ebe8;
+        }
+
+        .map-stop.active {
+            border-color:rgb(141,110,99);
+            background:#efe8e4;
+        }
+
+        .map-stop.no-gps {
+            opacity:.55;
+            cursor:default;
+        }
+
+        .map-stop.no-gps:hover {
+            border-color:#e6e6e6;
+            background:#f7f6f2;
+        }
+
+        .stop-num {
+            width:26px;
+            height:26px;
+            border-radius:50%;
+            background:rgb(141,110,99);
+            color:white;
+            font-size:.72rem;
+            font-weight:700;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-shrink:0;
+        }
+
+        .stop-info {
+            flex:1;
+            min-width:0;
+        }
+
+        .stop-code {
+            font-family:monospace;
+            font-size:.73rem;
+            color:rgb(141,110,99);
+        }
+
+        .stop-loc {
+            font-size:.78rem;
+            color:#444;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .fill-pill { font-size: .7rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; flex-shrink: 0; }
+        .fill-low  { background: rgba(34,197,94,.15);  color: #22c55e; }
+        .fill-mid  { background: rgba(245,158,11,.15); color: #f59e0b; }
+        .fill-high { background: rgba(239,68,68,.15);  color: #ef4444; }
+
+        .no-gps-warning {
+            background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.25);
+            border-radius: 9px; padding: 10px 14px;
+            font-size: .8rem; color: #f59e0b;
+            display: flex; gap: 8px; align-items: flex-start; flex-shrink: 0;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: .8rem; color: #94a3b8; }
+        .legend-dot  { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 7px 14px; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.1); background: rgb(141, 110, 99);
+            color: white; font-size: .82rem; text-decoration: none;
+            transition: all .15s; flex-shrink: 0;
+        }
+
+        .btn-back:hover { color: #f1f5f9; border-color: #f1f5f9; }
+
+        /* Leaflet dark theme overrides */
+        .leaflet-popup-content-wrapper {
+            background:white !important;
+            border:1px solid #e6e6e6 !important;
+            border-radius:10px !important;
+        }
+
+        .leaflet-popup-content {
+            color:#444 !important;
+            font-size:.82rem !important;
+            margin:12px !important;
+        }
+
+        .leaflet-popup-tip {
+            background:white !important;
+        }
+
+        .leaflet-popup-close-button {
+            color:#777 !important;
+        }
+
+        .leaflet-control-zoom a {
+            background:white !important;
+            color:#444 !important;
+            border-color:#e6e6e6 !important;
+        }
+
+        .leaflet-control-attribution {
+            background:rgba(255,255,255,.9) !important;
+            color:#777 !important;
+            font-size:.65rem !important;
+        }
+
+        .leaflet-control-attribution a {
+            color:rgb(141,110,99) !important;
+        }
+    </style>
+}
+
+<div class="map-page-wrapper">
+
+    <div class="map-topbar">
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn-back">
+            <i class="fa-solid fa-chevron-left"></i> Rota
+        </a>
+        <div>
+            <span style="font-family:monospace;font-size:.78rem;color:rgb(141,110,99);">@Model.Code</span>
+        </div>
+    </div>
+
+    <div class="map-body">
+
+        <div id="map"></div>
+
+        <div class="sidebar">
+            @{
+                var noGpsCount = stops.Count(s => s.Container.Latitude == 0 && s.Container.Longitude == 0);
+            }
+
+            @if (noGpsCount > 0)
+            {
+                <div class="no-gps-warning">
+                    <i class="fa-solid fa-triangle-exclamation" style="flex-shrink:0;margin-top:1px;"></i>
+                    <span>
+                        @noGpsCount contentor(es) sem coordenadas GPS não aparecem no mapa.
+                        Edite os contentores e adicione latitude/longitude.
+                    </span>
+                </div>
+            }
+
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fa-solid fa-list-ol"></i>
+                    Paragens (@stops.Count)
+                </div>
+
+                @foreach (var stop in stops)
+                {
+                    var c         = stop.Container;
+                    var fillClass = c.FillLevel >= 80 ? "fill-high" : c.FillLevel >= 50 ? "fill-mid" : "fill-low";
+                    var hasGps    = !(c.Latitude == 0 && c.Longitude == 0);
+
+                    <div class="map-stop @(hasGps ? "" : "no-gps")"
+                         id="sidebar-stop-@c.Id"
+                         @(hasGps ? $"onclick=\"focusStop({c.Id})\"" : "")>
+                        <div class="stop-num">@stop.PickupOrder</div>
+                        <div class="stop-info">
+                            <div class="stop-code">@c.Code</div>
+                            <div class="stop-loc">@c.Location</div>
+                            @if (!hasGps)
+                            {
+                                <div style="font-size:.7rem;color:#f59e0b;">
+                                    <i class="fa-solid fa-location-slash"></i> Sem GPS
+                                </div>
+                            }
+                        </div>
+                        <span class="fill-pill @fillClass">@c.FillLevel%</span>
+                    </div>
+                }
+            </div>
+
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-circle-info"></i> Legenda</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div><span>Nível baixo (&lt; 50%)</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div><span>Nível médio (50–79%)</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div><span>Nível crítico (≥ 80%)</span></div>
+                <div class="legend-item" style="margin-top:6px;">
+                    <div style="width:26px;height:2px;background:#3b82f6;flex-shrink:0;border-radius:1px;"></div>
+                    <span>Percurso da rota</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
+<script>
+    const stopsData = [
+        // lista de paragens com as coordenadas lat/long
+        @foreach (var stop in stops)
+        {
+            var c = stop.Container;
+            @Html.Raw($"{{ id:{c.Id}, order:{stop.PickupOrder}, code:'{c.Code}', loc:'{c.Location.Replace("'", "\\'")}', fill:{c.FillLevel}, lat:{c.Latitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}, lng:{c.Longitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)} }},")
+        }
+    ];
+
+    const validStops = stopsData.filter(s => !(s.lat === 0 && s.lng === 0));
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const map = L.map('map', { zoomControl: true });
+
+        // mapa base
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
+            maxZoom: 19
+        }).addTo(map);
+
+        map.invalidateSize();
+
+        function makeIcon(order, fill) {
+            const color = fill >= 80 ? '#ef4444' : fill >= 50 ? '#f59e0b' : '#22c55e';
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="44" viewBox="0 0 36 44">
+                <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 26 18 26S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="${color}" opacity="0.95"/>
+                <text x="18" y="22" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="white" font-family="system-ui,sans-serif">${order}</text>
+            </svg>`;
+            return L.divIcon({ className: '', html: svg, iconSize: [36, 44], iconAnchor: [18, 44], popupAnchor: [0, -46] });
+        }
+
+        const markers = {};
+
+        // criar os marcadores para cada paragem
+        validStops.forEach(s => {
+            const marker = L.marker([s.lat, s.lng], { icon: makeIcon(s.order, s.fill) })
+                .addTo(map)
+                .bindPopup(`
+                    <div style="min-width:150px;">
+                        <div style="font-family:monospace;font-size:.75rem;color:rgb(141,110,99);margin-bottom:3px;">${s.code}</div>
+                        <div style="font-weight:700;margin-bottom:5px;">${s.loc}</div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="opacity:.65;font-size:.75rem;">Paragem #${s.order}</span>
+                            <span style="font-weight:700;color:${s.fill>=80?'#ef4444':s.fill>=50?'#f59e0b':'#22c55e'}">${s.fill}%</span>
+                        </div>
+                        <div style="height:4px;background:#334155;border-radius:2px;margin-top:5px;overflow:hidden;">
+                            <div style="height:100%;width:${s.fill}%;background:${s.fill>=80?'#ef4444':s.fill>=50?'#f59e0b':'#22c55e'};border-radius:2px;"></div>
+                        </div>
+                    </div>`);
+            markers[s.id] = marker;
+        });
+
+        // mostrar rotas pelas ruas - calculo da rota pelas ruas
+        if (validStops.length > 1) {
+            L.Routing.control({
+                waypoints: validStops.map(s => L.latLng(s.lat, s.lng)), // os pontos que a rota tem de seguir (ordem definida pelo admin qnd cria a rota)
+                
+                // motor de rotas OSRM - quem escolhe as ruas 
+                router: L.Routing.osrmv1({
+                    serviceUrl: 'https://router.project-osrm.org/route/v1',
+                    profile: 'driving'
+                }),
+                routeWhileDragging: false,
+                addWaypoints: false,
+                draggableWaypoints: false,
+                fitSelectedRoutes: true,
+                show: false,                    
+                createMarker: () => null,       
+                
+                // apenas desenha a linha no mapa (pq a rota ja vem calculada)
+                lineOptions: {
+                    styles: [
+                        { color: '#3b82f6', weight: 5, opacity: 0.85 }  
+                    ],
+                    extendToWaypoints: true,
+                    missingRouteTolerance: 0
+                }
+            }).addTo(map);
+        } else if (validStops.length === 1) {
+            map.setView([validStops[0].lat, validStops[0].lng], 16);
+        } else {
+            map.setView([38.5244, -8.8882], 14);
+        }
+
+        window.focusStop = function (id) {
+            const marker = markers[id];
+            if (!marker) return;
+            map.flyTo(marker.getLatLng(), 17, { duration: 0.7 });
+            marker.openPopup();
+            document.querySelectorAll('.map-stop').forEach(el => el.classList.remove('active'));
+            const el = document.getElementById('sidebar-stop-' + id);
+            if (el) el.classList.add('active');
+        };
+
+        Object.entries(markers).forEach(([id, marker]) => {
+            marker.on('click', () => {
+                document.querySelectorAll('.map-stop').forEach(el => el.classList.remove('active'));
+                const el = document.getElementById('sidebar-stop-' + id);
+                if (el) { el.classList.add('active'); el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+            });
+        });
+    });
+</script>
+}

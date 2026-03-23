@@ -2,6 +2,7 @@
 using EcoCityWaste.Data;
 using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
+using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -32,6 +33,17 @@ namespace EcoCityWasteProjetoESA.Tests
 
             context.SaveChanges();
             return context;
+        }
+
+        private GeocodingService GetGeoService()
+        {
+            var httpClient = new HttpClient(new FakeHttpMessageHandler());
+            return new GeocodingService(httpClient);
+        }
+
+        private ContainerHistoryService GetHistoryService(AppDbContext context)
+        {
+            return new ContainerHistoryService(context);
         }
 
         [Fact]
@@ -100,7 +112,7 @@ namespace EcoCityWasteProjetoESA.Tests
         {
             // Arrange
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             // Act: Filtro "Medio"
             var result = await controller.Index(null, "Medio", null) as ViewResult;
@@ -116,7 +128,7 @@ namespace EcoCityWasteProjetoESA.Tests
         {
             // Arrange
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             // Act: Filtra por Vidro
             var result = await controller.Index(null, "Vidro", null) as ViewResult;
@@ -156,7 +168,7 @@ namespace EcoCityWasteProjetoESA.Tests
 
             await context.SaveChangesAsync();
 
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             // Act
             var result = await controller.ListStatus() as ViewResult;
@@ -189,7 +201,7 @@ namespace EcoCityWasteProjetoESA.Tests
             context.Contentores.Add(container);
             await context.SaveChangesAsync();
 
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             var dto = new UpdateContainerStatusDto
             {
@@ -214,7 +226,7 @@ namespace EcoCityWasteProjetoESA.Tests
         {
             // Arrange
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             var model = new ContainerRegisterViewModel
             {
@@ -247,7 +259,7 @@ namespace EcoCityWasteProjetoESA.Tests
         {
             // Arrange
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             controller.ModelState.AddModelError("Location", "Required");
 
@@ -269,7 +281,7 @@ namespace EcoCityWasteProjetoESA.Tests
         {
             // Arrange
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             // Act
             var result = await controller.Edit(1) as ViewResult;
@@ -284,7 +296,7 @@ namespace EcoCityWasteProjetoESA.Tests
         public async Task Edit_Get_InvalidId_ReturnsNotFound()
         {
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             var result = await controller.Edit(999);
 
@@ -296,7 +308,7 @@ namespace EcoCityWasteProjetoESA.Tests
         {
             // Arrange
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             var model = new ContainerEditViewModel
             {
@@ -323,7 +335,7 @@ namespace EcoCityWasteProjetoESA.Tests
         public async Task Edit_Post_InvalidModel_ReturnsView()
         {
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             controller.ModelState.AddModelError("Location", "Required");
 
@@ -341,7 +353,7 @@ namespace EcoCityWasteProjetoESA.Tests
         public async Task Edit_Post_InvalidId_ReturnsNotFound()
         {
             using var context = GetDbContext();
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             var model = new ContainerEditViewModel
             {
@@ -378,7 +390,7 @@ namespace EcoCityWasteProjetoESA.Tests
             context.Contentores.Add(container);
             await context.SaveChangesAsync();
 
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             var dto = new UpdateContainerStatusDto
             {
@@ -429,7 +441,7 @@ namespace EcoCityWasteProjetoESA.Tests
 
             await context.SaveChangesAsync();
 
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             // Act
             var result = await controller.History(1) as ViewResult;

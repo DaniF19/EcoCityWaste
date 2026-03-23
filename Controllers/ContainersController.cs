@@ -1,6 +1,7 @@
 using EcoCityWaste.Data;
 using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
+using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,19 @@ using static EcoCityWaste.Models.Container;
 
 namespace EcoCityWaste.Controllers
 {
-     [Authorize(Roles = "Admin,Funcionario")]
+    [Authorize(Roles = "Admin,Funcionario")]
     public class ContainersController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly GeocodingService _geo;
+        private readonly ContainerHistoryService _historyService;
 
-        public ContainersController(AppDbContext context)
+
+        public ContainersController(AppDbContext context, GeocodingService geo, ContainerHistoryService historyService)
         {
             _context = context;
+            _geo = geo;
+            _historyService = historyService;
         }
 
         // GET: Containers
@@ -135,14 +141,16 @@ namespace EcoCityWaste.Controllers
                     isContainerActive = false;
                 }
 
+                var coords = await _geo.GetCoordinates(model.Location);
+
                 var container = new Container
                 {
                     Code = GenerateContainerCode(),
                     Location = model.Location,
                     Type = model.Type,
                     Status = statusEnum,
-                    Latitude = 0,
-                    Longitude = 0,
+                    Latitude = coords.lat,
+                    Longitude = coords.lon,
                     FillLevel = 0,
                     InstallationDate = DateTime.Now,
                     LastUpdated = DateTime.Now,
@@ -152,16 +160,21 @@ namespace EcoCityWaste.Controllers
                 _context.Contentores.Add(container);
                 await _context.SaveChangesAsync();
                 //ricardo
-                await AddHistory(container);
+                await _historyService.AddHistory(container, User?.Identity?.Name);
 
                 ViewBag.Success = "Contentor registado com sucesso!";
                 ModelState.Clear();
 
                 return View();
             }
-            catch
+            //catch
+            //{
+            //    ViewBag.Error = "Erro ao registar o contentor.";
+            //    return View(model);
+            //}
+            catch (Exception ex)
             {
-                ViewBag.Error = "Erro ao registar o contentor.";
+                ViewBag.Error = ex.Message;
                 return View(model);
             }
         }
@@ -215,7 +228,7 @@ namespace EcoCityWaste.Controllers
 
                 await _context.SaveChangesAsync();
                 //Ricardo
-                await AddHistory(container);
+                await _historyService.AddHistory(container, User?.Identity?.Name);
                 return RedirectToAction("List");
             }
             catch
@@ -239,7 +252,7 @@ namespace EcoCityWaste.Controllers
             await _context.SaveChangesAsync();
 
             //ricardo
-            await AddHistory(container);
+            await _historyService.AddHistory(container, User?.Identity?.Name);
             return RedirectToAction("List");
         }
 
@@ -310,7 +323,7 @@ namespace EcoCityWaste.Controllers
 
             await _context.SaveChangesAsync();
 
-            await AddHistory(container);
+            await _historyService.AddHistory(container, User?.Identity?.Name);
 
             return RedirectToAction(nameof(ListStatus));
         }

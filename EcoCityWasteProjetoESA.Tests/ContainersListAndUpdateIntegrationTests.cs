@@ -1,6 +1,7 @@
 ﻿using EcoCityWaste.Controllers;
 using EcoCityWaste.Data;
 using EcoCityWaste.Models;
+using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,6 +23,17 @@ namespace EcoCityWasteProjetoESA.Tests
             return new AppDbContext(options);
         }
 
+        private GeocodingService GetGeoService()
+        {
+            var httpClient = new HttpClient(new FakeHttpMessageHandler());
+            return new GeocodingService(httpClient);
+        }
+
+        private ContainerHistoryService GetHistoryService(AppDbContext context)
+        {
+            return new ContainerHistoryService(context);
+        }
+
         [Fact]
         public async Task List_Integration_ReturnsAllContainers()
         {
@@ -33,7 +45,7 @@ namespace EcoCityWasteProjetoESA.Tests
             );
             await context.SaveChangesAsync();
 
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             // Act
             var result = await controller.List() as ViewResult;
@@ -62,7 +74,7 @@ namespace EcoCityWasteProjetoESA.Tests
             context.Contentores.Add(initialContainer);
             await context.SaveChangesAsync();
 
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
             var editModel = new ContainerEditViewModel
             {
                 Id = 1,
@@ -108,7 +120,7 @@ namespace EcoCityWasteProjetoESA.Tests
             context.Contentores.Add(container);
             await context.SaveChangesAsync();
 
-            var controller = new ContainersController(context);
+            var controller = new ContainersController(context, GetGeoService(), GetHistoryService(context));
 
             // Act
             var result = await controller.Deactivate(10);

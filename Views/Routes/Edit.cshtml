@@ -1,0 +1,504 @@
+@model EcoCityWaste.Models.ViewModels.RouteEditViewModel
+@using EcoCityWaste.Models
+@{
+    ViewData["Title"] = "Editar Rota";
+    var containers = ViewBag.Containers as List<Container> ?? new List<Container>();
+    // IDs dos contentores por ordem
+    var preselected = Model.ContainerIds ?? new List<int>();
+}
+
+<style>
+
+:root{
+    --cor-castanho: rgb(141,110,99);
+    --cor-bege: rgb(224,205,169);
+    --cor-fundo-claro: rgb(243,242,235);
+
+    --cor-sucesso:#27ae60;
+    --cor-aviso:#f1c40f;
+    --cor-vermelho-erro:#a94442;
+    --cor-manutencao:#3498db;
+
+    --border:#e6e6e6;
+    --text:#444;
+    --muted:#777;
+
+    --surface:#ffffff;
+    --surface-2:#ffffff;
+    --surface-3:#f7f6f2;
+}
+
+/* Layout */
+
+.create-grid{
+    display:grid;
+    grid-template-columns:1fr 420px;
+    gap:24px;
+    align-items:start;
+}
+
+@@media(max-width:900px){
+    .create-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* Panels */
+
+.panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:22px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.03);
+}
+
+.panel-title{
+    font-size:1rem;
+    font-weight:700;
+    color:var(--cor-castanho);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.panel-title i{
+    color:var(--cor-castanho);
+}
+
+/* Form */
+
+.field-group{
+    margin-bottom:18px;
+}
+
+.field-group label{
+    display:block;
+    font-size:.8rem;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    margin-bottom:6px;
+}
+
+.field-group input,
+.field-group textarea{
+    width:100%;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:10px 14px;
+    color:var(--text);
+    font-size:.9rem;
+    outline:none;
+}
+
+.field-group input:focus,
+.field-group textarea:focus{
+    border-color:var(--cor-castanho);
+}
+
+.field-error{
+    font-size:.78rem;
+    color:var(--cor-vermelho-erro);
+    margin-top:4px;
+    display:block;
+}
+
+/* Search */
+
+.search-input{
+    width:100%;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:9px 14px;
+    color:var(--text);
+    font-size:.85rem;
+    outline:none;
+    margin-bottom:12px;
+}
+
+.search-input:focus{
+    border-color:var(--cor-castanho);
+}
+
+/* Container list */
+
+.container-pool{
+    max-height:380px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.pool-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 14px;
+    background:var(--surface-3);
+    border:1px solid var(--border);
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.pool-item:hover{
+    border-color:var(--cor-castanho);
+}
+
+.pool-item.selected{
+    border-color:var(--cor-castanho);
+    background:#f3ebe8;
+    opacity:.5;
+    pointer-events:none;
+}
+
+.pool-item-info{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+.pool-item-code{
+    font-family:monospace;
+    font-size:.78rem;
+    color:var(--cor-castanho);
+    background:#f3ebe8;
+    padding:2px 7px;
+    border-radius:4px;
+}
+
+.pool-item-loc{
+    font-size:.82rem;
+    color:var(--text);
+}
+
+/* Fill levels */
+
+.fill-pill{
+    font-size:.75rem;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:12px;
+}
+
+.fill-low{
+    background:#e8f5e9;
+    color:var(--cor-sucesso);
+}
+
+.fill-mid{
+    background:#fff8e1;
+    color:var(--cor-aviso);
+}
+
+.fill-high{
+    background:#fdecea;
+    color:var(--cor-vermelho-erro);
+}
+
+/* Route order */
+
+.route-order-list{
+    min-height:120px;
+    max-height:400px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.order-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    background:var(--surface-3);
+    border:1px solid var(--border);
+    border-radius:9px;
+    cursor:grab;
+}
+
+.order-num{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:var(--cor-castanho);
+    color:white;
+    font-size:.75rem;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.order-info{
+    flex:1;
+}
+
+.order-code{
+    font-size:.78rem;
+    color:var(--cor-castanho);
+    font-family:monospace;
+}
+
+.order-loc{
+    font-size:.82rem;
+    color:var(--text);
+}
+
+.order-remove{
+    width:26px;
+    height:26px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    background:white;
+    color:var(--muted);
+    cursor:pointer;
+}
+
+.order-remove:hover{
+    background:var(--cor-vermelho-erro);
+    color:white;
+    border-color:var(--cor-vermelho-erro);
+}
+
+/* Buttons */
+
+.btn-submit{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:none;
+    background:var(--cor-castanho);
+    color:white;
+    font-size:.95rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+.btn-submit:hover{
+    opacity:.9;
+}
+
+.counter-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:22px;
+    height:22px;
+    border-radius:11px;
+    background:var(--cor-castanho);
+    color:white;
+    font-size:.72rem;
+    font-weight:700;
+}
+
+/* Tip box */
+
+.tip{
+    background:#f3ebe8;
+    border:1px solid var(--cor-bege);
+    border-radius:9px;
+    padding:10px 14px;
+    font-size:.8rem;
+    color:var(--muted);
+    margin-bottom:14px;
+}
+
+.tip i{
+    color:var(--cor-castanho);
+    margin-right:5px;
+}
+
+</style>
+
+
+<div class="page-container">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <a asp-action="Details" asp-route-id="@Model.Id" style="color:var(--muted);text-decoration:none;font-size:.88rem;">
+            <i class="fa-solid fa-chevron-left"></i> Rota
+        </a>
+        <h1 style="font-size:1.5rem;font-weight:700;color:var(--cor-castanho);margin:0;">
+            <i class="fa-solid fa-pen" style="color:var(--amber);"></i> Editar Rota
+        </h1>
+    </div>
+
+    <form id="editForm" asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <div id="hiddenInputs"></div>
+
+        <div class="create-grid">
+            <div>
+                <div class="panel" style="margin-bottom:20px;">
+                    <div class="panel-title"><i class="fa-solid fa-pen-to-square"></i> Informações</div>
+                    <div class="field-group">
+                        <label>Nome da Rota *</label>
+                        <input asp-for="Name" />
+                        <span asp-validation-for="Name" class="field-error"></span>
+                    </div>
+                    <div class="field-group">
+                        <label>Descrição</label>
+                        <textarea asp-for="Description" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-trash-can"></i>
+                        Contentores Disponíveis
+                        <span class="counter-badge" id="availCount">@containers.Count</span>
+                    </div>
+                    <input type="text" class="search-input" id="searchPool" placeholder="Pesquisar…" />
+                    <div class="container-pool" id="containerPool">
+                        @foreach (var c in containers)
+                        {
+                            var fillClass = c.FillLevel >= 80 ? "fill-high" : c.FillLevel >= 50 ? "fill-mid" : "fill-low";
+                            <div class="pool-item" data-id="@c.Id" data-code="@c.Code" data-loc="@c.Location" data-fill="@c.FillLevel" onclick="addToRoute(this)">
+                                <div class="pool-item-info">
+                                    <span class="pool-item-code">@c.Code</span>
+                                    <span class="pool-item-loc">@c.Location</span>
+                                </div>
+                                <span class="fill-pill @fillClass">@c.FillLevel%</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel" style="position:sticky;top:20px;">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-list-ol"></i>
+                        Ordem de Recolha
+                        <span class="counter-badge" id="routeCount">0</span>
+                    </div>
+                    <div class="tip">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Clique para adicionar. Arraste para reordenar.
+                    </div>
+                    <span id="containerIdsError" class="field-error" style="display:none;margin-bottom:10px;">
+                        Selecione pelo menos um contentor.
+                    </span>
+                    <div class="route-order-list" id="routeOrderList">
+                        <div class="empty-order" id="emptyOrder" style="text-align:center;padding:30px;color:var(--muted);font-size:.85rem;border:1.5px dashed var(--border);border-radius:9px;">
+                            <i class="fa-solid fa-arrow-left" style="margin-right:5px;"></i> Adicione contentores
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fa-solid fa-floppy-disk" style="margin-right:6px;"></i>
+                        Guardar Alterações
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Pre-populate from server
+        const preselected = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(preselected));
+        const selectedIds = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            preselected.forEach(id => {
+                const el = document.querySelector(`.pool-item[data-id="${id}"]`);
+                if (el) addToRoute(el);
+            });
+        });
+
+        function addToRoute(el) {
+            const id = el.dataset.id;
+            if (selectedIds.includes(id)) return;
+            selectedIds.push(id);
+            el.classList.add('selected');
+            renderOrder();
+        }
+
+        function removeFromRoute(id) {
+            const idx = selectedIds.indexOf(id);
+            if (idx === -1) return;
+            selectedIds.splice(idx, 1);
+            const poolItem = document.querySelector(`.pool-item[data-id="${id}"]`);
+            if (poolItem) poolItem.classList.remove('selected');
+            renderOrder();
+        }
+
+        function renderOrder() {
+            const list    = document.getElementById('routeOrderList');
+            const counter = document.getElementById('routeCount');
+            const hidden  = document.getElementById('hiddenInputs');
+            counter.textContent = selectedIds.length;
+            hidden.innerHTML = '';
+            if (selectedIds.length === 0) {
+                list.innerHTML = '';
+                list.appendChild(document.getElementById('emptyOrder') || (() => {
+                    const d = document.createElement('div');
+                    d.id = 'emptyOrder';
+                    d.style.cssText = 'text-align:center;padding:30px;color:var(--muted);font-size:.85rem;border:1.5px dashed var(--border);border-radius:9px;';
+                    d.innerHTML = '<i class="fa-solid fa-arrow-left" style="margin-right:5px;"></i> Adicione contentores';
+                    return d;
+                })());
+                return;
+            }
+            list.innerHTML = '';
+            selectedIds.forEach((id, i) => {
+                const poolItem = document.querySelector(`.pool-item[data-id="${id}"]`);
+                const code = poolItem?.dataset.code || id;
+                const loc  = poolItem?.dataset.loc  || '';
+                const fill = parseInt(poolItem?.dataset.fill || 0);
+                const fillCls = fill >= 80 ? 'fill-high' : fill >= 50 ? 'fill-mid' : 'fill-low';
+                const item = document.createElement('div');
+                item.className = 'order-item';
+                item.draggable = true;
+                item.dataset.id = id;
+                item.innerHTML = `
+                    <div class="order-num">${i + 1}</div>
+                    <div class="order-info">
+                        <div class="order-code">${code}</div>
+                        <div class="order-loc">${loc}</div>
+                    </div>
+                    <span class="fill-pill ${fillCls}" style="font-size:.72rem;padding:2px 7px;">${fill}%</span>
+                    <button type="button" class="order-remove" onclick="removeFromRoute('${id}')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>`;
+                item.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', id); item.classList.add('dragging'); });
+                item.addEventListener('dragend', () => item.classList.remove('dragging'));
+                item.addEventListener('dragover', e => { e.preventDefault(); item.classList.add('drag-over'); });
+                item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+                item.addEventListener('drop', e => {
+                    e.preventDefault(); item.classList.remove('drag-over');
+                    const draggedId = e.dataTransfer.getData('text/plain');
+                    const fromIdx = selectedIds.indexOf(draggedId);
+                    const toIdx = i;
+                    if (fromIdx === toIdx) return;
+                    selectedIds.splice(fromIdx, 1);
+                    selectedIds.splice(toIdx, 0, draggedId);
+                    renderOrder();
+                });
+                list.appendChild(item);
+                const inp = document.createElement('input');
+                inp.type = 'hidden'; inp.name = 'ContainerIds'; inp.value = id;
+                hidden.appendChild(inp);
+            });
+        }
+
+        document.getElementById('searchPool').addEventListener('input', function () {
+            const q = this.value.toLowerCase();
+            document.querySelectorAll('.pool-item').forEach(el => {
+                el.style.display = (el.dataset.code.toLowerCase().includes(q) || el.dataset.loc.toLowerCase().includes(q)) ? '' : 'none';
+            });
+        });
+
+        document.getElementById('editForm').addEventListener('submit', function (e) {
+            const errEl = document.getElementById('containerIdsError');
+            if (selectedIds.length === 0) { e.preventDefault(); errEl.style.display = 'block'; } else { errEl.style.display = 'none'; }
+        });
+    </script>
+}

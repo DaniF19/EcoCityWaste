@@ -48,6 +48,15 @@ builder.Services.ConfigureApplicationCookie(options =>
 // servico de notificacoes
 builder.Services.AddScoped<NotificationService>();
 
+// servico de optimizacao rotas
+builder.Services.AddScoped<RouteOptimisationService>();
+
+// servico para obter coordenadas da location introduzida
+builder.Services.AddHttpClient<GeocodingService>();
+
+// servico para os controllers utilizarem o container history
+builder.Services.AddScoped<ContainerHistoryService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
