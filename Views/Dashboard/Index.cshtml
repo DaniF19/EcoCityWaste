@@ -1,0 +1,175 @@
+﻿@model EcoCityWaste.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Ambiental";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
+<div class="page-container">
+
+    <div class="card-box" style="max-width: 1100px;">
+
+        <!-- Título + Botão Voltar -->
+        <div class="card-title">
+
+            <span class="page-title">
+                Dashboard de Indicadores Ambientais
+            </span>
+
+            @{
+                string backController = User.IsInRole("Admin") ? "Admin" : "Funcionario";
+            }
+
+            <a asp-controller="@backController"
+               asp-action="Dashboard"
+               class="btn-vista-analitica">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+
+        </div>
+
+        <!-- Indicadores de Ocorrências -->
+        <h4 class="fw-bold" style="color:#795c4d; margin-bottom:15px;">Ocorrências</h4>
+
+        <div class="dashboard-grid">
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.TotalOcorrencias</span>
+                <span class="kpi-label">Total de Ocorrências</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.Pendente</span>
+                <span class="kpi-label">Pendente</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.EmAnalise</span>
+                <span class="kpi-label">Em Análise</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.EmResolucao</span>
+                <span class="kpi-label">Em Resolução</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.Resolvido</span>
+                <span class="kpi-label">Resolvido</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.Rejeitado</span>
+                <span class="kpi-label">Rejeitado</span>
+            </div>
+        </div>
+
+        <!-- Indicadores de Contentores -->
+        <h4 class="fw-bold" style="color:#795c4d; margin:25px 0 15px;">Contentores</h4>
+
+        <div class="dashboard-grid">
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.TotalContentores</span>
+                <span class="kpi-label">Total de Contentores</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.ContentoresCriticos</span>
+                <span class="kpi-label">Contentores Críticos (+90%)</span>
+            </div>
+        </div>
+
+        <!-- Indicadores Ambientais -->
+        <h4 class="fw-bold" style="color:#795c4d; margin:25px 0 15px;">Indicadores Ambientais</h4>
+
+        <div class="dashboard-grid">
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.NivelMedioEnchimento.ToString("0")%</span>
+                <span class="kpi-label">Nível Médio de Enchimento</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-value">@Model.PercentagemCriticos.ToString("0")%</span>
+                <span class="kpi-label">Percentagem de Críticos</span>
+            </div>
+        </div>
+
+        <!-- Enchimento por Tipo -->
+        <h5 class="fw-bold" style="color:#795c4d; margin:25px 0 10px;">Enchimento Médio por Tipo</h5>
+
+        <table class="table table-striped" style="margin-top:10px;">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Nível Médio (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.NivelMedioPorTipo)
+                {
+                    <tr>
+                        <td>@item.Key</td>
+                        <td>@item.Value.ToString("0")%</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+}
+
+<style>
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .kpi-card {
+        background-color: #e4d4b8;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease;
+    }
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(141,110,99,0.2);
+        }
+
+    .kpi-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #795c4d;
+    }
+
+    .kpi-label {
+        font-size: 0.95rem;
+        color: #5f4a3f;
+    }
+
+    .card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .page-title {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #8d6e63;
+    }
+
+</style>
