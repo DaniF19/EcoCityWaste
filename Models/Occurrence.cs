@@ -28,7 +28,7 @@ namespace EcoCityWaste.Models
         [ForeignKey(nameof(AssignedEmployeeId))]
         public User? AssignedEmployee { get; set; }
         public DateTime? AssignedAt { get; set; }
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
     }
 
     public enum OccurrenceStatus
