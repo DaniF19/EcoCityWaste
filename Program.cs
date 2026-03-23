@@ -134,7 +134,8 @@ using (var scope = app.Services.CreateScope())
                 Status = OccurrenceStatus.Pendente.ToString(),
                 UserId = cidadao.Id,
                 AssignedEmployeeId = null,
-                AssignedAt = null
+                AssignedAt = null,
+                ImagePath = null,
             });
 
             context.SaveChanges();
