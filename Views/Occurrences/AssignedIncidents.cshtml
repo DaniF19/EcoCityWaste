@@ -1,0 +1,101 @@
+﻿@using EcoCityWaste.Helpers
+@model List<EcoCityWaste.Models.Occurrence>
+
+@{
+    ViewData["Title"] = "Ocorrências atribuídas";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
+<div class="page-container">
+
+    <div class="card-box" style="max-width: 900px;">
+
+        <div class="card-title"
+             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">
+                Ocorrências atribuídas
+            </span>
+
+            <a asp-controller="Funcionario" asp-action="Dashboard" class="btn-vista-analitica">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+
+        </div>
+
+        @if (!Model.Any())
+        {
+            <p style="text-align:center;">Sem ocorrências associadas a ti.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Contentor</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Estado</th>
+                        <th>Reportado em</th>
+                        <th style="text-align:center;">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var occ in Model)
+                    {
+                        <tr>
+                            <td>@occ.ContainerCode</td>
+                            <td>@occ.OccurrenceType</td>
+                            <td>@occ.Description</td>
+                            <td>@occ.Status.ToDisplayName()</td>
+                            <td>@occ.ReportDate.ToString("dd/MM/yyyy HH:mm")</td>
+
+                            <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
+                                <a asp-controller="Occurrences"
+                                   asp-action="UpdateStatus"
+                                   asp-route-id="@occ.Id"
+                                   class="btn-primary"
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Atualizar estado
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+</div>
+
+
+<style>
+    .btn-vista-analitica {
+        background-color: #e4d4b8;
+        color: #795c4d !important;
+        padding: 10px 24px;
+        border-radius: 50px;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid #e4d4b8;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .btn-vista-analitica:hover {
+        background-color: #d6c3a3;
+        border-color: #d6c3a3;
+        color: #795c4d !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
+    }
+</style>

@@ -1,0 +1,124 @@
+﻿@using EcoCityWaste.Helpers
+@model EcoCityWaste.ViewModels.UpdateStatusViewModel
+
+@{
+    ViewData["Title"] = "Atualizar estado da ocorrência";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
+<div class="page-container">
+
+    <div class="card-box" style="max-width: 700px;">
+
+        <!-- Título + Botão Voltar -->
+        <div class="card-title"
+             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">
+                Atualizar estado da ocorrência
+            </span>
+
+            <a asp-controller="Occurrences"
+               asp-action="AssignedIncidents"
+               class="btn-vista-analitica">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+
+        </div>
+
+        <!-- Estado Atual -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Estado atual</label>
+
+            <div class="status-badge"
+                 style="background-color: #e4d4b8; color: #795c4d; padding: 8px 16px;
+                        border-radius: 20px; font-weight: 600; display:inline-block;">
+                @Model.CurrentStatus.ToDisplayName()
+            </div>
+        </div>
+
+        <!-- Formulário -->
+        <form asp-controller="Occurrences" asp-action="UpdateStatus" method="post">
+            <input type="hidden" asp-for="OccurrenceId" />
+
+            <div class="mb-3">
+                <label asp-for="NewStatus" class="form-label fw-bold">Novo estado</label>
+                <select asp-for="NewStatus"
+                        asp-items="Html.GetEnumSelectList<OccurrenceStatus>()"
+                        class="form-control">
+                </select>
+            </div>
+
+            <button type="submit"
+                    class="btn-primary w-100"
+                    style="padding: 10px 24px; font-size: 1rem; border-radius: 50px;">
+                <i class="fa-solid fa-rotate"></i> Atualizar estado
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+}
+
+
+<style>
+    /* Badge de estado (base) */
+    .status-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    /* Cores específicas por estado (se quiseres usar) */
+    .status-pending {
+        background-color: #f0ad4e;
+        color: white;
+    }
+
+    .status-inprogress {
+        background-color: #0275d8;
+        color: white;
+    }
+
+    .status-resolved {
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .status-cancelled {
+        background-color: #d9534f;
+        color: white;
+    }
+
+    .btn-vista-analitica {
+        background-color: #e4d4b8;
+        color: #795c4d !important;
+        padding: 10px 24px;
+        border-radius: 50px;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid #e4d4b8;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+        .btn-vista-analitica:hover {
+            background-color: #d6c3a3;
+            border-color: #d6c3a3;
+            color: #795c4d !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
+        }
+</style>

@@ -17,26 +17,32 @@ namespace EcoCityWaste.Models
 
         [Required]
         public string Description { get; set; }
-
         // Data em que o cidadão fez o reporte
         public DateTime ReportDate { get; set; }
-
         // Estado do reporte
         public string Status { get; set; }
         public int UserId { get; set; }
-
         [ForeignKey("UserId")]
         public User User { get; set; }
         public int? AssignedEmployeeId { get; set; }
         [ForeignKey(nameof(AssignedEmployeeId))]
         public User? AssignedEmployee { get; set; }
         public DateTime? AssignedAt { get; set; }
-
         public string ImagePath { get; set; }
     }
 
     public enum OccurrenceStatus
     {
-        Pendente, EmAnalise, EmResolucao, Resolvido, Rejeitado
+        [Display(Name = "Pendente")]
+        Pendente,
+        [Display(Name = "Em Análise")]
+        EmAnalise,
+        [Display(Name = "Em Resolução")]
+        EmResolucao,
+        [Display(Name = "Resolvido")]
+        Resolvido,
+        [Display(Name = "Rejeitado")]
+        Rejeitado
     }
-}   
+
+}
