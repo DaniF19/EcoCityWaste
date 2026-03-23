@@ -24,6 +24,7 @@ namespace EcoCityWasteProjetoESA.Tests
         {
             var claims = new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, "1"),
                 new Claim(ClaimTypes.Name, "TestUser"),
                 new Claim(ClaimTypes.Role, "Admin")
             };
