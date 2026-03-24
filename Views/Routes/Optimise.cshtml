@@ -1,0 +1,406 @@
+@model EcoCityWaste.Models.ViewModels.OptimisedRouteDto
+@using EcoCityWaste.Models
+@{
+    ViewData["Title"] = "Optimizar Rota";
+    var route = ViewBag.Route as Route;
+}
+
+<style>
+
+:root{
+    --cor-castanho: rgb(141,110,99);
+    --cor-bege: rgb(224,205,169);
+    --cor-fundo-claro: rgb(243,242,235);
+
+    --cor-sucesso:#27ae60;
+    --cor-aviso:#f1c40f;
+    --cor-vermelho-erro:#a94442;
+    --cor-manutencao:#3498db;
+
+    --border:#e6e6e6;
+    --text:#444;
+    --muted:#777;
+
+    --surface:#ffffff;
+    --surface-2:#ffffff;
+    --surface-3:#f7f6f2;
+}
+
+.optimise-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+/* Info banner */
+
+.info-banner{
+    background: #f3ebe8;
+    border: 1px solid var(--cor-bege);
+    border-radius: 9px;
+    padding: 10px 14px;
+    font-size: .8rem;
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+
+.info-banner i{
+    color:var(--cor-castanho);
+    font-size:1.2rem;
+}
+
+.info-banner p{
+    margin:0;
+    color:var(--text);
+    font-size:.88rem;
+    line-height:1.5;
+}
+
+.info-banner strong{
+    color:var(--cor-castanho);
+}
+
+/* Layout */
+
+.optimise-grid{
+    display:grid;
+    grid-template-columns:1fr 300px;
+    gap:20px;
+    align-items:start;
+}
+
+@@media(max-width:820px){
+    .optimise-grid{grid-template-columns:1fr;}
+}
+
+/* Panels */
+
+.panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.03);
+}
+
+.panel-title{
+    font-size:.95rem;
+    font-weight:700;
+    color:var(--cor-castanho);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.panel-title i{
+    color:var(--cor-castanho);
+}
+
+/* Stops */
+
+.opt-stop{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    border-radius:10px;
+    background:var(--surface-3);
+    border:1px solid var(--border);
+    margin-bottom:8px;
+}
+
+.opt-stop:last-child{
+    margin-bottom:0;
+}
+
+.opt-num{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:var(--cor-castanho);
+    color:white;
+    font-size:.8rem;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.opt-info{
+    flex:1;
+    min-width:0;
+}
+
+.opt-code{
+    font-family:monospace;
+    font-size:.78rem;
+    color:var(--cor-castanho);
+    background:#f3ebe8;
+    padding:2px 7px;
+    border-radius:4px;
+    margin-right:6px;
+}
+
+.opt-loc{
+    font-size:.85rem;
+    color:var(--text);
+    margin-top:2px;
+}
+
+/* Fill indicators */
+
+.fill-pill{
+    font-size:.75rem;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:12px;
+}
+
+.fill-low{
+    background:#d4edda;
+    color:var(--cor-sucesso);
+}
+
+.fill-mid{
+    background:#fff3cd;
+    color:var(--cor-aviso);
+}
+
+.fill-high{
+    background:#f8d7da;
+    color:var(--cor-vermelho-erro);
+}
+
+.high-fill-badge{
+    font-size:.7rem;
+    font-weight:700;
+    padding:2px 7px;
+    border-radius:10px;
+    background:#f8d7da;
+    color:var(--cor-vermelho-erro);
+    border:1px solid #f1b0b7;
+}
+
+/* Sidebar summary */
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
+    font-size:.87rem;
+}
+
+.summary-row:last-child{
+    border-bottom:none;
+}
+
+.summary-label{
+    color:var(--muted);
+}
+
+.summary-value{
+    color:var(--text);
+    font-weight:600;
+}
+
+/* Buttons */
+
+.btn-apply{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:none;
+    background:var(--cor-castanho);
+    color:white;
+    font-size:.95rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:18px;
+}
+
+.btn-apply:hover{
+    opacity:.9;
+}
+
+.btn-cancel{
+    display:block;
+    width:100%;
+    padding:11px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:white;
+    color:var(--muted);
+    font-size:.87rem;
+    font-weight:600;
+    text-align:center;
+    text-decoration:none;
+    margin-top:8px;
+}
+
+.btn-cancel:hover{
+    color:var(--text);
+    border-color:var(--cor-castanho);
+}
+
+/* Arrows */
+
+.arrow-indicator{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:.78rem;
+    color:var(--muted);
+    margin:4px 0 4px 44px;
+}
+
+</style>
+
+<div class="page-container">
+    <div style="margin-bottom:16px;">
+        <a asp-action="Details" asp-route-id="@route?.Id"
+           style="color:var(--muted);text-decoration:none;font-size:.85rem;">
+            <i class="fa-solid fa-chevron-left"></i> Voltar à Rota
+        </a>
+    </div>
+
+    <div class="optimise-header">
+        <div>
+            <h1 style="font-size:1.5rem;font-weight:800;color:var(--cor-castanho);margin:0 0 4px 0;">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--cyan);margin-right:8px;"></i>
+                Optimização de Rota
+            </h1>
+            <p style="color:var(--muted);margin:0;font-size:.88rem;">
+                @route?.Code – @route?.Name
+            </p>
+        </div>
+    </div>
+
+    <div class="info-banner">
+        <i class="fa-solid fa-circle-info"></i>
+        <p>
+            Os contentores com um nivel de enchimento ≥ 80% serão priorizados
+            e a distância total de percurso será calculado para ser minimizado. 
+            Confirme a ordem antes de aplicar.
+        </p>
+    </div>
+
+    <div class="optimise-grid">
+        <!-- Stops list -->
+        <div class="panel">
+            <div class="panel-title">
+                <i class="fa-solid fa-list-ol"></i>
+                Ordem Optimizada (@Model.Stops.Count paragens)
+            </div>
+
+            @for (int i = 0; i < Model.Stops.Count; i++)
+            {
+                var s = Model.Stops[i];
+                var fillClass = s.FillLevel >= 80 ? "fill-high" : s.FillLevel >= 50 ? "fill-mid" : "fill-low";
+                <div class="opt-stop">
+                    <div class="opt-num">@s.PickupOrder</div>
+                    <div class="opt-info">
+                        <div>
+                            <span class="opt-code">@s.Code</span>
+                            @if (s.FillLevel >= 80)
+                            {
+                                <span class="high-fill-badge">
+                                    <i class="fa-solid fa-fire"></i> Crítico
+                                </span>
+                            }
+                        </div>
+                        <div class="opt-loc">@s.Location</div>
+                        @if (s.Latitude == 0 && s.Longitude == 0)
+                        {
+                            <div style="font-size:.75rem;color:var(--amber);margin-top:2px;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Sem coordenadas GPS
+                            </div>
+                        }
+                    </div>
+                    <span class="fill-pill @fillClass">@s.FillLevel%</span>
+                </div>
+
+                @if (i < Model.Stops.Count - 1)
+                {
+                    <div class="arrow-indicator">
+                        <i class="fa-solid fa-arrow-down"></i>
+                        <span>próxima paragem</span>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Sidebar summary + apply -->
+        <div>
+            <div class="panel">
+                <div class="panel-title" style="margin-bottom:14px;">
+                    <i class="fa-solid fa-chart-simple"></i> Resumo
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Paragens</span>
+                    <span class="summary-value">@Model.Stops.Count</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Distância est.</span>
+                    <span class="summary-value">@Model.EstimatedDistanceKm km</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Críticos (≥80%)</span>
+                    <span class="summary-value" style="color:var(--red);">
+                        @Model.Stops.Count(s => s.FillLevel >= 80)
+                    </span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Sem GPS</span>
+                    <span class="summary-value" style="color:var(--amber);">
+                        @Model.Stops.Count(s => s.Latitude == 0 && s.Longitude == 0)
+                    </span>
+                </div>
+
+                <!-- Apply form -->
+                <form asp-action="ApplyOptimisation" method="post" id="apply-optimisation-form">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="routeId" value="@route?.Id" />
+                    @foreach (var s in Model.Stops)
+                    {
+                        <input type="hidden" name="orderedContainerIds" value="@s.ContainerId" />
+                    }
+                    <button type="button" class="btn-apply" onclick="confirmOptimisation()">
+                        <i class="fa-solid fa-check" style="margin-right:6px;"></i>
+                        Aplicar Optimização
+                    </button>
+                </form>
+
+                <a asp-action="Details" asp-route-id="@route?.Id" class="btn-cancel">
+                    Cancelar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmOptimisation() {
+        Swal.fire({
+            title: 'Aplicar Optimização?',
+            text: "A nova ordem de paragens será guardada nesta rota.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(141, 110, 99)',
+            cancelButtonColor: '#777',
+            confirmButtonText: 'Sim, aplicar',
+            cancelButtonText: 'Cancelar',
+            borderRadius: '15px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('apply-optimisation-form').submit();
+            }
+        })
+    }
+</script>

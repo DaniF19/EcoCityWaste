@@ -34,6 +34,26 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Funcionario" asp-action="Dashboard">Funcionário</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- Colocar aqui apenas para funcionarios e admins -->
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Containers" asp-action="Index">Contentores</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- rotas -->
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Routes" asp-action="Index">Rotas</a>
+                        </li>
+                    </ul>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
 
@@ -88,6 +108,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
