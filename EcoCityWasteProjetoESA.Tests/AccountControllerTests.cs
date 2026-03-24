@@ -174,8 +174,7 @@ namespace EcoCityWasteProjetoESA.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("Index", result.ActionName);
-            Assert.Equal("Home", result.ControllerName);
+            Assert.Equal("Dashboard", result.ActionName);
         }
 
         [Fact]
@@ -221,7 +220,8 @@ namespace EcoCityWasteProjetoESA.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("Login", result.ActionName);
+            Assert.Equal("Index", result.ActionName);
+            Assert.Equal("Home", result.ControllerName);
         }
 
         [Fact]
