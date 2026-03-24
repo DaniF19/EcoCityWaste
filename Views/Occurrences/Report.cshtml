@@ -1,0 +1,349 @@
+﻿@model EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+
+@{
+    ViewData["Title"] = "Reportar Ocorrência";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+}
+
+<div class="page-container">
+    <div class="card-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+
+            <h2 style="color: #8d6e63; font-weight: bold; margin: 0;">Reportar Ocorrência</h2>
+
+            <a asp-controller="Occurrences" asp-action="Status" class="btn-primary" style="display: inline-flex; align-items: center; width: fit-content; text-decoration: none; padding: 10px 24px; margin: 0;">
+                <i class="fa-solid fa-list-check me-2"></i> Ocorrências
+            </a>
+
+        </div>
+
+        @if (ViewBag.Success != null)
+        {
+            <div class="alert-success-addcontainer">
+                <i class="fa-solid fa-circle-check"></i> @ViewBag.Success
+            </div>
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert-error">
+                <i class="fa-solid fa-triangle-exclamation"></i> @ViewBag.Error
+            </div>
+        }
+
+        <form asp-action="Report" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="input-group">
+                <i class="fa-solid fa-qrcode input-icon"></i>
+                <select asp-for="ContainerCode" id="select-code" class="custom-select">
+                    <option value="">Selecione o Código...</option>
+                    @if (ViewBag.ContainersList != null)
+                    {
+                        foreach (var c in ViewBag.ContainersList)
+                        {
+                            <option value="@c.Code">@c.Code</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="ContainerCode" class="field-error"></span>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot input-icon"></i>
+                <select id="select-location" class="custom-select">
+                    <option value="">Selecione a Localização...</option>
+                    @if (ViewBag.ContainersList != null)
+                    {
+                        foreach (var c in ViewBag.ContainersList)
+                        {
+                            <option value="@c.Code">@c.Location</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <label class="field-label">Informação do Contentor</label>
+            <div class="info-grid">
+                <div class="info-item">
+                    <i id="statusIcon" class="fa-solid fa-heart-pulse"></i>
+                    <input type="text" id="auto-status" readonly placeholder="Estado" />
+                </div>
+                <div class="info-item">
+                    <i id="fillIcon" class="fa-solid fa-percent"></i>
+                    <input type="text" id="auto-occupation" readonly placeholder="Ocupação" />
+                </div>
+                <div class="info-item">
+                    <i id="typeIcon" class="fa-solid fa-box-archive"></i>
+                    <input type="text" id="auto-type" readonly placeholder="Tipo" />
+                </div>
+            </div>
+
+            <label class="field-label" style="margin-top: 20px;">Tipo de Anomalia</label>
+            <div class="selection-grid">
+                <label class="selection-item">
+                    <input type="radio" asp-for="OccurrenceType" value="Lixo no Chão" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-trash-arrow-up"></i>
+                        <span>Lixo no Chão</span>
+                    </div>
+                </label>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="OccurrenceType" value="Cheio" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-dumpster"></i>
+                        <span>Muito Cheio</span>
+                    </div>
+                </label>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="OccurrenceType" value="Queimado" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-fire-flame-curved"></i>
+                        <span>Queimado</span>
+                    </div>
+                </label>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="OccurrenceType" value="Avariado" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Avariado</span>
+                    </div>
+                </label>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="OccurrenceType" value="Vandalismo" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-spray-can"></i>
+                        <span>Vandalismo</span>
+                    </div>
+                </label>
+            </div>
+            <span asp-validation-for="OccurrenceType" class="field-error"></span>
+
+            <div class="input-group" style="margin-top: 15px;">
+                <i class="fa-solid fa-comment-dots input-icon" style="top: 25px;"></i>
+                <textarea asp-for="Description" placeholder="Descreva o problema com mais detalhe..."></textarea>
+                <span asp-validation-for="Description" class="field-error"></span>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <label class="field-label" style="display: block; margin-bottom: 8px; font-weight: 600; color: #8d6e63; text-transform: uppercase; font-size: 0.85rem;">
+                    <i class="fa-solid fa-camera me-2"></i> Anexar Fotografia (Opcional)
+                </label>
+
+                <div style="position: relative; display: flex; align-items: center; background-color: white; border: 1px solid #ddd; border-radius: 10px; padding: 6px; overflow: hidden;">
+
+                    <input type="file" asp-for="Photo" id="file-input" accept="image/*" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2;" />
+
+                    <div style="background-color: #e4d4b8; color: #795c4d; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; margin-right: 15px; pointer-events: none;">
+                        <i class="fa-solid fa-upload me-2"></i> Escolher Ficheiro
+                    </div>
+
+                    <span id="fileName" style="color: #999; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 1;">
+                        Nenhuma fotografia selecionada
+                    </span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 20px;">
+                Enviar Ocorrência
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Estilo para a caixa de descrição */
+    .input-group textarea {
+        width: 100%;
+        padding: 15px 20px 15px 50px;
+        border-radius: 20px !important;
+        border: 1px solid #aaa;
+        font-size: 1rem;
+        min-height: 120px;
+        outline: none;
+        transition: 0.3s;
+        resize: vertical;
+        font-family: inherit;
+    }
+
+        .input-group textarea:focus {
+            border-color: rgb(141, 110, 99);
+            box-shadow: 0 0 8px rgba(141, 110, 99, 0.2);
+        }
+
+    /* Estilo para as novas Comboboxes */
+    .custom-select {
+        width: 100%;
+        padding: 0 45px 0 50px;
+        border-radius: 50px;
+        border: 1px solid #aaa;
+        font-size: 1rem;
+        height: 50px;
+        outline: none;
+        transition: 0.3s;
+        background-color: white;
+        /* Configuração para Seta Idêntica à Original */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        /* SVG ajustado: triângulo mais robusto e cor calibrada */
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238d6e63'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        /* Posicionamento: ligeiramente mais para a esquerda e tamanho maior */
+        background-position: calc(100% - 15px) center;
+        background-size: 30px;
+        cursor: pointer;
+    }
+
+    /* Grelha para os campos automáticos */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    .info-item {
+        position: relative;
+    }
+
+        .info-item i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .info-item input {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border-radius: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #555;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Recebe os dados JSON injetados pelo Controlador
+        const containersData = @Html.Raw(ViewBag.ContainersJson ?? "[]");
+
+        const selectCode = document.getElementById('select-code');
+        const selectLocation = document.getElementById('select-location');
+        const autoStatus = document.getElementById('auto-status');
+        const autoOccupation = document.getElementById('auto-occupation');
+        const autoType = document.getElementById('auto-type');
+
+        // Sincronizar: Código -> Localização
+        selectCode.addEventListener('change', function() {
+            const selectedCode = this.value;
+            selectLocation.value = selectedCode;
+            fillAutoFields(selectedCode);
+        });
+
+        // Sincronizar: Localização -> Código
+        selectLocation.addEventListener('change', function() {
+            const selectedCode = this.value;
+            selectCode.value = selectedCode;
+            fillAutoFields(selectedCode);
+        });
+
+        function fillAutoFields(code) {
+            if (!code) {
+                autoStatus.value = '';
+                autoOccupation.value = '';
+                autoType.value = '';
+                return;
+            }
+
+            const container = containersData.find(c => c.Code === code);
+
+            if (container) {
+                autoStatus.value = container.Status || 'N/D';
+
+                if (container.FillLevel !== undefined && container.FillLevel !== null) {
+                    autoOccupation.value = container.FillLevel + '%';
+                } else {
+                    autoOccupation.value = 'N/D';
+                }
+
+                autoType.value = container.Type || 'N/D';
+
+                updateInfoColors(autoStatus.value, autoOccupation.value, autoType.value);
+            }
+        }
+
+         function updateInfoColors(status, fillLevel, type) {
+
+            // 1. Cor do Estado
+            const statusIcon = document.getElementById('statusIcon');
+            if (statusIcon) {
+                switch (status.toLowerCase()) {
+                    case 'bom': statusIcon.style.color = '#27ae60'; break; // Verde
+                    case 'avariado':
+                    case 'cheio': statusIcon.style.color = '#e74c3c'; break; // Vermelho
+                    case 'manutenção': statusIcon.style.color = '#f39c12'; break; // Laranja
+                    default: statusIcon.style.color = '#95a5a6'; // Cinzento
+                }
+            }
+
+            // 2. Cor da Ocupação (Lê o número, tirando o símbolo %)
+            const fillIcon = document.getElementById('fillIcon');
+            if (fillIcon) {
+                let level = parseInt(fillLevel.replace('%', ''));
+
+                if (level >= 80) {
+                    fillIcon.style.color = '#e74c3c'; // Vermelho (Alerta)
+                } else if (level >= 50) {
+                    fillIcon.style.color = '#f39c12'; // Laranja (Atenção)
+                } else {
+                    fillIcon.style.color = '#27ae60'; // Verde (Tranquilo)
+                }
+            }
+
+            // 3. Cor do Tipo de Resíduo
+            const iconType = document.getElementById('typeIcon');
+            if (iconType) {
+                switch (type.toLowerCase()) {
+                    case 'plástico':
+                    case 'embalagens': iconType.style.color = '#f1c40f'; break; // Amarelo
+                    case 'papel':
+                    case 'cartão': iconType.style.color = '#3498db'; break; // Azul
+                    case 'vidro': iconType.style.color = '#27ae60'; break; // Verde
+                    case 'indiferenciado': iconType.style.color = '#34495e'; break; // Cinzento Escuro
+                    default: iconType.style.color = '#95a5a6';
+                }
+            }
+        }
+
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            var fileName = document.getElementById('fileName');
+
+            // Verifica se algum ficheiro foi selecionado
+            if (e.target.files && e.target.files.length > 0) {
+                fileName.textContent = e.target.files[0].name;
+                fileName.style.color = '#8d6e63'; // Fica castanho para dar destaque
+                fileName.style.fontWeight = '600';
+            } else {
+                fileName.textContent = 'Nenhuma fotografia selecionada';
+                fileName.style.color = '#999';
+                fileName.style.fontWeight = 'normal';
+            }
+        });
+
+    </script>
+}

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EcoCityWaste.Models
+namespace EcoCityWaste.ViewModels
 {
     public class ContainerRegisterViewModel
     {

@@ -1,4 +1,5 @@
 ﻿@{
+    @model EcoCityWaste.ViewModels.ReportOccurrenceViewModel
     ViewData["Title"] = "EcoCityWaste";
 }
 
@@ -154,11 +155,4 @@
 <!-- CTA SECTION -->
 <div class="cta-section">
     <h3>Juntos por um futuro mais sustentável 🌱</h3>
-
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <a asp-controller="Account" asp-action="Register">
-            Criar Conta
-        </a>
-    }
 </div>

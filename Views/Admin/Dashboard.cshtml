@@ -11,7 +11,6 @@
     <h1 class="dashboard-title">Admin Dashboard</h1>
 
     <div class="dashboard-grid">
-
         <!-- Registar contentor -->
         <a asp-controller="Containers" asp-action="Register" class="dashboard-card">
             <i class="fa-solid fa-book dashboard-icon"></i>
@@ -34,8 +33,16 @@
         <a asp-controller="Collection" asp-action="Status" class="dashboard-card">
             <i class="fa-solid fa-clock dashboard-icon"></i>
             <span>Estado de Recolha</span>
-        </a>-->
-
+        </a>
+        <!-- Atribuir Ocorr�ncia -->
+        <a asp-controller="Occurrences" asp-action="Assign" class="dashboard-card">
+            <i class="fa-solid fa-user-check dashboard-icon"></i>
+            <span>Atribuir Ocorr�ncia</span>
+        </a>
+        <a asp-controller="Dashboard" asp-action="Index" class="dashboard-card">
+            <i class="fa-solid fa-leaf dashboard-icon"></i>
+            <span>Dashboard de Indicadores</span>
+        </a>
     </div>
 
 </div>

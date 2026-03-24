@@ -2,6 +2,7 @@
 using EcoCityWaste.Data;
 using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
+using EcoCityWaste.ViewModels;
 using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

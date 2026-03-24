@@ -1,0 +1,160 @@
+﻿@model IEnumerable<EcoCityWaste.Models.Occurrence>
+
+@{
+    ViewData["Title"] = "Estado das Minhas Ocorrências";
+}
+
+<div class="eco-page-container" style="max-width: 900px; margin: 0 auto; background-color: rgb(243, 242, 235); padding: 40px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-top: 30px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    
+    <h2 style="color: #8d6e63; font-weight: bold; margin: 0;">O Meu Histórico</h2>
+    
+    <a asp-action="Report" class="btn-occurrence">
+        <i class="fa-solid fa-plus me-2"></i> Nova Ocorrência
+    </a>
+
+</div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; border: 1px solid #c3e6cb; font-weight: 500;">
+            <i class="fa-solid fa-circle-check me-2"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div style="text-align: center; padding: 50px; background-color: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+            <i class="fa-solid fa-clipboard-list" style="font-size: 3rem; color: #ccc; margin-bottom: 15px;"></i>
+            <h4 style="color: rgb(141, 110, 99); font-weight: 600;">Ainda não submeteu nenhuma ocorrência.</h4>
+            <p style="color: #777;">Ajudar a manter a cidade limpa começa consigo!</p>
+        </div>
+    }
+    else
+    {
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            @foreach (var item in Model)
+            {
+                // Lógica para as cores dependendo do Enum
+                var corBorda = item.Status switch
+                {
+                    "Pendente" => "#f1c40f", // Amarelo
+                    "EmAnalise" => "#e67e22", // Laranja
+                    "EmResolucao" => "#3498db", // Azul
+                    "Resolvido" => "#27ae60", // Verde
+                    "Rejeitado" => "#e74c3c", // Vermelho
+                    _ => "#95a5a6" // Cinzento por defeito
+                };
+
+                var corFundoBadge = item.Status switch
+                {
+                    "Pendente" => "#fff3cd",
+                    "EmAnalise" => "#fdebd0",
+                    "EmResolucao" => "#cce5ff",
+                    "Resolvido" => "#d4edda",
+                    "Rejeitado"=> "#f8d7da",
+                    _ => "#e2e3e5"
+                };
+
+                var corTextoBadge = item.Status switch
+                {
+                    "Pendente" => "#856404",
+                    "EmAnalise" => "#d35400",
+                    "EmResolucao" => "#004085",
+                    "Resolvido" => "#155724",
+                    "Rejeitado" => "#721c24",
+                    _ => "#383d41"
+                };
+
+                <div style="background-color: white; padding: 20px; border-radius: 15px; border-left: 6px solid @corBorda; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+
+                <div style="flex: 1; min-width: 250px;">
+                    <div style="margin-bottom: 10px;">
+                        <span style="background-color: rgb(224, 205, 169); color: rgb(141, 110, 99); padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; margin-right: 10px;">
+                            <i class="fa-solid fa-dumpster me-1"></i> @item.ContainerCode
+                        </span>
+                        <small style="color: #999; font-weight: 500;">
+                            <i class="fa-regular fa-calendar me-1"></i> @item.ReportDate.ToString("dd/MM/yyyy 'às' HH:mm")
+                        </small>
+                    </div>
+                    <h5 style="margin: 0 0 8px 0; color: #333; font-weight: 600; font-size: 1.1rem;">@item.OccurrenceType</h5>
+                    <p style="margin: 0; color: #666; font-size: 0.95rem; line-height: 1.4;">@item.Description</p>
+
+                    @if (!string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <div style="margin-top: 12px;">
+                            <a href="@item.ImagePath" target="_blank" class="btn-photo">
+                                <i class="fa-regular fa-image me-2"></i> Ver Fotografia
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                    <div style="text-align: right;">
+                        <span style="display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; background-color: @corFundoBadge; color: @corTextoBadge;">
+
+                            @if (item.Status == "Pendente") { <i class="fa-regular fa-clock me-2"></i> }
+                            else if (item.Status == "EmAnalise") { <i class="fa-solid fa-magnifying-glass me-2"></i> }
+                            else if (item.Status == "EmResolucao") { <i class="fa-solid fa-truck-fast me-2"></i> }
+                            else if (item.Status == "Resolvido") { <i class="fa-solid fa-check me-2"></i> }
+                            else if (item.Status == "Rejeitado") { <i class="fa-solid fa-xmark me-2"></i> }
+                
+                            @(item.Status switch {
+                                "EmAnalise" => "Em Análise",
+                                "EmResolucao" => "Em Resolução",
+                                _ => item.Status
+                                })
+                        </span>
+                    </div>
+
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .btn-photo {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #8d6e63; /* Texto Castanho */
+        background-color: #fdfbf7; /* Fundo Creme */
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        border: 1px solid #e4d4b8; /* Rebordo Bege */
+        transition: all 0.3s ease;
+    }
+
+    .btn-photo:hover {
+        background-color: #8d6e63; /* Fundo Castanho Escuro no hover */
+        color: white !important; /* Texto passa a Branco */
+        border-color: #8d6e63; /* Rebordo acompanha a cor do fundo */
+        text-decoration: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* sombra */
+    }
+
+    .btn-occurrence {
+        background-color: #8d6e63;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+
+    .btn-occurrence:hover {
+        background-color: #795c4d;
+        color: white;
+        transform: translateY(-2px); /* Dá um pequeno salto para cima */
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Aumenta a sombra */
+    }
+
+</style>

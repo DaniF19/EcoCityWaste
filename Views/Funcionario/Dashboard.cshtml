@@ -11,15 +11,14 @@
     <h1 class="dashboard-title">Dashboard de Funcionário</h1>
 
     <div class="dashboard-grid">
-
-        <!-- Registar contentor -->
+        <!-- Editar contentor -->
         <a asp-controller="Containers" asp-action="ListStatus" class="dashboard-card">
             <i class="fa-solid fa-book dashboard-icon"></i>
             <span>Alterar Estado Contentor</span>
         </a>
 
         <!-- Consultar contentores -->
-        <a asp-controller="Funcionario" asp-action="Dashboard" class="dashboard-card">
+        <a asp-controller="Containers" asp-action="List" class="dashboard-card">
             <i class="fa-solid fa-magnifying-glass dashboard-icon"></i>
             <span>Consultar Contentores</span>
         </a>
@@ -35,7 +34,14 @@
             <i class="fa-solid fa-clock dashboard-icon"></i>
             <span>Estado de Recolha</span>
         </a>
-
+        <a asp-controller="Occurrences" asp-action="AssignedIncidents" class="dashboard-card">
+            <i class="fa-solid fa-list-check dashboard-icon"></i>
+            <span>Ocorrências</span>
+        </a>
+        <a asp-controller="Dashboard" asp-action="Index" class="dashboard-card">
+            <i class="fa-solid fa-leaf dashboard-icon"></i>
+            <span>Dashboard de Indicadores</span>
+        </a>
     </div>
 
 </div>

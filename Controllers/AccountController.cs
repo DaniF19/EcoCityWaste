@@ -7,6 +7,7 @@ using EcoCityWaste.Models;
 using BCrypt.Net;
 using EcoCityWaste.Data;
 using EcoCityWaste.Services;
+using EcoCityWaste.ViewModels;
 
 namespace EcoCityWaste.Controllers
 {
@@ -63,7 +64,21 @@ namespace EcoCityWaste.Controllers
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                return RedirectToAction("Index", "Home");
+                switch (user.Role)
+                {
+                    case "Cidadao":
+                        return RedirectToAction("Dashboard", "Citizen");
+
+                    case "Admin":
+                        return RedirectToAction("Dashboard", "Admin");
+
+                    case "Funcionario":
+                        return RedirectToAction("Dashboard", "Funcionario");
+
+                    default:
+                        // Caso não tenha uma role específica, vai para a Home
+                        return RedirectToAction("Index", "Home");
+                }
             }
 
             // Se a password ou email não corresponderem ao utilizador
@@ -120,7 +135,7 @@ namespace EcoCityWaste.Controllers
             // Isto apaga o Cookie e termina a sess�o
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         // Recover Password Functionality
