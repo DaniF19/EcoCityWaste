@@ -12,8 +12,7 @@ namespace EcoCityWaste.Data
         public DbSet<ContainerStatusHistory> ContainerStatusHistories { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Occurrence> Occurrences { get; set; }
-    }
-
+    
         //public DbSet<Route> Routes { get; set; }
         public DbSet<EcoCityWaste.Models.Route> Routes { get; set; }
         public DbSet<RouteContainer> RouteContainers { get; set; }

@@ -160,14 +160,14 @@ select.input-validation-error {
 
 .dashboard-grid {
     display: flex;
-    gap: 80px;
+    gap: 40px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .dashboard-card {
-    width: 260px;
-    height: 260px;
+    width: 240px;
+    height: 240px;
     background-color: rgb(224, 205, 169); /* bege */
     border-radius: 30px;
     display: flex;
