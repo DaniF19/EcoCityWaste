@@ -2,10 +2,11 @@ using EcoCityWaste.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace EcoCityWaste.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Funcionario,Cidadao")]
     public class NotificationsController : Controller
     {
         private readonly AppDbContext _context;
@@ -17,7 +18,10 @@ namespace EcoCityWaste.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
             var notifications = await _context.Notifications
+                .Where(n => n.UserId == userId)
                 .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();
 

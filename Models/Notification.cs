@@ -13,5 +13,8 @@ namespace EcoCityWaste.Models
         public bool IsRead { get; set; } = false;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        
+        public int? UserId { get; set; }
+        public User? User { get; set; }
     }
 }
