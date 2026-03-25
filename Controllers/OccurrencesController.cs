@@ -202,8 +202,14 @@ namespace EcoCityWaste.Controllers
             occurrence.Status = OccurrenceStatus.EmAnalise.ToString();
             occurrence.AssignedAt = DateTime.Now;
 
+            _context.Notifications.Add(new Notification
+            {
+                Message = $"Foi-lhe atribuída uma ocorrência ({occurrence.OccurrenceType}).",
+                UserId = model.SelectedEmployeeId,
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            });
             await _context.SaveChangesAsync();
-
             TempData["Success"] = "Ocorrência atribuída com sucesso!";
             return RedirectToAction("Assign");
         }
@@ -272,6 +278,15 @@ namespace EcoCityWaste.Controllers
             occurrence.Status = model.NewStatus.ToString();
 
             _context.Occurrences.Update(occurrence);
+
+            _context.Notifications.Add(new Notification
+            {
+                Message = $"O estado da sua ocorrência foi atualizado para {occurrence.Status}.",
+                UserId = occurrence.UserId,
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            });
+
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Incident status updated successfully.";

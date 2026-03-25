@@ -1,4 +1,5 @@
 ﻿@inject EcoCityWaste.Data.AppDbContext context
+@using System.Security.Claims
 
 <!DOCTYPE html>
 <html lang="pt-pt">
@@ -6,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - EcoCityWaste</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/recover.css" asp-append-version="true" />
@@ -15,116 +16,128 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     @RenderSection("Styles", required: false)
-
-
 </head>
+
 <body>
-    <header>
-    @{
-        var unreadCount = context.Notifications.Count(n => !n.IsRead);
+<header>
+@{
+    var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+    int unreadCount = 0;
+
+    if (int.TryParse(userIdStr, out int uid))
+    {
+        unreadCount = context.Notifications
+            .Count(n => !n.IsRead && n.UserId == uid);
     }
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-4 p-3">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
+}
 
-            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index" style="color: #8d6e63; font-size: 1.5rem;">
-                <i class="fa-solid fa-leaf text-success me-2"></i> EcoCityWaste
-            </a>
+<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-4 p-3">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
 
-            <div class="d-flex align-items-center">
-                <ul class="navbar-nav align-items-center flex-row">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item me-4">
-                            <a class="nav-link notification-icon p-0 @(unreadCount > 0 ? "has-notifications" : "")"
-                               asp-controller="Notifications"
-                               asp-action="Index" style="color: #8d6e63;">
-                                <i class="fa-solid fa-bell fs-5"></i>
-                                @if (unreadCount > 0)
-                                {
-                                    <span class="notification-badge">@unreadCount</span>
-                                }
-                            </a>
-                        </li>
+        <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index"
+           style="color: #8d6e63; font-size: 1.5rem;">
+            <i class="fa-solid fa-leaf text-success me-2"></i> EcoCityWaste
+        </a>
 
-                        <li class="nav-item me-4 d-none d-sm-block">
-                            <span class="nav-link p-0 fw-bold" style="color: #795c4d;">Olá, @User.Identity.Name</span>
-                        </li>
+        <div class="d-flex align-items-center">
+            <ul class="navbar-nav align-items-center flex-row">
 
-                        <li class="nav-item">
-                            <a asp-controller="Account" asp-action="Logout" class="btn-logout-custom">
-                                <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> 
-                                <span class="d-none d-md-inline">Sair</span>
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a asp-controller="Account" asp-action="Login" class="btn-login-custom">
-                                <i class="fa-solid fa-user me-2"></i> Entrar
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <!-- 🔔 NOTIFICATIONS -->
+                    <li class="nav-item me-4">
+                        <a class="nav-link notification-icon p-0 @(unreadCount > 0 ? "has-notifications" : "")"
+                           asp-controller="Notifications"
+                           asp-action="Index"
+                           style="color: #8d6e63;">
+
+                            <i class="fa-solid fa-bell fs-5"></i>
+
+                            @if (unreadCount > 0)
+                            {
+                                <span class="notification-badge">@unreadCount</span>
+                            }
+                        </a>
+                    </li>
+
+                    <!-- 👤 USER -->
+                    <li class="nav-item me-4 d-none d-sm-block">
+                        <span class="nav-link p-0 fw-bold" style="color: #795c4d;">
+                            Olá, @User.Identity.Name
+                        </span>
+                    </li>
+
+                    <!-- 🚪 LOGOUT -->
+                    <li class="nav-item">
+                        <a asp-controller="Account" asp-action="Logout" class="btn-logout-custom">
+                            <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>
+                            <span class="d-none d-md-inline">Sair</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <!-- 🔐 LOGIN -->
+                    <li class="nav-item">
+                        <a asp-controller="Account" asp-action="Login" class="btn-login-custom">
+                            <i class="fa-solid fa-user me-2"></i> Entrar
+                        </a>
+                    </li>
+                }
+
+            </ul>
         </div>
-    </nav>
-</header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
     </div>
+</nav>
+</header>
 
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
 
-    
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
 
 <style>
-    /* Estilo do Botão Entrar */
-    .btn-login-custom {
-        background-color: #8d6e63;
-        color: white !important;
-        padding: 8px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-        .btn-login-custom:hover {
+.btn-login-custom {
+    background-color: #8d6e63;
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.btn-login-custom:hover {
             background-color: #795c4d;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(141, 110, 99, 0.3);
             color: white !important;
+            text-decoration: none;
         }
 
-    /* Estilo do Botão Sair */
-    .btn-logout-custom {
-        background-color: #e4d4b8;
-        color: #795c4d !important;
-        padding: 8px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        border: 2px solid #e4d4b8;
-    }
+.btn-logout-custom {
+    background-color: #e4d4b8;
+    color: #795c4d !important;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+}
 
-        .btn-logout-custom:hover {
+.btn-logout-custom:hover {
             background-color: #d6c3a3;
             border-color: #d6c3a3;
             transform: translateY(-2px);
+            text-decoration: none;
         }
 </style>
