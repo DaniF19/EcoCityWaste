@@ -100,6 +100,17 @@ namespace EcoCityWasteProjetoESA.Tests
 
             using var context = new AppDbContext(options);
 
+            context.Users.Add(new User
+            {
+                Id = 1,
+                Username = "admin",
+                Role = "Admin",
+                Email = "admin@teste.com",
+                PasswordHash = "passwordHash"
+            });
+
+            await context.SaveChangesAsync();
+
             var service = new NotificationService(context);
 
             var container = new Container
