@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Regista o servi�o de simula��o de sensores
-builder.Services.AddHostedService<EcoCityWaste.Services.SensorSimulationService>();
+// -----------------------------
+// 1. REGISTO DE SERVIÇOS
+// -----------------------------
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Auth Google
+// Autenticação Google
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -26,17 +26,17 @@ builder.Services.AddAuthentication(options =>
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 });
 
-// Servico envio email para recuperar password
+// Email
 builder.Services.AddScoped<IEmailService, EmailService>();
-// DbContext 
+
+// DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"),
-    sqlServerOptionsAction: sqlOptions =>
+    sqlOptions =>
     {
-        // Ativa tentativas automáticas em caso de falha de ligação
         sqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 5, // Número máximo de tentativas
-            maxRetryDelay: TimeSpan.FromSeconds(10), // Espera máxima entre tentativas
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
             errorNumbersToAdd: null);
     }));
 
@@ -45,67 +45,50 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
-// servico de notificacoes
+// Serviços internos
 builder.Services.AddScoped<NotificationService>();
-
-// servico de optimizacao rotas
 builder.Services.AddScoped<RouteOptimisationService>();
-
-// servico para obter coordenadas da location introduzida
 builder.Services.AddHttpClient<GeocodingService>();
 
-var app = builder.Build();
+// -----------------------------
+// 2. SEED DA BASE DE DADOS (ANTES DO BUILD)
+// -----------------------------
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-// app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-// .WithStaticAssets();
-
-/*
-// Cria um User automatico para testes, caso nao exista
-using (var scope = app.Services.CreateScope())
+using (var scope = AppContext.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (!context.Users.Any(u => u.Email == "teste@gmail.com"))
+
+    // Criar Admin se não existir
+    if (!context.Users.Any(u => u.Role == "Admin"))
     {
         context.Users.Add(new User
         {
             Username = "Admin",
-            Email = "teste@gmail.com",
+            Email = "admin@ecocity.com",
+            Role = "Admin",
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
         });
-        context.SaveChanges();
     }
-}
-*/
 
-// Cria contentores autom�ticos para testes, caso a tabela esteja vazia
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // Criar Funcionário se não existir
+    if (!context.Users.Any(u => u.Role == "Funcionario"))
+    {
+        context.Users.Add(new User
+        {
+            Username = "Funcionario",
+            Email = "funcionario@ecocity.com",
+            Role = "Funcionario",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
+        });
+    }
 
-    // Verifica se não existe nenhum contentor na base de dados
+    context.SaveChanges();
+
+    // Criar contentores se a tabela estiver vazia
     if (!context.Contentores.Any())
     {
         context.Contentores.AddRange(
-            new EcoCityWaste.Models.Container
+            new Container
             {
                 Code = "CNT-001",
                 Location = "Praça do Bocage, Setúbal",
@@ -118,7 +101,7 @@ using (var scope = app.Services.CreateScope())
                 LastUpdated = DateTime.Now.AddMinutes(-30),
                 IsActive = true
             },
-            new EcoCityWaste.Models.Container
+            new Container
             {
                 Code = "CNT-002",
                 Location = "Avenida Luísa Todi, Setúbal",
@@ -131,7 +114,7 @@ using (var scope = app.Services.CreateScope())
                 LastUpdated = DateTime.Now.AddHours(-2),
                 IsActive = true
             },
-            new EcoCityWaste.Models.Container
+            new Container
             {
                 Code = "CNT-003",
                 Location = "Parque do Bonfim, Setúbal",
@@ -144,7 +127,7 @@ using (var scope = app.Services.CreateScope())
                 LastUpdated = DateTime.Now.AddDays(-1),
                 IsActive = false
             },
-            new EcoCityWaste.Models.Container
+            new Container
             {
                 Code = "CNT-004",
                 Location = "Mercado do Livramento, Setúbal",
@@ -157,7 +140,7 @@ using (var scope = app.Services.CreateScope())
                 LastUpdated = DateTime.Now.AddMinutes(-10),
                 IsActive = false
             },
-            new EcoCityWaste.Models.Container
+            new Container
             {
                 Code = "CNT-005",
                 Location = "Jardim do Quebedo, Setúbal",
@@ -176,6 +159,32 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// -----------------------------
+// 3. AGORA SIM: REGISTAR O SENSOR SIMULATION SERVICE
+// -----------------------------
+builder.Services.AddHostedService<SensorSimulationService>();
+
+// -----------------------------
+// 4. BUILD + PIPELINE
+// -----------------------------
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 

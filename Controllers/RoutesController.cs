@@ -361,8 +361,19 @@ namespace EcoCityWaste.Controllers
             route.AssignedEmployeeId = model.EmployeeId;
             route.AssignedAt = DateTime.Now;
             route.Status = EcoCityWaste.Models.Route.RouteStatus.InProgress;
-
+            //novo 
             await _context.SaveChangesAsync();
+            var notification = new Notification
+            {
+                UserId = employee.Id,
+                RouteId = route.Id,
+                Message = $"Nova rota atribuída: {route.Code}",
+                CreatedAt = DateTime.Now
+            };
+
+            _context.Notifications.Add(notification);
+            await _context.SaveChangesAsync();
+
             TempData["SuccessMessage"] = $"Rota atribuída a {employee.Username}.";
             return RedirectToAction(nameof(Details), new { id = route.Id });
         }

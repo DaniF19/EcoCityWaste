@@ -44,6 +44,7 @@
             <th><span class="sort-link"><i class="fa-solid fa-message"></i> Mensagem</span></th>
             <th><span class="sort-link"><i class="fa-solid fa-calendar-days"></i> Data</span></th>
             <th><span class="sort-link"><i class="fa-solid fa-circle-info"></i> Estado</span></th>
+            <th>Ações</th>
         </tr>
     </thead>
 
@@ -53,7 +54,14 @@
             <tr class="@(notification.IsRead ? "" : "notification-unread")">
 
                 <td class="container-code">
-                    #@notification.ContainerId
+                                    @if (notification.RouteId != null)
+                                    {
+                                        <span>Rota #@notification.RouteId</span>
+                                    }
+                                    else if (notification.ContainerId != null)
+                                    {
+                                        <span>Contentor #@notification.ContainerId</span>
+                                    }
                 </td>
 
                 <td>
@@ -106,6 +114,29 @@
                     }
 
                 </td>
+
+                                <td>
+
+                                    @if (notification.RouteId != null)
+                                    {
+                                        <a asp-controller="Routes"
+                                           asp-action="Details"
+                                           asp-route-id="@notification.RouteId"
+                                           class="btn-eco">
+                                            Ver Rota
+                                        </a>
+                                    }
+                                    else if (notification.ContainerId != null)
+                                    {
+                                        <a asp-controller="Containers"
+                                           asp-action="Edit"
+                                           asp-route-id="@notification.ContainerId"
+                                           class="btn-eco">
+                                            Ver Contentor
+                                        </a>
+                                    }
+
+                                </td>
 
             </tr>
         }

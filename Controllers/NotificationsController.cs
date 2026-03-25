@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EcoCityWaste.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Funcionario")]
     public class NotificationsController : Controller
     {
         private readonly AppDbContext _context;
@@ -14,7 +14,7 @@ namespace EcoCityWaste.Controllers
         {
             _context = context;
         }
-
+        /*
         public async Task<IActionResult> Index()
         {
             var notifications = await _context.Notifications
@@ -22,9 +22,27 @@ namespace EcoCityWaste.Controllers
                 .ToListAsync();
 
             return View(notifications);
+        }*/
+
+        public async Task<IActionResult> Index()
+        {
+            var username = User.Identity!.Name;
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == username);
+
+            var notifications = await _context.Notifications
+                .Where(n => n.UserId == user.Id)
+                .OrderByDescending(n => n.CreatedAt)
+                .ToListAsync();
+
+            return View(notifications);
         }
 
+
+
         [HttpPost]
+
         public async Task<IActionResult> MarkAsRead(int id)
         {
             var notification = await _context.Notifications.FindAsync(id);

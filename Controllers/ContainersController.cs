@@ -1,3 +1,4 @@
+/*
 using EcoCityWaste.Data;
 using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
@@ -159,7 +160,7 @@ namespace EcoCityWaste.Controllers
                 await _context.SaveChangesAsync();
                 //ricardo
                 await AddHistory(container);
-
+                await NotifyAdmins(container);
                 ViewBag.Success = "Contentor registado com sucesso!";
                 ModelState.Clear();
 
@@ -227,6 +228,7 @@ namespace EcoCityWaste.Controllers
                 await _context.SaveChangesAsync();
                 //Ricardo
                 await AddHistory(container);
+                await NotifyAdmins(container);
                 return RedirectToAction("List");
             }
             catch
@@ -322,6 +324,7 @@ namespace EcoCityWaste.Controllers
             await _context.SaveChangesAsync();
 
             await AddHistory(container);
+            await NotifyAdmins(container);
 
             return RedirectToAction(nameof(ListStatus));
         }
@@ -347,6 +350,392 @@ namespace EcoCityWaste.Controllers
         {
             var count = _context.Contentores.Count() + 1;
             return $"CNT-{count:D3}";
+        }
+
+
+        //metodo de notification
+        
+
+        private async Task NotifyAdmins(Container container)
+        {
+            if (container.Status != ContainerStatus.Broken &&
+                container.Status != ContainerStatus.Maintenance)
+                return;
+
+            if (container.Id <= 0) // Certifica que o container já está no banco
+                return;
+
+            var admins = await _context.Users
+                .Where(u => u.Role == "Admin")
+                .ToListAsync();
+
+            foreach (var admin in admins)
+            {
+                if (admin.Id <= 0) continue; // Proteção adicional
+
+                _context.Notifications.Add(new Notification
+                {
+                    UserId = admin.Id,
+                    ContainerId = container.Id,
+                    Message = $"Contentor {container.Code} em {container.Status}",
+                    CreatedAt = DateTime.UtcNow
+                });
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+    }
+}*/
+
+using EcoCityWaste.Data;
+using EcoCityWaste.Dtos;
+using EcoCityWaste.Models;
+using EcoCityWaste.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace EcoCityWaste.Controllers
+{
+    [Authorize(Roles = "Admin,Funcionario")]
+    public class ContainersController : Controller
+    {
+        private readonly AppDbContext _context;
+        private readonly GeocodingService _geo;
+
+        public ContainersController(AppDbContext context, GeocodingService geo)
+        {
+            _context = context;
+            _geo = geo;
+        }
+
+        // GET: Containers
+        public async Task<IActionResult> Index(string searchString, string statusFilter, string sortOrder)
+        {
+            try
+            {
+                ViewBag.TotalContainers = await _context.Contentores.CountAsync();
+                ViewBag.TotalCheios = await _context.Contentores.CountAsync(c => c.FillLevel >= 90);
+                ViewBag.TotalAvariados = await _context.Contentores.CountAsync(c => c.Status == Container.ContainerStatus.Broken);
+                ViewBag.TotalAtivos = await _context.Contentores.CountAsync(c => c.IsActive);
+
+                ViewBag.CurrentSearch = searchString;
+                ViewBag.CurrentStatus = statusFilter;
+
+                ViewBag.CodeSortParam = String.IsNullOrEmpty(sortOrder) ? "code_desc" : "";
+                ViewBag.LevelSortParam = sortOrder == "Level" ? "level_desc" : "Level";
+                ViewBag.StatusSortParam = sortOrder == "Status" ? "status_desc" : "Status";
+
+                var containers = _context.Contentores.AsQueryable();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    containers = containers.Where(c => c.Code.Contains(searchString) || c.Location.Contains(searchString));
+                }
+
+                Container.ContainerStatus? statusEnum = statusFilter switch
+                {
+                    "Bom" => Container.ContainerStatus.Good,
+                    "Cheio" => Container.ContainerStatus.Full,
+                    "Vazio" => Container.ContainerStatus.Empty,
+                    "Avariado" => Container.ContainerStatus.Broken,
+                    "Manutenção" => Container.ContainerStatus.Maintenance,
+                    _ => null
+                };
+
+                if (!string.IsNullOrEmpty(statusFilter))
+                {
+                    containers = statusFilter switch
+                    {
+                        "Ativos" => containers.Where(c => c.IsActive),
+                        "Inativos" => containers.Where(c => !c.IsActive),
+                        "Critico" or "Cheio" => containers.Where(c => c.FillLevel >= 90),
+                        "Medio" => containers.Where(c => c.FillLevel >= 50 && c.FillLevel < 90),
+                        "Baixo" => containers.Where(c => c.FillLevel < 50),
+                        "Plástico" or "Papel" or "Vidro" or "Indiferenciado" => containers.Where(c => c.Type == statusFilter),
+                        _ => statusEnum.HasValue ? containers.Where(c => c.Status == statusEnum.Value) : containers
+                    };
+                }
+
+                containers = sortOrder switch
+                {
+                    "code_desc" => containers.OrderByDescending(c => c.Code),
+                    "Level" => containers.OrderBy(c => c.FillLevel),
+                    "level_desc" => containers.OrderByDescending(c => c.FillLevel),
+                    "Status" => containers.OrderBy(c => c.Status),
+                    "status_desc" => containers.OrderByDescending(c => c.Status),
+                    _ => containers.OrderBy(c => c.Code)
+                };
+
+                return View(await containers.ToListAsync());
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Ocorreu um problema ao tentar aceder à base de dados.";
+                return View(new List<Container>());
+            }
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(ContainerRegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                if (!Enum.TryParse<Container.ContainerStatus>(model.Status, out var statusEnum))
+                {
+                    ModelState.AddModelError("Status", "Estado inválido.");
+                    return View(model);
+                }
+
+                bool isContainerActive = statusEnum != Container.ContainerStatus.Broken && statusEnum != Container.ContainerStatus.Maintenance;
+
+                var coords = await _geo.GetCoordinates(model.Location);
+
+                var container = new Container
+                {
+                    Code = GenerateContainerCode(),
+                    Location = model.Location,
+                    Type = model.Type,
+                    Status = statusEnum,
+                    Latitude = coords.lat,
+                    Longitude = coords.lon,
+                    FillLevel = 0,
+                    InstallationDate = DateTime.UtcNow,
+                    LastUpdated = DateTime.UtcNow,
+                    IsActive = isContainerActive
+                };
+
+                _context.Contentores.Add(container);
+                await _context.SaveChangesAsync(); // garante Id válido
+
+                await AddHistory(container);       // histórico
+                await NotifyAdmins(container);     // notificação segura
+
+                ViewBag.Success = "Contentor registado com sucesso!";
+                ModelState.Clear();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(model);
+            }
+        }
+
+        public async Task<IActionResult> List()
+        {
+            var containers = await _context.Contentores.ToListAsync();
+            return View(containers);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var container = await _context.Contentores.FindAsync(id);
+            if (container == null) return NotFound();
+            return View(container);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ContainerEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                var container = await _context.Contentores.FindAsync(model.Id);
+                if (container == null) return NotFound();
+
+                container.Location = model.Location;
+                container.Type = model.Type;
+                container.Status = model.Status;
+                container.IsActive = container.Status != Container.ContainerStatus.Broken &&
+                                     container.Status != Container.ContainerStatus.Maintenance;
+                container.LastUpdated = DateTime.UtcNow;
+
+                await _context.SaveChangesAsync();
+
+                await AddHistory(container);
+                await NotifyAdmins(container);
+
+                return RedirectToAction("List");
+            }
+            catch
+            {
+                ViewBag.Error = "Erro ao atualizar o contentor.";
+                return View(model);
+            }
+        }
+
+        public async Task<IActionResult> Deactivate(int id)
+        {
+            var container = await _context.Contentores.FindAsync(id);
+            if (container == null) return NotFound();
+
+            container.IsActive = false;
+            container.LastUpdated = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            await AddHistory(container);
+
+            return RedirectToAction("List");
+        }
+
+        public async Task<IActionResult> History(int id)
+        {
+            var history = await _context.ContainerStatusHistories
+                .Where(h => h.ContainerId == id)
+                .OrderByDescending(h => h.ChangedAt)
+                .ToListAsync();
+
+            return View(history);
+        }
+
+        private async Task AddHistory(Container container)
+        {
+            if (_context.ContainerStatusHistories == null) return;
+
+            var history = new ContainerStatusHistory
+            {
+                ContainerId = container.Id,
+                Status = container.Status,
+                FillLevel = container.FillLevel,
+                IsActive = container.IsActive,
+                ChangedAt = DateTime.UtcNow,
+                ChangedBy = User?.Identity?.Name ?? "Sistema"
+            };
+
+            _context.ContainerStatusHistories.Add(history);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IActionResult> ListStatus()
+        {
+            var containers = await _context.Contentores.ToListAsync();
+            return View(containers);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int id, UpdateContainerStatusDto dto)
+        {
+            var container = await _context.Contentores.FindAsync(dto.Id);
+            if (container == null) return NotFound("Contentor não encontrado.");
+
+            if (!Enum.TryParse<Container.ContainerStatus>(dto.Status, true, out var newStatus))
+                return BadRequest("Estado inválido.");
+
+            container.Status = newStatus;
+            container.IsActive = newStatus != Container.ContainerStatus.Broken &&
+                                 newStatus != Container.ContainerStatus.Maintenance;
+            container.LastUpdated = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            await AddHistory(container);
+            await NotifyAdmins(container);
+
+            return RedirectToAction(nameof(ListStatus));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditStatus(int id)
+        {
+            var container = await _context.Contentores.FindAsync(id);
+            if (container == null) return NotFound();
+
+            var model = new UpdateContainerStatusDto
+            {
+                Id = container.Id,
+                Status = container.Status.ToString()
+            };
+
+            return View(model);
+        }
+
+        // Gerador de código do contentor
+        private string GenerateContainerCode()
+        {
+            var count = _context.Contentores.Count() + 1;
+            return $"CNT-{count:D3}";
+        }
+
+
+
+        // Método seguro de notificação para admins
+        private async Task NotifyAdmins(Container container)
+        {
+            // Só notifica se estiver avariado ou em manutenção
+            if (container.Status != Container.ContainerStatus.Broken &&
+                container.Status != Container.ContainerStatus.Maintenance)
+                return;
+
+            if (container.Id <= 0)
+                return;
+
+            // Buscar admins válidos
+            var admins = await _context.Users
+                .Where(u => u.Role == "Admin")
+                .ToListAsync();
+
+            if (!admins.Any())
+                return;
+
+            var notifications = admins.Select(admin => new Notification
+            {
+                UserId = admin.Id,
+                ContainerId = container.Id,
+                Message = $"Contentor {container.Code} em {container.Status}",
+                CreatedAt = DateTime.UtcNow,
+                IsRead = false
+            }).ToList();
+
+            _context.Notifications.AddRange(notifications);
+            await _context.SaveChangesAsync();
+        }
+
+
+        // Método para notificação de nível crítico
+        private async Task CreateCriticalLevelNotification(Container container)
+        {
+            // Só notifica se nível >= 90 ou se estiver avariado/manutenção
+            if (container.FillLevel < 90 &&
+                container.Status != Container.ContainerStatus.Broken &&
+                container.Status != Container.ContainerStatus.Maintenance)
+                return;
+
+            if (container.Id <= 0)
+                return;
+
+            var admins = await _context.Users
+                .Where(u => u.Role == "Admin")
+                .ToListAsync();
+
+            if (!admins.Any())
+                return;
+
+            var notifications = admins.Select(admin => new Notification
+            {
+                UserId = admin.Id,
+                ContainerId = container.Id,
+                Message = $"Contentor {container.Code} em {container.Status} (Nível: {container.FillLevel}%)",
+                CreatedAt = DateTime.UtcNow,
+                IsRead = false
+            }).ToList();
+
+            _context.Notifications.AddRange(notifications);
+            await _context.SaveChangesAsync();
         }
 
     }
