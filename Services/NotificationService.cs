@@ -14,20 +14,35 @@ namespace EcoCityWaste.Services
 
         public async Task CreateCriticalLevelNotification(Container container)
         {
-            // to avoid duplicate notifications
+            // evitar duplicados
+            //bool exists = _context.Notifications.Any(n =>
+            //  n.ContainerId == container.Id);
+
             bool exists = _context.Notifications.Any(n =>
-                n.ContainerId == container.Id);
+                n.ContainerId == container.Id &&
+                !n.IsRead);
 
             if (exists)
                 return;
 
-            var notification = new Notification
-            {
-                ContainerId = container.Id,
-                Message = $"O Contentor {container.Code} Atingiu um Nível Crítico ({container.FillLevel}%)"
-            };
+            var admins = _context.Users
+                .Where(u => u.Role == "Admin")
+                .ToList();
 
-            _context.Notifications.Add(notification);
+            foreach (var admin in admins)
+            {
+                var notification = new Notification
+                {
+                    ContainerId = container.Id,
+                    Message = $"O Contentor {container.Code} Atingiu um Nível Crítico ({container.FillLevel}%)",
+                    UserId = admin.Id,
+                    CreatedAt = DateTime.Now,
+                    IsRead = false
+                };
+
+                _context.Notifications.Add(notification);
+            }
+
             await _context.SaveChangesAsync();
         }
     }

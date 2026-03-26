@@ -373,6 +373,15 @@ namespace EcoCityWaste.Controllers
             route.AssignedAt = DateTime.Now;
             route.Status = EcoCityWaste.Models.Route.RouteStatus.InProgress;
 
+            // enviar notificacao
+            _context.Notifications.Add(new Notification
+            {
+                Message = $"Foi-lhe atribuída a rota {route.Code}.",
+                UserId = employee.Id,
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            });
+
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = $"Rota atribuída a {employee.Username}.";
             return RedirectToAction(nameof(Details), new { id = route.Id });
