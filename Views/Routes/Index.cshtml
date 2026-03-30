@@ -233,12 +233,20 @@
             Gestão de Rotas
         </h1>
 
-        @if (isAdmin)
-        {
-            <a asp-action="Create" class="btn-new-route">
-                <i class="fa-solid fa-plus"></i> Nova Rota
+        <div style="display:flex; gap:10px;">
+
+            @if (isAdmin)
+            {
+                <a asp-action="Create" class="btn-new-route">
+                    <i class="fa-solid fa-plus"></i> Nova Rota
+                </a>
+            }
+
+            <a asp-controller="@(User.IsInRole("Admin") ? "Admin" : "Funcionario")" asp-action="Dashboard" class="btn-new-route">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
             </a>
-        }
+
+        </div>
     </div>
 
     <div class="stat-row">
