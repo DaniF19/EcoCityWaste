@@ -29,6 +29,7 @@ namespace EcoCityWaste.Models
         public User? AssignedEmployee { get; set; }
         public DateTime? AssignedAt { get; set; }
         public string? ImagePath { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
     }
 
     public enum OccurrenceStatus
