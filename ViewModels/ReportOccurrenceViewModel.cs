@@ -14,6 +14,6 @@ namespace EcoCityWaste.ViewModels
         [MinLength(10, ErrorMessage = "A descrição deve ter pelo menos 10 caracteres.")]
         public string Description { get; set; } = string.Empty;
 
-        public IFormFile Photo { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }
