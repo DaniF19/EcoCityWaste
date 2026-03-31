@@ -40,6 +40,7 @@
                         <th>Descrição</th>
                         <th>Estado</th>
                         <th>Reportado em</th>
+                        <th>Última atualização</th>
                         <th style="text-align:center;">Ações</th>
                     </tr>
                 </thead>
@@ -53,6 +54,7 @@
                             <td>@occ.Description</td>
                             <td>@occ.Status.ToDisplayName()</td>
                             <td>@occ.ReportDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@(occ.LastUpdatedAt.HasValue ? occ.LastUpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "—")</td>
 
                             <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
                                 <a asp-controller="Occurrences"

@@ -77,6 +77,15 @@
                         <small style="color: #999; font-weight: 500;">
                             <i class="fa-regular fa-calendar me-1"></i> @item.ReportDate.ToString("dd/MM/yyyy 'às' HH:mm")
                         </small>
+
+                        @if (item.LastUpdatedAt.HasValue)
+                        {
+                            <small style="color: #999; font-weight: 500; display: block; margin-top: 4px;">
+                                <i class="fa-solid fa-clock-rotate-left me-1"></i>
+                                Atualizado em @item.LastUpdatedAt.Value.ToString("dd/MM/yyyy 'às' HH:mm")
+                            </small>
+                        }
+
                     </div>
                     <h5 style="margin: 0 0 8px 0; color: #333; font-weight: 600; font-size: 1.1rem;">@item.OccurrenceType</h5>
                     <p style="margin: 0; color: #666; font-size: 0.95rem; line-height: 1.4;">@item.Description</p>

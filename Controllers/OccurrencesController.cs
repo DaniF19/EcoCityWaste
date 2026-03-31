@@ -70,7 +70,39 @@ namespace EcoCityWaste.Controllers
             // Verifica se os campos obrigatórios vieram preenchidos
             if (!ModelState.IsValid)
             {
-                return View(model);
+                // Limpa o form
+                ModelState.Clear();
+
+                // Coloca um aviso para o cidadão não ficar confuso com o reset
+                ViewBag.Error = "Faltam preencher campos obrigatórios ou os dados são inválidos. Por favor, preencha novamente.";
+
+                // Carrega os contentores novamente
+                var containersBD = _context.Contentores
+                    .Select(c => new { c.Code, c.Location, c.Type, c.Status, c.FillLevel })
+                    .ToList();
+
+                var containersTraduzidos = containersBD
+                    .Select(c => new {
+                        c.Code,
+                        c.Location,
+                        c.Type,
+                        Status = c.Status switch
+                        {
+                            Container.ContainerStatus.Good => "Bom",
+                            Container.ContainerStatus.Full => "Cheio",
+                            Container.ContainerStatus.Empty => "Vazio",
+                            Container.ContainerStatus.Broken => "Avariado",
+                            Container.ContainerStatus.Maintenance => "Manutenção",
+                            _ => "Desconhecido"
+                        },
+                        c.FillLevel
+                    }).ToList();
+
+                ViewBag.ContainersList = containersTraduzidos;
+                ViewBag.ContainersJson = JsonSerializer.Serialize(containersTraduzidos);
+
+                // Devolvemos um modelo vazio
+                return View(new ReportOccurrenceViewModel());
             }
 
             try
@@ -201,6 +233,7 @@ namespace EcoCityWaste.Controllers
             occurrence.AssignedEmployeeId = model.SelectedEmployeeId;
             occurrence.Status = OccurrenceStatus.EmAnalise.ToString();
             occurrence.AssignedAt = DateTime.Now;
+            occurrence.LastUpdatedAt = DateTime.Now;
 
             _context.Notifications.Add(new Notification
             {
@@ -237,6 +270,7 @@ namespace EcoCityWaste.Controllers
             {
                 OccurrenceId = occurrence.Id,
                 CurrentStatus = occurrence.Status,
+                LastUpdatedAt = occurrence.LastUpdatedAt = DateTime.Now,
                 NewStatus = Enum.Parse<OccurrenceStatus>(occurrence.Status)
             };
 
