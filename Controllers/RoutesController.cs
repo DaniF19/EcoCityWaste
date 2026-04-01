@@ -350,7 +350,11 @@ namespace EcoCityWaste.Controllers
             ViewBag.Route = route;
             ViewBag.Employees = await EmployeesAsync();
 
-            return View(new RouteAssignViewModel { RouteId = id });
+            return View(new RouteAssignViewModel 
+            { 
+                RouteId = id,
+                EmployeeId = route.AssignedEmployeeId
+            });
         }
 
         [HttpPost]

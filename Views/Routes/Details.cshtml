@@ -568,7 +568,7 @@
                             <i class="fa-solid fa-map"></i> Ver no Mapa
                         </a>
 
-                        @if (isAdmin)
+                        @if (isAdmin && Model.Status != EcoCityWaste.Models.Route.RouteStatus.Completed)
                         {
                             <div class="act-divider"></div>
 

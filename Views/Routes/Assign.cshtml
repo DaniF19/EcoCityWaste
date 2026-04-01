@@ -266,7 +266,8 @@
                         @foreach (var emp in employees)
                         {
                             <label class="emp-item" onclick="selectEmp(this, @emp.Id)">
-                                <input type="radio" name="EmployeeId" value="@emp.Id" />
+                                <input type="radio" name="EmployeeId" value="@emp.Id" 
+                                       @(Model.EmployeeId == emp.Id ? "checked" : "") />
                                 <div class="emp-avatar">@emp.Username.Substring(0, 1)</div>
                                 <div class="emp-info">
                                     <div class="emp-name">@emp.Username</div>
@@ -317,6 +318,16 @@
                         ? 'flex'
                         : 'none';
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const selected = document.querySelector('input[name="EmployeeId"]:checked');
+            if (selected) {
+                const label = selected.closest('.emp-item');
+                if (label) {
+                    label.classList.add('checked');
+                }
+            }
         });
     </script>
 }
