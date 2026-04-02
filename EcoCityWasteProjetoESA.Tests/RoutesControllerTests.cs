@@ -35,25 +35,25 @@ namespace EcoCityWasteProjetoESA.Tests
 
         private RoutesController GetController(AppDbContext context, string username = "admin", string role = "Admin")
         {
+            // build the real service with the in-memory context
             var optimiser = new RouteOptimisationService();
             var historyService = new ContainerHistoryService(context);
+            var routeService = new RouteService(context, optimiser, historyService);
 
-            var controller = new RoutesController(context, optimiser, historyService);
+            var controller = new RoutesController(routeService); // ← single argument now
 
-            // simular user identity
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, role)
             }, "mock"));
 
-            // tempdata
             var mockTempDataProvider = new Mock<ITempDataProvider>();
             var tempData = new TempDataDictionary(new DefaultHttpContext(), mockTempDataProvider.Object);
 
             controller.ControllerContext = new ControllerContext
             {
-                HttpContext = new DefaultHttpContext { User = user },
+                HttpContext = new DefaultHttpContext { User = user }
             };
 
             controller.TempData = tempData;

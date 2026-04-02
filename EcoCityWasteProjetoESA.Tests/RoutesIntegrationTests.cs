@@ -98,7 +98,12 @@ namespace EcoCityWasteProjetoESA.Tests
         [Fact]
         public async Task Delete_InvalidId_ReturnsNotFound()
         {
-            var response = await _client.GetAsync("/Routes/Delete/9999");
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { "id", "9999" }
+            });
+
+            var response = await _client.PostAsync("/Routes/Delete/9999", content);
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
