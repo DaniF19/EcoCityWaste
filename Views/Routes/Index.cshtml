@@ -138,12 +138,15 @@
             background: var(--cor-castanho);
             color: white;
             padding: 15px;
-            text-align: left;
+            text-align: center;
+            vertical-align: middle;
         }
 
         .routes-table td {
             padding: 15px;
             border-bottom: 1px solid var(--cor-bege);
+            text-align: center;
+            vertical-align: middle;
         }
 
         .routes-table tr:hover {
@@ -212,6 +215,168 @@
             text-align: center;
             padding: 50px;
             color: #777;
+        }
+
+        .context-item {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #444;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .context-item:hover {
+            background: var(--cor-bege);
+        }
+
+        .context-menu {
+            position: absolute;
+            display: none;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            width: 220px;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .context-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 6px 0;
+        }
+
+        .context-menu li {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            /* color: var(--cor-castanho); */
+        }
+
+        .context-menu li i {
+            color: var(--cor-castanho);
+        }
+
+        .context-menu li:hover {
+            background: #f3ebe8;
+        }
+
+        .context-menu .divider {
+            height: 1px;
+            background: #eee;
+            margin: 4px 0;
+            pointer-events: none;
+        }
+
+        .context-menu .danger {
+            color: #a94442;
+        }
+
+        @@keyframes fadeInRow {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .routes-table tbody tr {
+            animation: fadeInRow 0.3s ease both;
+        }
+
+        .routes-table tbody tr:nth-child(1)  { animation-delay: 0.05s; }
+        .routes-table tbody tr:nth-child(2)  { animation-delay: 0.10s; }
+        .routes-table tbody tr:nth-child(3)  { animation-delay: 0.15s; }
+        .routes-table tbody tr:nth-child(4)  { animation-delay: 0.20s; }
+        .routes-table tbody tr:nth-child(5)  { animation-delay: 0.25s; }
+        .routes-table tbody tr:nth-child(6)  { animation-delay: 0.30s; }
+        .routes-table tbody tr:nth-child(7)  { animation-delay: 0.35s; }
+        .routes-table tbody tr:nth-child(8)  { animation-delay: 0.40s; }
+        .routes-table tbody tr:nth-child(9)  { animation-delay: 0.45s; }
+        .routes-table tbody tr:nth-child(10) { animation-delay: 0.50s; }
+
+        .dropdown-wrapper {
+            position: relative;
+        }
+
+        .btn-dots {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            background: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-dots:hover {
+            background: var(--cor-castanho);
+            color: white;
+            border-color: var(--cor-castanho);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 36px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            width: 180px;
+            z-index: 999;
+            overflow: hidden;
+            display: none;
+        }
+
+        .dropdown-menu.open {
+            display: block;
+            animation: fadeInRow 0.15s ease both;
+        }
+
+        .dropdown-menu a,
+        .dropdown-menu button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            color: #444;
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .dropdown-menu a:hover,
+        .dropdown-menu button:hover {
+            background: #f3ebe8;
+        }
+
+        .dropdown-menu a i,
+        .dropdown-menu button i {
+            color: var(--cor-castanho);
+        }
+
+        .dropdown-menu .dropdown-danger {
+            color: #a94442;
+        }
+
+        .dropdown-menu .dropdown-danger i {
+            color: #a94442;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #eee;
+            margin: 4px 0;
         }
     </style>
 }
@@ -320,14 +485,20 @@
                         <th>Contentores</th>
                         <th>Atribuído</th>
                         <th>Criado</th>
-                        <th>Ações</th>
+                        @* <th>Ações</th> *@
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach (var route in Model)
                     {
-                        <tr>
+                        <tr class="route-row"
+                            data-id="@route.Id"
+                            data-status="@route.Status"
+                            data-map-url="@Url.Action("Map", new { id = route.Id })"
+                            data-assign-url="@Url.Action("Assign", new { id = route.Id })"
+                            data-edit-url="@Url.Action("Edit", new { id = route.Id })"
+                            data-optimise-url="@Url.Action("Optimise", new { id = route.Id })">
                             <td>
                                 <span class="route-code">@route.Code</span>
                             </td>
@@ -371,38 +542,63 @@
                                 @route.CreatedAt.ToString("dd/MM/yyyy")
                             </td>
 
-                            <td>
-                                <div class="action-group">
-                                    <a asp-action="Details"
-                                       asp-route-id="@route.Id"
-                                       class="btn-icon">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
+                            @* <td>
+                                <div class="dropdown-wrapper">
+                                    <button class="btn-dots" onclick="toggleDropdown(event, this)">⋯</button>
+                                    <div class="dropdown-menu">
+                                        <a asp-action="Details" asp-route-id="@route.Id">
+                                            <i class="fa-solid fa-eye"></i> Ver detalhes
+                                        </a>
 
-                                    @if (isAdmin)
-                                    {
-                                        <form asp-action="Delete"
-                                              asp-route-id="@route.Id"
-                                              method="post"
-                                              id="delete-form-@route.Id"
-                                              style="display:inline;">
-                                            @Html.AntiForgeryToken()
-
-                                            <button type="button"
-                                                    class="btn-icon"
-                                                    onclick="confirmDelete(@route.Id)">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    }
+                                        @if (isAdmin)
+                                        {
+                                            <div class="dropdown-divider"></div>
+                                            <form asp-action="Delete"
+                                                  asp-route-id="@route.Id"
+                                                  method="post"
+                                                  id="delete-form-@route.Id">
+                                                @Html.AntiForgeryToken()
+                                                <button type="button"
+                                                        class="dropdown-danger"
+                                                        onclick="confirmDelete(@route.Id)">
+                                                    <i class="fa-solid fa-trash"></i> Eliminar
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
                                 </div>
-                            </td>
+                            </td> *@
                         </tr>
                     }
                 </tbody>
             </table>
         }
     </div>
+</div>
+
+<div id="context-menu" class="context-menu">
+    <ul>
+
+        <li data-action="map">
+            <i class="fa-solid fa-map"></i> Ver no mapa
+        </li>
+
+        @if (isAdmin)
+        {
+            <li class="admin-only" data-action="optimise">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Optimizar
+            </li>
+
+            <li class="admin-only" data-action="assign">
+                <i class="fa-solid fa-user-plus"></i> Atribuir funcionário
+            </li>
+
+            <li class="admin-only" data-action="edit">
+                <i class="fa-solid fa-pen"></i> Editar
+            </li>
+        }
+
+    </ul>
 </div>
 
 <script>
@@ -423,4 +619,78 @@
             }
         });
     }
+</script>
+
+<script>
+    const menu = document.getElementById("context-menu");
+    let selectedRow = null;
+
+    document.querySelectorAll(".route-row").forEach(row => {
+
+        // clicar na rota mostra view dos detalhes da rota
+        row.addEventListener("click", function (e) {
+            if (e.target.closest("a, button, form")) return;
+            const id = this.dataset.id;
+            window.location.href = `/Routes/Details/${id}`;
+        });
+
+        // cursor pointer
+        row.style.cursor = "pointer";
+
+        row.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+            selectedRow = this;
+
+            const status = this.dataset.status;
+            const isCompleted = status === "Completed";
+
+            document.querySelector('[data-action="optimise"]')?.style.setProperty("display", isCompleted ? "none" : "flex");
+            document.querySelector('[data-action="assign"]')?.style.setProperty("display", isCompleted ? "none" : "flex");
+            document.querySelector('[data-action="edit"]')?.style.setProperty("display", isCompleted ? "none" : "flex");
+
+            menu.style.top = e.pageY + "px";
+            menu.style.left = e.pageX + "px";
+            menu.style.display = "block";
+        });
+    });
+
+    document.addEventListener("click", () => menu.style.display = "none");
+
+    menu.addEventListener("click", function (e) {
+        const action = e.target.closest("li")?.dataset.action;
+        if (!action || !selectedRow) return;
+
+        switch (action) {
+            case "map": window.location.href = selectedRow.dataset.mapUrl; break;
+            case "assign": window.location.href = selectedRow.dataset.assignUrl; break;
+            case "edit": window.location.href = selectedRow.dataset.editUrl; break;
+            case "optimise": window.location.href = selectedRow.dataset.optimiseUrl; break;
+        }
+    });
+
+    document.querySelectorAll(".stat-number").forEach(el => {
+    const target = parseInt(el.textContent) || 0;
+    if (target === 0) return;
+    let current = 0;
+    const step = Math.ceil(target / 30);
+    const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current;
+        if (current >= target) clearInterval(timer);
+    }, 30);
+});
+
+function toggleDropdown(e, btn) {
+    e.stopPropagation();
+    // fechar primeiro os dropdowns abertos
+    document.querySelectorAll(".dropdown-menu.open").forEach(d => {
+        if (d !== btn.nextElementSibling) d.classList.remove("open");
+    });
+    btn.nextElementSibling.classList.toggle("open");
+}
+
+// fechar os dropdowns quando se clica fora
+document.addEventListener("click", () => {
+    document.querySelectorAll(".dropdown-menu.open").forEach(d => d.classList.remove("open"));
+});
 </script>

@@ -403,6 +403,43 @@
                     color: #fff;
                 }
 
+                .act-btn-delete {
+                    display: flex;
+                    align-items: center;
+                    gap: 9px;
+                    padding: 9px 13px;
+                    border-radius: var(--rads);
+                    font-family: 'DM Sans', sans-serif;
+                    font-size: .83rem;
+                    font-weight: 600;
+                    text-decoration: none;
+                    border: 1px solid var(--er-bd);
+                    background: var(--er-bg);
+                    color: var(--er);
+                    cursor: pointer;
+                    transition: var(--tr);
+                    width: 100%;
+                }
+
+                .act-btn-delete i {
+                    font-size: .8rem;
+                    color: var(--er);
+                    width: 16px;
+                    text-align: center;
+                    flex-shrink: 0;
+                }
+
+                .act-btn-delete:hover {
+                    background: var(--er-bd);
+                    border-color: var(--er);
+                    color: var(--er);
+                    box-shadow: 0 0 0 1px var(--er);
+                }
+
+                .act-btn-delete:hover i {
+                    color: var(--er);
+                }
+
         .act-divider {
             height: 1px;
             background: var(--bd);
@@ -596,6 +633,17 @@
                             </form>
                         }
 
+                        @if (isAdmin)
+                        {
+                            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" id="delete-form-detail">
+                                @Html.AntiForgeryToken()
+                                <button type="button" class="act-btn-delete" onclick="confirmDeleteDetail()" 
+                                        style="width:100%; color:#a94442; border-color:#f5b7b1;">
+                                    <i class="fa-solid fa-trash" style="color:#a94442;"></i> Eliminar Rota
+                                </button>
+                            </form>
+                        }
+
                     </div>
                 </div>
 
@@ -611,6 +659,7 @@
             title: 'Concluir Rota?',
             text: 'Deseja marcar esta recolha como finalizada?',
             icon: 'question',
+            iconColor: 'rgb(141,110,99)',
             showCancelButton: true,
             confirmButtonColor: 'rgb(141,110,99)',
             cancelButtonColor: '#777',
@@ -618,4 +667,23 @@
             cancelButtonText: 'Voltar'
         }).then(r => { if (r.isConfirmed) document.getElementById('complete-form').submit(); });
     }
+    
+    function confirmDeleteDetail() {
+        Swal.fire({
+            title: 'Eliminar Rota?',
+            text: "Esta ação não pode ser revertida!",
+            icon: 'warning',
+            iconColor: '#d33',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#777',
+            confirmButtonText: 'Sim, eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-detail').submit();
+            }
+        });
+    }
 </script>
+
