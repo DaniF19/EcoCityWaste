@@ -57,6 +57,8 @@ builder.Services.AddHttpClient<GeocodingService>();
 // servico para os controllers utilizarem o container history
 builder.Services.AddScoped<ContainerHistoryService>();
 
+builder.Services.AddScoped<IRouteService, RouteService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

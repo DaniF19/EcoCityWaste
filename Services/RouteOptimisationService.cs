@@ -110,7 +110,7 @@ namespace EcoCityWaste.Services
         }
 
         // metodo que calcula a distancia entre dois pontos lat/long
-        private static double HaversineKm(double lat1, double lon1, double lat2, double lon2)
+        public static double HaversineKm(double lat1, double lon1, double lat2, double lon2)
         {
             const double R = 6371.0;
             double dLat = ToRad(lat2 - lat1);
