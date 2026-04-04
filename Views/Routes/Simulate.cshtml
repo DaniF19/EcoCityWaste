@@ -2,133 +2,461 @@
 @model EcoCityWaste.Models.Route
 @{
     ViewData["Title"] = "Simulação - " + Model.Code;
+    var stops = Model.RouteContainers.OrderBy(rc => rc.PickupOrder).ToList();
 }
 
-<h2>Simulação da rota @Model.Code</h2>
+@section Styles {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        .leaflet-routing-container {
+            display: none !important;
+        }
 
-<div id="map" style="height: 500px; border-radius: 8px;"></div>
+        .sim-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 80px);
+            padding: 0 16px 16px;
+            box-sizing: border-box;
+        }
 
-<div class="mt-3 d-flex gap-2 align-items-center">
-    <button id="btnStart" class="btn btn-success">▶ Iniciar simulação</button>
-    <button id="btnReset" class="btn btn-secondary" disabled>↺ Reiniciar</button>
-    <span id="statusMsg" class="text-muted ms-2"></span>
+        .sim-topbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            flex-shrink: 0;
+        }
+
+        .sim-body {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 16px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            min-height: 450px;
+            border-radius: 14px;
+            border: 1px solid #e6e6e6;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e6e6e6;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .panel-title {
+            font-size: .85rem;
+            font-weight: 700;
+            color: rgb(141,110,99);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .map-stop {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 11px;
+            border-radius: 8px;
+            background: #f7f6f2;
+            border: 1px solid #e6e6e6;
+            margin-bottom: 6px;
+            transition: all .2s;
+        }
+
+            .map-stop.collected {
+                background: #d4edda;
+                border-color: #22c55e;
+            }
+
+            .map-stop.active {
+                background: #efe8e4;
+                border-color: rgb(141,110,99);
+            }
+
+        .stop-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgb(141,110,99);
+            color: white;
+            font-size: .72rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+            .stop-num.collected {
+                background: #22c55e;
+            }
+
+        .stop-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .stop-code {
+            font-family: monospace;
+            font-size: .73rem;
+            color: rgb(141,110,99);
+        }
+
+        .stop-loc {
+            font-size: .78rem;
+            color: #444;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .fill-pill {
+            font-size: .7rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .fill-low {
+            background: rgba(34,197,94,.15);
+            color: #22c55e;
+        }
+
+        .fill-mid {
+            background: rgba(245,158,11,.15);
+            color: #f59e0b;
+        }
+
+        .fill-high {
+            background: rgba(239,68,68,.15);
+            color: #ef4444;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgb(141,110,99);
+            color: white;
+            font-size: .82rem;
+            text-decoration: none;
+        }
+
+        .btn-sim {
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: none;
+            background: #22c55e;
+            color: white;
+            font-weight: 700;
+            font-size: .85rem;
+            cursor: pointer;
+        }
+
+            .btn-sim:disabled {
+                background: #94a3b8;
+                cursor: not-allowed;
+            }
+
+        .btn-reset {
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: 1px solid #e6e6e6;
+            background: white;
+            color: #444;
+            font-weight: 600;
+            font-size: .85rem;
+            cursor: pointer;
+        }
+
+        #statusMsg {
+            font-size: .82rem;
+            color: rgb(141,110,99);
+            font-weight: 600;
+        }
+    </style>
+}
+
+<div class="sim-wrapper">
+    <div class="sim-topbar">
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn-back">
+            <i class="fa-solid fa-chevron-left"></i> Rota
+        </a>
+        <span style="font-family:monospace;font-size:.78rem;color:rgb(141,110,99);">@Model.Code</span>
+        <button id="btnStart" class="btn-sim" disabled>
+            <i class="fa-solid fa-play"></i> Iniciar simulação
+        </button>
+        <button id="btnReset" class="btn-reset" disabled>
+            <i class="fa-solid fa-rotate-left"></i> Reiniciar
+        </button>
+        <span id="statusMsg">A carregar rota...</span>
+    </div>
+
+    <div class="sim-body">
+        <div id="map"></div>
+
+        <div class="sidebar">
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fa-solid fa-list-ol"></i> Paragens (@stops.Count)
+                </div>
+                @foreach (var stop in stops)
+                {
+                    var c = stop.Container;
+                    var fillClass = c.FillLevel >= 80 ? "fill-high" : c.FillLevel >= 50 ? "fill-mid" : "fill-low";
+                    <div class="map-stop" id="sidebar-stop-@c.Id">
+                        <div class="stop-num" id="num-@c.Id">@stop.PickupOrder</div>
+                        <div class="stop-info">
+                            <div class="stop-code">@c.Code</div>
+                            <div class="stop-loc">@c.Location</div>
+                        </div>
+                        <span class="fill-pill @fillClass">@c.FillLevel%</span>
+                    </div>
+                }
+            </div>
+
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-circle-info"></i> Legenda</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.8rem;color:#444;">
+                    <div style="width:11px;height:11px;border-radius:50%;background:#ef4444;flex-shrink:0;"></div> Nível crítico (≥ 80%)
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.8rem;color:#444;">
+                    <div style="width:11px;height:11px;border-radius:50%;background:#f59e0b;flex-shrink:0;"></div> Nível médio (50–79%)
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.8rem;color:#444;">
+                    <div style="width:11px;height:11px;border-radius:50%;background:#22c55e;flex-shrink:0;"></div> Nível baixo (&lt; 50%)
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:#444;margin-top:6px;">
+                    <div style="width:26px;height:3px;background:#3b82f6;border-radius:1px;flex-shrink:0;"></div> Percurso da rota
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-    <!-- Leaflet CSS + JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- SignalR -->
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-
     <script>
+        const stopsData = [
+            @foreach (var stop in stops)
+            {
+                    var c = stop.Container;
+                    @Html.Raw($"{{ id:{c.Id}, order:{stop.PickupOrder}, code:'{c.Code}', loc:'{c.Location.Replace("'", "\\'")}', fill:{c.FillLevel}, lat:{c.Latitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}, lng:{c.Longitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)} }},")
+            }
+        ];
+
         const routeId = @Model.Id;
+        const validStops = stopsData.filter(s => !(s.lat === 0 && s.lng === 0));
 
         // --- Mapa ---
-        const map = L.map('map').setView([38.716, -9.139], 13); // Lisboa como centro inicial
+        const map = L.map('map');
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
         }).addTo(map);
 
-        // --- Ícones ---
-        const iconPending   = L.divIcon({ className: '', html: '<div style="background:#3B82F6;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:bold;border:2px solid #1D4ED8">🗑</div>', iconSize: [32,32], iconAnchor: [16,16] });
-        const iconCollected = L.divIcon({ className: '', html: '<div style="background:#22C55E;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:bold;border:2px solid #16A34A">✓</div>',  iconSize: [32,32], iconAnchor: [16,16] });
-        const iconTruck     = L.divIcon({ className: '', html: '<div style="font-size:28px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))">🚛</div>', iconSize: [36,36], iconAnchor: [18,18] });
+        // --- Ícone contentor ---
+        function makeIcon(order, fill, collected = false) {
+            const color = collected ? '#22c55e' : fill >= 80 ? '#ef4444' : fill >= 50 ? '#f59e0b' : '#22c55e';
+            const label = collected ? '✓' : order;
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="44" viewBox="0 0 36 44">
+                <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 26 18 26S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="${color}" opacity="0.95"/>
+                <text x="18" y="22" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="white" font-family="system-ui,sans-serif">${label}</text>
+            </svg>`;
+            return L.divIcon({ className: '', html: svg, iconSize: [36, 44], iconAnchor: [18, 44], popupAnchor: [0, -46] });
+        }
 
-        // --- Estado ---
-        let containers = [];
-        let markers    = [];
+        // --- Ícone camião ---
+        const truckIcon = L.divIcon({
+            className: '',
+            html: '<div style="font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))">🚛</div>',
+            iconSize: [36, 36],
+            iconAnchor: [18, 18]
+        });
+
+        // --- Marcadores ---
+        const markers = {};
+        validStops.forEach(s => {
+            markers[s.id] = L.marker([s.lat, s.lng], { icon: makeIcon(s.order, s.fill) })
+                .addTo(map)
+                .bindPopup(`<b>${s.code}</b><br>${s.loc}<br>Nível: ${s.fill}%`);
+        });
+
         let truckMarker = null;
-        let routeLine   = null;
-        let simInterval = null;
-        let currentStep = 0;
+        let routeSegments = []; // coordenadas de cada segmento OSRM
+        let simRunning = false;
+        let currentStop = 0;
 
-        // --- SignalR ---
+        // --- Buscar rota OSRM entre dois pontos ---
+        async function fetchOSRMRoute(from, to) {
+            const url = `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.routes && data.routes.length > 0) {
+                // devolve array de [lat, lng]
+                return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+            }
+            // fallback: linha reta
+            return [[from.lat, from.lng], [to.lat, to.lng]];
+        }
+
+        // --- Desenhar rota completa no mapa (igual ao Map.cshtml) ---
+        async function drawFullRoute() {
+            setStatus('A calcular rota pelas ruas...');
+            let allCoords = [];
+
+            for (let i = 0; i < validStops.length - 1; i++) {
+                const coords = await fetchOSRMRoute(validStops[i], validStops[i + 1]);
+                routeSegments.push(coords);
+                allCoords = allCoords.concat(coords);
+            }
+
+            // linha azul da rota completa
+            L.polyline(allCoords, { color: '#3b82f6', weight: 5, opacity: 0.85 }).addTo(map);
+            map.fitBounds(L.polyline(allCoords).getBounds(), { padding: [40, 40] });
+
+            // camião no primeiro ponto
+            truckMarker = L.marker([validStops[0].lat, validStops[0].lng], { icon: truckIcon })
+                .addTo(map)
+                .bindPopup('🚛 Camião de recolha');
+
+            document.getElementById('btnStart').disabled = false;
+            setStatus('Pronto! Clica em "Iniciar simulação".');
+        }
+
+        // --- Animar camião ao longo das coordenadas de um segmento ---
+        function animateAlongSegment(coords, onComplete) {
+            let i = 0;
+            const speed = 80; // ms por ponto (quanto menor mais rápido)
+
+            function step() {
+                if (i >= coords.length) {
+                    onComplete();
+                    return;
+                }
+                truckMarker.setLatLng(coords[i]);
+                map.panTo(coords[i], { animate: true, duration: 0.1 });
+                i++;
+                setTimeout(step, speed);
+            }
+            step();
+        }
+
+        // --- Simulação ---
+        function runSimulation() {
+            if (currentStop >= validStops.length) {
+                setStatus('✅ Rota concluída! Todos os contentores recolhidos.');
+                document.getElementById('btnStart').disabled = true;
+                return;
+            }
+
+            const stop = validStops[currentStop];
+            setStatus(`🚛 A recolher contentor ${stop.code} (${currentStop + 1}/${validStops.length})...`);
+
+            // highlight na sidebar
+            document.querySelectorAll('.map-stop').forEach(el => el.classList.remove('active'));
+            const sidebarEl = document.getElementById('sidebar-stop-' + stop.id);
+            if (sidebarEl) {
+                sidebarEl.classList.add('active');
+                sidebarEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            if (currentStop === 0) {
+                // primeiro ponto — só marca como recolhido e avança
+                setTimeout(() => {
+                    markCollected(stop);
+                    currentStop++;
+                    setTimeout(runSimulation, 800);
+                }, 1000);
+            } else {
+                // anima ao longo do segmento OSRM
+                const segment = routeSegments[currentStop - 1];
+                animateAlongSegment(segment, () => {
+                    setTimeout(() => {
+                        markCollected(stop);
+                        currentStop++;
+                        setTimeout(runSimulation, 800);
+                    }, 600);
+                });
+            }
+        }
+
+        function markCollected(stop) {
+            // atualiza marcador no mapa
+            markers[stop.id].setIcon(makeIcon(stop.order, stop.fill, true));
+
+            // atualiza sidebar
+            const sidebarEl = document.getElementById('sidebar-stop-' + stop.id);
+            if (sidebarEl) {
+                sidebarEl.classList.remove('active');
+                sidebarEl.classList.add('collected');
+            }
+            const numEl = document.getElementById('num-' + stop.id);
+            if (numEl) {
+                numEl.classList.add('collected');
+                numEl.textContent = '✓';
+            }
+        }
+
+        function setStatus(msg) {
+            document.getElementById('statusMsg').textContent = msg;
+        }
+
+        // --- Botões ---
+        document.getElementById('btnStart').addEventListener('click', () => {
+            if (simRunning) return;
+            simRunning = true;
+            currentStop = 0;
+            document.getElementById('btnStart').disabled = true;
+            document.getElementById('btnReset').disabled = false;
+            runSimulation();
+        });
+
+        document.getElementById('btnReset').addEventListener('click', () => {
+            location.reload();
+        });
+
+        // --- SignalR (carrega dados da rota) ---
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/simulationHub")
             .build();
 
-        connection.on("RouteLoaded", (data) => {
-            containers = data;
-            setupMap(data);
-            document.getElementById('btnStart').disabled = false;
-            setStatus(`${data.length} contentores carregados. Pronto!`);
+        connection.on("RouteLoaded", () => {
+            // dados já estão no Razor, só precisamos de iniciar o mapa
         });
 
-        connection.start().then(() => {
-            connection.invoke("StartSimulation", routeId);
-            setStatus("A carregar rota...");
-        });
+        connection.start()
+            .then(() => connection.invoke("StartSimulation", routeId))
+            .catch(() => {});
 
-        function setupMap(data) {
-            // Limpar
-            markers.forEach(m => map.removeLayer(m));
-            if (truckMarker) map.removeLayer(truckMarker);
-            if (routeLine)   map.removeLayer(routeLine);
-            markers = [];
-
-            const latlngs = data.map(c => [c.lat, c.lng]);
-
-            // Linha da rota
-            routeLine = L.polyline(latlngs, { color: '#6366F1', weight: 3, dashArray: '8 5', opacity: 0.7 }).addTo(map);
-
-            // Marcadores dos contentores
-            data.forEach(c => {
-                const m = L.marker([c.lat, c.lng], { icon: iconPending })
-                    .bindPopup(`<b>${c.code}</b><br>Nível: ${c.fillLevel}%<br>Ordem: ${c.order}º`)
-                    .addTo(map);
-                markers.push(m);
-            });
-
-            // Camião no primeiro contentor
-            truckMarker = L.marker([data[0].lat, data[0].lng], { icon: iconTruck })
-                .bindPopup('🚛 Camião de recolha')
-                .addTo(map);
-
-            map.fitBounds(routeLine.getBounds(), { padding: [40, 40] });
-        }
-
-        // --- Simulação passo a passo ---
-        document.getElementById('btnStart').addEventListener('click', () => {
-            if (containers.length === 0) return;
-
-            document.getElementById('btnStart').disabled = true;
-            document.getElementById('btnReset').disabled = false;
-            currentStep = 0;
-            runStep();
-        });
-
-        function runStep() {
-            if (currentStep >= containers.length) {
-                setStatus('✅ Rota concluída!');
-                return;
-            }
-
-            const c = containers[currentStep];
-            setStatus(`🚛 A recolher contentor ${c.code} (${currentStep + 1}/${containers.length})...`);
-
-            // Move camião para este contentor
-            truckMarker.setLatLng([c.lat, c.lng]);
-            map.panTo([c.lat, c.lng], { animate: true, duration: 0.8 });
-
-            // Aguarda um momento e marca como recolhido
-            setTimeout(() => {
-                markers[currentStep].setIcon(iconCollected);
-                currentStep++;
-                setTimeout(runStep, 1200); // pausa entre contentores
-            }, 1500);
-        }
-
-        document.getElementById('btnReset').addEventListener('click', () => {
-            clearInterval(simInterval);
-            currentStep = 0;
-            setupMap(containers);
-            document.getElementById('btnStart').disabled = false;
-            setStatus('Simulação reiniciada.');
-        });
-
-        function setStatus(msg) {
-            document.getElementById('statusMsg').textContent = msg;
+        // Iniciar mapa
+        if (validStops.length > 0) {
+            drawFullRoute();
+        } else {
+            setStatus('Sem contentores com GPS nesta rota.');
         }
     </script>
 }
