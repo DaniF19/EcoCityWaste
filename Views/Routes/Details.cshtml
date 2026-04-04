@@ -367,6 +367,10 @@
                     <i class="fa-solid fa-map"></i> Ver no Mapa
                 </a>
 
+                <a asp-action="Simulate" asp-route-id="@Model.Id" class="action-btn">
+                    <i class="fa-solid fa-play"></i> Simular Rota
+                </a>
+
                 @if (isAdmin)
                 {
                     <a asp-action="Optimise" asp-route-id="@Model.Id" class="action-btn">

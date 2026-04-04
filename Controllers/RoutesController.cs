@@ -452,5 +452,21 @@ namespace EcoCityWaste.Controllers
             return R * 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         }
 
+
+
+
+        // Vista da simulação
+        public async Task<IActionResult> Simulate(int id)
+        {
+            var route = await _context.Routes
+                .Include(r => r.RouteContainers)
+                    .ThenInclude(rc => rc.Container)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (route == null) return NotFound();
+
+            return View(route);
+        }
+
     }
 }
