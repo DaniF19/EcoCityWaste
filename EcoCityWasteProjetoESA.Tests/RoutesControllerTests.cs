@@ -197,5 +197,64 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Single(model);
             Assert.Equal("Worker Route", model[0].Name);
         }
+
+        [Fact]
+        public async Task Index_CallsService_WithCorrectParameters()
+        {
+            // Arrange
+            var mockService = new Mock<IRouteService>();
+
+            mockService.Setup(s => s.GetRoutesAsync("Pending", "admin", false))
+                       .ReturnsAsync(new List<EcoCityWaste.Models.Route>());
+
+            var controller = new RoutesController(mockService.Object);
+
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, "admin"),
+                new Claim(ClaimTypes.Role, "Admin")
+            }, "mock"));
+
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user }
+            };
+
+            // Act
+            var result = await controller.Index("Pending");
+
+            // Assert
+            mockService.Verify(s => s.GetRoutesAsync("Pending", "admin", false), Times.Once);
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task GetRoutesAsync_FiltersByEmployee()
+        {
+            // Arrange
+            using var context = GetDbContext();
+
+            context.Routes.Add(new EcoCityWaste.Models.Route
+            {
+                Name = "Mine",
+                AssignedEmployee = await context.Users.FirstAsync()
+            });
+
+            context.Routes.Add(new EcoCityWaste.Models.Route
+            {
+                Name = "Other"
+            });
+
+            await context.SaveChangesAsync();
+
+            var service = new RouteService(context, new RouteOptimisationService(), new ContainerHistoryService(context));
+
+            // Act
+            var result = await service.GetRoutesAsync(null, "worker1", true);
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal("Mine", result[0].Name);
+        }
     }
 }

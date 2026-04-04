@@ -174,6 +174,30 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        [Fact]
+        public async Task Index_Get_WithCompletedFilter_ReturnsOk()
+        {
+            var response = await _client.GetAsync("/Routes/Index?statusFilter=Completed");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Create_Post_NoContainers_ReturnsCreateViewWithErrors()
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("Name", "Rota Teste"),
+                new KeyValuePair<string, string>("Description", "Descrição de teste"),
+                new KeyValuePair<string, string>("ContainerIds", "")
+            });
+
+            var response = await _client.PostAsync("/Routes/Create", content);
+
+            // model valido mas sem containers - o service da return de (false, "") e fica na view de Create
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
         // helper
         private async Task<HttpResponseMessage> CreateRouteAsync(string name, string description)
         {
