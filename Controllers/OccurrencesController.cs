@@ -29,7 +29,8 @@ namespace EcoCityWaste.Controllers
         {
             // Vai buscar os dados dos contentores à base de dados
             var containers = _context.Contentores
-                .Select(c => new {
+                .Select(c => new
+                {
                     c.Code,
                     c.Location,
                     c.Type,
@@ -38,7 +39,8 @@ namespace EcoCityWaste.Controllers
                 }).ToList();
 
             var translate = containers
-                .Select(c => new {
+                .Select(c => new
+                {
                     c.Code,
                     c.Location,
                     c.Type,
@@ -154,6 +156,7 @@ namespace EcoCityWaste.Controllers
 
             return View(reports);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Assign()
         {
@@ -179,7 +182,7 @@ namespace EcoCityWaste.Controllers
 
             return View(vm);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Assign(AssignOccurrenceViewModel model)
         {
@@ -213,6 +216,7 @@ namespace EcoCityWaste.Controllers
             TempData["Success"] = "Ocorrência atribuída com sucesso!";
             return RedirectToAction("Assign");
         }
+        [Authorize(Roles = "Funcionario")]
         [HttpGet]
         public async Task<IActionResult> UpdateStatus(int id)
         {
@@ -243,7 +247,7 @@ namespace EcoCityWaste.Controllers
             return View(vm);
         }
 
-
+        [Authorize(Roles = "Funcionario")]
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(UpdateStatusViewModel model)
         {
@@ -316,7 +320,26 @@ namespace EcoCityWaste.Controllers
 
             return View("AssignedIncidents", incidents);
         }
+        public IActionResult GetDetails(int id)
+        {
+            var occ = _context.Occurrences
+                .Include(o => o.User)
+                .FirstOrDefault(o => o.Id == id);
 
+            if (occ == null)
+                return NotFound();
+
+            return Json(new
+            {
+                id = occ.Id,
+                occurrenceType = occ.OccurrenceType,
+                containerCode = occ.ContainerCode,
+                description = occ.Description,
+                reportDate = occ.ReportDate.ToString("dd/MM/yyyy"),
+                status = occ.Status,
+                reportedBy = occ.User?.Username ?? "Desconhecido"
+            });
+        }
 
     }
 }

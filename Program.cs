@@ -129,28 +129,50 @@ using (var scope = app.Services.CreateScope())
         hasChanges = true;
     }
 
-    if (!context.Occurrences.Any())
+    if (context.Occurrences.Count() < 2)
     {
         // Buscar um utilizador Cidadão para associar à ocorrência
         var cidadao = context.Users.FirstOrDefault(u => u.Role == "Cidadao");
+        var funcionario = context.Users.FirstOrDefault(u => u.Role == "Funcionario");
 
-        if (cidadao != null)
+        if (cidadao != null && funcionario != null)
         {
-            context.Occurrences.Add(new Occurrence
+            // 1) Ocorrência pendente (não atribuída)
+            if (!context.Occurrences.Any(o => o.Description == "Contentor cheio e a transbordar"))
             {
-                ContainerCode = "CNT-001", // um dos contentores que já criaste
-                OccurrenceType = "Lixo",
-                Description = "Contentor cheio e a transbordar",
-                ReportDate = DateTime.Now.AddHours(-3),
-                Status = OccurrenceStatus.Pendente.ToString(),
-                UserId = cidadao.Id,
-                AssignedEmployeeId = null,
-                AssignedAt = null,
-                ImagePath = null,
-            });
+                context.Occurrences.Add(new Occurrence
+                {
+                    ContainerCode = "CNT-001",
+                    OccurrenceType = "Lixo",
+                    Description = "Contentor cheio e a transbordar",
+                    ReportDate = DateTime.Now.AddHours(-3),
+                    Status = OccurrenceStatus.Pendente.ToString(),
+                    UserId = cidadao.Id,
+                    AssignedEmployeeId = null,
+                    AssignedAt = null,
+                    ImagePath = null
+                });
+            }
+
+            // 2) Ocorrência atribuída ao funcionário (Em Análise)
+            if (!context.Occurrences.Any(o => o.Description == "Vidro partido espalhado"))
+            {
+                context.Occurrences.Add(new Occurrence
+                {
+                    ContainerCode = "CNT-002",
+                    OccurrenceType = "Vidro",
+                    Description = "Vidro partido espalhado",
+                    ReportDate = DateTime.Now.AddHours(-1),
+                    Status = OccurrenceStatus.EmAnalise.ToString(),
+                    UserId = cidadao.Id,
+                    AssignedEmployeeId = funcionario.Id,
+                    AssignedAt = DateTime.Now.AddMinutes(-30)
+                });
+            }
 
             context.SaveChanges();
         }
+
     }
     // Guarda, so se houver novos utilizadores
     if (hasChanges)

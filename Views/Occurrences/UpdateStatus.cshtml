@@ -36,7 +36,7 @@
             <div class="status-badge"
                  style="background-color: #e4d4b8; color: #795c4d; padding: 8px 16px;
                         border-radius: 20px; font-weight: 600; display:inline-block;">
-                @Model.CurrentStatus.ToDisplayName()
+                @(Enum.Parse<OccurrenceStatus>(Model.CurrentStatus).ToDisplayName())
             </div>
         </div>
 
@@ -46,9 +46,16 @@
 
             <div class="mb-3">
                 <label asp-for="NewStatus" class="form-label fw-bold">Novo estado</label>
-                <select asp-for="NewStatus"
-                        asp-items="Html.GetEnumSelectList<OccurrenceStatus>()"
-                        class="form-control">
+                <select asp-for="NewStatus" class="form-control">
+                    @foreach (var status in Enum.GetValues(typeof(OccurrenceStatus)).Cast<OccurrenceStatus>())
+                    {
+                        if (status != OccurrenceStatus.Pendente)
+                        {
+                            <option value="@status" selected="@(status == Model.NewStatus)">
+                                @status.ToDisplayName()
+                            </option>
+                        }
+                    }
                 </select>
             </div>
 
