@@ -26,9 +26,58 @@
 
         </div>
 
+        <form method="get" asp-action="AssignedIncidents" class="filter-panel">
+            <div class="row align-items-end" style="display: flex; gap: 15px; flex-wrap: wrap;">
+
+                <div style="flex: 1; min-width: 140px;">
+                    <label class="filter-label">Estado</label>
+                    <select name="searchStatus" class="filter-input form-select">
+                        <option value="">Todos</option>
+                        <option value="Pendente" selected="@(ViewBag.CurrentStatus == "Pendente")">Pendente</option>
+                        <option value="EmAnalise" selected="@(ViewBag.CurrentStatus == "EmAnalise")">Em Análise</option>
+                        <option value="EmResolucao" selected="@(ViewBag.CurrentStatus == "EmResolucao")">Em Resolução</option>
+                        <option value="Resolvido" selected="@(ViewBag.CurrentStatus == "Resolvido")">Resolvido</option>
+                        <option value="Rejeitado" selected="@(ViewBag.CurrentStatus == "Rejeitado")">Rejeitado</option>
+                    </select>
+                </div>
+
+                <div style="flex: 1; min-width: 140px;">
+                    <label class="filter-label">Tipo de Anomalia</label>
+                    <select name="searchType" class="filter-input form-select">
+                        <option value="">Todos</option>
+                        <option value="Lixo no Chão" selected="@(ViewBag.CurrentType == "Lixo no Chão")">Lixo no Chão</option>
+                        <option value="Cheio" selected="@(ViewBag.CurrentType == "Cheio")">Muito Cheio</option>
+                        <option value="Queimado" selected="@(ViewBag.CurrentType == "Queimado")">Queimado</option>
+                        <option value="Avariado" selected="@(ViewBag.CurrentType == "Avariado")">Avariado</option>
+                        <option value="Vandalismo" selected="@(ViewBag.CurrentType == "Vandalismo")">Vandalismo</option>
+                    </select>
+                </div>
+
+                <div style="flex: 1; min-width: 130px;">
+                    <label class="filter-label">Desde</label>
+                    <input type="date" name="startDate" class="filter-input form-control" value="@ViewBag.StartDate" />
+                </div>
+
+                <div style="flex: 1; min-width: 130px;">
+                    <label class="filter-label">Até</label>
+                    <input type="date" name="endDate" class="filter-input form-control" value="@ViewBag.EndDate" />
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn-primary" style="padding: 10px 20px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; border: none; border-radius: 50px;">
+                        <i class="fa-solid fa-filter"></i> Filtrar
+                    </button>
+                    <a asp-action="AssignedIncidents" class="btn-vista-analitica" style="padding: 10px 20px;">
+                        Limpar
+                    </a>
+                </div>
+
+            </div>
+        </form>
+
         @if (!Model.Any())
         {
-            <p style="text-align:center;">Sem ocorrências associadas a ti.</p>
+            <p style="text-align:center; padding: 20px 0; color: #777;">Sem ocorrências para mostrar.</p>
         }
         else
         {
@@ -100,4 +149,39 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
     }
+
+    .filter-panel {
+        background-color: #ffffff;
+        padding: 20px 25px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        border: 1px solid #e4d4b8;
+        box-shadow: 0 4px 15px rgba(141, 110, 99, 0.08);
+    }
+
+    .filter-label {
+        font-weight: 700;
+        color: #8d6e63;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .filter-input {
+        border-radius: 10px !important;
+        border: 1px solid #ddd !important;
+        color: #555 !important;
+        font-size: 0.9rem !important;
+        padding: 10px 15px !important;
+        background-color: #fcfcfc !important;
+        transition: all 0.3s ease;
+    }
+
+        .filter-input:focus {
+            border-color: #8d6e63 !important;
+            box-shadow: 0 0 0 0.2rem rgba(141, 110, 99, 0.15) !important;
+            outline: none;
+        }
 </style>
