@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace EcoCityWaste.Controllers
 {
@@ -17,11 +18,14 @@ namespace EcoCityWaste.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly int _hideResolvedAfterDays;
 
-        public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
+
+        public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _hideResolvedAfterDays = configuration.GetValue<int>("HideResolvedAfterDays", 30); // Valor padrão de 30 dias se não estiver configurado
         }
 
         // GET: Occurrences/Report
@@ -29,7 +33,8 @@ namespace EcoCityWaste.Controllers
         {
             // Vai buscar os dados dos contentores à base de dados
             var containers = _context.Contentores
-                .Select(c => new {
+                .Select(c => new
+                {
                     c.Code,
                     c.Location,
                     c.Type,
@@ -38,7 +43,8 @@ namespace EcoCityWaste.Controllers
                 }).ToList();
 
             var translate = containers
-                .Select(c => new {
+                .Select(c => new
+                {
                     c.Code,
                     c.Location,
                     c.Type,
@@ -82,7 +88,8 @@ namespace EcoCityWaste.Controllers
                     .ToList();
 
                 var containersTraduzidos = containersBD
-                    .Select(c => new {
+                    .Select(c => new
+                    {
                         c.Code,
                         c.Location,
                         c.Type,
@@ -178,14 +185,26 @@ namespace EcoCityWaste.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            var cutoffDate = DateTime.Now.AddDays(-_hideResolvedAfterDays);
+
             // Vai à base de dados buscar apenas as ocorrências deste cidadão
             var reports = await _context.Occurrences
                 .Where(o => o.UserId == userId)
-                .OrderByDescending(o => o.ReportDate)
-                .ToListAsync();
+                .Where(o =>
+            o.Status != OccurrenceStatus.Resolvido.ToString() &&
+            o.Status != OccurrenceStatus.Rejeitado.ToString()
+            ||
+            o.LastUpdatedAt >= cutoffDate  // Mostra resolvidas/rejeitadas apenas dentro do período
+            )
+            .OrderByDescending(o => o.ReportDate)
+            .ToListAsync();
+
+            ViewBag.HideAfterDays = _hideResolvedAfterDays; // Para usar na view
+
 
             return View(reports);
         }
+
         [HttpGet]
         public async Task<IActionResult> Assign()
         {

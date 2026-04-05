@@ -33,6 +33,13 @@
     }
     else
     {
+        <div style="background-color: #f0ebe3; border-left: 4px solid #c8a882; border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+            <i class="fa-solid fa-circle-info" style="color: #8d6e63; font-size: 1.1rem;"></i>
+            <span style="color: #6d4c41; font-size: 0.9rem;">
+                Ocorrências <strong>resolvidas ou rejeitadas</strong> são automaticamente ocultadas após <strong>@ViewBag.HideAfterDays dias</strong>.
+            </span>
+        </div>
+
         <div style="display: flex; flex-direction: column; gap: 15px;">
             @foreach (var item in Model)
             {
