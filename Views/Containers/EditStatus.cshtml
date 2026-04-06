@@ -1,4 +1,5 @@
-﻿@model EcoCityWaste.Dtos.UpdateContainerStatusDto
+﻿@using EcoCityWaste.Helpers
+@model EcoCityWaste.Dtos.UpdateContainerStatusDto
 @{
     ViewData["Title"] = "Atualizar Estado";
 }
@@ -15,18 +16,12 @@
 
         <div class="field-label" style="margin-bottom: 20px;">
             Contentor ID: @Model.Id | Estado atual: <strong>
-                @(Model.Status switch
-                {
-                    "Good" => "Bom",
-                    "Full" => "Cheio",
-                    "Empty" => "Vazio",
-                    "Broken" => "Avariado",
-                    "Maintenance" => "Manutenção",
-                    _ => "Desconhecido"
-                })
+                 @(((EcoCityWaste.Models.Container.ContainerStatus)Enum.Parse(
+                        typeof(EcoCityWaste.Models.Container.ContainerStatus),
+                        Model.Status
+                    )).GetDisplayName())
             </strong>
         </div>
-
         <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
             <input type="hidden" asp-for="Id" />
 

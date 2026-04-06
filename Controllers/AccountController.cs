@@ -122,8 +122,6 @@ namespace EcoCityWaste.Controllers
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
                 }
-
-                // 🔥 ADICIONADO: criar claims incluindo ROLE
                 var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.Username),
@@ -139,7 +137,6 @@ namespace EcoCityWaste.Controllers
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity));
 
-                // 🔥 ADICIONADO: redirecionar conforme a role
                 return user.Role switch
                 {
                     "Admin" => RedirectToAction("Dashboard", "Admin"),

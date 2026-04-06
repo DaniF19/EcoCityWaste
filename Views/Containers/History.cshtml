@@ -1,4 +1,5 @@
-﻿@model IEnumerable<EcoCityWaste.Models.ContainerStatusHistory>
+﻿@using EcoCityWaste.Helpers
+@model IEnumerable<EcoCityWaste.Models.ContainerStatusHistory>
 
 @{
     ViewData["Title"] = "Histórico do Contentor";
@@ -37,24 +38,16 @@
             </thead>
 
             <tbody>
-
-                @foreach (var item in Model)
+               @foreach (var item in Model)
                 {
                     <tr>
                         <td>@item.ChangedAt.ToString("dd/MM/yyyy HH:mm")</td>
-
-                        <td>@item.Status</td>
-
+                        <td>@item.Status.GetDisplayName()</td>
                         <td>@item.FillLevel%</td>
-
-                        <td>
-                            @(item.IsActive ? "Sim" : "Não")
-                        </td>
-
+                        <td>@(item.IsActive ? "Sim" : "Não")</td>
                         <td>@item.ChangedBy</td>
                     </tr>
                 }
-
             </tbody>
         </table>
 

@@ -1,3 +1,4 @@
+@using EcoCityWaste.Helpers
 @model List<EcoCityWaste.Models.Container>
 
 @{
@@ -41,7 +42,7 @@
                             <td>@container.Code</td>
                             <td>@container.Location</td>
                             <td>@container.Type</td>
-                            <td>@Html.DisplayFor(modelItem => container.Status)</td>
+                            <td>@container.Status.GetDisplayName()</td>
                             <td>@container.FillLevel %</td>
 
                             <td style="text-align:center;">

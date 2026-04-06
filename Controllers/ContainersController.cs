@@ -1,125 +1,42 @@
 using EcoCityWaste.Data;
 using EcoCityWaste.Dtos;
 using EcoCityWaste.Models;
-using EcoCityWaste.ViewModels;
 using EcoCityWaste.Services;
+using EcoCityWaste.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using static EcoCityWaste.Models.Container;
 
 namespace EcoCityWaste.Controllers
 {
     [Authorize(Roles = "Admin,Funcionario")]
     public class ContainersController : Controller
     {
-        private readonly AppDbContext _context;
-        private readonly GeocodingService _geo;
+        private readonly ContainerService _containerService;
+        private readonly ContainerQueryService _queryService;
         private readonly ContainerHistoryService _historyService;
 
-
-        public ContainersController(AppDbContext context, GeocodingService geo, ContainerHistoryService historyService)
+        public ContainersController(
+            ContainerService containerService,
+            ContainerQueryService queryService,
+            ContainerHistoryService historyService)
         {
-            _context = context;
-            _geo = geo;
+            _containerService = containerService;
+            _queryService = queryService;
             _historyService = historyService;
         }
 
-        // GET: Containers
         public async Task<IActionResult> Index(string searchString, string statusFilter, string sortOrder)
         {
-            try
-            {
-                // Estatísticas para o dashboard
-                ViewBag.TotalContainers = await _context.Contentores.CountAsync();
-                ViewBag.TotalCheios = await _context.Contentores.CountAsync(c => c.FillLevel >= 90);
-                ViewBag.TotalAvariados = await _context.Contentores.CountAsync(c => c.Status == ContainerStatus.Broken);
-                ViewBag.TotalAtivos = await _context.Contentores.CountAsync(c => c.IsActive);
-
-                // Manter os valores para a View
-                ViewBag.CurrentSearch = searchString;
-                ViewBag.CurrentStatus = statusFilter;
-
-                // Parâmetros de ordenação
-                ViewBag.CodeSortParam = String.IsNullOrEmpty(sortOrder) ? "code_desc" : "";
-                ViewBag.LevelSortParam = sortOrder == "Level" ? "level_desc" : "Level";
-                ViewBag.StatusSortParam = sortOrder == "Status" ? "status_desc" : "Status";
-
-                var containers = _context.Contentores.AsQueryable();
-
-                // Filtro de Pesquisa por Texto
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    containers = containers.Where(c => c.Code.Contains(searchString) || c.Location.Contains(searchString));
-                }
-                Container.ContainerStatus? statusEnum = statusFilter switch
-                {
-                    "Bom" => Container.ContainerStatus.Good,
-                    "Cheio" => Container.ContainerStatus.Full,
-                    "Vazio" => Container.ContainerStatus.Empty,
-                    "Avariado" => Container.ContainerStatus.Broken,
-                    "Manutenção" => Container.ContainerStatus.Maintenance,
-                    _ => null
-                };
-
-
-                // Filtros
-                if (!String.IsNullOrEmpty(statusFilter))
-                {
-                    containers = statusFilter switch
-                    {
-                        // Filtros de Atividade
-                        "Ativos" => containers.Where(c => c.IsActive),
-                        "Inativos" => containers.Where(c => !c.IsActive),
-
-                        // Filtros de Nível
-                        "Critico" or "Cheio" => containers.Where(c => c.FillLevel >= 90),
-                        "Medio" => containers.Where(c => c.FillLevel >= 50 && c.FillLevel < 90),
-                        "Baixo" => containers.Where(c => c.FillLevel < 50),
-
-                        // Filtros de Tipo de Resíduo
-                        "Plástico" or "Papel" or "Vidro" or "Indiferenciado"
-                            => containers.Where(c => c.Type == statusFilter),
-
-                        // Filtros Físicos (ENUM)
-                        _ => statusEnum.HasValue
-                                ? containers.Where(c => c.Status == statusEnum.Value)
-                                : containers
-                    };
-                }
-
-                // Ordenação 
-                switch (sortOrder)
-                {
-                    case "code_desc": containers = containers.OrderByDescending(c => c.Code); break;
-                    case "Level": containers = containers.OrderBy(c => c.FillLevel); break;
-                    case "level_desc": containers = containers.OrderByDescending(c => c.FillLevel); break;
-                    case "Status": containers = containers.OrderBy(c => c.Status); break;
-                    case "status_desc": containers = containers.OrderByDescending(c => c.Status); break;
-                    default: containers = containers.OrderBy(c => c.Code); break;
-                }
-
-                return View(await containers.ToListAsync());
-            }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "Ocorreu um problema ao tentar aceder à base de dados.";
-                return View(new List<EcoCityWaste.Models.Container>());
-            }
+            var vm = await _queryService.GetIndexDataAsync(searchString, statusFilter, sortOrder);
+            return View(vm);
         }
-    
-        // GET: /Container/Register
+
         public IActionResult Register()
         {
             return View();
         }
 
-        // POST: /Container/Register
         [HttpPost]
         public async Task<IActionResult> Register(ContainerRegisterViewModel model)
         {
@@ -128,51 +45,11 @@ namespace EcoCityWaste.Controllers
 
             try
             {
-                // Converter Status (string → enum)
-                if (!Enum.TryParse<ContainerStatus>(model.Status, out var statusEnum))
-                {
-                    ModelState.AddModelError("Status", "Estado inválido.");
-                    return View(model);
-                }
-
-                // Definir se o contentor é criado ativo ou inativo
-                bool isContainerActive = true;
-                if (statusEnum == ContainerStatus.Broken || statusEnum == ContainerStatus.Maintenance)
-                {
-                    isContainerActive = false;
-                }
-
-                var coords = await _geo.GetCoordinates(model.Location);
-
-                var container = new Container
-                {
-                    Code = GenerateContainerCode(),
-                    Location = model.Location,
-                    Type = model.Type,
-                    Status = statusEnum,
-                    Latitude = coords.lat,
-                    Longitude = coords.lon,
-                    FillLevel = 0,
-                    InstallationDate = DateTime.Now,
-                    LastUpdated = DateTime.Now,
-                    IsActive = isContainerActive
-                };
-
-                _context.Contentores.Add(container);
-                await _context.SaveChangesAsync();
-                //ricardo
-                await _historyService.AddHistory(container, User?.Identity?.Name);
-
+                await _containerService.CreateAsync(model, User?.Identity?.Name);
                 ViewBag.Success = "Contentor registado com sucesso!";
                 ModelState.Clear();
-
                 return View();
             }
-            //catch
-            //{
-            //    ViewBag.Error = "Erro ao registar o contentor.";
-            //    return View(model);
-            //}
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
@@ -180,24 +57,27 @@ namespace EcoCityWaste.Controllers
             }
         }
 
-
         public async Task<IActionResult> List()
         {
-            var containers = await _context.Contentores
-                                           //.Where(c => c.IsActive) to show just the active ones
-                                           .ToListAsync();
-
+            var containers = await _queryService.GetAllAsync();
             return View(containers);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var container = await _context.Contentores.FindAsync(id);
-
+            var container = await _queryService.GetByIdAsync(id);
             if (container == null)
                 return NotFound();
 
-            return View(container);
+            var vm = new ContainerEditViewModel
+            {
+                Id = container.Id,
+                Location = container.Location,
+                Type = container.Type,
+                Status = container.Status
+            };
+
+            return View(vm);
         }
 
         [HttpPost]
@@ -206,125 +86,43 @@ namespace EcoCityWaste.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            try
-            {
-                var container = await _context.Contentores.FindAsync(model.Id);
+            var updated = await _containerService.EditAsync(model, User?.Identity?.Name);
 
-                if (container == null)
-                    return NotFound();
-
-                container.Location = model.Location;
-                container.Type = model.Type;
-                container.Status = model.Status;
-                // Desativar o contentor se estiver avariado ou em manutenção
-                if (model.Status == ContainerStatus.Broken || model.Status == ContainerStatus.Maintenance)
-                {
-                    container.IsActive = false;
-                }
-                else
-                {
-                    container.IsActive = true;
-                }
-                container.LastUpdated = DateTime.Now;
-
-                await _context.SaveChangesAsync();
-                //Ricardo
-                await _historyService.AddHistory(container, User?.Identity?.Name);
-                return RedirectToAction("List");
-            }
-            catch
-            {
-                ViewBag.Error = "Erro ao atualizar o contentor.";
-                return View(model);
-            }
-        }
-
-        // Desativar contentor
-        public async Task<IActionResult> Deactivate(int id)
-        {
-            var container = await _context.Contentores.FindAsync(id);
-
-            if (container == null)
+            if (updated == null)
                 return NotFound();
 
-            container.IsActive = false;
-            container.LastUpdated = DateTime.Now;
-
-            await _context.SaveChangesAsync();
-
-            //ricardo
-            await _historyService.AddHistory(container, User?.Identity?.Name);
-            return RedirectToAction("List");
+            return RedirectToAction(nameof(List));
         }
 
+        public async Task<IActionResult> Deactivate(int id)
+        {
+            var ok = await _containerService.DeactivateAsync(id, User?.Identity?.Name);
 
+            if (!ok)
+                return NotFound();
 
-        //Historico do contentor
+            return RedirectToAction(nameof(List));
+        }
 
         public async Task<IActionResult> History(int id)
         {
-            var history = await _context.ContainerStatusHistories
-                .Where(h => h.ContainerId == id)
-                .OrderByDescending(h => h.ChangedAt)
-                .ToListAsync();
-
+            var history = await _historyService.GetHistoryAsync(id);
             return View(history);
-        }
-
-        private async Task AddHistory(Container container)
-        {
-            if (_context.ContainerStatusHistories == null)
-                return;
-
-            var history = new ContainerStatusHistory
-            {
-                ContainerId = container.Id,
-                Status = container.Status,
-                FillLevel = container.FillLevel,
-                IsActive = container.IsActive,
-                ChangedAt = DateTime.Now,
-                ChangedBy = User?.Identity?.Name ?? "Sistema"
-            };
-
-            _context.ContainerStatusHistories.Add(history);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IActionResult> ListStatus()
         {
-            var containers = await _context.Contentores
-                .ToListAsync();
-
+            var containers = await _queryService.GetAllAsync();
             return View(containers);
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(int id, UpdateContainerStatusDto dto)
         {
-            var container = await _context.Contentores.FindAsync(dto.Id);
+            var updated = await _containerService.UpdateStatusAsync(id, dto.Status, User?.Identity?.Name);
 
-            if (container == null)
+            if (updated == null)
                 return NotFound("Contentor não encontrado.");
-
-            if (!Enum.TryParse<Container.ContainerStatus>(dto.Status, true, out var newStatus))
-                return BadRequest("Estado inválido.");
-
-            container.Status = newStatus;
-            // Desativar o contentor se estiver avariado ou em manutenção
-            if (newStatus == Container.ContainerStatus.Broken || newStatus == Container.ContainerStatus.Maintenance)
-            {
-                container.IsActive = false;
-            }
-            else
-            {
-                container.IsActive = true;
-            }
-
-            container.LastUpdated = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-
-            await _historyService.AddHistory(container, User?.Identity?.Name);
 
             return RedirectToAction(nameof(ListStatus));
         }
@@ -332,25 +130,15 @@ namespace EcoCityWaste.Controllers
         [HttpGet]
         public async Task<IActionResult> EditStatus(int id)
         {
-            var container = await _context.Contentores.FindAsync(id);
+            var container = await _queryService.GetByIdAsync(id);
             if (container == null)
                 return NotFound();
 
-            var model = new UpdateContainerStatusDto
+            return View(new UpdateContainerStatusDto
             {
                 Id = container.Id,
                 Status = container.Status.ToString()
-            };
-
-            return View(model);
+            });
         }
-
-        // Container code generator
-        private string GenerateContainerCode()
-        {
-            var count = _context.Contentores.Count() + 1;
-            return $"CNT-{count:D3}";
-        }
-
     }
 }

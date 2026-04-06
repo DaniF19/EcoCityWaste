@@ -1,3 +1,5 @@
+@using EcoCityWaste.Helpers
+
 @model List<EcoCityWaste.Models.Container>
 
 @{
@@ -45,7 +47,7 @@
                         <tr>
                             <td>@container.Location</td>
                             <td>@container.Type</td>
-                            <td>@Html.DisplayFor(modelItem => container.Status)</td>
+                            <td>@container.Status.GetDisplayName()</td>
                             <td>@container.InstallationDate.ToString("dd/MM/yyyy HH:mm")</td>
                             <td>@container.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
                             <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">

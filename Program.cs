@@ -58,6 +58,11 @@ builder.Services.AddHttpClient<GeocodingService>();
 builder.Services.AddScoped<ContainerHistoryService>();
 
 builder.Services.AddScoped<IRouteService, RouteService>();
+builder.Services.AddScoped<ContainerService>();
+builder.Services.AddScoped<ContainerQueryService>();
+builder.Services.AddScoped<ContainerHistoryService>();
+builder.Services.AddScoped<GeocodingService>();
+
 
 var app = builder.Build();
 
