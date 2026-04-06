@@ -1,15 +1,12 @@
 ﻿using EcoCityWaste.Data;
+using EcoCityWaste.Helpers;
 using EcoCityWaste.Models;
+using EcoCityWaste.Services;
 using EcoCityWaste.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Security.Claims;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
 
 namespace EcoCityWaste.Controllers
 {
@@ -17,11 +14,16 @@ namespace EcoCityWaste.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly int _hideResolvedAfterDays;
+        private readonly NotificationService _notificationService;
 
-        public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
+
+        public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration, NotificationService notificationService)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _hideResolvedAfterDays = configuration.GetValue<int>("HideResolvedAfterDays", 30); // Valor padrão de 30 dias se não estiver configurado
+            _notificationService = notificationService;
         }
 
         // GET: Occurrences/Report
@@ -29,7 +31,8 @@ namespace EcoCityWaste.Controllers
         {
             // Vai buscar os dados dos contentores à base de dados
             var containers = _context.Contentores
-                .Select(c => new {
+                .Select(c => new
+                {
                     c.Code,
                     c.Location,
                     c.Type,
@@ -38,19 +41,12 @@ namespace EcoCityWaste.Controllers
                 }).ToList();
 
             var translate = containers
-                .Select(c => new {
+                .Select(c => new
+                {
                     c.Code,
                     c.Location,
                     c.Type,
-                    Status = c.Status switch
-                    {
-                        Container.ContainerStatus.Good => "Bom",
-                        Container.ContainerStatus.Full => "Cheio",
-                        Container.ContainerStatus.Empty => "Vazio",
-                        Container.ContainerStatus.Broken => "Avariado",
-                        Container.ContainerStatus.Maintenance => "Manutenção",
-                        _ => "Desconhecido"
-                    },
+                    Status = c.Status.ToDisplayName(),
                     c.FillLevel
                 }).ToList();
 
@@ -70,7 +66,32 @@ namespace EcoCityWaste.Controllers
             // Verifica se os campos obrigatórios vieram preenchidos
             if (!ModelState.IsValid)
             {
-                return View(model);
+                // Limpa o form
+                ModelState.Clear();
+
+                // Coloca um aviso para o cidadão não ficar confuso com o reset
+                ViewBag.Error = "Faltam preencher campos obrigatórios ou os dados são inválidos. Por favor, preencha novamente.";
+
+                // Carrega os contentores novamente
+                var containersBD = _context.Contentores
+                    .Select(c => new { c.Code, c.Location, c.Type, c.Status, c.FillLevel })
+                    .ToList();
+
+                var containersTraduzidos = containersBD
+                    .Select(c => new
+                    {
+                        c.Code,
+                        c.Location,
+                        c.Type,
+                        Status = c.Status.ToDisplayName(),
+                        c.FillLevel
+                    }).ToList();
+
+                ViewBag.ContainersList = containersTraduzidos;
+                ViewBag.ContainersJson = JsonSerializer.Serialize(containersTraduzidos);
+
+                // Devolvemos um modelo vazio
+                return View(new ReportOccurrenceViewModel());
             }
 
             try
@@ -79,32 +100,7 @@ namespace EcoCityWaste.Controllers
                 var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 int.TryParse(userIdString, out int userId); // Converte para int com segurança
 
-                string photoPath = null;
-
-                if (model.Photo != null && model.Photo.Length > 0)
-                {
-                    // Define a pasta onde guardar
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "ocorrencias");
-
-                    // Cria a pasta se ela não existir
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
-
-                    // Cria um nome único para não haver ficheiros substituídos com o mesmo nome
-                    string nameFile = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.Photo.FileName);
-                    string completePath = Path.Combine(uploadsFolder, nameFile);
-
-                    // Copia o ficheiro para o servidor
-                    using (var fileStream = new FileStream(completePath, FileMode.Create))
-                    {
-                        await model.Photo.CopyToAsync(fileStream);
-                    }
-
-                    // Guarda o caminho relativo que vai ser gravado na BD
-                    photoPath = "/uploads/ocorrencias/" + nameFile;
-                }
+                string? photoPath = await SaveOccurrencePhotoAsync(model.Photo);
 
                 // Mapear os dados do formulário para a entidade da Base de Dados
                 var occurrence = new Occurrence
@@ -146,14 +142,26 @@ namespace EcoCityWaste.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            var cutoffDate = DateTime.Now.AddDays(-_hideResolvedAfterDays);
+
             // Vai à base de dados buscar apenas as ocorrências deste cidadão
             var reports = await _context.Occurrences
                 .Where(o => o.UserId == userId)
-                .OrderByDescending(o => o.ReportDate)
-                .ToListAsync();
+                .Where(o =>
+            o.Status != OccurrenceStatus.Resolvido.ToString() &&
+            o.Status != OccurrenceStatus.Rejeitado.ToString()
+            ||
+            o.LastUpdatedAt >= cutoffDate  // Mostra resolvidas/rejeitadas apenas dentro do período
+            )
+            .OrderByDescending(o => o.ReportDate)
+            .ToListAsync();
+
+            ViewBag.HideAfterDays = _hideResolvedAfterDays; // Para usar na view
+
 
             return View(reports);
         }
+
         [HttpGet]
         public async Task<IActionResult> Assign()
         {
@@ -201,15 +209,20 @@ namespace EcoCityWaste.Controllers
             occurrence.AssignedEmployeeId = model.SelectedEmployeeId;
             occurrence.Status = OccurrenceStatus.EmAnalise.ToString();
             occurrence.AssignedAt = DateTime.Now;
+            occurrence.LastUpdatedAt = DateTime.Now;
 
-            _context.Notifications.Add(new Notification
-            {
-                Message = $"Foi-lhe atribuída uma ocorrência ({occurrence.OccurrenceType}).",
-                UserId = model.SelectedEmployeeId,
-                CreatedAt = DateTime.Now,
-                IsRead = false
-            });
             await _context.SaveChangesAsync();
+
+            // Utilizar o serviço de notificações para informar o funcionário
+            await _notificationService.CreateNotificationAsync(
+                $"Foi-lhe atribuída uma ocorrência ({occurrence.OccurrenceType}).",
+                model.SelectedEmployeeId);
+
+            // Utilizar o serviço de notificações para informar o cidadão
+            await _notificationService.CreateNotificationAsync(
+                $"A sua ocorrência ({occurrence.OccurrenceType}) está agora a ser analisada pela nossa equipa.",
+                occurrence.UserId);
+
             TempData["Success"] = "Ocorrência atribuída com sucesso!";
             return RedirectToAction("Assign");
         }
@@ -237,6 +250,7 @@ namespace EcoCityWaste.Controllers
             {
                 OccurrenceId = occurrence.Id,
                 CurrentStatus = occurrence.Status,
+                LastUpdatedAt = occurrence.LastUpdatedAt = DateTime.Now,
                 NewStatus = Enum.Parse<OccurrenceStatus>(occurrence.Status)
             };
 
@@ -279,15 +293,12 @@ namespace EcoCityWaste.Controllers
 
             _context.Occurrences.Update(occurrence);
 
-            _context.Notifications.Add(new Notification
-            {
-                Message = $"O estado da sua ocorrência foi atualizado para {occurrence.Status}.",
-                UserId = occurrence.UserId,
-                CreatedAt = DateTime.Now,
-                IsRead = false
-            });
-
             await _context.SaveChangesAsync();
+
+            // Notificar o cidadão sobre a atualização do estado da ocorrência
+            await _notificationService.CreateNotificationAsync(
+                $"O estado da sua ocorrência foi atualizado para {occurrence.Status}.",
+                occurrence.UserId);
 
             TempData["Success"] = "Incident status updated successfully.";
 
@@ -295,28 +306,84 @@ namespace EcoCityWaste.Controllers
         }
 
 
-        public async Task<IActionResult> AssignedIncidents()
+        [HttpGet]
+        public async Task<IActionResult> AssignedIncidents(string? searchStatus, string? searchType, DateTime? startDate, DateTime? endDate)
         {
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null)
-                return Unauthorized();
+            if (userIdClaim == null) return Unauthorized();
 
             int userId = int.Parse(userIdClaim);
-
             var employee = await _context.Users.FindAsync(userId);
 
             if (employee == null || employee.Role != "Funcionario")
                 return Unauthorized();
 
-            var incidents = await _context.Occurrences
-                .Where(o => o.AssignedEmployeeId == employee.Id)
-                .OrderByDescending(o => o.ReportDate)
-                .ToListAsync();
+            // Lista de todas as ocorrências deste funcionário
+            var query = _context.Occurrences.Where(o => o.AssignedEmployeeId == employee.Id).AsQueryable();
+
+            // Aplicar filtro de Estado (se o funcionário tiver escolhido algum)
+            if (!string.IsNullOrEmpty(searchStatus))
+            {
+                query = query.Where(o => o.Status == searchStatus);
+            }
+
+            // Aplicar filtro de Tipo de Anomalia
+            if (!string.IsNullOrEmpty(searchType))
+            {
+                query = query.Where(o => o.OccurrenceType == searchType);
+            }
+
+            // Aplicar filtros de Data
+            if (startDate.HasValue)
+            {
+                query = query.Where(o => o.ReportDate.Date >= startDate.Value.Date);
+            }
+            if (endDate.HasValue)
+            {
+                query = query.Where(o => o.ReportDate.Date <= endDate.Value.Date);
+            }
+
+            // Executar a consulta ordenando pelas mais recentes
+            var incidents = await query.OrderByDescending(o => o.ReportDate).ToListAsync();
+
+            // Guardar os filtros atuais na ViewBag para os voltar a mostrar no HTML (para o utilizador saber o que pesquisou)
+            ViewBag.CurrentStatus = searchStatus;
+            ViewBag.CurrentType = searchType;
+            ViewBag.StartDate = startDate?.ToString("yyyy-MM-dd");
+            ViewBag.EndDate = endDate?.ToString("yyyy-MM-dd");
 
             return View("AssignedIncidents", incidents);
         }
 
+        private async Task<string?> SaveOccurrencePhotoAsync(IFormFile? photo)
+        {
+            // Se não houver foto, devolvemos nulo
+            if (photo == null || photo.Length == 0)
+            {
+                return null;
+            }
 
+            // Define a pasta onde guardar
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "ocorrencias");
+
+            // Cria a pasta se ela não existir
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            // Cria um nome para não haver ficheiros substituídos com o mesmo nome
+            string nameFile = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+            string completePath = Path.Combine(uploadsFolder, nameFile);
+
+            // Copia o ficheiro para o servidor
+            using (var fileStream = new FileStream(completePath, FileMode.Create))
+            {
+                await photo.CopyToAsync(fileStream);
+            }
+
+            // Devolve o caminho que vai ser gravado na Base de Dados
+            return "/uploads/ocorrencias/" + nameFile;
+        }
     }
 }

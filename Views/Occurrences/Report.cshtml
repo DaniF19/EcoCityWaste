@@ -37,20 +37,7 @@
         <form asp-action="Report" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
-            <div class="input-group">
-                <i class="fa-solid fa-qrcode input-icon"></i>
-                <select asp-for="ContainerCode" id="select-code" class="custom-select">
-                    <option value="">Selecione o Código...</option>
-                    @if (ViewBag.ContainersList != null)
-                    {
-                        foreach (var c in ViewBag.ContainersList)
-                        {
-                            <option value="@c.Code">@c.Code</option>
-                        }
-                    }
-                </select>
-                <span asp-validation-for="ContainerCode" class="field-error"></span>
-            </div>
+            <input type="hidden" asp-for="ContainerCode" id="hidden-container-code" />
 
             <div class="input-group">
                 <i class="fa-solid fa-location-dot input-icon"></i>
@@ -60,14 +47,19 @@
                     {
                         foreach (var c in ViewBag.ContainersList)
                         {
-                            <option value="@c.Code">@c.Location</option>
+                            <option value="@c.Code">@c.Location (@c.Type)</option>
                         }
                     }
                 </select>
+                <span asp-validation-for="ContainerCode" class="field-error"></span>
             </div>
 
             <label class="field-label">Informação do Contentor</label>
             <div class="info-grid">
+                <div class="info-item">
+                    <i id="codeIcon" class="fa-solid fa-qrcode"></i>
+                    <input type="text" id="auto-code" readonly placeholder="Código" />
+                </div>
                 <div class="info-item">
                     <i id="statusIcon" class="fa-solid fa-heart-pulse"></i>
                     <input type="text" id="auto-status" readonly placeholder="Estado" />
@@ -205,7 +197,7 @@
     /* Grelha para os campos automáticos */
     .info-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 10px;
         margin-bottom: 25px;
     }
@@ -225,13 +217,16 @@
 
         .info-item input {
             width: 100%;
-            padding: 10px 10px 10px 35px;
+            padding: 10px 5px 10px 32px;
             border-radius: 15px;
             border: 1px solid #ddd;
             background-color: #f9f9f9;
             color: #555;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 </style>
 
@@ -242,28 +237,43 @@
         // Recebe os dados JSON injetados pelo Controlador
         const containersData = @Html.Raw(ViewBag.ContainersJson ?? "[]");
 
-        const selectCode = document.getElementById('select-code');
+        // Elementos do DOM
         const selectLocation = document.getElementById('select-location');
+        const hiddenCode = document.getElementById('hidden-container-code');
+
+        const autoCode = document.getElementById('auto-code');
         const autoStatus = document.getElementById('auto-status');
         const autoOccupation = document.getElementById('auto-occupation');
         const autoType = document.getElementById('auto-type');
 
-        // Sincronizar: Código -> Localização
-        selectCode.addEventListener('change', function() {
+        // Evento quando o cidadão escolhe uma localização
+        selectLocation.addEventListener('change', function() {
             const selectedCode = this.value;
-            selectLocation.value = selectedCode;
+
+            // Atualiza o input escondido
+            hiddenCode.value = selectedCode;
+
+            // Apaga a opção "Selecione a Localização..."
+            if (selectedCode !== "") {
+                const emptyOption = this.querySelector('option[value=""]');
+                if (emptyOption) emptyOption.remove();
+            }
+
+            // Preenche os cartões
             fillAutoFields(selectedCode);
         });
 
-        // Sincronizar: Localização -> Código
-        selectLocation.addEventListener('change', function() {
-            const selectedCode = this.value;
-            selectCode.value = selectedCode;
-            fillAutoFields(selectedCode);
+        // Caso a página carregue já com um código selecionado
+        document.addEventListener("DOMContentLoaded", function() {
+            if (selectLocation.value !== "") {
+                hiddenCode.value = selectLocation.value;
+                fillAutoFields(selectLocation.value);
+            }
         });
 
         function fillAutoFields(code) {
             if (!code) {
+                autoCode.value = '';
                 autoStatus.value = '';
                 autoOccupation.value = '';
                 autoType.value = '';
@@ -273,6 +283,7 @@
             const container = containersData.find(c => c.Code === code);
 
             if (container) {
+                autoCode.value = container.Code || 'N/D';
                 autoStatus.value = container.Status || 'N/D';
 
                 if (container.FillLevel !== undefined && container.FillLevel !== null) {
@@ -288,55 +299,52 @@
         }
 
          function updateInfoColors(status, fillLevel, type) {
-
-            // 1. Cor do Estado
+            // Cor do Estado
             const statusIcon = document.getElementById('statusIcon');
             if (statusIcon) {
                 switch (status.toLowerCase()) {
-                    case 'bom': statusIcon.style.color = '#27ae60'; break; // Verde
+                    case 'bom': statusIcon.style.color = '#27ae60'; break;
                     case 'avariado':
-                    case 'cheio': statusIcon.style.color = '#e74c3c'; break; // Vermelho
-                    case 'manutenção': statusIcon.style.color = '#f39c12'; break; // Laranja
-                    default: statusIcon.style.color = '#95a5a6'; // Cinzento
+                    case 'cheio': statusIcon.style.color = '#e74c3c'; break;
+                    case 'manutenção': statusIcon.style.color = '#f39c12'; break;
+                    default: statusIcon.style.color = '#95a5a6';
                 }
             }
 
-            // 2. Cor da Ocupação (Lê o número, tirando o símbolo %)
+            // Cor da Ocupação
             const fillIcon = document.getElementById('fillIcon');
-            if (fillIcon) {
+            if (fillIcon && fillLevel !== 'N/D') {
                 let level = parseInt(fillLevel.replace('%', ''));
-
                 if (level >= 80) {
-                    fillIcon.style.color = '#e74c3c'; // Vermelho (Alerta)
+                    fillIcon.style.color = '#e74c3c';
                 } else if (level >= 50) {
-                    fillIcon.style.color = '#f39c12'; // Laranja (Atenção)
+                    fillIcon.style.color = '#f39c12';
                 } else {
-                    fillIcon.style.color = '#27ae60'; // Verde (Tranquilo)
+                    fillIcon.style.color = '#27ae60';
                 }
             }
 
-            // 3. Cor do Tipo de Resíduo
+            // Cor do Tipo de Resíduo
             const iconType = document.getElementById('typeIcon');
             if (iconType) {
                 switch (type.toLowerCase()) {
                     case 'plástico':
-                    case 'embalagens': iconType.style.color = '#f1c40f'; break; // Amarelo
+                    case 'embalagens': iconType.style.color = '#f1c40f'; break;
                     case 'papel':
-                    case 'cartão': iconType.style.color = '#3498db'; break; // Azul
-                    case 'vidro': iconType.style.color = '#27ae60'; break; // Verde
-                    case 'indiferenciado': iconType.style.color = '#34495e'; break; // Cinzento Escuro
+                    case 'cartão': iconType.style.color = '#3498db'; break;
+                    case 'vidro': iconType.style.color = '#27ae60'; break;
+                    case 'indiferenciado': iconType.style.color = '#34495e'; break;
                     default: iconType.style.color = '#95a5a6';
                 }
             }
         }
 
+        // Seleção do ficheiro da fotografia
         document.getElementById('file-input').addEventListener('change', function(e) {
             var fileName = document.getElementById('fileName');
-
-            // Verifica se algum ficheiro foi selecionado
             if (e.target.files && e.target.files.length > 0) {
                 fileName.textContent = e.target.files[0].name;
-                fileName.style.color = '#8d6e63'; // Fica castanho para dar destaque
+                fileName.style.color = '#8d6e63';
                 fileName.style.fontWeight = '600';
             } else {
                 fileName.textContent = 'Nenhuma fotografia selecionada';
@@ -344,6 +352,5 @@
                 fileName.style.fontWeight = 'normal';
             }
         });
-
     </script>
 }
