@@ -1,6 +1,7 @@
 using EcoCityWaste.Controllers;
 using EcoCityWaste.Data;
 using EcoCityWaste.Models;
+using EcoCityWaste.Models.ViewModels;
 using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -130,5 +131,37 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Equal(container.Id, notification.ContainerId);
             Assert.Contains("CNT-001", notification.Message);
         }
+
+        
+
+        [Fact]
+        public async Task Notifications_CanStoreLinkUrlAndType_Correctly()
+        {
+            // Arrange
+            using var context = GetDbContext();
+            var newNotif = new Notification
+            {
+                Id = 99,
+                Message = "Teste Link",
+                LinkUrl = "/Custom/Path",
+                NotificationType = "container",
+                IsRead = false,
+                CreatedAt = DateTime.Now
+            };
+
+            // Act
+            context.Notifications.Add(newNotif);
+            await context.SaveChangesAsync();
+
+            // Assert
+            var savedNotif = await context.Notifications.FindAsync(99);
+            Assert.NotNull(savedNotif);
+            Assert.Equal("/Custom/Path", savedNotif.LinkUrl);
+            Assert.Equal("container", savedNotif.NotificationType);
+        }
+
+
+
+
     }
 }
