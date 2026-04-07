@@ -4,321 +4,462 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <div class="container">
-  <div class="eco-page-container">
+    <div class="eco-page-container">
 
-    <div class="eco-header">
-      <h1><i class="fa-solid fa-bell"></i> Notificações</h1>
-    </div>
+        <div class="eco-header">
+            <h1><i class="fa-solid fa-bell"></i> Notificações</h1>
+        </div>
 
-    @if (Model.Any())
-    {
-      <div class="topbar-actions">
-        <form asp-action="ClearAll" method="post">
-          <button type="submit" class="btn-eco btn-eco-outline">
-            <i class="fa-solid fa-trash"></i> Limpar Todas
-          </button>
-        </form>
-      </div>
-    }
-
-    @if (!Model.Any())
-    {
-      <div class="eco-empty">
-        <i class="fa-solid fa-envelope-open"></i>
-        <p>Não existem notificações disponíveis de momento.</p>
-      </div>
-    }
-    else
-    {
-      <div class="notif-list">
-        @foreach (var n in Model)
+        @if (Model.Any())
         {
-          <div class="notif-row @(n.IsRead ? "" : "unread")"
-               data-id="@n.Id"
-               data-msg="@n.Message"
-               data-date="@n.CreatedAt.ToString("dd/MM/yyyy HH:mm")"
-               data-link="@(n.LinkUrl ?? "")"
-               data-type="@(n.NotificationType ?? "")"
-               data-container="@(n.ContainerId.HasValue ? "#" + n.ContainerId : "")"
-               data-read="@n.IsRead.ToString().ToLower()"
-               onclick="openPanel(this)">
-
-            <div class="notif-icon @(n.NotificationType == "container" ? "icon-warn" : (n.IsRead ? "icon-ok" : "icon-info"))">
-              @if (n.NotificationType == "container")
-              { <i class="fa-solid fa-triangle-exclamation"></i> }
-              else if (n.IsRead)
-              { <i class="fa-solid fa-check"></i> }
-              else
-              { <i class="fa-solid fa-envelope"></i> }
+            <div class="topbar-actions">
+                <form asp-action="ClearAll" method="post">
+                    <button type="submit" class="btn-eco btn-eco-outline">
+                        <i class="fa-solid fa-trash"></i> Limpar Todas
+                    </button>
+                </form>
             </div>
-
-            <div class="notif-body">
-              <div class="notif-msg">
-                @n.Message
-                @if (!n.IsRead){ <span class="dot-unread"></span> }
-              </div>
-              @* <div class="notif-meta">
-                @if (n.ContainerId.HasValue){ <span>Contentor #@n.ContainerId ·</span> }
-                @n.CreatedAt.ToString("dd/MM/yyyy HH:mm")
-              </div> *@
-            </div>
-          </div>
         }
-      </div>
-    }
 
-  </div>
+        @if (!Model.Any())
+        {
+            <div class="eco-empty">
+                <i class="fa-solid fa-envelope-open"></i>
+                <p>Não existem notificações disponíveis de momento.</p>
+            </div>
+        }
+        else
+        {
+            <div class="notif-list">
+                @foreach (var n in Model)
+                {
+                    <div class="notif-row @(n.IsRead ? "" : "unread")"
+                         data-id="@n.Id"
+                         data-msg="@n.Message"
+                         data-date="@n.CreatedAt.ToString("dd/MM/yyyy HH:mm")"
+                         data-link="@(n.LinkUrl ?? "")"
+                         data-type="@(n.NotificationType ?? "")"
+                         data-container="@(n.ContainerId.HasValue ? "#" + n.ContainerId : "")"
+                         data-read="@n.IsRead.ToString().ToLower()"
+                         onclick="openPanel(this)">
+
+                        <div class="notif-icon @(n.NotificationType == "container" ? "icon-warn" : (n.IsRead ? "icon-ok" : "icon-info"))">
+                            @if (n.NotificationType == "container")
+                            {
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            }
+                            else if (n.IsRead)
+                            {
+                                <i class="fa-solid fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-envelope"></i>
+                            }
+                        </div>
+
+                        <div class="notif-body">
+                            <div class="notif-msg">
+                                @n.Message
+                                @if (!n.IsRead)
+                                {
+                                    <span class="dot-unread"></span>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
 </div>
 
 <!-- Side panel -->
 <div id="panelOverlay" class="panel-overlay hidden" onclick="handleOverlayClick(event)">
-  <div class="side-panel">
-    <div class="panel-header">
-      <span class="panel-title">Detalhes da notificação</span>
-      <button class="close-btn" onclick="closePanel()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="side-panel">
+        <div class="panel-header">
+            <span class="panel-title">Detalhes da notificação</span>
+            <button class="close-btn" onclick="closePanel()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="panel-icon-wrap">
+            <div class="panel-icon-big" id="panelIcon"></div>
+        </div>
+        <p class="panel-msg" id="panelMsg"></p>
+        <div class="panel-actions">
+            <a class="btn-accent hidden" id="panelLink" href="#">Ver detalhes →</a>
+            <form asp-action="MarkAsRead" method="post" id="markReadForm" class="hidden">
+                <input type="hidden" name="id" id="markReadId" />
+                <button type="submit" class="btn-mark">Marcar como lida</button>
+            </form>
+        </div>
     </div>
-    <div class="panel-icon-wrap">
-      <div class="panel-icon-big" id="panelIcon"></div>
-    </div>
-    <p class="panel-msg" id="panelMsg"></p>
-    @* <div class="panel-container-tag hidden" id="panelTag"></div> *@
-    @* <p class="panel-date" id="panelDate"></p> *@
-    <div class="panel-actions">
-      <a class="btn-accent hidden" id="panelLink" href="#">Ver detalhes →</a>
-      <form asp-action="MarkAsRead" method="post" id="markReadForm" class="hidden">
-        <input type="hidden" name="id" id="markReadId" />
-        <button type="submit" class="btn-mark">Marcar como lida</button>
-      </form>
-    </div>
-  </div>
 </div>
 
 <style>
-:root {
-  --castanho: rgb(141,110,99);
-  --bege: rgb(224,205,169);
-  --fundo: rgb(243,242,235);
-}
-.eco-page-container {
-  font-family:'Segoe UI',sans-serif;
-  background:var(--fundo);
-  padding:40px;
-  border-radius:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,.05);
-  margin:30px 0 50px;
-}
-.eco-header h1 {
-  color:var(--castanho);
-  font-weight:700;
-  font-size:2.2rem;
-  text-align:center;
-  margin-bottom:24px;
-}
-.eco-header h1 i { margin-right:12px; }
-.topbar-actions {
-  display:flex;justify-content:flex-end;margin-bottom:16px;
-}
-.eco-empty {
-  text-align:center;padding:60px;background:#fff;
-  border-radius:20px;color:#777;font-size:1.1rem;
-}
-.eco-empty i { font-size:3rem;color:var(--bege);margin-bottom:16px;display:block; }
+    :root {
+        --castanho: rgb(141,110,99);
+        --bege: rgb(224,205,169);
+        --fundo: rgb(243,242,235);
+    }
 
-/* Notification rows */
-.notif-list { display:flex;flex-direction:column;gap:8px; }
-.notif-row {
-  background:#fff;border:0.5px solid rgba(0,0,0,.1);
-  border-radius:14px;padding:14px 18px;
-  cursor:pointer;display:flex;align-items:flex-start;gap:14px;
-  transition:border-color .15s, box-shadow .15s;
-}
-.notif-row:hover { border-color:var(--castanho);box-shadow:0 2px 8px rgba(0,0,0,.06); }
-.notif-row.unread { border-left:3px solid #378ADD;background:#fdfcf8; }
-.notif-icon {
-  width:36px;height:36px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;font-size:15px;
-}
-.icon-warn { background:#FAECE7;color:#D85A30; }
-.icon-info { background:rgb(141,110,99);color:white; }
-.icon-ok   { background:#EAF3DE;color:#3B6D11; }
-.notif-body { flex:1;min-width:0; }
-.notif-msg  { font-size:14px;line-height:1.5;color:#333; }
-.notif-row.unread .notif-msg { font-weight:600; }
-.notif-meta { font-size:11px;color:#888;margin-top:3px; }
-.dot-unread {
-  display:inline-block;width:7px;height:7px;border-radius:50%;
-  background:#378ADD;margin-left:6px;vertical-align:middle;
-}
+    .eco-page-container {
+        font-family: 'Segoe UI', sans-serif;
+        background: var(--fundo);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.05);
+        margin: 30px 0 50px;
+    }
 
-/* Side panel */
-.panel-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  z-index: 9999;
+    .eco-header h1 {
+        color: var(--castanho);
+        font-weight: 700;
+        font-size: 2.2rem;
+        text-align: center;
+        margin-bottom: 24px;
+    }
 
-  display: flex;
-  justify-content: flex-end;
-  align-items: center; /* 👈 THIS centers vertically */
-}
-.panel-overlay.hidden { display:none; }
-.side-panel {
-  background:#fff;
-  width:340px;
-  max-width:100%;
-  max-height: 85vh;
-  margin: auto;
-  border-radius: 20px 20px 20px 20px;
-  height:auto%;
-  padding:24px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  box-shadow:-4px 0 20px rgba(0,0,0,.12);
-  /* animation:slideIn .22s ease; */
-}
-@@keyframes slideIn { from{transform:translateX(100%)} to{transform:translateX(0)} }
-.panel-header {
-  display:flex;align-items:center;justify-content:space-between;
-}
-.panel-title { font-size:15px;font-weight:600;color:#333; }
-.close-btn {
-  background:none;border:none;cursor:pointer;
-  color:#888;font-size:18px;padding:0 4px;
-}
-.close-btn:hover { color:#333; }
-.panel-icon-wrap { display:flex;justify-content:center;margin:8px 0; }
-.panel-icon-big {
-  width:52px;height:52px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-}
-.panel-msg {
-  font-size:14px;line-height:1.65;color:#333;text-align:center;
-}
-.panel-container-tag {
-  display:inline-flex;align-items:center;gap:8px;
-  background:#f5f4ef;border:0.5px solid #ddd;
-  border-radius:10px;padding:6px 14px;font-size:12px;color:#666;
-  align-self:center;
-}
-.panel-container-tag b { color:#444;font-weight:600; }
-.panel-date { font-size:11px;color:#aaa;text-align:center; }
-.panel-actions { display:flex;flex-direction:column;gap:10px;margin-top:auto; }
-.btn-accent {
-  background:#E6F1FB;border:0.5px solid #B5D4F4;
-  border-radius:10px;padding:10px 16px;font-size:13px;
-  font-weight:600;color:#185FA5;text-align:center;
-  text-decoration:none;display:block;
-  transition:background .15s;
-}
-.btn-accent:hover { background:#B5D4F4; }
-.btn-accent.hidden { display:none; }
-.btn-mark {
-  background:none;border:0.5px solid #ccc;border-radius:10px;
-  padding:9px 16px;font-size:13px;color:#666;
-  cursor:pointer;width:100%;transition:background .15s;
-}
-.btn-mark:hover { background:#f5f5f5; }
-.btn-eco {
-  padding:10px 22px;font-size:.9rem;font-weight:600;
-  border-radius:25px;cursor:pointer;text-decoration:none;
-  border:2px solid var(--castanho);background:transparent;
-  color:var(--castanho);transition:.2s;
-}
-.btn-eco:hover { background:var(--castanho);color:#fff; }
+    .eco-header h1 i { margin-right: 12px; }
+
+    .topbar-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 16px;
+    }
+
+    .eco-empty {
+        text-align: center;
+        padding: 60px;
+        background: #fff;
+        border-radius: 20px;
+        color: #777;
+        font-size: 1.1rem;
+    }
+
+    .eco-empty i {
+        font-size: 3rem;
+        color: var(--bege);
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    /* Notification rows */
+    .notif-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .notif-row {
+        background: #fff;
+        border: 0.5px solid rgba(0,0,0,.1);
+        border-radius: 14px;
+        padding: 14px 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        transition: border-color .15s, box-shadow .15s;
+    }
+
+    .notif-row:hover {
+        border-color: var(--castanho);
+        box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .notif-row.unread {
+        border-left: 3px solid #378ADD;
+        background: #fdfcf8;
+    }
+
+    .notif-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 15px;
+    }
+
+    .icon-warn { background: #FAECE7; color: #D85A30; }
+    .icon-info { background: rgb(141,110,99); color: white; }
+    .icon-ok   { background: #EAF3DE; color: #3B6D11; }
+
+    .notif-body { flex: 1; min-width: 0; }
+
+    .notif-msg {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #333;
+    }
+
+    .notif-row.unread .notif-msg { font-weight: 600; }
+
+    .notif-meta {
+        font-size: 11px;
+        color: #888;
+        margin-top: 3px;
+    }
+
+    .dot-unread {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #378ADD;
+        margin-left: 6px;
+        vertical-align: middle;
+    }
+
+    /* Side panel */
+    .panel-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.4);
+        z-index: 9999;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .panel-overlay.hidden { display: none; }
+
+    .side-panel {
+        background: #fff;
+        width: 340px;
+        max-width: 100%;
+        max-height: 85vh;
+        margin: auto;
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        box-shadow: -4px 0 20px rgba(0,0,0,.12);
+    }
+
+    @@keyframes slideIn {
+        from { transform: translateX(100%); }
+        to   { transform: translateX(0); }
+    }
+
+    .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .panel-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #888;
+        font-size: 18px;
+        padding: 0 4px;
+    }
+
+    .close-btn:hover { color: #333; }
+
+    .panel-icon-wrap {
+        display: flex;
+        justify-content: center;
+        margin: 8px 0;
+    }
+
+    .panel-icon-big {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .panel-msg {
+        font-size: 14px;
+        line-height: 1.65;
+        color: #333;
+        text-align: center;
+    }
+
+    .panel-container-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f4ef;
+        border: 0.5px solid #ddd;
+        border-radius: 10px;
+        padding: 6px 14px;
+        font-size: 12px;
+        color: #666;
+        align-self: center;
+    }
+
+    .panel-container-tag b {
+        color: #444;
+        font-weight: 600;
+    }
+
+    .panel-date {
+        font-size: 11px;
+        color: #aaa;
+        text-align: center;
+    }
+
+    .panel-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: auto;
+    }
+
+    .btn-accent {
+        background: #E6F1FB;
+        border: 0.5px solid #B5D4F4;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #185FA5;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        transition: background .15s;
+    }
+
+    .btn-accent:hover { background: #B5D4F4; }
+    .btn-accent.hidden { display: none; }
+
+    .btn-mark {
+        background: none;
+        border: 0.5px solid #ccc;
+        border-radius: 10px;
+        padding: 9px 16px;
+        font-size: 13px;
+        color: #666;
+        cursor: pointer;
+        width: 100%;
+        transition: background .15s;
+    }
+
+    .btn-mark:hover { background: #f5f5f5; }
+
+    .btn-eco {
+        padding: 10px 22px;
+        font-size: .9rem;
+        font-weight: 600;
+        border-radius: 25px;
+        cursor: pointer;
+        text-decoration: none;
+        border: 2px solid var(--castanho);
+        background: transparent;
+        color: var(--castanho);
+        transition: .2s;
+    }
+
+    .btn-eco:hover {
+        background: var(--castanho);
+        color: #fff;
+    }
 </style>
 
 <script>
-function openPanel(row) {
-  const msg     = row.dataset.msg;
-  const link    = row.dataset.link;
-  const type    = row.dataset.type;
-  const isRead  = row.dataset.read === 'true';
-  const notifId = row.dataset.id;
+    function openPanel(row) {
+        const msg = row.dataset.msg;
+        const link = row.dataset.link;
+        const type = row.dataset.type;
+        const isRead = row.dataset.read === 'true';
+        const notifId = row.dataset.id;
 
-  // icon
-  const iconEl = document.getElementById('panelIcon');
-  iconEl.className = 'panel-icon-big';
+        // icon
+        const iconEl = document.getElementById('panelIcon');
+        iconEl.className = 'panel-icon-big';
 
-  if (type === 'container') {
-    iconEl.classList.add('icon-warn');
-    iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
-  } else if (isRead) {
-    iconEl.classList.add('icon-ok');
-    iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
-  } else {
-    iconEl.classList.add('icon-info');
-    iconEl.innerHTML = '<i class="fa-solid fa-envelope"></i>';
-  }
+        if (type === 'container') {
+            iconEl.classList.add('icon-warn');
+            iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+        } else if (isRead) {
+            iconEl.classList.add('icon-ok');
+            iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+        } else {
+            iconEl.classList.add('icon-info');
+            iconEl.innerHTML = '<i class="fa-solid fa-envelope"></i>';
+        }
 
-  // message
-  document.getElementById('panelMsg').textContent = msg;
+        // message
+        document.getElementById('panelMsg').textContent = msg;
 
-  // link button
-  const linkEl = document.getElementById('panelLink');
+        // link button
+        const linkEl = document.getElementById('panelLink');
 
-  if (type === 'container') {
-    linkEl.href = '/Containers/Index';
-    linkEl.textContent = 'Ver contentores →';
-    linkEl.classList.remove('hidden');
+        if (type === 'container') {
+            linkEl.href = '/Containers/Index';
+            linkEl.textContent = 'Ver contentores →';
+            linkEl.classList.remove('hidden');
+            linkEl.style.background = 'rgb(141,110,99)';
+            linkEl.style.borderColor = '#8D6E63';
+            linkEl.style.color = 'white';
 
-    // brown style
-    linkEl.style.background = 'rgb(141,110,99)';
-    linkEl.style.borderColor = '#8D6E63';
-    linkEl.style.color = 'white';
+        } else if (type === 'route') {
+            linkEl.href = link;
+            linkEl.textContent = 'Ver rota →';
+            linkEl.classList.remove('hidden');
+            linkEl.style.background = 'rgb(141,110,99)';
+            linkEl.style.borderColor = '#8D6E63';
+            linkEl.style.color = 'white';
 
-  } else if (type === 'route') {
-  linkEl.href = link;
-  linkEl.textContent = 'Ver rota →';
-  linkEl.classList.remove('hidden');
+        } else if (link) {
+            linkEl.href = link;
+            linkEl.textContent = 'Ver ocorrências →';
+            linkEl.classList.remove('hidden');
+            linkEl.style.background = 'rgb(141,110,99)';
+            linkEl.style.borderColor = '#8D6E63';
+            linkEl.style.color = 'white';
 
-  linkEl.style.background = 'rgb(141,110,99)';
-  linkEl.style.borderColor = '#8D6E63';
-  linkEl.style.color = 'white';
+        } else {
+            linkEl.classList.add('hidden');
+        }
 
-} else if (link) {
-    linkEl.href = link;
-    linkEl.textContent = 'Ver ocorrências →';
-    linkEl.classList.remove('hidden');
+        // mark as read
+        const markForm = document.getElementById('markReadForm');
 
-    // reset style
-    linkEl.style.background = 'rgb(141,110,99)';
-    linkEl.style.borderColor = '#8D6E63';
-    linkEl.style.color = 'white';
-  } else {
-    linkEl.classList.add('hidden');
-  }
+        if (!isRead) {
+            document.getElementById('markReadId').value = notifId;
+            markForm.classList.remove('hidden');
+        } else {
+            markForm.classList.add('hidden');
+        }
 
-  // mark as read
-  const markForm = document.getElementById('markReadForm');
+        // open panel
+        document.getElementById('panelOverlay').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
 
-  if (!isRead) {
-    document.getElementById('markReadId').value = notifId;
-    markForm.classList.remove('hidden');
-  } else {
-    markForm.classList.add('hidden');
-  }
+    function closePanel() {
+        document.getElementById('panelOverlay').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
 
-  // open panel
-  document.getElementById('panelOverlay').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-}
+    function handleOverlayClick(e) {
+        if (e.target === document.getElementById('panelOverlay')) {
+            closePanel();
+        }
+    }
 
-function closePanel() {
-  document.getElementById('panelOverlay').classList.add('hidden');
-  document.body.style.overflow = '';
-}
-
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('panelOverlay')) {
-    closePanel();
-  }
-}
-
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') {
-    closePanel();
-  }
-});
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closePanel();
+        }
+    });
 </script>
