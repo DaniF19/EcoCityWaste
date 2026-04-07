@@ -6,7 +6,7 @@ namespace EcoCityWaste.Models
     {
         public int Id { get; set; }
 
-        public int ContainerId { get; set; }
+        public int? ContainerId { get; set; }
 
         public string Message { get; set; }
 
@@ -16,5 +16,8 @@ namespace EcoCityWaste.Models
         
         public int? UserId { get; set; }
         public User? User { get; set; }
+
+        public string? LinkUrl { get; set; }  // e.g. "/Containers/Details/5"
+        public string? NotificationType { get; set; }  // "container" | "occurrence"
     }
 }

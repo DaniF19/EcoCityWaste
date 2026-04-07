@@ -1,277 +1,324 @@
 ﻿@model IEnumerable<EcoCityWaste.Models.Notification>
-
-@{
-    ViewData["Title"] = "Notificações";
-}
+@{ ViewData["Title"] = "Notificações"; }
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <div class="container">
-    <div class="eco-page-container">
+  <div class="eco-page-container">
 
-        <div class="eco-header">
-            <h1>
-                <i class="fa-solid fa-bell" style="margin-right: 15px;"></i>
-                Notificações
-            </h1>
-        </div>
-
-        @if (Model.Any())
-        {
-            <div style="display:flex; justify-content:flex-end; margin-bottom:20px; gap:10px;">
-                <form asp-action="ClearAll" method="post">
-                    <button type="submit" class="btn-eco btn-eco-outline">
-                        <i class="fa-solid fa-trash"></i> Limpar Todas
-                    </button>
-                </form>
-            </div>
-        }
-
-        @if (!Model.Any())
-        {
-            <div class="eco-empty">
-                <i class="fa-solid fa-envelope-open"></i>
-                <p>Não existem notificações disponíveis de momento.</p>
-            </div>
-        }
-        else
-        {
-            <div class="table-responsive">
-                <table class="eco-table">
-    <thead>
-        <tr>
-            <th><span class="sort-link"><i class="fa-solid fa-box"></i> Contentor</span></th>
-            <th><span class="sort-link"><i class="fa-solid fa-message"></i> Mensagem</span></th>
-            <th><span class="sort-link"><i class="fa-solid fa-calendar-days"></i> Data</span></th>
-            <th><span class="sort-link"><i class="fa-solid fa-circle-info"></i> Estado</span></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var notification in Model)
-        {
-            <tr class="@(notification.IsRead ? "" : "notification-unread")">
-
-                <td class="container-code">
-                    #@notification.ContainerId
-                </td>
-
-                <td>
-                    <i class="fa-solid fa-triangle-exclamation text-danger"
-                       style="margin-right:8px;"></i>
-
-                    @notification.Message
-                </td>
-
-                <td class="notification-date">
-                    @notification.CreatedAt.ToString("dd/MM/yyyy HH:mm")
-                </td>
-
-                <td>
-
-                    @if (notification.IsRead)
-                    {
-                        <span class="badge-status badge-active">
-                            <i class="fa-solid fa-check-double"></i>
-                            Lida
-                        </span>
-                    }
-                    else
-                    {
-                        <div style="display:flex; align-items:center; gap:10px;">
-
-                            <span class="badge-status badge-unread">
-                                <i class="fa-solid fa-envelope"></i>
-                                Não Lida
-                            </span>
-
-                            <form asp-action="MarkAsRead"
-                                  method="post"
-                                  style="margin:0;">
-
-                                <input type="hidden"
-                                       name="id"
-                                       value="@notification.Id" />
-
-                                <button type="submit"
-                                        class="btn-action-read"
-                                        title="Marcar como lida">
-
-                                    <i class="fa-solid fa-check"></i>
-                                </button>
-
-                            </form>
-
-                        </div>
-                    }
-
-                </td>
-
-            </tr>
-        }
-    </tbody>
-</table>
-            </div>
-        }
-
+    <div class="eco-header">
+      <h1><i class="fa-solid fa-bell"></i> Notificações</h1>
     </div>
+
+    @if (Model.Any())
+    {
+      <div class="topbar-actions">
+        <form asp-action="ClearAll" method="post">
+          <button type="submit" class="btn-eco btn-eco-outline">
+            <i class="fa-solid fa-trash"></i> Limpar Todas
+          </button>
+        </form>
+      </div>
+    }
+
+    @if (!Model.Any())
+    {
+      <div class="eco-empty">
+        <i class="fa-solid fa-envelope-open"></i>
+        <p>Não existem notificações disponíveis de momento.</p>
+      </div>
+    }
+    else
+    {
+      <div class="notif-list">
+        @foreach (var n in Model)
+        {
+          <div class="notif-row @(n.IsRead ? "" : "unread")"
+               data-id="@n.Id"
+               data-msg="@n.Message"
+               data-date="@n.CreatedAt.ToString("dd/MM/yyyy HH:mm")"
+               data-link="@(n.LinkUrl ?? "")"
+               data-type="@(n.NotificationType ?? "")"
+               data-container="@(n.ContainerId.HasValue ? "#" + n.ContainerId : "")"
+               data-read="@n.IsRead.ToString().ToLower()"
+               onclick="openPanel(this)">
+
+            <div class="notif-icon @(n.NotificationType == "container" ? "icon-warn" : (n.IsRead ? "icon-ok" : "icon-info"))">
+              @if (n.NotificationType == "container")
+              { <i class="fa-solid fa-triangle-exclamation"></i> }
+              else if (n.IsRead)
+              { <i class="fa-solid fa-check"></i> }
+              else
+              { <i class="fa-solid fa-envelope"></i> }
+            </div>
+
+            <div class="notif-body">
+              <div class="notif-msg">
+                @n.Message
+                @if (!n.IsRead){ <span class="dot-unread"></span> }
+              </div>
+              @* <div class="notif-meta">
+                @if (n.ContainerId.HasValue){ <span>Contentor #@n.ContainerId ·</span> }
+                @n.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+              </div> *@
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</div>
+
+<!-- Side panel -->
+<div id="panelOverlay" class="panel-overlay hidden" onclick="handleOverlayClick(event)">
+  <div class="side-panel">
+    <div class="panel-header">
+      <span class="panel-title">Detalhes da notificação</span>
+      <button class="close-btn" onclick="closePanel()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="panel-icon-wrap">
+      <div class="panel-icon-big" id="panelIcon"></div>
+    </div>
+    <p class="panel-msg" id="panelMsg"></p>
+    @* <div class="panel-container-tag hidden" id="panelTag"></div> *@
+    @* <p class="panel-date" id="panelDate"></p> *@
+    <div class="panel-actions">
+      <a class="btn-accent hidden" id="panelLink" href="#">Ver detalhes →</a>
+      <form asp-action="MarkAsRead" method="post" id="markReadForm" class="hidden">
+        <input type="hidden" name="id" id="markReadId" />
+        <button type="submit" class="btn-mark">Marcar como lida</button>
+      </form>
+    </div>
+  </div>
 </div>
 
 <style>
+:root {
+  --castanho: rgb(141,110,99);
+  --bege: rgb(224,205,169);
+  --fundo: rgb(243,242,235);
+}
+.eco-page-container {
+  font-family:'Segoe UI',sans-serif;
+  background:var(--fundo);
+  padding:40px;
+  border-radius:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,.05);
+  margin:30px 0 50px;
+}
+.eco-header h1 {
+  color:var(--castanho);
+  font-weight:700;
+  font-size:2.2rem;
+  text-align:center;
+  margin-bottom:24px;
+}
+.eco-header h1 i { margin-right:12px; }
+.topbar-actions {
+  display:flex;justify-content:flex-end;margin-bottom:16px;
+}
+.eco-empty {
+  text-align:center;padding:60px;background:#fff;
+  border-radius:20px;color:#777;font-size:1.1rem;
+}
+.eco-empty i { font-size:3rem;color:var(--bege);margin-bottom:16px;display:block; }
 
-    :root {
-        --cor-castanho: rgb(141,110,99);
-        --cor-bege: rgb(224,205,169);
-        --cor-fundo-claro: rgb(243,242,235);
-        --cor-sucesso: #27ae60;
-        --cor-vermelho-erro: #a94442;
-    }
+/* Notification rows */
+.notif-list { display:flex;flex-direction:column;gap:8px; }
+.notif-row {
+  background:#fff;border:0.5px solid rgba(0,0,0,.1);
+  border-radius:14px;padding:14px 18px;
+  cursor:pointer;display:flex;align-items:flex-start;gap:14px;
+  transition:border-color .15s, box-shadow .15s;
+}
+.notif-row:hover { border-color:var(--castanho);box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.notif-row.unread { border-left:3px solid #378ADD;background:#fdfcf8; }
+.notif-icon {
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:15px;
+}
+.icon-warn { background:#FAECE7;color:#D85A30; }
+.icon-info { background:rgb(141,110,99);color:white; }
+.icon-ok   { background:#EAF3DE;color:#3B6D11; }
+.notif-body { flex:1;min-width:0; }
+.notif-msg  { font-size:14px;line-height:1.5;color:#333; }
+.notif-row.unread .notif-msg { font-weight:600; }
+.notif-meta { font-size:11px;color:#888;margin-top:3px; }
+.dot-unread {
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#378ADD;margin-left:6px;vertical-align:middle;
+}
 
-    .eco-page-container {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--cor-fundo-claro);
-        padding: 40px;
-        border-radius: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 50px;
-    }
+/* Side panel */
+.panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  z-index: 9999;
 
-    .eco-header h1 {
-        color: var(--cor-castanho);
-        font-weight: 700;
-        font-size: 2.5rem;
-        margin-bottom: 30px;
-        text-align: center;
-    }
-
-    .eco-empty {
-        text-align: center;
-        padding: 60px;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        color: #777;
-        font-size: 1.1rem;
-    }
-
-    .eco-empty i {
-        font-size: 3rem;
-        color: var(--cor-bege);
-        margin-bottom: 20px;
-        display: block;
-    }
-
-    .eco-table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #ffffff;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    }
-
-    .eco-table th {
-        background-color: var(--cor-castanho);
-        padding: 18px 15px;
-        text-align: left;
-    }
-
-    .sort-link {
-        color: #ffffff;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .eco-table td {
-        padding: 18px 15px;
-        border-bottom: 1px solid var(--cor-bege);
-        color: #555;
-        vertical-align: middle;
-    }
-
-    .eco-table tbody tr:hover {
-        background-color: #fcfaf2;
-    }
-
-    .notification-unread {
-        background-color: #fffdf5;
-        font-weight: 500;
-    }
-
-    .container-code {
-        font-weight: 600;
-        color: var(--cor-castanho);
-    }
-
-    .notification-date {
-        color: #666;
-        font-size: 0.9rem;
-    }
-
-    .badge-status {
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .badge-active {
-        background-color: #e8f5e9;
-        color: var(--cor-sucesso);
-    }
-
-    .badge-unread {
-        background-color: #fff3e0;
-        color: #e67e22;
-    }
-
-    .btn-action-read {
-        border: none;
-        background: var(--cor-sucesso);
-        color: white;
-        padding: 6px 10px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .btn-action-read:hover {
-        background: #1f8a4d;
-    }
-
-    .btn-eco {
-        background-color: var(--cor-bege);
-        color: white;
-        border: none;
-        padding: 10px 25px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border-radius: 25px;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    .btn-eco-outline {
-        background-color: transparent;
-        color: var(--cor-castanho);
-        border: 2px solid var(--cor-castanho);
-    }
-
-    .btn-eco-outline:hover {
-        background-color: var(--cor-castanho);
-        color: white;
-    }
-
-    .table-responsive {
-        overflow-x: auto;
-    }
-
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* 👈 THIS centers vertically */
+}
+.panel-overlay.hidden { display:none; }
+.side-panel {
+  background:#fff;
+  width:340px;
+  max-width:100%;
+  max-height: 85vh;
+  margin: auto;
+  border-radius: 20px 20px 20px 20px;
+  height:auto%;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-shadow:-4px 0 20px rgba(0,0,0,.12);
+  /* animation:slideIn .22s ease; */
+}
+@@keyframes slideIn { from{transform:translateX(100%)} to{transform:translateX(0)} }
+.panel-header {
+  display:flex;align-items:center;justify-content:space-between;
+}
+.panel-title { font-size:15px;font-weight:600;color:#333; }
+.close-btn {
+  background:none;border:none;cursor:pointer;
+  color:#888;font-size:18px;padding:0 4px;
+}
+.close-btn:hover { color:#333; }
+.panel-icon-wrap { display:flex;justify-content:center;margin:8px 0; }
+.panel-icon-big {
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.panel-msg {
+  font-size:14px;line-height:1.65;color:#333;text-align:center;
+}
+.panel-container-tag {
+  display:inline-flex;align-items:center;gap:8px;
+  background:#f5f4ef;border:0.5px solid #ddd;
+  border-radius:10px;padding:6px 14px;font-size:12px;color:#666;
+  align-self:center;
+}
+.panel-container-tag b { color:#444;font-weight:600; }
+.panel-date { font-size:11px;color:#aaa;text-align:center; }
+.panel-actions { display:flex;flex-direction:column;gap:10px;margin-top:auto; }
+.btn-accent {
+  background:#E6F1FB;border:0.5px solid #B5D4F4;
+  border-radius:10px;padding:10px 16px;font-size:13px;
+  font-weight:600;color:#185FA5;text-align:center;
+  text-decoration:none;display:block;
+  transition:background .15s;
+}
+.btn-accent:hover { background:#B5D4F4; }
+.btn-accent.hidden { display:none; }
+.btn-mark {
+  background:none;border:0.5px solid #ccc;border-radius:10px;
+  padding:9px 16px;font-size:13px;color:#666;
+  cursor:pointer;width:100%;transition:background .15s;
+}
+.btn-mark:hover { background:#f5f5f5; }
+.btn-eco {
+  padding:10px 22px;font-size:.9rem;font-weight:600;
+  border-radius:25px;cursor:pointer;text-decoration:none;
+  border:2px solid var(--castanho);background:transparent;
+  color:var(--castanho);transition:.2s;
+}
+.btn-eco:hover { background:var(--castanho);color:#fff; }
 </style>
+
+<script>
+function openPanel(row) {
+  const msg     = row.dataset.msg;
+  const link    = row.dataset.link;
+  const type    = row.dataset.type;
+  const isRead  = row.dataset.read === 'true';
+  const notifId = row.dataset.id;
+
+  // icon
+  const iconEl = document.getElementById('panelIcon');
+  iconEl.className = 'panel-icon-big';
+
+  if (type === 'container') {
+    iconEl.classList.add('icon-warn');
+    iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+  } else if (isRead) {
+    iconEl.classList.add('icon-ok');
+    iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+  } else {
+    iconEl.classList.add('icon-info');
+    iconEl.innerHTML = '<i class="fa-solid fa-envelope"></i>';
+  }
+
+  // message
+  document.getElementById('panelMsg').textContent = msg;
+
+  // link button
+  const linkEl = document.getElementById('panelLink');
+
+  if (type === 'container') {
+    linkEl.href = '/Containers/Index';
+    linkEl.textContent = 'Ver contentores →';
+    linkEl.classList.remove('hidden');
+
+    // brown style
+    linkEl.style.background = 'rgb(141,110,99)';
+    linkEl.style.borderColor = '#8D6E63';
+    linkEl.style.color = 'white';
+
+  } else if (type === 'route') {
+  linkEl.href = link;
+  linkEl.textContent = 'Ver rota →';
+  linkEl.classList.remove('hidden');
+
+  linkEl.style.background = 'rgb(141,110,99)';
+  linkEl.style.borderColor = '#8D6E63';
+  linkEl.style.color = 'white';
+
+} else if (link) {
+    linkEl.href = link;
+    linkEl.textContent = 'Ver ocorrências →';
+    linkEl.classList.remove('hidden');
+
+    // reset style
+    linkEl.style.background = 'rgb(141,110,99)';
+    linkEl.style.borderColor = '#8D6E63';
+    linkEl.style.color = 'white';
+  } else {
+    linkEl.classList.add('hidden');
+  }
+
+  // mark as read
+  const markForm = document.getElementById('markReadForm');
+
+  if (!isRead) {
+    document.getElementById('markReadId').value = notifId;
+    markForm.classList.remove('hidden');
+  } else {
+    markForm.classList.add('hidden');
+  }
+
+  // open panel
+  document.getElementById('panelOverlay').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePanel() {
+  document.getElementById('panelOverlay').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('panelOverlay')) {
+    closePanel();
+  }
+}
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    closePanel();
+  }
+});
+</script>

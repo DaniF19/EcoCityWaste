@@ -216,12 +216,16 @@ namespace EcoCityWaste.Controllers
             // Utilizar o serviço de notificações para informar o funcionário
             await _notificationService.CreateNotificationAsync(
                 $"Foi-lhe atribuída uma ocorrência ({occurrence.OccurrenceType}).",
-                model.SelectedEmployeeId);
+                model.SelectedEmployeeId,
+                linkUrl: "/Occurrences/AssignedIncidents",
+                notificationType: "occurrence");
 
             // Utilizar o serviço de notificações para informar o cidadão
             await _notificationService.CreateNotificationAsync(
-                $"A sua ocorrência ({occurrence.OccurrenceType}) está agora a ser analisada pela nossa equipa.",
-                occurrence.UserId);
+                $"A sua ocorrência ({occurrence.OccurrenceType}) está agora a ser analisada.",
+                occurrence.UserId,
+                linkUrl: "/Occurrences/Status",
+                notificationType: "occurrence");
 
             TempData["Success"] = "Ocorrência atribuída com sucesso!";
             return RedirectToAction("Assign");
@@ -298,7 +302,9 @@ namespace EcoCityWaste.Controllers
             // Notificar o cidadão sobre a atualização do estado da ocorrência
             await _notificationService.CreateNotificationAsync(
                 $"O estado da sua ocorrência foi atualizado para {occurrence.Status}.",
-                occurrence.UserId);
+                occurrence.UserId,
+                linkUrl: "/Occurrences/Status",
+                notificationType: "occurrence");
 
             TempData["Success"] = "Incident status updated successfully.";
 
