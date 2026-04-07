@@ -8,7 +8,12 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
     
-    <h2 style="color: #8d6e63; font-weight: bold; margin: 0;">O Meu Histórico</h2>
+    <h2 style="color: #8d6e63; font-weight: bold; margin: 0; display: flex; align-items: center;">
+        O Meu Histórico
+        <span data-bs-toggle="tooltip" data-bs-placement="right" title="Aqui pode acompanhar a evolução e a resolução de todos os problemas que reportou." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.2rem;">
+            <i class="fa-solid fa-circle-info"></i>
+        </span>
+    </h2>
     
     <a asp-action="Report" class="btn-occurrence">
         <i class="fa-solid fa-plus me-2"></i> Nova Ocorrência
@@ -74,11 +79,21 @@
                     _ => "#383d41"
                 };
 
+                var tooltipBadge = item.Status switch
+                {
+                    "Pendente" => "A ocorrência foi registada e aguarda validação pelas nossas equipas.",
+                    "EmAnalise" => "A situação está a ser avaliada para determinar a melhor forma de intervenção.",
+                    "EmResolucao" => "Uma equipa já foi destacada e está atualmente a tratar do problema.",
+                    "Resolvido" => "O problema foi solucionado com sucesso.",
+                    "Rejeitado" => "A ocorrência não pôde ser aceite (ex: falta de dados, falso alarme ou fora de jurisdição).",
+                    _ => "Estado atual da ocorrência."
+                };
+
                 <div style="background-color: white; padding: 20px; border-radius: 15px; border-left: 6px solid @corBorda; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
 
                 <div style="flex: 1; min-width: 250px;">
                     <div style="margin-bottom: 10px;">
-                        <span style="background-color: rgb(224, 205, 169); color: rgb(141, 110, 99); padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; margin-right: 10px;">
+                        <span data-bs-toggle="tooltip" title="Código de identificação único do contentor." style="cursor: help; background-color: rgb(224, 205, 169); color: rgb(141, 110, 99); padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; margin-right: 10px;">
                             <i class="fa-solid fa-dumpster me-1"></i> @item.ContainerCode
                         </span>
                         <small style="color: #999; font-weight: 500;">
@@ -108,7 +123,7 @@
                 </div>
 
                     <div style="text-align: right;">
-                        <span style="display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; background-color: @corFundoBadge; color: @corTextoBadge;">
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="@tooltipBadge" style="cursor: help; display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; background-color: @corFundoBadge; color: @corTextoBadge;">
 
                             @if (item.Status == "Pendente") { <i class="fa-regular fa-clock me-2"></i> }
                             else if (item.Status == "EmAnalise") { <i class="fa-solid fa-magnifying-glass me-2"></i> }
