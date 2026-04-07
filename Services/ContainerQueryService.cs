@@ -80,8 +80,6 @@ namespace EcoCityWaste.Services
 
                 // Estado físico (enum)
                 "Bom" => query.Where(c => c.Status == Container.ContainerStatus.Good),
-                "Cheio" => query.Where(c => c.Status == Container.ContainerStatus.Full),
-                "Vazio" => query.Where(c => c.Status == Container.ContainerStatus.Empty),
                 "Avariado" => query.Where(c => c.Status == Container.ContainerStatus.Broken),
                 "Manutenção" => query.Where(c => c.Status == Container.ContainerStatus.Maintenance),
 

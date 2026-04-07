@@ -53,23 +53,21 @@
                             <td>@occ.OccurrenceType</td>
                             <td>@occ.Description</td>
 
-                            <td>
+                            <td id="status-@occ.Id">
                                 @(Enum.Parse<OccurrenceStatus>(occ.Status).ToDisplayName())
                             </td>
 
                             <td>@occ.ReportDate.ToString("dd/MM/yyyy HH:mm")</td>
 
-                            <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
+                            <td style="text-align:center;">
                                 @if (occ.Status != nameof(OccurrenceStatus.Resolvido) &&
                                      occ.Status != nameof(OccurrenceStatus.Rejeitado))
                                 {
-                                    <a asp-controller="Occurrences"
-                                       asp-action="UpdateStatus"
-                                       asp-route-id="@occ.Id"
-                                       class="btn-primary"
-                                       style="padding:6px 12px; font-size:14px;">
+                                    <button class="btn-primary"
+                                            style="padding:6px 12px; font-size:14px;"
+                                            onclick="openStatusModal(@occ.Id)">
                                         Atualizar estado
-                                    </a>
+                                    </button>
                                 }
                                 else
                                 {
@@ -85,3 +83,154 @@
     </div>
 
 </div>
+
+<!-- ===========================
+     MODAL PARA ATUALIZAR ESTADO
+     =========================== -->
+<div id="statusModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+
+        <h2 class="modal-title">Atualizar estado da ocorrência</h2>
+
+        <div id="modalDetails" class="modal-details"></div>
+
+        <label class="field-label">Novo estado</label>
+        <select id="newStatus" class="form-control"></select>
+
+        <div class="modal-actions">
+            <button class="btn-vista-analitica" onclick="closeModal()">Cancelar</button>
+            <button class="btn-primary" onclick="saveStatus()">Guardar</button>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+<script>
+    let currentOccurrenceId = null;
+
+    const allowedStates = ["EmResolucao", "Resolvido", "Rejeitado"];
+
+    const displayNames = {
+        "Pendente": "Pendente",
+        "EmAnalise": "Em Análise",
+        "EmResolucao": "Em Resolução",
+        "Resolvido": "Resolvido",
+        "Rejeitado": "Rejeitado"
+    };
+
+    function toDisplayName(status) {
+        return displayNames[status] || status;
+    }
+
+    // Abrir modal e carregar detalhes via AJAX
+    function openStatusModal(id) {
+        currentOccurrenceId = id;
+        document.getElementById("statusModal").style.display = "flex";
+
+        fetch(`/Occurrences/GetDetails/${id}`)
+            .then(res => res.json())
+            .then(data => {
+
+                // Limpar detalhes
+                const details = document.getElementById("modalDetails");
+                details.innerHTML = "";
+
+                const fields = [
+                    ["Contentor", data.containerCode],
+                    ["Tipo", data.occurrenceType],
+                    ["Descrição", data.description],
+                    ["Reportado em", data.reportDate],
+                    ["Estado atual", toDisplayName(data.status)]
+                ];
+
+                fields.forEach(([label, value]) => {
+                    const p = document.createElement("p");
+                    p.innerHTML = `<strong>${label}:</strong> ${value}`;
+                    details.appendChild(p);
+                });
+
+                const select = document.getElementById("newStatus");
+                select.innerHTML = "";
+
+                allowedStates.forEach(state => {
+                    const option = document.createElement("option");
+                    option.value = state;
+                    option.textContent = toDisplayName(state);
+
+                    if (state === data.status)
+                        option.selected = true;
+
+                    select.appendChild(option);
+                });
+            });
+    }
+
+    // Fechar modal
+    function closeModal() {
+        document.getElementById("statusModal").style.display = "none";
+    }
+
+    // Guardar estado via AJAX
+    function saveStatus() {
+        const newStatus = document.getElementById("newStatus").value;
+
+        fetch(`/Occurrences/UpdateStatusAjax?id=${currentOccurrenceId}&newStatus=${newStatus}`, {
+            method: "POST"
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+
+                // Atualizar a linha da tabela
+                const cell = document.getElementById(`status-${currentOccurrenceId}`);
+                cell.textContent = toDisplayName(newStatus);
+
+                closeModal();
+            }
+        });
+    }
+</script>
+}
+
+<style>
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    width: 450px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.modal-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #8d6e63;
+}
+
+.modal-details p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+}
+
+.modal-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+</style>

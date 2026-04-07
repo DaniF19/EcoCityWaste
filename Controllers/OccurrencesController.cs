@@ -47,8 +47,6 @@ namespace EcoCityWaste.Controllers
                     Status = c.Status switch
                     {
                         Container.ContainerStatus.Good => "Bom",
-                        Container.ContainerStatus.Full => "Cheio",
-                        Container.ContainerStatus.Empty => "Vazio",
                         Container.ContainerStatus.Broken => "Avariado",
                         Container.ContainerStatus.Maintenance => "Manutenção",
                         _ => "Desconhecido"
@@ -216,7 +214,7 @@ namespace EcoCityWaste.Controllers
             TempData["Success"] = "Ocorrência atribuída com sucesso!";
             return RedirectToAction("Assign");
         }
-        [Authorize(Roles = "Funcionario")]
+        [Authorize(Roles ="Funcionario")]
         [HttpGet]
         public async Task<IActionResult> UpdateStatus(int id)
         {
@@ -249,54 +247,18 @@ namespace EcoCityWaste.Controllers
 
         [Authorize(Roles = "Funcionario")]
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(UpdateStatusViewModel model)
+        public async Task<IActionResult> UpdateStatusAjax(int id, string newStatus)
         {
-            // Ignorar CurrentStatus porque não vem do form
-            ModelState.Remove("CurrentStatus");
-
-            if (!ModelState.IsValid)
-            {
-                var occReload = await _context.Occurrences.FindAsync(model.OccurrenceId);
-                model.CurrentStatus = occReload?.Status;
-                return View(model);
-            }
-
-            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            int userId = int.Parse(userIdClaim);
-
-            var employee = await _context.Users.FindAsync(userId);
-            if (employee == null || employee.Role != "Funcionario")
-                return Unauthorized();
-
-            var occurrence = await _context.Occurrences.FindAsync(model.OccurrenceId);
+            var occurrence = await _context.Occurrences.FindAsync(id);
             if (occurrence == null)
                 return NotFound();
 
-            if (occurrence.AssignedEmployeeId != employee.Id)
-                return Unauthorized();
-
-            // Atualizar o estado com o valor do enum (string)
-            occurrence.Status = model.NewStatus.ToString();
-
-            _context.Occurrences.Update(occurrence);
-
-            _context.Notifications.Add(new Notification
-            {
-                Message = $"O estado da sua ocorrência foi atualizado para {occurrence.Status}.",
-                UserId = occurrence.UserId,
-                CreatedAt = DateTime.Now,
-                IsRead = false
-            });
-
+            occurrence.Status = newStatus;
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = "Incident status updated successfully.";
-
-            return RedirectToAction("AssignedIncidents", "Occurrences");
+            return Json(new { success = true, newStatus = newStatus });
         }
+
 
 
         public async Task<IActionResult> AssignedIncidents()
