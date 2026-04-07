@@ -306,24 +306,24 @@
         });
 
         let truckMarker = null;
-        let routeSegments = []; // coordenadas de cada segmento OSRM
+        let routeSegments = []; 
         let simRunning = false;
         let currentStop = 0;
 
-        // --- Buscar rota OSRM entre dois pontos ---
+        
         async function fetchOSRMRoute(from, to) {
             const url = `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
             const res = await fetch(url);
             const data = await res.json();
             if (data.routes && data.routes.length > 0) {
-                // devolve array de [lat, lng]
+                
                 return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
             }
-            // fallback: linha reta
+            
             return [[from.lat, from.lng], [to.lat, to.lng]];
         }
 
-        // --- Desenhar rota completa no mapa (igual ao Map.cshtml) ---
+        
         async function drawFullRoute() {
             setStatus('A calcular rota pelas ruas...');
             let allCoords = [];
@@ -350,7 +350,7 @@
         // --- Animar camião ao longo das coordenadas de um segmento ---
         function animateAlongSegment(coords, onComplete) {
             let i = 0;
-            const speed = 80; // ms por ponto (quanto menor mais rápido)
+            const speed = 80; 
 
             function step() {
                 if (i >= coords.length) {
@@ -385,14 +385,14 @@
             }
 
             if (currentStop === 0) {
-                // primeiro ponto — só marca como recolhido e avança
+                
                 setTimeout(() => {
                     markCollected(stop);
                     currentStop++;
                     setTimeout(runSimulation, 800);
                 }, 1000);
             } else {
-                // anima ao longo do segmento OSRM
+                
                 const segment = routeSegments[currentStop - 1];
                 animateAlongSegment(segment, () => {
                     setTimeout(() => {
@@ -405,7 +405,7 @@
         }
 
         function markCollected(stop) {
-            // atualiza marcador no mapa
+            
             markers[stop.id].setIcon(makeIcon(stop.order, stop.fill, true));
 
             // atualiza sidebar
@@ -439,20 +439,20 @@
             location.reload();
         });
 
-        // --- SignalR (carrega dados da rota) ---
+        
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/simulationHub")
             .build();
 
         connection.on("RouteLoaded", () => {
-            // dados já estão no Razor, só precisamos de iniciar o mapa
+            
         });
 
         connection.start()
             .then(() => connection.invoke("StartSimulation", routeId))
             .catch(() => {});
 
-        // Iniciar mapa
+        
         if (validStops.length > 0) {
             drawFullRoute();
         } else {
