@@ -110,7 +110,7 @@ namespace EcoCityWaste.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ContainerId")
+                    b.Property<int>("ContainerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -119,14 +119,8 @@ namespace EcoCityWaste.Migrations
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LinkUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotificationType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")

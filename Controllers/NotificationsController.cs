@@ -45,13 +45,12 @@ namespace EcoCityWaste.Controllers
         [HttpPost]
         public async Task<IActionResult> ClearAll()
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var notifications = await _context.Notifications
-                .Where(n => n.UserId == userId)  // <-- scoped to user
-                .ToListAsync();
+            var notifications = await _context.Notifications.ToListAsync();
 
             _context.Notifications.RemoveRange(notifications);
+
             await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
     }

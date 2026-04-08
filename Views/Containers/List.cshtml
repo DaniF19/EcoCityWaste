@@ -9,95 +9,76 @@
 }
 
 <div class="page-container">
-    <div class="card-box" style="max-width: 1000px; margin: 0 auto; padding: 40px;">
 
-        <div class="card-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #f0ebe3; padding-bottom: 20px;">
+    <div class="card-box" style="max-width: 900px;">
 
-            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63; display: flex; align-items: center;">
-                Lista de Gestão
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Nesta vista em formato de lista simples, pode aceder rapidamente à edição e ao histórico de manutenções de cada contentor." style="cursor: help; color: #bcaaa4; margin-left: 10px; font-size: 1.2rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </span>
+        <div class="card-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">Lista de Contentores</span>
 
             <a asp-controller="Containers" asp-action="Index" class="btn-vista-analitica">
-                <i class="fa-solid fa-chart-pie me-2"></i> Vista Analítica
+                <i class="fa-solid fa-chart-pie"></i> Vista Analítica
             </a>
 
         </div>
 
         @if (!Model.Any())
         {
-            <div style="text-align: center; padding: 50px; background-color: #faf9f7; border-radius: 15px; border: 1px dashed #d6c3a3; margin-top: 20px;">
-                <i class="fa-solid fa-trash-can-arrow-up" style="font-size: 3rem; color: #d6c3a3; margin-bottom: 15px;"></i>
-                <h4 style="color: rgb(141, 110, 99); font-weight: 600;">Sem Contentores</h4>
-                <p style="color: #777;">Ainda não existem contentores registados no sistema. Volte à Vista Analítica para adicionar o primeiro.</p>
-            </div>
+            <p style="text-align:center;">Nenhum contentor registado.</p>
         }
         else
         {
-            <div class="table-responsive" style="width: 100%; overflow-x: auto;">
-                <table class="table table-striped" style="min-width: 800px;">
-                    <thead>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Localização</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Data Instalação</th>
+                        <th>Última Atualização</th>
+                        <th style="text-align:center;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var container in Model)
+                    {
                         <tr>
-                            <th style="white-space: nowrap;">Localização</th>
-                            <th style="white-space: nowrap;">Tipo</th>
-                            <th style="white-space: nowrap;">Estado</th>
-                            <th style="white-space: nowrap;">Instalado em</th>
-                            <th style="white-space: nowrap;">
-                                Atualizado a
-                                <span data-bs-toggle="tooltip" title="A data reflete a última vez que o contentor comunicou via sensor ou foi alterado manualmente." style="cursor: help; color: #8d6e63; margin-left: 5px;">
-                                    <i class="fa-solid fa-circle-info"></i>
-                                </span>
-                            </th>
-                            <th style="text-align:center; white-space: nowrap;">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var container in Model)
-                        {
-                            <tr style="vertical-align: middle;">
-                                <td>@container.Location</td>
-                                <td style="white-space: nowrap;">@container.Type</td>
-                                <td style="white-space: nowrap; font-weight: 600;">@Html.DisplayFor(modelItem => container.Status)</td>
-                                <td style="white-space: nowrap;">@container.InstallationDate.ToString("dd/MM/yyyy")</td>
-                                <td style="white-space: nowrap;">
-                                    @container.LastUpdated.ToString("dd/MM/yyyy")<br>
-                                    <small style="color: #888;">@container.LastUpdated.ToString("HH:mm")</small>
-                                </td>
-                                <td style="text-align:center;">
-                                    <div style="display:flex; justify-content:center; gap:8px;">
-                                        <a asp-controller="Containers"
-                                           asp-action="Edit"
-                                           asp-route-id="@container.Id"
-                                           class="btn-primary"
-                                           style="padding:6px 12px; font-size:14px; white-space: nowrap; border: none; border-radius: 8px;">
-                                            <i class="fa-solid fa-pen"></i> Editar
-                                        </a>
+                            <td>@container.Location</td>
+                            <td>@container.Type</td>
+                            <td>@Html.DisplayFor(modelItem => container.Status)</td>
+                            <td>@container.InstallationDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@container.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
+                                <a asp-controller="Containers"
+                                   asp-action="Edit"
+                                   asp-route-id="@container.Id"
+                                   class="btn-primary"
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Editar
+                                </a>
 
-                                        <a asp-controller="Containers"
-                                           asp-action="History"
-                                           asp-route-id="@container.Id"
-                                           class="btn-primary"
-                                           style="padding:6px 12px; font-size:14px; white-space: nowrap; border: none; border-radius: 8px; background-color: #795c4d;">
-                                            <i class="fa-solid fa-clock-rotate-left"></i> Histórico
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                                <a asp-controller="Containers"
+                                   asp-action="History"
+                                   asp-route-id="@container.Id"
+                                   class="btn-primary"
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Histórico
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
+
     </div>
+
 </div>
 
 <style>
-    /* Estilos base dos botões */
     .btn-vista-analitica {
-        background-color: #e4d4b8;
-        color: #795c4d !important;
+        background-color: #e4d4b8; /* Fundo bege para contrastar com o botão da outra página */
+        color: #795c4d !important; /* Texto castanho escuro */
         padding: 10px 24px;
         border-radius: 50px;
         text-decoration: none !important;
@@ -105,29 +86,17 @@
         font-size: 0.95rem;
         display: inline-flex;
         align-items: center;
+        gap: 8px; /* Espaço entre o ícone e o texto */
         transition: all 0.3s ease;
         border: 2px solid #e4d4b8;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
         .btn-vista-analitica:hover {
-            background-color: #d6c3a3;
+            background-color: #d6c3a3; /* Um bege ligeiramente mais escuro no hover */
             border-color: #d6c3a3;
+            color: #795c4d !important;
             transform: translateY(-2px);
-        }
-
-    .btn-primary {
-        background-color: #8d6e63;
-        color: white !important;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-primary:hover {
-            background-color: #795c4d !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
         }
 </style>

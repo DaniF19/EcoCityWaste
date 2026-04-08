@@ -309,14 +309,14 @@
 
 <div class="page-container">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-        <a asp-action="Index" style="text-decoration:none;color: white;background: var(--cor-castanho);border-radius: 8px;border: 1px solid rgba(255, 255, 255, .1);gap: 6px;padding: 7px 14px;font-size: .82rem;text-decoration: none;">
+        @* <a asp-action="Index" style="color:var(--muted);text-decoration:none;font-size:.88rem;">
+            <i class="fa-solid fa-chevron-left"></i> Rotas
+        </a> *@
+        <a asp-action="Index" style="text-decoration:none;color: white;background: rgb(141, 110, 99);border-radius: 8px;border: 1px solid rgba(255, 255, 255, .1);gap: 6px;padding: 7px 14px;font-size: .82rem;text-decoration: none;">
             <i class="fa-solid fa-chevron-left"></i> Rotas
         </a>
-        <h1 style="font-size:1.5rem;font-weight:700;color:var(--cor-castanho);margin:0; display: flex; align-items: center;">
-            <i class="fa-solid fa-route me-2"></i> Desenhar Nova Rota
-            <span data-bs-toggle="tooltip" title="Planeie uma nova rota adicionando contentores e ordenando-os na lista de recolha." style="cursor: help; color: #bcaaa4; margin-left: 12px; font-size: 1.1rem;">
-                <i class="fa-solid fa-circle-info"></i>
-            </span>
+        <h1 style="font-size:1.5rem;font-weight:700;color:var(--cor-castanho);margin:0;">
+            <i class="fa-solid fa-plus-circle" style="color:var(--blue);"></i> Criar Nova Rota
         </h1>
     </div>
 
@@ -327,20 +327,18 @@
         <div class="create-grid">
             <div>
                 <div class="panel" style="margin-bottom:20px;">
-                    <div class="panel-title"><i class="fa-solid fa-pen-to-square"></i> Informações Base</div>
+                    <div class="panel-title"><i class="fa-solid fa-pen-to-square"></i> Informações da Rota</div>
 
                     <div class="field-group">
                         <label>Nome da Rota</label>
-                        <div style="position: relative;">
-                            <i class="fa-solid fa-tag" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
-                            <input asp-for="Name" placeholder="Ex.: Rota Norte – Terça-feira" style="padding-left: 40px; border-radius: 20px;" />
-                        </div>
+                        <input asp-for="Name" placeholder="Ex.: Rota Norte – Terça-feira" />
                         <span asp-validation-for="Name" class="field-error"></span>
                     </div>
 
                     <div class="field-group">
-                        <label>Descrição (Opcional)</label>
-                        <textarea asp-for="Description" rows="3" placeholder="Informações úteis para o motorista..." style="border-radius: 15px;"></textarea>
+                        <label>Descrição</label>
+                        <textarea asp-for="Description" rows="3"
+                                  placeholder="Descrição opcional da rota..."></textarea>
                     </div>
                 </div>
 
@@ -351,29 +349,36 @@
                         <span class="counter-badge" id="availCount">@containers.Count</span>
                     </div>
 
-                    <div style="position: relative; margin-bottom: 12px;">
-                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
-                        <input type="text" class="search-input" id="searchPool" placeholder="Pesquisar código ou morada…" style="padding-left: 40px; margin-bottom: 0; border-radius: 20px;" />
-                    </div>
+                    <input type="text" class="search-input" id="searchPool"
+                           placeholder="Pesquisar por código ou localização…" />
 
                     <div class="container-pool" id="containerPool">
                         @foreach (var c in containers)
                         {
                             var fillClass = c.FillLevel >= 80 ? "fill-high" : c.FillLevel >= 50 ? "fill-mid" : "fill-low";
-                            var typeIcon = c.Type switch
-                            {
-                                "Plástico" => "fa-bottle-water",
-                                "Vidro" => "fa-wine-glass-empty",
-                                "Papel" => "fa-box-archive",
-                                "Orgânico" => "fa-apple-whole",
-                                _ => "fa-trash-can"
+                            var typeIcon = c.Type switch {
+                                "Plástico"        => "fa-bottle-water",
+                                "Vidro"           => "fa-wine-glass-empty",
+                                "Papel"           => "fa-box-archive",
+                                "Orgânico"        => "fa-apple-whole",
+                                "Indiferenciado"  => "fa-trash-can",
+                                _                 => "fa-trash-can"
                             };
-                            <div class="pool-item" data-id="@c.Id" data-code="@c.Code" data-loc="@c.Location" data-fill="@c.FillLevel" data-type="@c.Type" onclick="addToRoute(this)">
+                            <div class="pool-item"
+                                 data-id="@c.Id"
+                                 data-code="@c.Code"
+                                 data-loc="@c.Location"
+                                 data-fill="@c.FillLevel"
+                                 data-type="@c.Type"
+                                 onclick="addToRoute(this)">
                                 <div class="pool-item-info">
                                     <span class="pool-item-code">@c.Code</span>
-                                    <span class="pool-item-loc"><i class="fa-solid @typeIcon type-icon" style="margin-right:4px;color:var(--muted);"></i> @c.Location</span>
+                                    <span class="pool-item-loc">
+                                        <i class="fa-solid @typeIcon type-icon" style="margin-right:4px;color:var(--muted);"></i>
+                                        @c.Location
+                                    </span>
                                 </div>
-                                <span class="fill-pill @fillClass" title="Capacidade: @c.FillLevel%">@c.FillLevel%</span>
+                                <span class="fill-pill @fillClass">@c.FillLevel%</span>
                             </div>
                         }
                     </div>
@@ -390,21 +395,21 @@
 
                     <div class="tip">
                         <i class="fa-solid fa-circle-info"></i>
-                        Clique nos contentores à esquerda para adicionar. Arraste as caixas nesta lista para reordenar a rota.
+                        Clique nos contentores para adicionar. Arraste para reordenar.
                     </div>
 
                     <span id="containerIdsError" class="field-error" style="display:none;margin-bottom:10px;">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Adicione pelo menos um contentor à rota.
+                        Selecione pelo menos um contentor.
                     </span>
 
                     <div class="route-order-list" id="routeOrderList">
                         <div class="empty-order" id="emptyOrder">
                             <i class="fa-solid fa-arrow-left" style="margin-right:5px;"></i>
-                            Selecione os contentores da lista
+                            Adicione contentores
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-submit" id="submitBtn" style="border-radius: 50px;">
+                    <button type="submit" class="btn-submit" id="submitBtn">
                         <i class="fa-solid fa-floppy-disk" style="margin-right:6px;"></i>
                         Guardar Rota
                     </button>

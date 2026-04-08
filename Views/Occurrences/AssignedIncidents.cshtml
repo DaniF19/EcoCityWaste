@@ -16,11 +16,8 @@
         <div class="card-title"
              style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
 
-            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63; display: flex; align-items: center;">
+            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">
                 Ocorrências atribuídas
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Lista de todos os trabalhos que lhe foram atribuídos. Estão ordenados para facilitar o seu dia a dia." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.2rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
             </span>
 
             <a asp-controller="Funcionario" asp-action="Dashboard" class="btn-vista-analitica">
@@ -29,21 +26,11 @@
 
         </div>
 
-        <div style="background-color: #f8fcf8; border-left: 4px solid #795c4d; border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            <i class="fa-solid fa-lightbulb" style="color: #795c4d; font-size: 1.2rem;"></i>
-            <span style="color: #555; font-size: 0.95rem; line-height: 1.5;">
-                <strong>Dica:</strong> Altere o estado para 'Em Resolução' assim que chegar ao local, para manter a autarquia informada do seu progresso.
-            </span>
-        </div>
-
         <form method="get" asp-action="AssignedIncidents" class="filter-panel">
             <div class="row align-items-end" style="display: flex; gap: 15px; flex-wrap: wrap;">
 
                 <div style="flex: 1; min-width: 140px;">
-                    <label class="filter-label" style="display: flex; align-items: center; gap: 5px;">
-                        Estado
-                        <span data-bs-toggle="tooltip" title="Pode cruzar o estado com as datas para encontrar trabalhos antigos." style="cursor: help; color: #bcaaa4; font-size: 0.9rem; text-transform: none;"><i class="fa-solid fa-circle-info"></i></span>
-                    </label>
+                    <label class="filter-label">Estado</label>
                     <select name="searchStatus" class="filter-input form-select">
                         <option value="">Todos</option>
                         <option value="Pendente" selected="@(ViewBag.CurrentStatus == "Pendente")">Pendente</option>
@@ -90,68 +77,41 @@
 
         @if (!Model.Any())
         {
-            <div style="text-align: center; padding: 50px; background-color: #faf9f7; border-radius: 15px; border: 1px dashed #d6c3a3; margin-top: 20px;">
-                <i class="fa-solid fa-mug-hot" style="font-size: 3rem; color: #d6c3a3; margin-bottom: 15px;"></i>
-                <h4 style="color: rgb(141, 110, 99); font-weight: 600;">Sem trabalhos pendentes!</h4>
-                <p style="color: #777;">Não encontrámos nenhuma ocorrência atribuída a si com os filtros selecionados. Bom trabalho!</p>
-            </div>
+            <p style="text-align:center; padding: 20px 0; color: #777;">Sem ocorrências para mostrar.</p>
         }
         else
         {
-            <table class="table table-striped" style="width: 100%; table-layout: auto;">
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th style="white-space: nowrap;">Contentor</th>
-                        <th style="white-space: nowrap;">Tipo</th>
-                        <th style="width: 100%;">Descrição</th>
-                        <th style="white-space: nowrap;">Estado</th>
-                        <th style="white-space: nowrap;">Reportado</th>
-                        <th style="white-space: nowrap;">Atualizado</th>
-                        <th style="text-align:center; white-space: nowrap;">Ações</th>
+                        <th>Contentor</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Estado</th>
+                        <th>Reportado em</th>
+                        <th>Última atualização</th>
+                        <th style="text-align:center;">Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach (var occ in Model)
                     {
-                        <tr style="vertical-align: middle;">
-                            <td style="white-space: nowrap;">@occ.ContainerCode</td>
-                            <td style="white-space: nowrap;">@occ.OccurrenceType</td>
+                        <tr>
+                            <td>@occ.ContainerCode</td>
+                            <td>@occ.OccurrenceType</td>
+                            <td>@occ.Description</td>
+                            <td>@occ.Status.ToDisplayName()</td>
+                            <td>@occ.ReportDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@(occ.LastUpdatedAt.HasValue ? occ.LastUpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "—")</td>
 
-                            <td style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;">
-                                @occ.Description
-                            </td>
-
-                            <td style="white-space: nowrap;">@occ.Status.ToDisplayName()</td>
-
-                            <td style="white-space: nowrap;">
-                                @occ.ReportDate.ToString("dd/MM/yyyy")<br>
-                                <small style="color: #888;">@occ.ReportDate.ToString("HH:mm")</small>
-                            </td>
-                            <td style="white-space: nowrap;">
-                                @if (occ.LastUpdatedAt.HasValue)
-                                {
-                                    @occ.LastUpdatedAt.Value.ToString("dd/MM/yyyy")
-                        
-                                    <br>
-                                    <small style="color: #888;">@occ.LastUpdatedAt.Value.ToString("HH:mm")</small>
-                                }
-                                else
-                                {
-                                    <text>—</text>
-                                }
-                            </td>
-
-                            <td style="text-align:center;">
+                            <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
                                 <a asp-controller="Occurrences"
                                    asp-action="UpdateStatus"
                                    asp-route-id="@occ.Id"
                                    class="btn-primary"
-                                   style="padding:6px 12px; font-size:14px; white-space: nowrap; display: inline-block;"
-                                   data-bs-toggle="tooltip"
-                                   data-bs-placement="left"
-                                   title="Registe o progresso do trabalho alterando o estado desta ocorrência.">
-                                    Atualizar
+                                   style="padding:6px 12px; font-size:14px;">
+                                    Atualizar estado
                                 </a>
                             </td>
                         </tr>
@@ -159,14 +119,13 @@
                 </tbody>
             </table>
         }
-        
+
     </div>
 
 </div>
 
 
 <style>
-
     .btn-vista-analitica {
         background-color: #e4d4b8;
         color: #795c4d !important;

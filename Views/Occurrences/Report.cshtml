@@ -39,13 +39,6 @@
 
             <input type="hidden" asp-for="ContainerCode" id="hidden-container-code" />
 
-            <label class="field-label" style="display: flex; align-items: center; margin-bottom: 8px;">
-                Localização do Contentor
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Selecione a morada. O código do contentor (CNT-XXXX) será preenchido automaticamente." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
-
             <div class="input-group">
                 <i class="fa-solid fa-location-dot input-icon"></i>
                 <select id="select-location" class="custom-select">
@@ -81,12 +74,7 @@
                 </div>
             </div>
 
-            <label class="field-label" style="margin-top: 20px; display: flex; align-items: center;">
-                Tipo de Anomalia
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Selecione a opção que melhor descreve o problema visível no local." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
+            <label class="field-label" style="margin-top: 20px;">Tipo de Anomalia</label>
             <div class="selection-grid">
                 <label class="selection-item">
                     <input type="radio" asp-for="OccurrenceType" value="Lixo no Chão" />
@@ -130,12 +118,6 @@
             </div>
             <span asp-validation-for="OccurrenceType" class="field-error"></span>
 
-            <label class="field-label" style="margin-top: 25px; display: flex; align-items: center; margin-bottom: 8px;">
-                Descrição do Problema
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Forneça detalhes que ajudem a equipa de limpeza, como a quantidade de lixo ou a gravidade dos danos." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
             <div class="input-group" style="margin-top: 15px;">
                 <i class="fa-solid fa-comment-dots input-icon" style="top: 25px;"></i>
                 <textarea asp-for="Description" placeholder="Descreva o problema com mais detalhe..."></textarea>
@@ -145,9 +127,6 @@
             <div style="margin-top: 20px;">
                 <label class="field-label" style="display: block; margin-bottom: 8px; font-weight: 600; color: #8d6e63; text-transform: uppercase; font-size: 0.85rem;">
                     <i class="fa-solid fa-camera me-2"></i> Anexar Fotografia (Opcional)
-                    <span data-bs-toggle="tooltip" data-bs-placement="right" title="A fotografia ajuda a nossa equipa a avaliar o problema mais rapidamente e a enviar o veículo adequado." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem; text-transform: none;">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </span>
                 </label>
 
                 <div style="position: relative; display: flex; align-items: center; background-color: white; border: 1px solid #ddd; border-radius: 10px; padding: 6px; overflow: hidden;">
