@@ -54,5 +54,21 @@ namespace EcoCityWasteProjetoESA.Tests
             // Assert
             Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
         }
+
+        [Fact]
+        public async Task Index_DisplaysNotificationDetails()
+        {
+            // Act
+            var response = await _client.GetAsync("/Notifications");
+            var htmlContent = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            // Verify the page structure exists
+            Assert.Contains("notif-list", htmlContent);
+            Assert.Contains("Detalhes da notificação", htmlContent); // The side panel title
+        }
+
     }
 }

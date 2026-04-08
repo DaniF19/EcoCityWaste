@@ -138,12 +138,15 @@
             background: var(--cor-castanho);
             color: white;
             padding: 15px;
-            text-align: left;
+            text-align: center;
+            vertical-align: middle;
         }
 
         .routes-table td {
             padding: 15px;
             border-bottom: 1px solid var(--cor-bege);
+            text-align: center;
+            vertical-align: middle;
         }
 
         .routes-table tr:hover {
@@ -213,6 +216,168 @@
             padding: 50px;
             color: #777;
         }
+
+        .context-item {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #444;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .context-item:hover {
+            background: var(--cor-bege);
+        }
+
+        .context-menu {
+            position: absolute;
+            display: none;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            width: 220px;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .context-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 6px 0;
+        }
+
+        .context-menu li {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            /* color: var(--cor-castanho); */
+        }
+
+        .context-menu li i {
+            color: var(--cor-castanho);
+        }
+
+        .context-menu li:hover {
+            background: #f3ebe8;
+        }
+
+        .context-menu .divider {
+            height: 1px;
+            background: #eee;
+            margin: 4px 0;
+            pointer-events: none;
+        }
+
+        .context-menu .danger {
+            color: #a94442;
+        }
+
+        @@keyframes fadeInRow {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .routes-table tbody tr {
+            animation: fadeInRow 0.3s ease both;
+        }
+
+        .routes-table tbody tr:nth-child(1)  { animation-delay: 0.05s; }
+        .routes-table tbody tr:nth-child(2)  { animation-delay: 0.10s; }
+        .routes-table tbody tr:nth-child(3)  { animation-delay: 0.15s; }
+        .routes-table tbody tr:nth-child(4)  { animation-delay: 0.20s; }
+        .routes-table tbody tr:nth-child(5)  { animation-delay: 0.25s; }
+        .routes-table tbody tr:nth-child(6)  { animation-delay: 0.30s; }
+        .routes-table tbody tr:nth-child(7)  { animation-delay: 0.35s; }
+        .routes-table tbody tr:nth-child(8)  { animation-delay: 0.40s; }
+        .routes-table tbody tr:nth-child(9)  { animation-delay: 0.45s; }
+        .routes-table tbody tr:nth-child(10) { animation-delay: 0.50s; }
+
+        .dropdown-wrapper {
+            position: relative;
+        }
+
+        .btn-dots {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            background: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-dots:hover {
+            background: var(--cor-castanho);
+            color: white;
+            border-color: var(--cor-castanho);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 36px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            width: 180px;
+            z-index: 999;
+            overflow: hidden;
+            display: none;
+        }
+
+        .dropdown-menu.open {
+            display: block;
+            animation: fadeInRow 0.15s ease both;
+        }
+
+        .dropdown-menu a,
+        .dropdown-menu button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            color: #444;
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .dropdown-menu a:hover,
+        .dropdown-menu button:hover {
+            background: #f3ebe8;
+        }
+
+        .dropdown-menu a i,
+        .dropdown-menu button i {
+            color: var(--cor-castanho);
+        }
+
+        .dropdown-menu .dropdown-danger {
+            color: #a94442;
+        }
+
+        .dropdown-menu .dropdown-danger i {
+            color: #a94442;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #eee;
+            margin: 4px 0;
+        }
     </style>
 }
 
@@ -221,24 +386,32 @@
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert-success-addcontainer"
-             style="background-color:var(--cor-castanho); color:white; padding:10px; border-radius:5px; margin-bottom:15px">
-            <i class="fa-solid fa-circle-check"></i>
+             style="background-color:var(--cor-sucesso); color:white; padding:15px; border-radius:10px; margin-bottom:20px; font-weight:600;">
+            <i class="fa-solid fa-circle-check me-2"></i>
             @TempData["SuccessMessage"]
         </div>
     }
 
     <div class="routes-header">
-        <h1 class="routes-title">
-            <i class="fa-solid fa-route"></i>
+        <h1 class="routes-title" style="display: flex; align-items: center;">
+            <i class="fa-solid fa-route me-2"></i>
             Gestão de Rotas
+            <span data-bs-toggle="tooltip" data-bs-placement="right" title="Gira o planeamento de recolhas. As rotas 'Em Curso' estão a ser executadas neste momento pelos motoristas." style="cursor: help; color: #bcaaa4; margin-left: 12px; font-size: 1.2rem;">
+                <i class="fa-solid fa-circle-info"></i>
+            </span>
         </h1>
 
-        @if (isAdmin)
-        {
-            <a asp-action="Create" class="btn-new-route">
-                <i class="fa-solid fa-plus"></i> Nova Rota
+        <div style="display:flex; gap:10px;">
+            @if (isAdmin)
+            {
+                <a asp-action="Create" class="btn-new-route">
+                    <i class="fa-solid fa-plus me-2"></i> Nova Rota
+                </a>
+            }
+            <a asp-controller="@(User.IsInRole("Admin") ? "Admin" : "Funcionario")" asp-action="Dashboard" class="btn-new-route" style="background-color: var(--cor-bege); color: var(--cor-castanho);">
+                <i class="fa-solid fa-arrow-left me-2"></i> Voltar
             </a>
-        }
+        </div>
     </div>
 
     <div class="stat-row">
@@ -246,17 +419,14 @@
             <div class="stat-number">@ViewBag.TotalRoutes</div>
             <div class="stat-label">Total de Rotas</div>
         </div>
-
         <div class="stat-card" data-accent="pending">
             <div class="stat-number">@ViewBag.Pending</div>
             <div class="stat-label">Pendentes</div>
         </div>
-
         <div class="stat-card" data-accent="active">
             <div class="stat-number">@ViewBag.InProgress</div>
             <div class="stat-label">Em Curso</div>
         </div>
-
         <div class="stat-card" data-accent="done">
             <div class="stat-number">@ViewBag.Completed</div>
             <div class="stat-label">Concluídas</div>
@@ -264,71 +434,54 @@
     </div>
 
     <div class="filter-bar">
-        <a asp-action="Index"
-           class="filter-btn @(string.IsNullOrEmpty(ViewBag.CurrentFilter as string) ? "active" : "")">
-            Todas
-        </a>
-
-        <a asp-action="Index" asp-route-statusFilter="Pending"
-           class="filter-btn @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">
-            Pendentes
-        </a>
-
-        <a asp-action="Index" asp-route-statusFilter="InProgress"
-           class="filter-btn @(ViewBag.CurrentFilter == "InProgress" ? "active" : "")">
-            Em Curso
-        </a>
-
-        <a asp-action="Index" asp-route-statusFilter="Completed"
-           class="filter-btn @(ViewBag.CurrentFilter == "Completed" ? "active" : "")">
-            Concluídas
-        </a>
+        <a asp-action="Index" class="filter-btn @(string.IsNullOrEmpty(ViewBag.CurrentFilter as string) ? "active" : "")">Todas</a>
+        <a asp-action="Index" asp-route-statusFilter="Pending" class="filter-btn @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">Pendentes</a>
+        <a asp-action="Index" asp-route-statusFilter="InProgress" class="filter-btn @(ViewBag.CurrentFilter == "InProgress" ? "active" : "")">Em Curso</a>
+        <a asp-action="Index" asp-route-statusFilter="Completed" class="filter-btn @(ViewBag.CurrentFilter == "Completed" ? "active" : "")">Concluídas</a>
     </div>
 
-    <div class="routes-table-wrapper">
-
+    <div class="routes-table-wrapper table-responsive" style="width: 100%; overflow-x: auto;">
         @if (!Model.Any())
         {
             <div class="empty-state">
-                <i class="fa-solid fa-route"></i>
-                <p>Nenhuma rota encontrada.</p>
-
+                <i class="fa-solid fa-route" style="font-size: 3rem; color: #d6c3a3; margin-bottom: 15px;"></i>
+                <h4 style="color: var(--cor-castanho); font-weight: 600;">Nenhuma rota encontrada.</h4>
                 @if (isAdmin)
                 {
-                    <a asp-action="Create" class="btn-new-route">
-                        <i class="fa-solid fa-plus"></i> Criar Primeira Rota
+                    <a asp-action="Create" class="btn-new-route" style="margin-top: 15px; display: inline-block;">
+                        <i class="fa-solid fa-plus me-2"></i> Criar Primeira Rota
                     </a>
                 }
             </div>
         }
         else
         {
-            <table class="routes-table">
+            <table class="routes-table" style="min-width: 800px;">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Estado</th>
-                        <th>Contentores</th>
-                        <th>Atribuído</th>
-                        <th>Criado</th>
-                        <th>Ações</th>
+                        <th style="white-space: nowrap;">Código</th>
+                        <th style="white-space: nowrap; text-align: left;">Nome</th>
+                        <th style="white-space: nowrap;">Estado</th>
+                        <th style="white-space: nowrap;" title="Número de paragens planeadas nesta rota">Contentores <i class="fa-solid fa-circle-info ms-1" style="font-size: 0.8rem; color: var(--cor-bege);"></i></th>
+                        <th style="white-space: nowrap;">Atribuído</th>
+                        <th style="white-space: nowrap;">Criado</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach (var route in Model)
                     {
-                        <tr>
-                            <td>
-                                <span class="route-code">@route.Code</span>
-                            </td>
-
-                            <td>
-                                <strong>@route.Name</strong>
-                            </td>
-
-                            <td>
+                        <tr class="route-row"
+                            data-id="@route.Id"
+                            data-status="@route.Status"
+                            data-map-url="@Url.Action("Map", new { id = route.Id })"
+                            data-assign-url="@Url.Action("Assign", new { id = route.Id })"
+                            data-edit-url="@Url.Action("Edit", new { id = route.Id })"
+                            data-optimise-url="@Url.Action("Optimise", new { id = route.Id })">
+                            
+                            <td style="white-space: nowrap;"><span class="route-code">@route.Code</span></td>
+                            <td style="text-align: left;"><strong>@route.Name</strong></td>
+                            
+                            <td style="white-space: nowrap;">
                                 @{
                                     var (badgeClass, icon) = route.Status switch
                                     {
@@ -339,62 +492,54 @@
                                         _ => ("badge-pending", "fa-clock")
                                     };
                                 }
-
-                                <span class="badge @badgeClass">
-                                    <i class="fa-solid @icon"></i>
-                                    @route.Status
-                                </span>
+                                <span class="badge @badgeClass"><i class="fa-solid @icon me-1"></i> @route.Status</span>
                             </td>
-
+                            
                             <td>@route.RouteContainers.Count</td>
-
-                            <td>
+                            
+                            <td style="white-space: nowrap;">
                                 @if (route.AssignedEmployee != null)
                                 {
-                                    @route.AssignedEmployee.Username
+                                    <i class="fa-solid fa-user me-1" style="color: var(--cor-castanho);"></i> @route.AssignedEmployee.Username
                                 }
                                 else
                                 {
-                                    <span style="color:#777;">Não atribuída</span>
+                                    <span style="color:#aaa;"><i class="fa-solid fa-user-xmark me-1"></i> Não atribuída</span>
                                 }
                             </td>
-
-                            <td>
-                                @route.CreatedAt.ToString("dd/MM/yyyy")
-                            </td>
-
-                            <td>
-                                <div class="action-group">
-                                    <a asp-action="Details"
-                                       asp-route-id="@route.Id"
-                                       class="btn-icon">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-
-                                    @if (isAdmin)
-                                    {
-                                        <form asp-action="Delete"
-                                              asp-route-id="@route.Id"
-                                              method="post"
-                                              id="delete-form-@route.Id"
-                                              style="display:inline;">
-                                            @Html.AntiForgeryToken()
-
-                                            <button type="button"
-                                                    class="btn-icon"
-                                                    onclick="confirmDelete(@route.Id)">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    }
-                                </div>
-                            </td>
+                            
+                            <td style="white-space: nowrap;">@route.CreatedAt.ToString("dd/MM/yyyy")</td>
                         </tr>
                     }
                 </tbody>
             </table>
         }
     </div>
+</div>
+
+<div id="context-menu" class="context-menu">
+    <ul>
+
+        <li data-action="map">
+            <i class="fa-solid fa-map"></i> Ver no mapa
+        </li>
+
+        @if (isAdmin)
+        {
+            <li class="admin-only" data-action="optimise">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Optimizar
+            </li>
+
+            <li class="admin-only" data-action="assign">
+                <i class="fa-solid fa-user-plus"></i> Atribuir funcionário
+            </li>
+
+            <li class="admin-only" data-action="edit">
+                <i class="fa-solid fa-pen"></i> Editar
+            </li>
+        }
+
+    </ul>
 </div>
 
 <script>
@@ -415,4 +560,78 @@
             }
         });
     }
+</script>
+
+<script>
+    const menu = document.getElementById("context-menu");
+    let selectedRow = null;
+
+    document.querySelectorAll(".route-row").forEach(row => {
+
+        // clicar na rota mostra view dos detalhes da rota
+        row.addEventListener("click", function (e) {
+            if (e.target.closest("a, button, form")) return;
+            const id = this.dataset.id;
+            window.location.href = `/Routes/Details/${id}`;
+        });
+
+        // cursor pointer
+        row.style.cursor = "pointer";
+
+        row.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+            selectedRow = this;
+
+            const status = this.dataset.status;
+            const isCompleted = status === "Completed";
+
+            document.querySelector('[data-action="optimise"]')?.style.setProperty("display", isCompleted ? "none" : "flex");
+            document.querySelector('[data-action="assign"]')?.style.setProperty("display", isCompleted ? "none" : "flex");
+            document.querySelector('[data-action="edit"]')?.style.setProperty("display", isCompleted ? "none" : "flex");
+
+            menu.style.top = e.pageY + "px";
+            menu.style.left = e.pageX + "px";
+            menu.style.display = "block";
+        });
+    });
+
+    document.addEventListener("click", () => menu.style.display = "none");
+
+    menu.addEventListener("click", function (e) {
+        const action = e.target.closest("li")?.dataset.action;
+        if (!action || !selectedRow) return;
+
+        switch (action) {
+            case "map": window.location.href = selectedRow.dataset.mapUrl; break;
+            case "assign": window.location.href = selectedRow.dataset.assignUrl; break;
+            case "edit": window.location.href = selectedRow.dataset.editUrl; break;
+            case "optimise": window.location.href = selectedRow.dataset.optimiseUrl; break;
+        }
+    });
+
+    document.querySelectorAll(".stat-number").forEach(el => {
+    const target = parseInt(el.textContent) || 0;
+    if (target === 0) return;
+    let current = 0;
+    const step = Math.ceil(target / 30);
+    const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current;
+        if (current >= target) clearInterval(timer);
+    }, 30);
+});
+
+function toggleDropdown(e, btn) {
+    e.stopPropagation();
+    // fechar primeiro os dropdowns abertos
+    document.querySelectorAll(".dropdown-menu.open").forEach(d => {
+        if (d !== btn.nextElementSibling) d.classList.remove("open");
+    });
+    btn.nextElementSibling.classList.toggle("open");
+}
+
+// fechar os dropdowns quando se clica fora
+document.addEventListener("click", () => {
+    document.querySelectorAll(".dropdown-menu.open").forEach(d => d.classList.remove("open"));
+});
 </script>

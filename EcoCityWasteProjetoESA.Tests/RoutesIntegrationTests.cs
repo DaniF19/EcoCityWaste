@@ -98,7 +98,12 @@ namespace EcoCityWasteProjetoESA.Tests
         [Fact]
         public async Task Delete_InvalidId_ReturnsNotFound()
         {
-            var response = await _client.GetAsync("/Routes/Delete/9999");
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { "id", "9999" }
+            });
+
+            var response = await _client.PostAsync("/Routes/Delete/9999", content);
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -167,6 +172,30 @@ namespace EcoCityWasteProjetoESA.Tests
             var response = await _client.GetAsync("/Routes/Map/9999");
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Index_Get_WithCompletedFilter_ReturnsOk()
+        {
+            var response = await _client.GetAsync("/Routes/Index?statusFilter=Completed");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Create_Post_NoContainers_ReturnsCreateViewWithErrors()
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("Name", "Rota Teste"),
+                new KeyValuePair<string, string>("Description", "Descrição de teste"),
+                new KeyValuePair<string, string>("ContainerIds", "")
+            });
+
+            var response = await _client.PostAsync("/Routes/Create", content);
+
+            // model valido mas sem containers - o service da return de (false, "") e fica na view de Create
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         // helper

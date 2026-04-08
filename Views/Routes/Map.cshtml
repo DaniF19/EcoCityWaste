@@ -32,10 +32,8 @@
             grid-template-columns: 1fr 300px;
             gap: 16px;
             flex: 1;
-            min-height: 0; /* critical – lets children fill the remaining height */ 
+            min-height: 0;
         }
-
-        
 
         #map {
             width: 100%;
@@ -170,7 +168,6 @@
 
         .btn-back:hover { color: #f1f5f9; border-color: #f1f5f9; }
 
-        /* Leaflet dark theme overrides */
         .leaflet-popup-content-wrapper {
             background:white !important;
             border:1px solid #e6e6e6 !important;
@@ -248,9 +245,9 @@
 
                 @foreach (var stop in stops)
                 {
-                    var c         = stop.Container;
+                    var c = stop.Container;
                     var fillClass = c.FillLevel >= 80 ? "fill-high" : c.FillLevel >= 50 ? "fill-mid" : "fill-low";
-                    var hasGps    = !(c.Latitude == 0 && c.Longitude == 0);
+                    var hasGps = !(c.Latitude == 0 && c.Longitude == 0);
 
                     <div class="map-stop @(hasGps ? "" : "no-gps")"
                          id="sidebar-stop-@c.Id"
