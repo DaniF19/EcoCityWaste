@@ -1,6 +1,5 @@
 using EcoCityWaste.Data;
 using EcoCityWaste.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace EcoCityWaste.Services
 {
@@ -28,13 +27,5 @@ namespace EcoCityWaste.Services
             _context.ContainerStatusHistories.Add(history);
             await _context.SaveChangesAsync();
         }
-        public async Task<List<ContainerStatusHistory>> GetHistoryAsync(int containerId)
-        {
-            return await _context.ContainerStatusHistories
-                .Where(h => h.ContainerId == containerId)
-                .OrderByDescending(h => h.ChangedAt)
-                .ToListAsync();
-        }
-
     }
 }

@@ -59,11 +59,6 @@ builder.Services.AddHttpClient<GeocodingService>();
 builder.Services.AddScoped<ContainerHistoryService>();
 
 builder.Services.AddScoped<IRouteService, RouteService>();
-builder.Services.AddScoped<ContainerService>();
-builder.Services.AddScoped<ContainerQueryService>();
-builder.Services.AddScoped<ContainerHistoryService>();
-builder.Services.AddScoped<GeocodingService>();
-
 
 builder.Services.AddSignalR();
 
@@ -139,50 +134,28 @@ using (var scope = app.Services.CreateScope())
         hasChanges = true;
     }
 
-    if (context.Occurrences.Count() < 2)
+    if (!context.Occurrences.Any())
     {
         // Buscar um utilizador Cidadão para associar à ocorrência
         var cidadao = context.Users.FirstOrDefault(u => u.Role == "Cidadao");
-        var funcionario = context.Users.FirstOrDefault(u => u.Role == "Funcionario");
 
-        if (cidadao != null && funcionario != null)
+        if (cidadao != null)
         {
-            // 1) Ocorrência pendente (não atribuída)
-            if (!context.Occurrences.Any(o => o.Description == "Contentor cheio e a transbordar"))
+            context.Occurrences.Add(new Occurrence
             {
-                context.Occurrences.Add(new Occurrence
-                {
-                    ContainerCode = "CNT-001",
-                    OccurrenceType = "Lixo",
-                    Description = "Contentor cheio e a transbordar",
-                    ReportDate = DateTime.Now.AddHours(-3),
-                    Status = OccurrenceStatus.Pendente.ToString(),
-                    UserId = cidadao.Id,
-                    AssignedEmployeeId = null,
-                    AssignedAt = null,
-                    ImagePath = null
-                });
-            }
-
-            // 2) Ocorrência atribuída ao funcionário (Em Análise)
-            if (!context.Occurrences.Any(o => o.Description == "Vidro partido espalhado"))
-            {
-                context.Occurrences.Add(new Occurrence
-                {
-                    ContainerCode = "CNT-002",
-                    OccurrenceType = "Vidro",
-                    Description = "Vidro partido espalhado",
-                    ReportDate = DateTime.Now.AddHours(-1),
-                    Status = OccurrenceStatus.EmAnalise.ToString(),
-                    UserId = cidadao.Id,
-                    AssignedEmployeeId = funcionario.Id,
-                    AssignedAt = DateTime.Now.AddMinutes(-30)
-                });
-            }
+                ContainerCode = "CNT-001", // um dos contentores que já criaste
+                OccurrenceType = "Lixo",
+                Description = "Contentor cheio e a transbordar",
+                ReportDate = DateTime.Now.AddHours(-3),
+                Status = OccurrenceStatus.Pendente.ToString(),
+                UserId = cidadao.Id,
+                AssignedEmployeeId = null,
+                AssignedAt = null,
+                ImagePath = null,
+            });
 
             context.SaveChanges();
         }
-
     }
     // Guarda, so se houver novos utilizadores
     if (hasChanges)

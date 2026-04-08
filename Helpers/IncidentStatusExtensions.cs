@@ -1,21 +1,18 @@
-﻿using EcoCityWaste.Models;
-
-namespace EcoCityWaste.Helpers
+﻿namespace EcoCityWaste.Helpers
 {
     public static class IncidentStatusExtensions
     {
-        public static string ToDisplayName(this OccurrenceStatus status)
+        public static string ToDisplayName(this string status)
         {
             return status switch
             {
-                OccurrenceStatus.Pendente => "Pendente",
-                OccurrenceStatus.EmAnalise => "Em Análise",
-                OccurrenceStatus.EmResolucao => "Em Resolução",
-                OccurrenceStatus.Resolvido => "Resolvido",
-                OccurrenceStatus.Rejeitado => "Rejeitado",
-                _ => status.ToString()
+                "Pendente" => "Pendente",
+                "EmAnalise" => "Em Análise",
+                "EmResolucao" => "Em Resolução",
+                "Resolvido" => "Resolvido",
+                "Rejeitado" => "Rejeitado",
+                _ => status
             };
         }
-
     }
 }

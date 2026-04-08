@@ -1,7 +1,5 @@
-using EcoCityWaste.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EcoCityWaste.Controllers
 {
@@ -12,6 +10,6 @@ namespace EcoCityWaste.Controllers
         {
             return View();
         }
-        
+
     }
 }

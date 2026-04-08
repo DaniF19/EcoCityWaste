@@ -6,8 +6,8 @@ namespace EcoCityWaste.Models
     {
         public enum ContainerStatus
         {
-            [Display(Name = "Bom")] Good,[Display(Name = "Avariado")] Broken,
-            [Display(Name = "Manutenção")] Maintenance
+            [Display(Name = "Bom")] Good, [Display(Name = "Cheio")] Full, [Display(Name = "Vazio")] Empty,
+            [Display(Name = "Avariado")] Broken, [Display(Name = "Manutenção")] Maintenance
         }
         public int Id { get; set; }
 

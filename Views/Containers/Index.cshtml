@@ -1,5 +1,4 @@
-﻿@model EcoCityWaste.ViewModels.ContainerIndexViewModel
-@using EcoCityWaste.Helpers
+﻿@model IEnumerable<EcoCityWaste.Models.Container>
 
 @{
     ViewData["Title"] = "Monitorização de Contentores";
@@ -14,8 +13,7 @@
             "papel" or "cartão" or "cartao" => "fa-box-archive",
             "vidro" => "fa-wine-glass-empty",
             "indiferenciado" => "fa-trash-can",
-            "orgânico" or "organico" => "fa-apple-whole",
-            _ => "fa-trash"
+            "orgânico" or "organico" => "fa-apple-whole"
         };
     }
 }
@@ -37,37 +35,35 @@
             <a asp-controller="Containers" asp-action="List" class="btn-vista-gestao">
                 <i class="fa-solid fa-list-check"></i> Vista de Gestão
             </a>
+
         </div>
 
-        <!-- ERRO -->
         @if (TempData["ErrorMessage"] != null)
         {
-            <div class="alert alert-danger" style="text-align:center;">
+            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; border: 1px solid #f5c6cb;">
                 <strong>Atenção:</strong> @TempData["ErrorMessage"]
             </div>
         }
 
-        <!-- DASHBOARD -->
         <div class="dashboard-cards">
             <a asp-action="Index" asp-route-statusFilter="" class="stat-card">
                 <p>Total Registados</p>
-                <h3>@Model.Stats.Total</h3>
+                <h3>@ViewBag.TotalContainers</h3>
             </a>
             <a asp-action="Index" asp-route-statusFilter="Critico" class="stat-card danger">
                 <p>Contentores Cheios</p>
-                <h3>@Model.Stats.TotalCheios</h3>
+                <h3>@ViewBag.TotalCheios</h3>
             </a>
             <a asp-action="Index" asp-route-statusFilter="Avariado" class="stat-card warning">
                 <p>Avariados</p>
-                <h3>@Model.Stats.TotalAvariados</h3>
+                <h3>@ViewBag.TotalAvariados</h3>
             </a>
             <a asp-action="Index" asp-route-statusFilter="Ativos" class="stat-card success">
                 <p>Ativos no Sistema</p>
-                <h3>@Model.Stats.TotalAtivos</h3>
+                <h3>@ViewBag.TotalAtivos</h3>
             </a>
         </div>
 
-        <!-- FILTROS -->
         <form asp-action="Index" method="get" class="eco-filter-form">
             <div style="flex: 2; min-width: 250px; position: relative; display: flex; align-items: center;">
                 <input type="text" name="searchString" value="@ViewBag.CurrentSearch" class="eco-input" placeholder="Pesquisar por Código ou Localização..." style="width: 100%;" />
@@ -105,7 +101,6 @@
                     </optgroup>
                 </select>
             </div>
-
 
             <button type="submit" class="btn-eco" style="margin: 0;">Filtrar</button>
             <a asp-action="Index" class="btn-eco btn-eco-outline" style="margin: 0;">Limpar</a>
@@ -213,9 +208,12 @@
 </div>
 
 <script>
-    setTimeout(() => location.reload(), 30000);
+    // Atualiza a página automaticamente a cada 30 segundos
+    // para refletir os novos dados dos sensores
+    setTimeout(function () {
+        location.reload();
+    }, 30000);
 </script>
-
 
 <style>
 
@@ -383,10 +381,10 @@
         transition: border-color 0.3s ease, background-color 0.3s ease;
     }
 
-    .eco-input:hover, .eco-input:focus {
-        border-color: var(--cor-castanho);
-        background-color: #fffcf5;
-    }
+        .eco-input:hover, .eco-input:focus {
+            border-color: var(--cor-castanho);
+            background-color: #fffcf5;
+        }
 
     /* Estilo para o Dropdown */
     select.eco-input {
@@ -402,6 +400,7 @@
         background-size: 12px auto;
         padding-right: 40px;
     }
+
     .btn-eco {
         background-color: var(--cor-bege);
         color: white;
@@ -414,19 +413,23 @@
         text-decoration: none;
         transition: background-color 0.3s ease;
     }
-    .btn-eco:hover {
-        background-color: var(--cor-castanho);
-        color: white;
-    }
+
+        .btn-eco:hover {
+            background-color: var(--cor-castanho);
+            color: white;
+        }
+
     .btn-eco-outline {
         background-color: transparent;
         color: var(--cor-castanho);
         border: 2px solid var(--cor-castanho);
     }
-    .btn-eco-outline:hover {
-        background-color: var(--cor-castanho);
-        color: white;
-    }
+
+        .btn-eco-outline:hover {
+            background-color: var(--cor-castanho);
+            color: white;
+        }
+
     /* --- TABELA E RESTANTES ESTILOS --- */
     .eco-table {
         width: 100%;
@@ -436,11 +439,13 @@
         overflow: hidden;
         box-shadow: 0 4px 15px rgba(0,0,0,0.03);
     }
-    .eco-table th {
-        background-color: var(--cor-castanho);
-        padding: 18px 15px;
-        text-align: left;
-    }
+
+        .eco-table th {
+            background-color: var(--cor-castanho);
+            padding: 18px 15px;
+            text-align: left;
+        }
+
     /* Links de Ordenação no Cabeçalho */
     .sort-link {
         color: #ffffff;
@@ -451,9 +456,11 @@
         align-items: center;
         gap: 5px;
     }
-    .sort-link:hover {
-        color: var(--cor-bege);
-    }
+
+        .sort-link:hover {
+            color: var(--cor-bege);
+        }
+
     .eco-table td {
         padding: 15px;
         border-bottom: 1px solid var(--cor-bege);
@@ -461,12 +468,15 @@
         vertical-align: middle;
         font-size: 0.95rem;
     }
+
     .eco-table tbody tr:hover {
         background-color: #fffcf5;
     }
+
     .eco-table tbody tr:last-child td {
         border-bottom: none;
     }
+
     .fill-progress-bg {
         width: 100%;
         background-color: var(--cor-fundo-claro);
@@ -475,21 +485,25 @@
         margin-bottom: 5px;
         overflow: hidden;
     }
+
     .fill-progress-bar {
         height: 100%;
         border-radius: 10px;
         background-color: var(--cor-castanho);
     }
+
     .badge-status {
         padding: 5px 10px;
         border-radius: 15px;
         font-size: 0.85rem;
         font-weight: bold;
     }
+
     .badge-active {
         background-color: #d4edda;
         color: #155724;
     }
+
     .badge-inactive {
         background-color: #f8d7da;
         color: #721c24;
