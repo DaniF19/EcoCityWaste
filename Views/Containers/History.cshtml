@@ -10,13 +10,16 @@
 
 <div class="page-container">
 
-    <div class="card-box">
+    <div class="card-box" style="max-width: 900px; margin: 0 auto; padding: 40px;">
 
         <div class="card-title"
-             style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+             style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; border-bottom: 1px solid #f0ebe3; padding-bottom: 20px;">
 
-            <span style="margin:0; font-size:1.5rem; font-weight:bold; color:#8d6e63;">
-                Histórico Contentor
+            <span style="margin:0; font-size:1.5rem; font-weight:bold; color:#8d6e63; display: flex; align-items: center;">
+                Histórico do Contentor
+                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Este registo é automático. Guarda todas as alterações de estado, variações no nível de enchimento ou intervenções de manutenção." style="cursor: help; color: #bcaaa4; margin-left: 10px; font-size: 1.2rem;">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
             </span>
 
             <a asp-controller="Containers" asp-action="List" class="btn-vista-analitica">
@@ -25,39 +28,123 @@
 
         </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Estado</th>
-                    <th>Nível (%)</th>
-                    <th>Ativo</th>
-                    <th>Alterado por</th>
-                </tr>
-            </thead>
+        @if (!Model.Any())
+        {
+            <div style="text-align: center; padding: 50px; background-color: #faf9f7; border-radius: 15px; border: 1px dashed #d6c3a3; margin-top: 20px;">
+                <i class="fa-solid fa-clock-rotate-left" style="font-size: 3rem; color: #d6c3a3; margin-bottom: 15px;"></i>
+                <h4 style="color: rgb(141, 110, 99); font-weight: 600;">Sem Histórico</h4>
+                <p style="color: #777;">Este contentor é recente e ainda não sofreu qualquer alteração desde o seu registo.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive" style="width: 100%; overflow-x: auto;">
+                <table class="table table-striped" style="min-width: 700px; margin-bottom: 0;">
+                    <thead>
+                        <tr>
+                            <th style="white-space: nowrap;">Data e Hora</th>
+                            <th style="white-space: nowrap;">Estado</th>
+                            <th style="white-space: nowrap;">
+                                Nível
+                                <span data-bs-toggle="tooltip" title="Percentagem de ocupação registada no momento exato desta alteração." style="cursor: help; color: #8d6e63; margin-left: 5px;">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </span>
+                            </th>
+                            <th style="text-align: center; white-space: nowrap;">Ativo</th>
+                            <th style="white-space: nowrap;">Alterado por</th>
+                        </tr>
+                    </thead>
 
-            <tbody>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="vertical-align: middle;">
+                                <td style="white-space: nowrap;">
+                                    @item.ChangedAt.ToString("dd/MM/yyyy")<br>
+                                    <small style="color: #888; font-weight: 500;">@item.ChangedAt.ToString("HH:mm")</small>
+                                </td>
 
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.ChangedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td style="font-weight: 600; color: #555; white-space: nowrap;">
+                                    @item.Status
+                                </td>
 
-                        <td>@item.Status</td>
+                                <td style="white-space: nowrap;">
+                                    <span style="background-color: #f0ebe3; padding: 4px 10px; border-radius: 8px; font-weight: bold; color: #795c4d;">
+                                        @item.FillLevel%
+                                    </span>
+                                </td>
 
-                        <td>@item.FillLevel%</td>
+                                <td style="text-align: center; white-space: nowrap;">
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge-status badge-active">Sim</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-status badge-inactive">Não</span>
+                                    }
+                                </td>
 
-                        <td>
-                            @(item.IsActive ? "Sim" : "Não")
-                        </td>
-
-                        <td>@item.ChangedBy</td>
-                    </tr>
-                }
-
-            </tbody>
-        </table>
+                                <td style="white-space: nowrap; color: #666;">
+                                    @if (string.IsNullOrEmpty(item.ChangedBy) || item.ChangedBy == "Sistema" || item.ChangedBy == "Sensor")
+                                    {
+                                        <i class="fa-solid fa-robot me-2" style="color: #aaa;" title="Atualização automática"></i> <span style="font-style: italic;">Sistema / Sensor</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-user-pen me-2" style="color: #8d6e63;"></i> @item.ChangedBy
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
 
     </div>
 
 </div>
+
+<style>
+    /* Reaproveitamento do botão Voltar */
+    .btn-vista-analitica {
+        background-color: #e4d4b8;
+        color: #795c4d !important;
+        padding: 8px 20px;
+        border-radius: 50px;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid #e4d4b8;
+    }
+
+    .btn-vista-analitica:hover {
+        background-color: #d6c3a3;
+        border-color: #d6c3a3;
+        transform: translateY(-2px);
+    }
+
+    /* Badges de Ativo/Inativo */
+    .badge-status {
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .badge-active {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .badge-inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
