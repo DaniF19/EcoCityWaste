@@ -1,243 +1,233 @@
-﻿@model EcoCityWaste.Models.ViewModels.RouteAssignViewModel
+@model EcoCityWaste.Models.ViewModels.RouteAssignViewModel
 @using EcoCityWaste.Models
 @{
     ViewData["Title"] = "Atribuir Rota";
-    var route = ViewBag.Route as Route;
+    var route     = ViewBag.Route     as Route;
     var employees = ViewBag.Employees as List<User> ?? new List<User>();
 }
 
 <style>
 
-    :root {
-        --cor-castanho: rgb(141,110,99);
-        --cor-bege: rgb(224,205,169);
-        --cor-fundo-claro: rgb(243,242,235);
-        --cor-sucesso: #27ae60;
-        --cor-aviso: #f1c40f;
-        --cor-vermelho-erro: #a94442;
-        --cor-manutencao: #3498db;
-        --border: #e6e6e6;
-        --text: #444;
-        --muted: #777;
-        --surface: #ffffff;
-        --surface-3: #f7f6f2;
-    }
+:root{
+    --cor-castanho: rgb(141,110,99);
+    --cor-bege: rgb(224,205,169);
+    --cor-fundo-claro: rgb(243,242,235);
 
-    .assign-wrapper {
-        max-width: 560px;
-        margin: 0 auto;
-    }
+    --cor-sucesso:#27ae60;
+    --cor-aviso:#f1c40f;
+    --cor-vermelho-erro:#a94442;
+    --cor-manutencao:#3498db;
 
-    .panel {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 15px;
-        padding: 26px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    }
+    --border:#e6e6e6;
+    --text:#444;
+    --muted:#777;
 
-    .panel-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--cor-castanho);
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+    --surface:#ffffff;
+    --surface-3:#f7f6f2;
+}
 
-        .panel-title i {
-            color: var(--cor-castanho);
-        }
+.assign-wrapper{
+    max-width:560px;
+    margin:0 auto;
+}
 
-    .route-card {
-        background: var(--surface-3);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 14px 16px;
-        margin-bottom: 24px;
-    }
+.panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:26px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.03);
+}
 
-    .route-card-code {
-        font-family: monospace;
-        font-size: .78rem;
-        color: var(--cor-castanho);
-        background: #f3ebe8;
-        padding: 2px 8px;
-        border-radius: 4px;
-        margin-bottom: 4px;
-        display: inline-block;
-    }
+.panel-title{
+    font-size:1.1rem;
+    font-weight:700;
+    color:var(--cor-castanho);
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 
-    .route-card-name {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--text);
-    }
+.panel-title i{
+    color:var(--cor-castanho);
+}
 
-    .emp-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-bottom: 20px;
-    }
+.route-card{
+    background:var(--surface-3);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:24px;
+}
 
-    .emp-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 16px;
-        background: var(--surface-3);
-        border: 2px solid var(--border);
-        border-radius: 10px;
-        cursor: pointer;
-        /* transition:border-color .15s, background .15s; */
-        transition: all .18s ease;
-    }
+.route-card-code{
+    font-family:monospace;
+    font-size:.78rem;
+    color:var(--cor-castanho);
+    background:#f3ebe8;
+    padding:2px 8px;
+    border-radius:4px;
+    margin-bottom:4px;
+    display:inline-block;
+}
 
-        .emp-item:hover {
-            border-color: var(--cor-castanho);
-        }
+.route-card-name{
+    font-size:1rem;
+    font-weight:700;
+    color:var(--text);
+}
 
-        .emp-item input[type="radio"] {
-            display: none;
-        }
+.emp-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:20px;
+}
 
-        .emp-item.checked {
-            border-color: var(--cor-castanho);
-            background: #f3ebe8;
-            transform: scale(1.02);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-        }
+.emp-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    background:var(--surface-3);
+    border:2px solid var(--border);
+    border-radius:10px;
+    cursor:pointer;
+    transition:border-color .15s, background .15s;
+}
 
-    .emp-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--cor-castanho);
-        color: white;
-        font-size: .85rem;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        text-transform: uppercase;
-    }
+.emp-item:hover{
+    border-color:var(--cor-castanho);
+}
 
-    .emp-info {
-        flex: 1;
-    }
+.emp-item input[type="radio"]{
+    display:none;
+}
 
-    .emp-name {
-        font-size: .9rem;
-        font-weight: 600;
-        color: var(--text);
-    }
+.emp-item.checked{
+    border-color:var(--cor-castanho);
+    background:#f3ebe8;
+}
 
-    .emp-email {
-        font-size: .78rem;
-        color: var(--muted);
-    }
+.emp-avatar{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:var(--cor-castanho);
+    color:white;
+    font-size:.85rem;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    text-transform:uppercase;
+}
 
-    .emp-check {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 2px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: .65rem;
-        color: white;
-    }
+.emp-info{
+    flex:1;
+}
 
-    .emp-item.checked .emp-check {
-        background: var(--cor-castanho);
-        border-color: var(--cor-castanho);
-    }
+.emp-name{
+    font-size:.9rem;
+    font-weight:600;
+    color:var(--text);
+}
 
-    .no-employees {
-        text-align: center;
-        padding: 30px;
-        color: var(--muted);
-        font-size: .88rem;
-    }
+.emp-email{
+    font-size:.78rem;
+    color:var(--muted);
+}
 
-    .field-error {
-        font-size: .78rem;
-        color: var(--cor-vermelho-erro);
-        margin-bottom: 10px;
-        display: block;
-    }
+.emp-check{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    border:2px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.65rem;
+    color:white;
+}
 
-    .btn-assign {
-        width: 100%;
-        padding: 13px;
-        border-radius: 10px;
-        border: none;
-        background: var(--cor-castanho);
-        color: white;
-        font-size: .95rem;
-        font-weight: 700;
-        cursor: pointer;
-    }
+.emp-item.checked .emp-check{
+    background:var(--cor-castanho);
+    border-color:var(--cor-castanho);
+}
 
-        .btn-assign:hover {
-            opacity: .9;
-        }
+.no-employees{
+    text-align:center;
+    padding:30px;
+    color:var(--muted);
+    font-size:.88rem;
+}
 
-    .btn-cancel {
-        display: block;
-        width: 100%;
-        padding: 11px;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: white;
-        color: var(--muted);
-        font-size: .87rem;
-        font-weight: 600;
-        text-align: center;
-        text-decoration: none;
-        margin-top: 8px;
-    }
+.field-error{
+    font-size:.78rem;
+    color:var(--cor-vermelho-erro);
+    margin-bottom:10px;
+    display:block;
+}
 
-        .btn-cancel:hover {
-            color: var(--text);
-            border-color: var(--cor-castanho);
-        }
+.btn-assign{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:none;
+    background:var(--cor-castanho);
+    color:white;
+    font-size:.95rem;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.btn-assign:hover{
+    opacity:.9;
+}
+
+.btn-cancel{
+    display:block;
+    width:100%;
+    padding:11px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:white;
+    color:var(--muted);
+    font-size:.87rem;
+    font-weight:600;
+    text-align:center;
+    text-decoration:none;
+    margin-top:8px;
+}
+
+.btn-cancel:hover{
+    color:var(--text);
+    border-color:var(--cor-castanho);
+}
 
 </style>
 
 <div class="page-container">
+    <div style="margin-bottom:16px;">
+        <a asp-action="Details" asp-route-id="@route?.Id"
+           style="color:var(--muted);text-decoration:none;font-size:.85rem;">
+            <i class="fa-solid fa-chevron-left"></i> Voltar à Rota
+        </a>
+    </div>
+
     <div class="assign-wrapper">
         <div class="panel">
-            <div class="panel-title" style="justify-content: space-between; margin-bottom: 25px;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fa-solid fa-user-plus"></i>
-                    <span>Atribuir Rota a Funcionário</span>
-                </div>
-                <a asp-action="Details" asp-route-id="@route?.Id"
-                   style="text-decoration:none; color: white; background: var(--cor-castanho); border-radius: 8px; gap: 6px; padding: 6px 12px; font-size: .75rem; display: flex; align-items: center; font-weight: 500;">
-                    <i class="fa-solid fa-chevron-left" style="color: white; font-size: .7rem;"></i> Voltar
-                </a>
+            <div class="panel-title">
+                <i class="fa-solid fa-user-plus"></i>
+                Atribuir Rota a Funcionário
             </div>
 
             <!-- informacoes da rota -->
             <div class="route-card">
                 <span class="route-card-code">@route?.Code</span>
                 <div class="route-card-name">@route?.Name</div>
-
-                <div style="margin-top:8px;font-size:.8rem;color:var(--muted);">
-                    Estado:
-                    <strong style="color:var(--cor-castanho)">
-                        @route?.Status
-                    </strong>
-                </div>
-
-                <div style="font-size:.75rem;color:var(--muted);margin-top:4px;">
-                    Criada em: @route?.CreatedAt.ToString("dd/MM/yyyy HH:mm")
-                </div>
             </div>
 
             <form asp-action="Assign" method="post" id="assignForm">
@@ -245,11 +235,8 @@
                 <input type="hidden" asp-for="RouteId" />
 
                 <label style="font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;display:block;">
-                    Selecione um Funcionário
+                    Selecione um Funcionário *
                 </label>
-
-                <input type="text" id="empSearch" placeholder="Pesquisar funcionário..."
-                       style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);margin-bottom:12px;font-size:.85rem;">
 
                 <span asp-validation-for="EmployeeId" class="field-error"></span>
 
@@ -266,8 +253,7 @@
                         @foreach (var emp in employees)
                         {
                             <label class="emp-item" onclick="selectEmp(this, @emp.Id)">
-                                <input type="radio" name="EmployeeId" value="@emp.Id" 
-                                       @(Model.EmployeeId == emp.Id ? "checked" : "") />
+                                <input type="radio" name="EmployeeId" value="@emp.Id" />
                                 <div class="emp-avatar">@emp.Username.Substring(0, 1)</div>
                                 <div class="emp-info">
                                     <div class="emp-name">@emp.Username</div>
@@ -299,35 +285,5 @@
             label.classList.add('checked');
             label.querySelector('input[type="radio"]').checked = true;
         }
-
-        function selectEmp(label, id) {
-            document.querySelectorAll('.emp-item').forEach(el => el.classList.remove('checked'));
-            label.classList.add('checked');
-            label.querySelector('input[type="radio"]').checked = true;
-        }
-
-        document.getElementById('empSearch')?.addEventListener('input', function () {
-            const term = this.value.toLowerCase();
-
-            document.querySelectorAll('.emp-item').forEach(item => {
-                const name = item.querySelector('.emp-name').innerText.toLowerCase();
-                const email = item.querySelector('.emp-email').innerText.toLowerCase();
-
-                item.style.display =
-                    name.includes(term) || email.includes(term)
-                        ? 'flex'
-                        : 'none';
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const selected = document.querySelector('input[name="EmployeeId"]:checked');
-            if (selected) {
-                const label = selected.closest('.emp-item');
-                if (label) {
-                    label.classList.add('checked');
-                }
-            }
-        });
     </script>
 }

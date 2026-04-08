@@ -35,6 +35,7 @@
     gap:12px;
 }
 
+/* Info banner */
 
 .info-banner{
     background: #f3ebe8;
@@ -62,6 +63,7 @@
     color:var(--cor-castanho);
 }
 
+/* Layout */
 
 .optimise-grid{
     display:grid;
@@ -74,6 +76,7 @@
     .optimise-grid{grid-template-columns:1fr;}
 }
 
+/* Panels */
 
 .panel{
     background:var(--surface);
@@ -97,6 +100,7 @@
     color:var(--cor-castanho);
 }
 
+/* Stops */
 
 .opt-stop{
     display:flex;
@@ -147,6 +151,7 @@
     margin-top:2px;
 }
 
+/* Fill indicators */
 
 .fill-pill{
     font-size:.75rem;
@@ -180,6 +185,7 @@
     border:1px solid #f1b0b7;
 }
 
+/* Sidebar summary */
 
 .summary-row{
     display:flex;
@@ -203,6 +209,7 @@
     font-weight:600;
 }
 
+/* Buttons */
 
 .btn-apply{
     width:100%;
@@ -241,6 +248,8 @@
     border-color:var(--cor-castanho);
 }
 
+/* Arrows */
+
 .arrow-indicator{
     display:flex;
     align-items:center;
@@ -255,7 +264,7 @@
 <div class="page-container">
     <div style="margin-bottom:16px;">
         <a asp-action="Details" asp-route-id="@route?.Id"
-           style="text-decoration:none;color: white;background: rgb(141, 110, 99);border-radius: 8px;border: 1px solid rgba(255, 255, 255, .1);gap: 6px;padding: 7px 14px;font-size: .82rem;text-decoration: none;">
+           style="color:var(--muted);text-decoration:none;font-size:.85rem;">
             <i class="fa-solid fa-chevron-left"></i> Voltar à Rota
         </a>
     </div>
@@ -275,14 +284,14 @@
     <div class="info-banner">
         <i class="fa-solid fa-circle-info"></i>
         <p>
-            Os contentores com um nível de enchimento ≥ 80% serão priorizados
+            Os contentores com um nivel de enchimento ≥ 80% serão priorizados
             e a distância total de percurso será calculado para ser minimizado. 
             Confirme a ordem antes de aplicar.
         </p>
     </div>
 
     <div class="optimise-grid">
-        <!-- lista de paragens -->
+        <!-- Stops list -->
         <div class="panel">
             <div class="panel-title">
                 <i class="fa-solid fa-list-ol"></i>
@@ -326,6 +335,7 @@
             }
         </div>
 
+        <!-- Sidebar summary + apply -->
         <div>
             <div class="panel">
                 <div class="panel-title" style="margin-bottom:14px;">
@@ -353,6 +363,7 @@
                     </span>
                 </div>
 
+                <!-- Apply form -->
                 <form asp-action="ApplyOptimisation" method="post" id="apply-optimisation-form">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="routeId" value="@route?.Id" />
@@ -380,7 +391,6 @@
             title: 'Aplicar Optimização?',
             text: "A nova ordem de paragens será guardada nesta rota.",
             icon: 'question',
-            iconColor: 'rgb(141, 110, 99)',
             showCancelButton: true,
             confirmButtonColor: 'rgb(141, 110, 99)',
             cancelButtonColor: '#777',

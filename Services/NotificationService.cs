@@ -45,20 +45,5 @@ namespace EcoCityWaste.Services
 
             await _context.SaveChangesAsync();
         }
-
-        // Método genérico para enviar notificações para qualquer utilizador
-        public async Task CreateNotificationAsync(string message, int userId)
-        {
-            var notification = new Notification
-            {
-                Message = message,
-                UserId = userId,
-                CreatedAt = DateTime.Now,
-                IsRead = false
-            };
-
-            _context.Notifications.Add(notification);
-            await _context.SaveChangesAsync();
-        }
     }
 }

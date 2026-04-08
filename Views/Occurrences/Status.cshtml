@@ -33,13 +33,6 @@
     }
     else
     {
-        <div style="background-color: #f0ebe3; border-left: 4px solid #c8a882; border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
-            <i class="fa-solid fa-circle-info" style="color: #8d6e63; font-size: 1.1rem;"></i>
-            <span style="color: #6d4c41; font-size: 0.9rem;">
-                Ocorrências <strong>resolvidas ou rejeitadas</strong> são automaticamente ocultadas após <strong>@ViewBag.HideAfterDays dias</strong>.
-            </span>
-        </div>
-
         <div style="display: flex; flex-direction: column; gap: 15px;">
             @foreach (var item in Model)
             {
@@ -84,15 +77,6 @@
                         <small style="color: #999; font-weight: 500;">
                             <i class="fa-regular fa-calendar me-1"></i> @item.ReportDate.ToString("dd/MM/yyyy 'às' HH:mm")
                         </small>
-
-                        @if (item.LastUpdatedAt.HasValue)
-                        {
-                            <small style="color: #999; font-weight: 500; display: block; margin-top: 4px;">
-                                <i class="fa-solid fa-clock-rotate-left me-1"></i>
-                                Atualizado em @item.LastUpdatedAt.Value.ToString("dd/MM/yyyy 'às' HH:mm")
-                            </small>
-                        }
-
                     </div>
                     <h5 style="margin: 0 0 8px 0; color: #333; font-weight: 600; font-size: 1.1rem;">@item.OccurrenceType</h5>
                     <p style="margin: 0; color: #666; font-size: 0.95rem; line-height: 1.4;">@item.Description</p>

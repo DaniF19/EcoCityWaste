@@ -158,9 +158,6 @@ namespace EcoCityWaste.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("OccurrenceType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
