@@ -1,7 +1,9 @@
+using EcoCityWaste.Data;
 using EcoCityWaste.Models.ViewModels;
 using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcoCityWaste.Controllers
 {
@@ -9,10 +11,12 @@ namespace EcoCityWaste.Controllers
     public class RoutesController : Controller
     {
         private readonly IRouteService _routeService;
+        private readonly AppDbContext _context;
 
-        public RoutesController(IRouteService routeService)
+        public RoutesController(IRouteService routeService, AppDbContext context)
         {
             _routeService = routeService;
+            _context = context;
         }
 
         // listar rotas
@@ -233,5 +237,66 @@ namespace EcoCityWaste.Controllers
 
             return View(route);
         }
+
+        // metodo que calcula a distancia total da rota com base na ordem dos contentores
+        private async Task<double?> RecalcDistanceAsync(int routeId, List<int> orderedIds)
+        {
+            var containers = await _context.Contentores
+                .Where(c => orderedIds.Contains(c.Id))
+                .ToDictionaryAsync(c => c.Id);
+
+            double total = 0;
+
+            // percorrer a lista de contentores na ordem definida pelo user
+            // calcula distancia entre pares consecutivos
+            for (int i = 0; i < orderedIds.Count - 1; i++)
+            {
+                // tenta obter os dois contentores consecutivos
+                if (containers.TryGetValue(orderedIds[i], out var a) &&
+                    containers.TryGetValue(orderedIds[i + 1], out var b))
+                {
+                    // soma a distancia entre os dois pontos
+                    total += Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude);
+                }
+            }
+            // arredonda a distancia total 2 casas dec
+            return Math.Round(total, 2);
+        }
+
+        // metodo que calcula a distancia entre dois pontos lat/long
+        private static double Haversine(double lat1, double lon1, double lat2, double lon2)
+        {
+            const double R = 6371.0; // raio da terra em km
+
+            // diferencas de lat/long
+            double dLat = (lat2 - lat1) * Math.PI / 180;
+            double dLon = (lon2 - lon1) * Math.PI / 180;
+
+            // formula de haversine
+            // 'a' representa a componente intermedia do calculo 
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2)
+                     + Math.Cos(lat1 * Math.PI / 180) * Math.Cos(lat2 * Math.PI / 180)
+                     * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            // retorna distancia entre os dois pontos
+            return R * 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        }
+
+
+
+
+        // Vista da simulação
+        public async Task<IActionResult> Simulate(int id)
+        {
+            var route = await _context.Routes
+                .Include(r => r.RouteContainers)
+                    .ThenInclude(rc => rc.Container)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (route == null) return NotFound();
+
+            return View(route);
+        }
+
     }
 }

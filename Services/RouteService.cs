@@ -170,7 +170,9 @@ namespace EcoCityWaste.Services
                 Message = $"Foi-lhe atribuída a rota {route.Code}.",
                 UserId = employee.Id,
                 CreatedAt = DateTime.Now,
-                IsRead = false
+                IsRead = false,
+                LinkUrl = $"/Routes/Details/{route.Id}",
+                NotificationType = "route"
             });
 
             await _context.SaveChangesAsync();

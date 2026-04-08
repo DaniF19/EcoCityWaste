@@ -4,6 +4,7 @@ using EcoCityWaste.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
+using EcoCityWaste.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,8 @@ builder.Services.AddScoped<ContainerHistoryService>();
 builder.Services.AddScoped<GeocodingService>();
 
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -80,6 +83,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<SimulationHub>("/simulationHub");
 
 // app.MapStaticAssets();
 

@@ -25,9 +25,14 @@
 <div class="container">
     <div class="eco-page-container">
 
-        <!-- HEADER -->
-        <div class="eco-header eco-header--actions">
-            <h1 style="margin: 0;">Monitorização de Contentores</h1>
+        <div class="eco-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+            <h1 style="margin: 0; display: flex; align-items: center;">
+                Monitorização de Contentores
+                <span title="Acompanhe em tempo real o estado físico e o nível de enchimento de todos os contentores do município. Os dados são atualizados automaticamente a cada 30 segundos pelos sensores." style="cursor: help; color: #bcaaa4; margin-left: 15px; font-size: 1.5rem;">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
+            </h1>
 
             <a asp-controller="Containers" asp-action="List" class="btn-vista-gestao">
                 <i class="fa-solid fa-list-check"></i> Vista de Gestão
@@ -64,175 +69,145 @@
 
         <!-- FILTROS -->
         <form asp-action="Index" method="get" class="eco-filter-form">
-            <input type="hidden" name="sortOrder" value="@Model.SortOrder" />
-            <input type="text" name="searchString" value="@Model.Search"
-                   class="eco-input eco-input--search" placeholder="Pesquisar por Código ou Localização..." />
+            <div style="flex: 2; min-width: 250px; position: relative; display: flex; align-items: center;">
+                <input type="text" name="searchString" value="@ViewBag.CurrentSearch" class="eco-input" placeholder="Pesquisar por Código ou Localização..." style="width: 100%;" />
+                <span title="Pode escrever parte do código (ex: CNT) ou o nome da rua para encontrar rapidamente o que procura." style="cursor: help; color: #bcaaa4; position: absolute; right: 15px; font-size: 1.1rem;">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
+            </div>
 
-            <select name="statusFilter" class="eco-input eco-input--select">
-                <option value="" selected="@(string.IsNullOrEmpty(Model.StatusFilter))">Todos os Contentores</option>
+            <div style="position: relative; display: flex; align-items: center;">
+                <select name="statusFilter" class="eco-input" onchange="this.form.submit()" style="padding-right: 50px;">
+                    <option value="">Todos os Contentores</option>
 
-                <optgroup label="Estado Físico">
-                    <option value="Bom" selected="@(Model.StatusFilter == "Bom")">Bom</option>
-                    <option value="Avariado" selected="@(Model.StatusFilter == "Avariado")">Avariado</option>
-                    <option value="Manutenção" selected="@(Model.StatusFilter == "Manutenção")">Em Manutenção</option>
-                </optgroup>
+                    <optgroup label="Estado Físico">
+                        <option value="Bom" selected="@(ViewBag.CurrentStatus == "Bom")">Bom</option>
+                        <option value="Avariado" selected="@(ViewBag.CurrentStatus == "Avariado")">Avariado</option>
+                        <option value="Manutenção" selected="@(ViewBag.CurrentStatus == "Manutenção")">Em Manutenção</option>
+                    </optgroup>
 
-                <optgroup label="Tipo de Resíduo">
-                    <option value="Plástico" selected="@(Model.StatusFilter == "Plástico")">Plástico</option>
-                    <option value="Papel" selected="@(Model.StatusFilter == "Papel")">Papel / Cartão</option>
-                    <option value="Vidro" selected="@(Model.StatusFilter == "Vidro")">Vidro</option>
-                    <option value="Indiferenciado" selected="@(Model.StatusFilter == "Indiferenciado")">Indiferenciado</option>
-                </optgroup>
+                    <optgroup label="Tipo de Resíduo">
+                        <option value="Plástico" selected="@(ViewBag.CurrentStatus == "Plástico")">Plástico</option>
+                        <option value="Papel" selected="@(ViewBag.CurrentStatus == "Papel")">Papel / Cartão</option>
+                        <option value="Vidro" selected="@(ViewBag.CurrentStatus == "Vidro")">Vidro</option>
+                        <option value="Indiferenciado" selected="@(ViewBag.CurrentStatus == "Indiferenciado")">Indiferenciado</option>
+                    </optgroup>
 
-                <optgroup label="Nível de Enchimento">
-                    <option value="Critico" selected="@(Model.StatusFilter == "Critico")">Nível Crítico (>= 90%)</option>
-                    <option value="Medio" selected="@(Model.StatusFilter == "Medio")">Nível Médio (50-89%)</option>
-                    <option value="Baixo" selected="@(Model.StatusFilter == "Baixo")">Nível Baixo (< 50%)</option>
-                </optgroup>
+                    <optgroup label="Nível de Enchimento">
+                        <option value="Critico" selected="@(ViewBag.CurrentStatus == "Critico")">Nível Crítico (>= 90%)</option>
+                        <option value="Medio" selected="@(ViewBag.CurrentStatus == "Medio")">Nível Médio (50-89%)</option>
+                        <option value="Baixo" selected="@(ViewBag.CurrentStatus == "Baixo")">Nível Baixo (< 50%)</option>
+                    </optgroup>
 
-                <optgroup label="Disponibilidade">
-                    <option value="Ativos" selected="@(Model.StatusFilter == "Ativos")">Apenas Ativos</option>
-                    <option value="Inativos" selected="@(Model.StatusFilter == "Inativos")">Apenas Inativos</option>
-                </optgroup>
-            </select>
+                    <optgroup label="Disponibilidade">
+                        <option value="Ativos" selected="@(ViewBag.CurrentStatus == "Ativos")">Apenas Ativos</option>
+                        <option value="Inativos" selected="@(ViewBag.CurrentStatus == "Inativos")">Apenas Inativos</option>
+                    </optgroup>
+                </select>
+            </div>
 
 
             <button type="submit" class="btn-eco" style="margin: 0;">Filtrar</button>
             <a asp-action="Index" class="btn-eco btn-eco-outline" style="margin: 0;">Limpar</a>
         </form>
 
+        <div class="table-responsive" style="width: 100%; overflow-x: auto;">
+            <table class="eco-table" style="min-width: 900px;">
+                <thead>
+                    <tr>
+                        <th>
+                            <a asp-action="Index" asp-route-sortOrder="@ViewBag.CodeSortParam" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-statusFilter="@ViewBag.CurrentStatus" class="sort-link">
+                                Código <i class="fa-solid fa-sort"></i>
+                            </a>
+                        </th>
+                        <th><span class="sort-link" style="cursor: default; color: white;">Localização</span></th>
+                        <th><span class="sort-link" style="cursor: default; color: white;">Tipo</span></th>
+                        <th>
+                            <a asp-action="Index" asp-route-sortOrder="@ViewBag.StatusSortParam" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-statusFilter="@ViewBag.CurrentStatus" class="sort-link" title="Indica a integridade estrutural do contentor (se está bom, em manutenção, etc.).">
+                                Estado <i class="fa-solid fa-sort"></i>
+                                <i class="fa-solid fa-circle-info ms-1" style="font-size: 0.85rem; color: var(--cor-bege);"></i>
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index" asp-route-sortOrder="@ViewBag.LevelSortParam" asp-route-searchString="@ViewBag.CurrentSearch" asp-route-statusFilter="@ViewBag.CurrentStatus" class="sort-link" title="Métrica lida automaticamente pelos sensores ultrassónicos dentro do contentor. Quando atinge 90%, o sistema alerta para a necessidade de recolha.">
+                                Nível <i class="fa-solid fa-sort"></i>
+                                <i class="fa-solid fa-circle-info ms-1" style="font-size: 0.85rem; color: var(--cor-bege);"></i>
+                            </a>
+                        </th>
+                        <th><span class="sort-link" style="cursor: default; color: white;">Instalação</span></th>
+                        <th><span class="sort-link" style="cursor: default; color: white;">Última Atualização</span></th>
+                        <th>
+                            <span class="sort-link" style="cursor: default; color: white;" title="Contentores inativos não fazem parte do planeamento das rotas de recolha diárias.">
+                                Ativo
+                                <i class="fa-solid fa-circle-info ms-1" style="font-size: 0.85rem; color: var(--cor-bege);"></i>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="font-weight: 600; color: var(--cor-castanho); white-space: nowrap;">@item.Code</td>
+                                <td>@item.Location</td>
+                                <td style="white-space: nowrap;">
+                                    <i class="fa-solid @GetTypeIcon(item.Type)" style="color: var(--cor-castanho); margin-right: 8px;"></i>
+                                    @item.Type
+                                </td>
+                                <td style="font-weight: 600; white-space: nowrap; color: @(
+                                    item.Status == Container.ContainerStatus.Broken ? "var(--cor-aviso)" :
+                                    item.Status == Container.ContainerStatus.Maintenance ? "var(--cor-manutencao)" :
+                                    "var(--cor-sucesso)"); ">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
 
-        <!-- TABELA -->
-        <table class="eco-table">
-           @{
-                var codeSort   = Model.SortOrder == "code_desc"   ? ""            : "code_desc";
-                var levelSort  = Model.SortOrder == "Level"       ? "level_desc"  : "Level";
-                var statusSort = Model.SortOrder == "Status"      ? "status_desc" : "Status";
-                var dateSort   = Model.SortOrder == "Date"        ? "date_desc"   : "Date";
-            }
-
-            <thead>
-                <tr>
-                    <th>
-                        <a class="sort-link"
-                           asp-action="Index"
-                           asp-route-sortOrder="@codeSort"
-                           asp-route-searchString="@Model.Search"
-                           asp-route-statusFilter="@Model.StatusFilter">
-                            Código <i class="fa-solid fa-sort"></i>
-                        </a>
-                    </th>
-
-                    <th>
-                        <span class="sort-link" style="cursor: default; color: white;">Localização</span>
-                    </th>
-
-                    <th>
-                        <span class="sort-link" style="cursor: default; color: white;">Tipo</span>
-                    </th>
-
-                    <th>
-                        <a class="sort-link"
-                           asp-action="Index"
-                           asp-route-sortOrder="@statusSort"
-                           asp-route-searchString="@Model.Search"
-                           asp-route-statusFilter="@Model.StatusFilter">
-                            Estado <i class="fa-solid fa-sort"></i>
-                        </a>
-                    </th>
-
-                    <th>
-                        <a class="sort-link"
-                           asp-action="Index"
-                           asp-route-sortOrder="@levelSort"
-                           asp-route-searchString="@Model.Search"
-                           asp-route-statusFilter="@Model.StatusFilter">
-                            Nível <i class="fa-solid fa-sort"></i>
-                        </a>
-                    </th>
-
-                    <th>
-                        <a class="sort-link"
-                           asp-action="Index"
-                           asp-route-sortOrder="@dateSort"
-                           asp-route-searchString="@Model.Search"
-                           asp-route-statusFilter="@Model.StatusFilter">
-                            Instalação <i class="fa-solid fa-sort"></i>
-                        </a>
-                    </th>
-
-                    <th>
-                        <span class="sort-link" style="cursor: default; color: white;">Última Atualização</span>
-                    </th>
-
-                    <th>
-                        <span class="sort-link" style="cursor: default; color: white;">Ativo</span>
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @if (Model?.Containers != null && Model.Containers.Any())
-                {
-                    foreach (var item in Model.Containers)
+                                <td style="min-width: 120px;">
+                                    @if (item.FillLevel >= 90)
+                                    {
+                                        <div class="pulse-alert" title="Atenção! Nível Crítico - O contentor necessita de esvaziamento imediato."></div>
+                                    }
+                                    <div class="fill-progress-bg" style="display: inline-block; width: 80px; vertical-align: middle;" title="Capacidade atual: @item.FillLevel%">
+                                        <div class="fill-progress-bar"
+                                             style="width: @item.FillLevel%;
+                                    background-color: @(item.FillLevel >= 90 ? "var(--cor-vermelho-erro)" :
+                                                                                                                                                 item.FillLevel >= 60 ? "var(--cor-aviso)" :
+                                                                                                                                                 "var(--cor-sucesso)");">
+                                        </div>
+                                    </div>
+                                    <span style="font-size: 0.85rem; font-weight: bold; color: #555; margin-left: 5px;">@item.FillLevel%</span>
+                                </td>
+                                <td style="white-space: nowrap;">@item.InstallationDate.ToString("dd/MM/yyyy")</td>
+                                <td style="white-space: nowrap;">
+                                    @item.LastUpdated.ToString("dd/MM/yyyy")<br>
+                                    <small style="color: #888;">@item.LastUpdated.ToString("HH:mm")</small>
+                                </td>
+                                <td style="text-align: center;">
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge-status badge-active" title="Disponível para rotas e recolha.">Sim</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-status badge-inactive" title="Retirado temporariamente do sistema.">Não</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td class="eco-strong">@item.Code</td>
-                            <td>@item.Location</td>
-
-                            <td>
-                                <i class="fa-solid @GetTypeIcon(item.Type)" style="color: var(--cor-castanho); margin-right: 8px;"></i>
-                                @item.Type
-                            </td>
-
-                            <td class="eco-strong" style="color:@(
-                                item.Status == Container.ContainerStatus.Broken ? "var(--cor-aviso)" :
-                                item.Status == Container.ContainerStatus.Maintenance ? "var(--cor-manutencao)" :
-                                "var(--cor-sucesso)")">
-                                @item.Status.GetDisplayName()
-                            </td>
-
-                            <td style="min-width: 120px;">
-                                @if (item.FillLevel >= 90)
-                                {
-                                    <div class="pulse-alert" title="Nível Crítico!"></div>
-                                }
-
-                                <div class="fill-progress-bg">
-                                    <div class="fill-progress-bar"
-                                         style="width:@item.FillLevel%;
-                                                background-color:@(
-                                                    item.FillLevel >= 90 ? "var(--cor-vermelho-erro)" :
-                                                    item.FillLevel >= 60 ? "var(--cor-aviso)" :
-                                                    "var(--cor-sucesso)")">
-                                    </div>
-                                </div>
-
-                                <span class="eco-level">@item.FillLevel%</span>
-                            </td>
-
-                            <td>@item.InstallationDate.ToString("dd/MM/yyyy")</td>
-                            <td>@item.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
-
-                            <td>
-                                <span class="badge-status @(item.IsActive ? "badge-active" : "badge-inactive")">
-                                    @(item.IsActive ? "Sim" : "Não")
-                                </span>
+                            <td colspan="8" style="text-align: center; padding: 40px 20px; color: #777; font-size: 1.1rem;">
+                                <i class="fa-solid fa-inbox" style="font-size: 2rem; color: #ccc; margin-bottom: 10px; display: block;"></i>
+                                Não existem contentores que correspondam a essa pesquisa ou não há dados disponíveis.
                             </td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="8" class="eco-empty">
-                            <i class="fa-solid fa-inbox"></i>
-                            Não existem contentores que correspondam à pesquisa.
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </div>
@@ -243,29 +218,13 @@
 
 
 <style>
-    @@keyframes pulse-red {
-        0% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(169, 68, 66, 0.7);
-        }
-
-        70% {
-            transform: scale(1);
-            box-shadow: 0 0 0 10px rgba(169, 68, 66, 0);
-        }
-
-        100% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(169, 68, 66, 0);
-        }
-    }
 
     .btn-vista-gestao {
-        background-color: #8d6e63; /* O teu castanho característico */
-        color: white !important; /* Força a cor do texto a ser branca em vez de azul */
+        background-color: #8d6e63; 
+        color: white !important;
         padding: 10px 24px;
-        border-radius: 50px; /* Deixa-o redondinho como o botão Limpar */
-        text-decoration: none !important; /* Remove o sublinhado chato */
+        border-radius: 50px;
+        text-decoration: none !important; /* Remove o sublinhado */
         font-weight: 600;
         font-size: 0.95rem;
         display: inline-flex;
@@ -275,12 +234,12 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .btn-vista-gestao:hover {
-        background-color: #795c4d; /* Fica ligeiramente mais escuro quando passas o rato */
-        transform: translateY(-2px); /* Dá um efeitinho de levantar */
-        box-shadow: 0 4px 8px rgba(141, 110, 99, 0.3);
-        color: white !important;
-    }
+        .btn-vista-gestao:hover {
+            background-color: #795c4d;
+            transform: translateY(-2px); /* Dá um efeitinho de levantar */
+            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.3);
+            color: white !important;
+        }
 
     .fill-progress-bg {
         width: 100px;
@@ -441,7 +400,7 @@
         background-repeat: no-repeat;
         background-position: right 15px top 50%;
         background-size: 12px auto;
-        padding-right: 40px; 
+        padding-right: 40px;
     }
     .btn-eco {
         background-color: var(--cor-bege);

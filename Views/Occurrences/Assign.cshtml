@@ -9,6 +9,7 @@
 }
 
 <div class="page-container">
+    <div class="card-box" style="max-width: 600px; margin: 0 auto; padding: 40px;">
 
     <div class="card-box" style="max-width: 900px;">
 
@@ -18,23 +19,30 @@
             <span style="margin:0; font-size:1.5rem; font-weight:bold; color:#8d6e63;">
                 Atribuir Ocorrência
             </span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #f0ebe3; padding-bottom: 20px;">
+            <h2 style="color: #8d6e63; font-weight: bold; margin: 0; font-size: 1.6rem; display: flex; align-items: center;">
+                Atribuir Tarefa
+                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Ao atribuir uma tarefa, a data e hora são registadas e o estado passa a 'Em Análise'." style="cursor: help; color: #bcaaa4; margin-left: 12px; font-size: 1.2rem;">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
+            </h2>
 
             <a asp-controller="Admin" asp-action="Dashboard" class="btn-vista-analitica">
                 <i class="fa-solid fa-arrow-left"></i> Voltar
             </a>
-
         </div>
 
         @if (TempData["Success"] != null)
         {
-            <div class="alert alert-success" style="margin-bottom:20px;">
-                <i class="fa-solid fa-circle-check"></i> @TempData["Success"]
+            <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;">
+                <i class="fa-solid fa-circle-check me-2"></i> @TempData["Success"]
             </div>
         }
+
         @if (TempData["Error"] != null)
         {
-            <div class="alert alert-danger" style="margin-bottom:20px;">
-                <i class="fa-solid fa-circle-exclamation"></i> @TempData["Error"]
+            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> @TempData["Error"]
             </div>
         }
 
@@ -89,18 +97,62 @@
             <div id="emp-details"
                  class="card p-3 shadow-sm"
                  style="display:none; margin-bottom:25px; border-radius:10px; background:#f9f5f3;">
+            <div style="margin-bottom: 25px;">
+                <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center;">
+                    1. Ocorrência Pendente
+                    <span data-bs-toggle="tooltip" title="Apenas são listadas ocorrências que ainda não têm responsável associado." style="cursor: help; color: #bcaaa4; margin-left: 8px;">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </span>
+                </label>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-clipboard-list input-icon"></i>
+                    <select asp-for="SelectedOccurrenceId" class="custom-select form-select">
+                        <option value="">Selecione a anomalia a resolver...</option>
+                        @if (Model.Occurrences != null)
+                        {
+                            foreach (var occ in Model.Occurrences)
+                            {
+                                <option value="@occ.Id">[@occ.ContainerCode] @occ.OccurrenceType - @occ.ReportDate.ToString("dd/MM")</option>
+                            }
+                        }
+                    </select>
+                </div>
             </div>
 
-            <button type="submit"
-                    class="btn-primary"
-                    style="padding:10px 24px; font-size:1rem; border-radius:50px; display:inline-flex; align-items:center; gap:8px;">
-                <i class="fa-solid fa-user-check"></i> Atribuir
-            </button>
+            <div style="margin-bottom: 35px;">
+                <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center;">
+                    2. Escolher Funcionário
+                </label>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-user-gear input-icon"></i>
+                    <select asp-for="SelectedEmployeeId" class="custom-select form-select">
+                        <option value="">Delegar tarefa a...</option>
+                        @if (Model.Employees != null)
+                        {
+                            foreach (var emp in Model.Employees)
+                            {
+                                int count = Model.EmployeeOccurrenceCounts != null && Model.EmployeeOccurrenceCounts.ContainsKey(emp.Id)
+                                ? Model.EmployeeOccurrenceCounts[emp.Id] : 0;
+
+                                string carga = count == 0 ? "✅ Livre" : $"⚠️ {count} tarefas ativas";
+
+                                <option value="@emp.Id">@emp.Username (@carga)</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <button type="submit" class="btn-primary" style="padding: 12px 30px; font-size: 1rem; border-radius: 50px; border: none; width: 100%; display: flex; justify-content: center; align-items: center;">
+                    <i class="fa-solid fa-paper-plane me-2"></i> Confirmar Atribuição
+                </button>
+            </div>
 
         </form>
-
     </div>
-
 </div>
 
 <script>
@@ -194,16 +246,80 @@
 </script>
 
 <style>
+    /* Botão Voltar */
+    .btn-vista-analitica {
+        background-color: #e4d4b8;
+        color: #795c4d !important;
+        padding: 8px 20px;
+        border-radius: 50px;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid #e4d4b8;
+    }
+
+        .btn-vista-analitica:hover {
+            background-color: #d6c3a3;
+            border-color: #d6c3a3;
+            transform: translateY(-2px);
+        }
+
+    /* Botão Confirmar */
     .btn-primary {
         background-color: #8d6e63;
-        color: white !important;
-        border: none;
+        color: white;
         transition: all 0.3s ease;
     }
 
-    .btn-primary:hover {
-        background-color: #795c4d;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
+        .btn-primary:hover {
+            background-color: #795c4d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+    .input-group {
+        position: relative;
+        width: 100%;
     }
+
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .custom-select {
+        width: 100%;
+        padding: 0 45px 0 50px !important; /* Icone à esquerda e a seta à direita */
+        border-radius: 50px !important;
+        border: 1px solid #ccc !important;
+        font-size: 1rem !important;
+        height: 50px !important;
+        outline: none;
+        transition: 0.3s;
+        background-color: white !important;
+        color: #555 !important;
+        font-weight: 500 !important;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238d6e63'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: calc(100% - 15px) center !important;
+        background-size: 30px !important;
+        cursor: pointer;
+    }
+
+        .custom-select:focus {
+            border-color: #8d6e63 !important;
+            box-shadow: 0 0 8px rgba(141, 110, 99, 0.2) !important;
+        }
 </style>

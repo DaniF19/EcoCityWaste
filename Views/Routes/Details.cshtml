@@ -471,12 +471,10 @@
             </div>
         }
 
-      
         <a asp-action="Index" class="back-link">
             <i class="fa-solid fa-chevron-left"></i> Rotas
         </a>
 
-  
         @{
             var (spClass, spIcon, spLabel) = Model.Status switch
             {
@@ -490,9 +488,9 @@
 
         <div class="d-header">
             <div class="d-header-left">
-                <div style="margin-bottom:5px;">
+                <div style="margin-bottom:5px; display: flex; align-items: center;">
                     <span class="code-chip">@Model.Code</span>
-                    <span class="status-pill @spClass">
+                    <span class="status-pill @spClass" data-bs-toggle="tooltip" title="O estado atualiza para 'Em Curso' quando atribuído a um motorista.">
                         <i class="fa-solid @spIcon" style="margin-right:3px;"></i>@spLabel
                     </span>
                 </div>
@@ -504,15 +502,16 @@
             </div>
         </div>
 
-   
         <div class="d-grid">
-
-         
             <div>
                 <div class="panel">
-                    <div class="panel-hd">
-                        <i class="fa-solid fa-list-ol"></i>
-                        Paragens &nbsp;<span style="font-weight:400;color:var(--mu);">(@orderedStops.Count)</span>
+                    <div class="panel-hd" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <i class="fa-solid fa-list-ol"></i> Paragens <span style="font-weight:400;color:var(--mu);">(@orderedStops.Count)</span>
+                        </div>
+                        <span data-bs-toggle="tooltip" title="A lista mostra a ordem exata que o motorista deve seguir para otimizar o tempo e combustível." style="cursor: help; color: #bcaaa4; font-size: 1.1rem;">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </span>
                     </div>
 
                     @if (!orderedStops.Any())
@@ -531,11 +530,11 @@
                             var barColor = c.FillLevel >= 80 ? "var(--er)" : c.FillLevel >= 50 ? "var(--wa)" : "var(--ok)";
                             var typeIcon = c.Type switch
                             {
-                                        "Plástico" => "fa-bottle-water",
-                                        "Vidro" => "fa-wine-glass-empty",
-                                        "Papel" => "fa-box-archive",
-                                        "Orgânico" => "fa-apple-whole",
-                                        "Indiferenciado" => "fa-trash-can",
+                                "Plástico" => "fa-bottle-water",
+                                "Vidro" => "fa-wine-glass-empty",
+                                "Papel" => "fa-box-archive",
+                                "Orgânico" => "fa-apple-whole",
+                                "Indiferenciado" => "fa-trash-can",
                                 _ => "fa-trash-can"
                             };
 
@@ -544,12 +543,10 @@
                                 <div class="stop-body">
                                     <div class="stop-top">
                                         <span class="stop-code">@c.Code</span>
-                                        <span class="stop-type">
-                                            <i class="fa-solid @typeIcon"></i> @c.Type
-                                        </span>
+                                        <span class="stop-type"><i class="fa-solid @typeIcon"></i> @c.Type</span>
                                     </div>
                                     <div class="stop-loc">@c.Location</div>
-                                    <div class="bar-wrap">
+                                    <div class="bar-wrap" data-bs-toggle="tooltip" title="Ocupação: @c.FillLevel%">
                                         <div class="bar-fill" style="width:@c.FillLevel%;background:@barColor;"></div>
                                     </div>
                                 </div>
@@ -561,12 +558,8 @@
             </div>
 
             <div>
-
                 <div class="panel">
-                    <div class="panel-hd">
-                        <i class="fa-solid fa-circle-info"></i> Detalhes
-                    </div>
-
+                    <div class="panel-hd"><i class="fa-solid fa-circle-info"></i> Detalhes</div>
                     <div class="info-row">
                         <span class="info-label">Criada por</span>
                         <span class="info-value">@Model.CreatedBy</span>
@@ -596,39 +589,36 @@
                 </div>
 
                 <div class="panel">
-                    <div class="panel-hd">
-                        <i class="fa-solid fa-bolt"></i> Ações
-                    </div>
+                    <div class="panel-hd"><i class="fa-solid fa-bolt"></i> Ações</div>
                     <div class="actions-grid">
-
-                        <a asp-action="Map" asp-route-id="@Model.Id" class="act-btn">
+                        <a asp-action="Map" asp-route-id="@Model.Id" class="act-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="Visualiza os contentores num mapa interativo com cálculo de distância.">
                             <i class="fa-solid fa-map"></i> Ver no Mapa
                         </a>
 
                         @if (isAdmin && Model.Status != EcoCityWaste.Models.Route.RouteStatus.Completed)
                         {
                             <div class="act-divider"></div>
-
-                            <a asp-action="Optimise" asp-route-id="@Model.Id" class="act-btn">
+                            <a asp-action="Optimise" asp-route-id="@Model.Id" class="act-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="Reordena os contentores utilizando o algoritmo do caixeiro-viajante para a rota mais rápida.">
                                 <i class="fa-solid fa-wand-magic-sparkles"></i> Optimizar Rota
                             </a>
                             <a asp-action="Assign" asp-route-id="@Model.Id" class="act-btn">
-                                <i class="fa-solid fa-user-plus"></i> Atribuir Funcionário
+                                <i class="fa-solid fa-user-plus"></i> Atribuir Motorista
                             </a>
                             <a asp-action="Edit" asp-route-id="@Model.Id" class="act-btn">
                                 <i class="fa-solid fa-pen"></i> Editar Rota
+                            </a>
+                            <a asp-action="Simulate" asp-route-id="@Model.Id" class="act-btn">
+                                <i class="fa-solid fa-play"></i> Simular Rota
                             </a>
                         }
 
                         @if (Model.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress)
                         {
                             <div class="act-divider"></div>
-
                             <form asp-action="Complete" asp-route-id="@Model.Id" method="post" id="complete-form">
                                 @Html.AntiForgeryToken()
-                                <button type="button" class="act-btn primary" onclick="confirmComplete()" style="width:100%;">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Marcar como Concluída
+                                <button type="button" class="act-btn primary" onclick="confirmComplete()" style="width:100%;" data-bs-toggle="tooltip" data-bs-placement="left" title="Termina a rota e liberta o motorista para novas atribuições.">
+                                    <i class="fa-solid fa-circle-check"></i> Marcar como Concluída
                                 </button>
                             </form>
                         }
@@ -637,19 +627,15 @@
                         {
                             <form asp-action="Delete" asp-route-id="@Model.Id" method="post" id="delete-form-detail">
                                 @Html.AntiForgeryToken()
-                                <button type="button" class="act-btn-delete" onclick="confirmDeleteDetail()" 
-                                        style="width:100%; color:#a94442; border-color:#f5b7b1;">
+                                <button type="button" class="act-btn-delete" onclick="confirmDeleteDetail()" style="width:100%; color:#a94442; border-color:#f5b7b1; margin-top: 10px;">
                                     <i class="fa-solid fa-trash" style="color:#a94442;"></i> Eliminar Rota
                                 </button>
                             </form>
                         }
-
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 
