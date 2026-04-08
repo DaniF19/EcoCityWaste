@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11527.330 d18.3
+VisualStudioVersion = 18.3.11527.330
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcoCityWasteProjetoESA.Tests", "EcoCityWasteProjetoESA.Tests\EcoCityWasteProjetoESA.Tests.csproj", "{FAD1C4DC-E653-475F-BD6A-54285C036FA2}"
 EndProject
