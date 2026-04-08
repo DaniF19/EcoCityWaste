@@ -1,4 +1,6 @@
-﻿@model EcoCityWaste.Dtos.UpdateContainerStatusDto
+﻿@using EcoCityWaste.Helpers
+@model EcoCityWaste.Dtos.UpdateContainerStatusDto
+
 @{
     ViewData["Title"] = "Atualizar Estado";
 }
@@ -7,46 +9,49 @@
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
 }
 
+@{
+    // Botão voltar baseado na role
+    var isAdmin = User.IsInRole("Admin");
+    var returnUrl = isAdmin
+        ? Url.Action("Dashboard", "Admin")
+        : Url.Action("Dashboard", "Funcionario");
+
+    // Garantir que o estado atual é sempre válido
+    EcoCityWaste.Models.Container.ContainerStatus currentStatus;
+
+    if (!Enum.TryParse<EcoCityWaste.Models.Container.ContainerStatus>(Model.Status, out currentStatus))
+    {
+        // fallback seguro caso venha algo inesperado
+        currentStatus = EcoCityWaste.Models.Container.ContainerStatus.Good;
+    }
+}
+
 <div class="page-container">
     <div class="card-box">
-        <div class="card-title">
-            Atualizar Estado do Contentor
+
+        <div class="card-title"
+             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">
+                Atualizar Estado do Contentor
+            </span>
+
+            <a href="@returnUrl" class="btn-vista-analitica">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
         </div>
 
         <div class="field-label" style="margin-bottom: 20px;">
-            Contentor ID: @Model.Id | Estado atual: <strong>
-                @(Model.Status switch
-                {
-                    "Good" => "Bom",
-                    "Full" => "Cheio",
-                    "Empty" => "Vazio",
-                    "Broken" => "Avariado",
-                    "Maintenance" => "Manutenção",
-                    _ => "Desconhecido"
-                })
-            </strong>
+            Contentor ID: @Model.Id | Estado atual:
+            <strong>@currentStatus.GetDisplayName()</strong>
         </div>
 
         <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
             <input type="hidden" asp-for="Id" />
 
             <label class="field-label">Selecione o novo estado</label>
-            <div class="selection-grid">
-                <label class="selection-item">
-                    <input type="radio" asp-for="Status" value="Full" />
-                    <div class="selection-content">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <span>Cheio</span>
-                    </div>
-                </label>
 
-                <label class="selection-item">
-                    <input type="radio" asp-for="Status" value="Empty" />
-                    <div class="selection-content">
-                        <i class="fa-solid fa-trash"></i>
-                        <span>Vazio</span>
-                    </div>
-                </label>
+            <div class="selection-grid">
 
                 <label class="selection-item">
                     <input type="radio" asp-for="Status" value="Good" />
@@ -71,7 +76,9 @@
                         <span>Manutenção</span>
                     </div>
                 </label>
+
             </div>
+
             <span asp-validation-for="Status" class="field-error"></span>
 
             <button type="submit" class="btn-primary" style="margin-top: 30px;">

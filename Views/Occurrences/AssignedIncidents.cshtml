@@ -112,7 +112,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var occ in Model)
+                    @foreach (var occ in Model.Where(o => o.Status != nameof(OccurrenceStatus.Pendente)))
                     {
                         <tr style="vertical-align: middle;">
                             <td style="white-space: nowrap;">@occ.ContainerCode</td>
@@ -164,6 +164,11 @@
 
 </div>
 
+<!-- ===========================
+     MODAL PARA ATUALIZAR ESTADO
+     =========================== -->
+<div id="statusModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
 
 <style>
 
@@ -183,12 +188,9 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .btn-vista-analitica:hover {
-        background-color: #d6c3a3;
-        border-color: #d6c3a3;
-        color: #795c4d !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
+    // Fechar modal
+    function closeModal() {
+        document.getElementById("statusModal").style.display = "none";
     }
 
     .filter-panel {

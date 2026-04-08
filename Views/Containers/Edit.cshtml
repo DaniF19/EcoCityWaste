@@ -1,4 +1,4 @@
-@model EcoCityWaste.Models.Container
+@model EcoCityWaste.ViewModels.ContainerEditViewModel
 
 @{
     ViewData["Title"] = "Editar Contentor";
@@ -70,28 +70,33 @@
                 <span asp-validation-for="Type" class="field-error" style="color: red; font-size: 0.85rem; display: block; margin-top: 5px;"></span>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <label class="field-label" style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                    Estado Atual
-                    <span data-bs-toggle="tooltip" title="O estado atualiza-se automaticamente se o contentor reportar falha nos sensores, mas pode forçá-lo manualmente aqui." style="cursor: help; color: #bcaaa4; margin-left: 8px; font-size: 1rem;">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </span>
+            <label class="field-label">Estado Atual</label>
+            <div class="selection-grid">
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Good" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-thumbs-up"></i>
+                        <span>Bom</span>
+                    </div>
                 </label>
-                <div class="selection-grid">
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Status" value="Good" />
-                        <div class="selection-content"><i class="fa-solid fa-thumbs-up"></i><span>Bom</span></div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Status" value="Maintenance" />
-                        <div class="selection-content"><i class="fa-solid fa-screwdriver-wrench"></i><span>Manutenção</span></div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Status" value="Broken" />
-                        <div class="selection-content"><i class="fa-solid fa-xmark"></i><span>Avariado</span></div>
-                    </label>
-                </div>
-                <span asp-validation-for="Status" class="field-error" style="color: red; font-size: 0.85rem; display: block; margin-top: 5px;"></span>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Maintenance" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <span>Manutenção</span>
+                    </div>
+                </label>
+
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Broken" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Avariado</span>
+                    </div>
+                </label>
+
             </div>
 
             <button type="submit" class="btn-primary" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 50px; font-size: 1.1rem; border: none;">

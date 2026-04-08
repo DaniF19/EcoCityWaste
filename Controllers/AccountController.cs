@@ -112,16 +112,38 @@ namespace EcoCityWaste.Controllers
                     user = new User
                     {
                         Email = email,
-                        Username = name, // Usa o nome do Google como username
-                        PasswordHash = "GOOGLE_AUTH", // Identificador para utilizadores sem password local
+                        Username = name,
+                        PasswordHash = "GOOGLE_AUTH",
                         Token = null,
-                        TokenExpiry = null
+                        TokenExpiry = null,
+                        Role = "Cidadao" // atribui role por defeito
                     };
 
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
                 }
-                return RedirectToAction("Index", "Home");
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Role ?? "Cidadao")
+        };
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
+
+                return user.Role switch
+                {
+                    "Admin" => RedirectToAction("Dashboard", "Admin"),
+                    "Funcionario" => RedirectToAction("Dashboard", "Funcionario"),
+                    "Cidadao" => RedirectToAction("Dashboard", "Citizen"),
+                    _ => RedirectToAction("Index", "Home")
+                };
             }
             else
             {
@@ -129,6 +151,7 @@ namespace EcoCityWaste.Controllers
                 return RedirectToAction("Login");
             }
         }
+
 
         public async Task<IActionResult> Logout()
         {

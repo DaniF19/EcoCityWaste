@@ -161,7 +161,8 @@ namespace EcoCityWaste.Controllers
 
             return View(reports);
         }
-
+        
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Assign()
         {
@@ -187,7 +188,7 @@ namespace EcoCityWaste.Controllers
 
             return View(vm);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Assign(AssignOccurrenceViewModel model)
         {
@@ -230,6 +231,7 @@ namespace EcoCityWaste.Controllers
             TempData["Success"] = "Ocorrência atribuída com sucesso!";
             return RedirectToAction("Assign");
         }
+        [Authorize(Roles ="Funcionario")]
         [HttpGet]
         public async Task<IActionResult> UpdateStatus(int id)
         {
@@ -261,34 +263,23 @@ namespace EcoCityWaste.Controllers
             return View(vm);
         }
 
-
+        [Authorize(Roles = "Funcionario")]
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(UpdateStatusViewModel model)
+        public async Task<IActionResult> UpdateStatusAjax(int id, string newStatus)
         {
-            // Ignorar CurrentStatus porque não vem do form
-            ModelState.Remove("CurrentStatus");
-
-            if (!ModelState.IsValid)
-            {
-                var occReload = await _context.Occurrences.FindAsync(model.OccurrenceId);
-                model.CurrentStatus = occReload?.Status;
-                return View(model);
-            }
-
-            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            int userId = int.Parse(userIdClaim);
-
-            var employee = await _context.Users.FindAsync(userId);
-            if (employee == null || employee.Role != "Funcionario")
-                return Unauthorized();
-
-            var occurrence = await _context.Occurrences.FindAsync(model.OccurrenceId);
+            var occurrence = await _context.Occurrences.FindAsync(id);
             if (occurrence == null)
                 return NotFound();
 
+            occurrence.Status = newStatus;
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, newStatus = newStatus });
+        }
+
+
+
+        public async Task<IActionResult> AssignedIncidents()
             if (occurrence.AssignedEmployeeId != employee.Id)
                 return Unauthorized();
 
@@ -360,7 +351,26 @@ namespace EcoCityWaste.Controllers
 
             return View("AssignedIncidents", incidents);
         }
+        public IActionResult GetDetails(int id)
+        {
+            var occ = _context.Occurrences
+                .Include(o => o.User)
+                .FirstOrDefault(o => o.Id == id);
 
+            if (occ == null)
+                return NotFound();
+
+            return Json(new
+            {
+                id = occ.Id,
+                occurrenceType = occ.OccurrenceType,
+                containerCode = occ.ContainerCode,
+                description = occ.Description,
+                reportDate = occ.ReportDate.ToString("dd/MM/yyyy"),
+                status = occ.Status,
+                reportedBy = occ.User?.Username ?? "Desconhecido"
+            });
+        }
         private async Task<string?> SaveOccurrencePhotoAsync(IFormFile? photo)
         {
             // Se não houver foto, devolvemos nulo
