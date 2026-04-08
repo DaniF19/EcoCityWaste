@@ -6,6 +6,8 @@ namespace EcoCityWaste.ViewModels
     {
         public int OccurrenceId { get; set; }
         public string CurrentStatus { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
+
         [Required]
         public Models.OccurrenceStatus NewStatus { get; set; }
     }
