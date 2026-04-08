@@ -11,627 +11,396 @@
 
 @section Styles {
     <style>
-
         :root {
-            --br: #8D6E63;
-            --br-dk: #6D4C41;
-            --br-lt: #A1887F;
-            --tint: #f3ebe8;
-            --tint2: #ede0da;
-            --bg: #F5F3EE;
-            --sf: #FFFFFF;
-            --sf2: #FAF9F6;
-            --bd: #E8E3DC;
-            --bd2: #D5CEC6;
-            --tx: #2C2420;
-            --tx2: #6B5E58;
-            --mu: #9E8E88;
-            --ok: #27AE60;
-            --ok-bg: #E8F5E9;
-            --ok-bd: #A5D6A7;
-            --wa: #F39C12;
-            --wa-bg: #FFF8E1;
-            --wa-bd: #FFE082;
-            --er: #C0392B;
-            --er-bg: #FDEDEC;
-            --er-bd: #F5B7B1;
-            --inf: #2980B9;
-            --inf-bg: #EBF5FB;
-            --inf-bd: #AED6F1;
-            --shd: 0 1px 4px rgba(0,0,0,.06);
-            --rad: 12px;
-            --rads: 8px;
-            --tr: all .18s ease;
+            --cor-castanho: rgb(141, 110, 99);
+            --cor-bege: rgb(224, 205, 169);
+            --cor-fundo-claro: rgb(243, 242, 235);
+
+            --cor-sucesso: #27ae60;
+            --cor-aviso: #f1c40f;
+            --cor-vermelho-erro: #a94442;
+            --cor-manutencao: #3498db;
+
+            --border: #e6e6e6;
+            --text: #444;
+            --text-muted: #777;
+
+            --surface: #ffffff;
+            --surface-2: #ffffff;
+            --surface-3: #f7f6f2;
         }
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .page-container {
+            background: var(--cor-fundo-claro);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
 
-        body {
-            color: var(--tx);
+        .details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
         }
 
-        .d-wrap {
-            max-width: 900px;
-            margin: 0 auto;
-            padding-bottom: 40px;
+        .route-headline h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cor-castanho);
         }
 
-        .d-grid {
+        .meta-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: .8rem;
+            font-weight: 600;
+        }
+
+        .badge-pending { background: #fff3cd; color: var(--cor-aviso); }
+        .badge-inprogress { background: #d6eaf8; color: var(--cor-manutencao); }
+        .badge-completed { background: #d4edda; color: var(--cor-sucesso); }
+        .badge-cancelled { background: #f8d7da; color: var(--cor-vermelho-erro); }
+
+        .details-grid {
             display: grid;
-            grid-template-columns: 1fr 280px;
-            gap: 16px;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
         }
-        @@media (max-width: 780px) {
-            .d-grid {
+
+        @@media (max-width: 900px) {
+            .details-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: .8rem;
-            color: white;
-            padding: 6px 13px 6px 9px;
-            border-radius: var(--rads);
-            border: 1px solid var(--bd);
-            background: rgb(141,110,99);
-            text-decoration: none;
-            margin-bottom: 16px;
-            transition: var(--tr);
-            box-shadow: var(--shd);
-        }
-
-            .back-link:hover {
-                text-decoration:none;
-            }
-
-        .toast {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--ok);
-            color: #fff;
-            border-radius: var(--rads);
-            padding: 10px 14px;
-            font-size: .85rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            animation: fadeUp .3s ease;
-        }
-
-        .d-header {
-            background: var(--sf);
-            border: 1px solid var(--bd);
-            border-radius: var(--rad);
-            padding: 18px 20px;
-            margin-bottom: 16px;
-            box-shadow: var(--shd);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .d-header-left {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .d-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--tx);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .d-sub {
-            font-size: .82rem;
-            color: var(--mu);
-            margin-top: 3px;
-        }
-
-        .code-chip {
-            font-family: 'DM Mono', monospace;
-            font-size: .72rem;
-            font-weight: 500;
-            color: var(--br);
-            background: var(--tint);
-            border: 1px solid var(--tint2);
-            padding: 2px 8px;
-            border-radius: 5px;
-            margin-right: 8px;
-        }
-
-        .status-pill {
-            font-size: .68rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .05em;
-            padding: 3px 9px;
-            border-radius: 20px;
-            flex-shrink: 0;
-        }
-
-        .sp-pending {
-            background: var(--wa-bg);
-            color: var(--wa);
-            border: 1px solid var(--wa-bd);
-        }
-
-        .sp-inprogress {
-            background: var(--inf-bg);
-            color: var(--inf);
-            border: 1px solid var(--inf-bd);
-        }
-
-        .sp-completed {
-            background: var(--ok-bg);
-            color: var(--ok);
-            border: 1px solid var(--ok-bd);
-        }
-
-        .sp-cancelled {
-            background: var(--er-bg);
-            color: var(--er);
-            border: 1px solid var(--er-bd);
-        }
-
         .panel {
-            background: var(--sf);
-            border: 1px solid var(--bd);
-            border-radius: var(--rad);
-            overflow: hidden;
-            box-shadow: var(--shd);
-            margin-bottom: 14px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            margin-bottom: 20px;
         }
 
-        .panel-hd {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--bd);
-            background: var(--sf2);
-            font-size: .8rem;
+        .panel-title {
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .06em;
-            color: var(--mu);
+            margin-bottom: 15px;
+            color: var(--cor-castanho);
         }
 
-            .panel-hd i {
-                color: var(--br);
-                font-size: .8rem;
-            }
-
-        .stop {
+        .stop-item {
             display: flex;
             align-items: center;
-            gap: 11px;
-            padding: 11px 16px;
-            border-bottom: 1px solid var(--bd);
-            transition: var(--tr);
+            gap: 12px;
+            padding: 12px;
+            border-bottom: 1px solid var(--cor-bege);
         }
 
-            .stop:last-child {
-                border-bottom: none;
-            }
-
-            .stop:hover {
-                background: var(--sf2);
-            }
+        .stop-item:last-child {
+            border-bottom: none;
+        }
 
         .stop-num {
-            width: 26px;
-            height: 26px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background: var(--br);
-            color: #fff;
+            background: var(--cor-castanho);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: .72rem;
             font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .stop-body {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .stop-top {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 3px;
         }
 
         .stop-code {
-            font-family: 'DM Mono', monospace;
-            font-size: .7rem;
-            font-weight: 500;
-            color: var(--br);
-            background: var(--tint);
-            border: 1px solid var(--tint2);
-            padding: 1px 6px;
+            font-family: monospace;
+            background: #f3ebe8;
+            padding: 2px 7px;
+            border-radius: 6px;
+            color: var(--cor-castanho);
+        }
+
+        .stop-loc { font-size: .9rem; }
+        .stop-type { font-size: .8rem; color: var(--text-muted); }
+
+        .fill-pill {
+            margin-left: auto;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .fill-low { color: var(--cor-sucesso); }
+        .fill-mid { color: var(--cor-aviso); }
+        .fill-high { color: var(--cor-vermelho-erro); }
+
+        .fill-bar-container {
+            height: 6px;
+            background: #eee;
             border-radius: 4px;
-        }
-
-        .stop-type {
-            font-size: .74rem;
-            color: var(--mu);
-        }
-
-        .stop-loc {
-            font-size: .82rem;
-            color: var(--tx2);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .bar-wrap {
-            height: 4px;
-            background: var(--bd);
-            border-radius: 3px;
             margin-top: 5px;
         }
 
-        .bar-fill {
+        .fill-bar-inner {
             height: 100%;
-            border-radius: 3px;
-        }
-
-        .fill-badge {
-            font-size: .74rem;
-            font-weight: 700;
-            flex-shrink: 0;
-            min-width: 38px;
-            text-align: right;
-        }
-
-        .fl {
-            color: var(--ok);
-        }
-
-        .fm {
-            color: var(--wa);
-        }
-
-        .fh {
-            color: var(--er);
-        }
-
-        .empty-stops {
-            padding: 28px;
-            text-align: center;
-            font-size: .84rem;
-            color: var(--mu);
+            border-radius: 4px;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 10px 16px;
-            border-bottom: 1px solid var(--bd);
-            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--cor-bege);
         }
 
-            .info-row:last-child {
-                border-bottom: none;
-            }
+        .info-row:last-child { border-bottom: none; }
 
-        .info-label {
-            font-size: .8rem;
-            color: var(--mu);
-            flex-shrink: 0;
-        }
+        .info-label { color: var(--text-muted); }
+        .info-value { font-weight: 600; }
 
-        .info-value {
-            font-size: .84rem;
-            font-weight: 600;
-            color: var(--tx);
-            text-align: right;
-        }
-
-        .actions-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding: 12px;
-        }
-
-        .act-btn {
+        .action-btn {
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 9px 13px;
-            border-radius: var(--rads);
-            font-family: 'DM Sans', sans-serif;
-            font-size: .83rem;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 20px;
+            border: none;
+            background: var(--cor-bege);
+            color: white;
             font-weight: 600;
             text-decoration: none;
-            border: 1px solid var(--bd);
-            background: var(--sf2);
-            color: var(--tx2);
+            margin-bottom: 10px;
             cursor: pointer;
-            transition: var(--tr);
-            width: 100%;
         }
 
-            .act-btn i {
-                font-size: .8rem;
-                color: var(--mu);
-                width: 16px;
-                text-align: center;
-                flex-shrink: 0;
-            }
-
-            .act-btn:hover {
-                background: var(--tint);
-                border-color: var(--br-lt);
-                color: var(--br-dk);
-            }
-
-                .act-btn:hover i {
-                    color: var(--br);
-                }
-
-            .act-btn.primary {
-                background: var(--br);
-                color: #fff;
-                border-color: var(--br-dk);
-            }
-
-                .act-btn.primary i {
-                    color: rgba(255,255,255,.8);
-                }
-
-                .act-btn.primary:hover {
-                    background: var(--br-dk);
-                    border-color: var(--br-dk);
-                    color: #fff;
-                }
-
-                .act-btn-delete {
-                    display: flex;
-                    align-items: center;
-                    gap: 9px;
-                    padding: 9px 13px;
-                    border-radius: var(--rads);
-                    font-family: 'DM Sans', sans-serif;
-                    font-size: .83rem;
-                    font-weight: 600;
-                    text-decoration: none;
-                    border: 1px solid var(--er-bd);
-                    background: var(--er-bg);
-                    color: var(--er);
-                    cursor: pointer;
-                    transition: var(--tr);
-                    width: 100%;
-                }
-
-                .act-btn-delete i {
-                    font-size: .8rem;
-                    color: var(--er);
-                    width: 16px;
-                    text-align: center;
-                    flex-shrink: 0;
-                }
-
-                .act-btn-delete:hover {
-                    background: var(--er-bd);
-                    border-color: var(--er);
-                    color: var(--er);
-                    box-shadow: 0 0 0 1px var(--er);
-                }
-
-                .act-btn-delete:hover i {
-                    color: var(--er);
-                }
-
-        .act-divider {
-            height: 1px;
-            background: var(--bd);
-            margin: 2px 0;
-        }
-
-        @@keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .action-btn:hover {
+            background: var(--cor-castanho);
         }
     </style>
 }
 
 <div class="page-container">
-    <div class="d-wrap">
 
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="toast">
-                <i class="fa-solid fa-circle-check"></i>
-                @TempData["SuccessMessage"]
-            </div>
-        }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-success-addcontainer"
+             style="margin-bottom:15px;background-color:var(--cor-castanho);color:white;border-radius:10px;padding:10px;">
+            <i class="fa-solid fa-circle-check"></i>
+            @TempData["SuccessMessage"]
+        </div>
+    }
 
-        <a asp-action="Index" class="back-link">
+    <div style="margin-bottom:15px;">
+        <a asp-action="Index" style="text-decoration:none;color:var(--text-muted)">
             <i class="fa-solid fa-chevron-left"></i> Rotas
         </a>
+    </div>
 
-        @{
-            var (spClass, spIcon, spLabel) = Model.Status switch
+    <div class="details-header">
+        <div class="route-headline">
+
+            <div class="meta-row">
+                <span class="stop-code">@Model.Code</span>
+
+                @{
+                    var (badgeClass, badgeIcon, badgeLabel) = Model.Status switch
+                    {
+                        EcoCityWaste.Models.Route.RouteStatus.Pending => ("badge-pending", "fa-clock", "Pendente"),
+                        EcoCityWaste.Models.Route.RouteStatus.InProgress => ("badge-inprogress", "fa-truck", "Em Curso"),
+                        EcoCityWaste.Models.Route.RouteStatus.Completed => ("badge-completed", "fa-circle-check", "Concluída"),
+                        EcoCityWaste.Models.Route.RouteStatus.Cancelled => ("badge-cancelled", "fa-ban", "Cancelada"),
+                        _ => ("badge-pending", "fa-clock", "Pendente")
+                    };
+                }
+
+                <span class="badge @badgeClass">
+                    <i class="fa-solid @badgeIcon"></i> @badgeLabel
+                </span>
+            </div>
+
+            <h1>@Model.Name</h1>
+
+            @if (!string.IsNullOrEmpty(Model.Description))
             {
-                EcoCityWaste.Models.Route.RouteStatus.Pending => ("sp-pending", "fa-clock", "Pendente"),
-                EcoCityWaste.Models.Route.RouteStatus.InProgress => ("sp-inprogress", "fa-truck", "Em Curso"),
-                EcoCityWaste.Models.Route.RouteStatus.Completed => ("sp-completed", "fa-circle-check", "Concluída"),
-                EcoCityWaste.Models.Route.RouteStatus.Cancelled => ("sp-cancelled", "fa-ban", "Cancelada"),
-                _ => ("sp-pending", "fa-clock", "Pendente")
-            };
-        }
+                <p style="color:var(--text-muted)">
+                    @Model.Description
+                </p>
+            }
+        </div>
+    </div>
 
-        <div class="d-header">
-            <div class="d-header-left">
-                <div style="margin-bottom:5px; display: flex; align-items: center;">
-                    <span class="code-chip">@Model.Code</span>
-                    <span class="status-pill @spClass" data-bs-toggle="tooltip" title="O estado atualiza para 'Em Curso' quando atribuído a um motorista.">
-                        <i class="fa-solid @spIcon" style="margin-right:3px;"></i>@spLabel
-                    </span>
+    <div class="details-grid">
+
+        <div>
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fa-solid fa-list-ol"></i>
+                    Paragens (@orderedStops.Count)
                 </div>
-                <div class="d-title">@Model.Name</div>
-                @if (!string.IsNullOrEmpty(Model.Description))
+
+                @if (!orderedStops.Any())
                 {
-                    <div class="d-sub">@Model.Description</div>
+                    <p style="text-align:center;color:var(--text-muted)">
+                        Nenhum contentor nesta rota.
+                    </p>
+                }
+                else
+                {
+                    @foreach (var stop in orderedStops)
+                    {
+                        var c = stop.Container;
+
+                        var fillClass =
+                            c.FillLevel >= 80 ? "fill-high" :
+                            c.FillLevel >= 50 ? "fill-mid" :
+                            "fill-low";
+
+                        var barColor =
+                            c.FillLevel >= 80 ? "var(--cor-vermelho-erro)" :
+                            c.FillLevel >= 50 ? "var(--cor-aviso)" :
+                            "var(--cor-sucesso)";
+
+                        var typeIcon = c.Type switch
+                        {
+                            "Plástico" => "fa-bottle-water",
+                            "Vidro" => "fa-wine-glass-empty",
+                            "Papel" => "fa-box-archive",
+                            "Orgânico" => "fa-apple-whole",
+                            "Indiferenciado" => "fa-trash-can",
+                            _ => "fa-trash-can"
+                        };
+
+                        <div class="stop-item">
+
+                            <div class="stop-num">@stop.PickupOrder</div>
+
+                            <div>
+                                <div>
+                                    <span class="stop-code">@c.Code</span>
+                                    <span class="stop-type">
+                                        <i class="fa-solid @typeIcon"></i> @c.Type
+                                    </span>
+                                </div>
+
+                                <div class="stop-loc">@c.Location</div>
+
+                                <div class="fill-bar-container">
+                                    <div class="fill-bar-inner"
+                                         style="width:@c.FillLevel%;background:@barColor">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="fill-pill @fillClass">
+                                @c.FillLevel%
+                            </span>
+
+                        </div>
+                    }
                 }
             </div>
         </div>
 
-        <div class="d-grid">
-            <div>
-                <div class="panel">
-                    <div class="panel-hd" style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <i class="fa-solid fa-list-ol"></i> Paragens <span style="font-weight:400;color:var(--mu);">(@orderedStops.Count)</span>
-                        </div>
-                        <span data-bs-toggle="tooltip" title="A lista mostra a ordem exata que o motorista deve seguir para otimizar o tempo e combustível." style="cursor: help; color: #bcaaa4; font-size: 1.1rem;">
-                            <i class="fa-solid fa-circle-info"></i>
-                        </span>
-                    </div>
+        <div>
 
-                    @if (!orderedStops.Any())
-                    {
-                        <div class="empty-stops">
-                            <i class="fa-solid fa-inbox" style="font-size:1.6rem;opacity:.25;display:block;margin-bottom:8px;"></i>
-                            Nenhum contentor nesta rota.
-                        </div>
-                    }
-                    else
-                    {
-                        @foreach (var stop in orderedStops)
-                        {
-                            var c = stop.Container;
-                            var fc = c.FillLevel >= 80 ? "fh" : c.FillLevel >= 50 ? "fm" : "fl";
-                            var barColor = c.FillLevel >= 80 ? "var(--er)" : c.FillLevel >= 50 ? "var(--wa)" : "var(--ok)";
-                            var typeIcon = c.Type switch
-                            {
-                                "Plástico" => "fa-bottle-water",
-                                "Vidro" => "fa-wine-glass-empty",
-                                "Papel" => "fa-box-archive",
-                                "Orgânico" => "fa-apple-whole",
-                                "Indiferenciado" => "fa-trash-can",
-                                _ => "fa-trash-can"
-                            };
-
-                            <div class="stop">
-                                <div class="stop-num">@stop.PickupOrder</div>
-                                <div class="stop-body">
-                                    <div class="stop-top">
-                                        <span class="stop-code">@c.Code</span>
-                                        <span class="stop-type"><i class="fa-solid @typeIcon"></i> @c.Type</span>
-                                    </div>
-                                    <div class="stop-loc">@c.Location</div>
-                                    <div class="bar-wrap" data-bs-toggle="tooltip" title="Ocupação: @c.FillLevel%">
-                                        <div class="bar-fill" style="width:@c.FillLevel%;background:@barColor;"></div>
-                                    </div>
-                                </div>
-                                <span class="fill-badge @fc">@c.FillLevel%</span>
-                            </div>
-                        }
-                    }
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Detalhes
                 </div>
+
+                <div class="info-row">
+                    <span class="info-label">Criada por</span>
+                    <span class="info-value">@Model.CreatedBy</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Data de criação</span>
+                    <span class="info-value">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Atribuída a</span>
+                    <span class="info-value">
+                        @(Model.AssignedEmployee?.Username ?? "—")
+                    </span>
+                </div>
+
+                @if (Model.AssignedAt.HasValue)
+                {
+                    <div class="info-row">
+                        <span class="info-label">Atribuída em</span>
+                        <span class="info-value">@Model.AssignedAt.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                }
+
+                @if (Model.CompletedAt.HasValue)
+                {
+                    <div class="info-row">
+                        <span class="info-label">Concluída em</span>
+                        <span class="info-value">@Model.CompletedAt.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                }
+
+                @if (Model.EstimatedDistanceKm.HasValue)
+                {
+                    <div class="info-row">
+                        <span class="info-label">Distância estimada</span>
+                        <span class="info-value">@Model.EstimatedDistanceKm.Value km</span>
+                    </div>
+                }
             </div>
 
-            <div>
-                <div class="panel">
-                    <div class="panel-hd"><i class="fa-solid fa-circle-info"></i> Detalhes</div>
-                    <div class="info-row">
-                        <span class="info-label">Criada por</span>
-                        <span class="info-value">@Model.CreatedBy</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Criada em</span>
-                        <span class="info-value">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Funcionário</span>
-                        <span class="info-value">@(Model.AssignedEmployee?.Username ?? "—")</span>
-                    </div>
-                    @if (Model.AssignedAt.HasValue)
-                    {
-                        <div class="info-row">
-                            <span class="info-label">Atribuída em</span>
-                            <span class="info-value">@Model.AssignedAt.Value.ToString("dd/MM/yyyy HH:mm")</span>
-                        </div>
-                    }
-                    @if (Model.CompletedAt.HasValue)
-                    {
-                        <div class="info-row">
-                            <span class="info-label">Concluída em</span>
-                            <span class="info-value">@Model.CompletedAt.Value.ToString("dd/MM/yyyy HH:mm")</span>
-                        </div>
-                    }
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fa-solid fa-bolt"></i>
+                    Ações
                 </div>
 
-                <div class="panel">
-                    <div class="panel-hd"><i class="fa-solid fa-bolt"></i> Ações</div>
-                    <div class="actions-grid">
-                        <a asp-action="Map" asp-route-id="@Model.Id" class="act-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="Visualiza os contentores num mapa interativo com cálculo de distância.">
-                            <i class="fa-solid fa-map"></i> Ver no Mapa
-                        </a>
+                <a asp-action="Map" asp-route-id="@Model.Id" class="action-btn">
+                    <i class="fa-solid fa-map"></i> Ver no Mapa
+                </a>
 
-                        @if (isAdmin && Model.Status != EcoCityWaste.Models.Route.RouteStatus.Completed)
-                        {
-                            <div class="act-divider"></div>
-                            <a asp-action="Optimise" asp-route-id="@Model.Id" class="act-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="Reordena os contentores utilizando o algoritmo do caixeiro-viajante para a rota mais rápida.">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i> Optimizar Rota
-                            </a>
-                            <a asp-action="Assign" asp-route-id="@Model.Id" class="act-btn">
-                                <i class="fa-solid fa-user-plus"></i> Atribuir Motorista
-                            </a>
-                            <a asp-action="Edit" asp-route-id="@Model.Id" class="act-btn">
-                                <i class="fa-solid fa-pen"></i> Editar Rota
-                            </a>
-                        }
+                <a asp-action="Simulate" asp-route-id="@Model.Id" class="action-btn">
+                    <i class="fa-solid fa-play"></i> Simular Rota
+                </a>
 
-                        @if (Model.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress)
-                        {
-                            <div class="act-divider"></div>
-                            <form asp-action="Complete" asp-route-id="@Model.Id" method="post" id="complete-form">
-                                @Html.AntiForgeryToken()
-                                <button type="button" class="act-btn primary" onclick="confirmComplete()" style="width:100%;" data-bs-toggle="tooltip" data-bs-placement="left" title="Termina a rota e liberta o motorista para novas atribuições.">
-                                    <i class="fa-solid fa-circle-check"></i> Marcar como Concluída
-                                </button>
-                            </form>
-                        }
+                @if (isAdmin)
+                {
+                    <a asp-action="Optimise" asp-route-id="@Model.Id" class="action-btn">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Optimizar Rota
+                    </a>
 
-                        @if (isAdmin)
-                        {
-                            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" id="delete-form-detail">
-                                @Html.AntiForgeryToken()
-                                <button type="button" class="act-btn-delete" onclick="confirmDeleteDetail()" style="width:100%; color:#a94442; border-color:#f5b7b1; margin-top: 10px;">
-                                    <i class="fa-solid fa-trash" style="color:#a94442;"></i> Eliminar Rota
-                                </button>
-                            </form>
-                        }
-                    </div>
-                </div>
+                    <a asp-action="Assign" asp-route-id="@Model.Id" class="action-btn">
+                        <i class="fa-solid fa-user-plus"></i> Atribuir Funcionário
+                    </a>
+
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="action-btn">
+                        <i class="fa-solid fa-pen"></i> Editar Rota
+                    </a>
+                }
+
+                @if (Model.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress)
+                {
+                    <form asp-action="Complete" asp-route-id="@Model.Id" method="post" id="complete-form">
+                        @Html.AntiForgeryToken()
+
+                        <button type="button"
+                                class="action-btn"
+                                onclick="confirmComplete()">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Marcar como Concluída
+                        </button>
+                    </form>
+                }
             </div>
+
         </div>
     </div>
 </div>
@@ -640,33 +409,18 @@
     function confirmComplete() {
         Swal.fire({
             title: 'Concluir Rota?',
-            text: 'Deseja marcar esta recolha como finalizada?',
+            text: "Deseja marcar esta recolha como finalizada?",
             icon: 'question',
-            iconColor: 'rgb(141,110,99)',
             showCancelButton: true,
-            confirmButtonColor: 'rgb(141,110,99)',
+            confirmButtonColor: 'rgb(141, 110, 99)',
             cancelButtonColor: '#777',
             confirmButtonText: 'Sim, concluir',
-            cancelButtonText: 'Voltar'
-        }).then(r => { if (r.isConfirmed) document.getElementById('complete-form').submit(); });
-    }
-    
-    function confirmDeleteDetail() {
-        Swal.fire({
-            title: 'Eliminar Rota?',
-            text: "Esta ação não pode ser revertida!",
-            icon: 'warning',
-            iconColor: '#d33',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#777',
-            confirmButtonText: 'Sim, eliminar!',
-            cancelButtonText: 'Cancelar'
+            cancelButtonText: 'Voltar',
+            borderRadius: '15px'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById('delete-form-detail').submit();
+                document.getElementById('complete-form').submit();
             }
         });
     }
 </script>
-

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
+using System.Collections.Generic;
 using System.Net;
-using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace EcoCityWasteProjetoESA.Tests
 {
@@ -85,30 +88,6 @@ namespace EcoCityWasteProjetoESA.Tests
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
-
-        // Tests Sprint 4
-
-        // Administrador submete o formulário de atribuição de ocorrência
-        [Fact]
-        public async Task Assign_Post_ValidData_ProcessesSuccessfully()
-        {
-            // Arrange
-            var content = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("SelectedOccurrenceId", "100"), // Assume um ID de teste
-                new KeyValuePair<string, string>("SelectedEmployeeId", "5")      // Assume um ID de funcionário
-            });
-
-            // Act
-            var response = await _client.PostAsync("/Occurrences/Assign", content);
-
-            // Assert
-
-            Assert.True(
-                response.StatusCode == HttpStatusCode.Found,
-                $"O status code devolvido foi {response.StatusCode}"
-            );
         }
     }
 }

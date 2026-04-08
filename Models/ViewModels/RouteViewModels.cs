@@ -43,7 +43,7 @@ namespace EcoCityWaste.Models.ViewModels
 
         [Required(ErrorMessage = "Selecione um funcionário.")]
         [Display(Name = "Funcionário")]
-        public int? EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
     }
 
     // otimizar rota

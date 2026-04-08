@@ -8,135 +8,107 @@
 }
 
 <div class="page-container">
-    <div class="card-box" style="max-width: 800px; margin: 0 auto;">
 
-        <div class="card-title"
-             style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid #f0ebe3; padding-bottom: 20px;">
+    <div class="card-box">
 
-            <span style="margin:0; font-size:1.5rem; font-weight:bold; color:#8d6e63; display: flex; align-items: center;">
-                Registar Contentor
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Ao registar um contentor, o sistema gera automaticamente um código único e começa a monitorizar o seu estado." style="cursor: help; color: #bcaaa4; margin-left: 10px; font-size: 1.2rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </span>
-
-            <a asp-controller="Admin" asp-action="Dashboard" class="btn-vista-analitica">
-                <i class="fa-solid fa-arrow-left"></i> Voltar
-            </a>
-
+        <div class="card-title">
+            Registar Contentor
         </div>
 
         @if (ViewBag.Success != null)
         {
-            <div class="alert-success-addcontainer" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;">
-                <i class="fa-solid fa-circle-check me-2"></i> @ViewBag.Success
+            <div class="alert-success-addcontainer">
+                @ViewBag.Success
             </div>
         }
 
         @if (ViewBag.Error != null)
         {
-            <div class="alert-error" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;">
-                <i class="fa-solid fa-triangle-exclamation me-2"></i> @ViewBag.Error
+            <div class="alert-error">
+                @ViewBag.Error
             </div>
         }
 
         <form asp-action="Register" method="post">
             @Html.AntiForgeryToken()
 
-            <div style="margin-bottom: 25px;">
-                <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                    Localização (Morada)
-                    <span data-bs-toggle="tooltip" title="Insira a rua e o número da porta mais próximo. Esta informação é usada para planear as rotas de recolha." style="cursor: help; color: #bcaaa4; margin-left: 8px; font-size: 1rem;">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </span>
-                </label>
-                <div class="input-group" style="position: relative;">
-                    <i class="fa-solid fa-location-dot input-icon" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #888;"></i>
-                    <input asp-for="Location" placeholder="Ex: Praça do Bocage, nº 10" style="width: 100%; padding: 12px 20px 12px 50px; border-radius: 50px; border: 1px solid #ccc; font-size: 1rem;" />
-                </div>
-                <span asp-validation-for="Location" class="field-error" style="color: red; font-size: 0.85rem; margin-top: 5px; display: block;"></span>
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot input-icon"></i>
+                <input asp-for="Location" placeholder="Localização" />
+                <span asp-validation-for="Location" class="field-error"></span>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <label class="field-label" style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: block; letter-spacing: 0.5px;">
-                    Tipo de Resíduo
+            <label class="field-label">Tipo de Contentor</label>
+            <div class="selection-grid">
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Plástico" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-bottle-water"></i>
+                        <span>Plástico</span>
+                    </div>
                 </label>
-                <div class="selection-grid">
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Type" value="Plástico" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-bottle-water"></i>
-                            <span>Plástico</span>
-                        </div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Type" value="Vidro" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-wine-glass-empty"></i>
-                            <span>Vidro</span>
-                        </div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Type" value="Papel" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-box-archive"></i>
-                            <span>Papel</span>
-                        </div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Type" value="Orgânico" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-apple-whole"></i>
-                            <span>Orgânico</span>
-                        </div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Type" value="Indiferenciado" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-trash-can"></i>
-                            <span>Indiferenciado</span>
-                        </div>
-                    </label>
-                </div>
-                <span asp-validation-for="Type" class="field-error" style="color: red; font-size: 0.85rem; display: block; margin-top: 5px;"></span>
-            </div>
-
-            <div style="margin-bottom: 25px;">
-                <label class="field-label" style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                    Estado Inicial do Equipamento
-                    <span data-bs-toggle="tooltip" title="Defina como o contentor se encontra no momento do registo. Pode ser atualizado posteriormente na vista de edição." style="cursor: help; color: #bcaaa4; margin-left: 8px; font-size: 1rem;">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </span>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Vidro" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-wine-glass-empty"></i>
+                        <span>Vidro</span>
+                    </div>
                 </label>
-                <div class="selection-grid">
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Status" value="Good" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-thumbs-up"></i>
-                            <span>Bom</span>
-                        </div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Status" value="Maintenance" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                            <span>Manutenção</span>
-                        </div>
-                    </label>
-                    <label class="selection-item">
-                        <input type="radio" asp-for="Status" value="Broken" />
-                        <div class="selection-content">
-                            <i class="fa-solid fa-xmark"></i>
-                            <span>Avariado</span>
-                        </div>
-                    </label>
-                </div>
-                <span asp-validation-for="Status" class="field-error" style="color: red; font-size: 0.85rem; display: block; margin-top: 5px;"></span>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Papel" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-box-archive"></i>
+                        <span>Papel</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Orgânico" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-apple-whole"></i>
+                        <span>Orgânico</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Type" value="Indiferenciado" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Indiferenciado</span>
+                    </div>
+                </label>
             </div>
+            <span asp-validation-for="Type" class="field-error"></span>
 
-            <button type="submit" class="btn-primary" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 50px; font-size: 1.1rem; border: none;">
-                <i class="fa-solid fa-plus me-2"></i> Registar Contentor
+            <label class="field-label">Estado</label>
+            <div class="selection-grid">
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Good" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-thumbs-up"></i>
+                        <span>Bom</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Maintenance" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <span>Manutenção</span>
+                    </div>
+                </label>
+                <label class="selection-item">
+                    <input type="radio" asp-for="Status" value="Broken" />
+                    <div class="selection-content">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Avariado</span>
+                    </div>
+                </label>
+            </div>
+            <span asp-validation-for="Status" class="field-error"></span>
+
+            <button type="submit" class="btn-primary" style="margin-top: 20px;">
+                Registar
             </button>
         </form>
+
     </div>
+
 </div>
