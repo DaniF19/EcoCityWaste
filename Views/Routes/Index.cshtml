@@ -386,31 +386,31 @@
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert-success-addcontainer"
-             style="background-color:var(--cor-castanho); color:white; padding:10px; border-radius:5px; margin-bottom:15px">
-            <i class="fa-solid fa-circle-check"></i>
+             style="background-color:var(--cor-sucesso); color:white; padding:15px; border-radius:10px; margin-bottom:20px; font-weight:600;">
+            <i class="fa-solid fa-circle-check me-2"></i>
             @TempData["SuccessMessage"]
         </div>
     }
 
     <div class="routes-header">
-        <h1 class="routes-title">
-            <i class="fa-solid fa-route"></i>
+        <h1 class="routes-title" style="display: flex; align-items: center;">
+            <i class="fa-solid fa-route me-2"></i>
             Gestão de Rotas
+            <span data-bs-toggle="tooltip" data-bs-placement="right" title="Gira o planeamento de recolhas. As rotas 'Em Curso' estão a ser executadas neste momento pelos motoristas." style="cursor: help; color: #bcaaa4; margin-left: 12px; font-size: 1.2rem;">
+                <i class="fa-solid fa-circle-info"></i>
+            </span>
         </h1>
 
         <div style="display:flex; gap:10px;">
-
             @if (isAdmin)
             {
                 <a asp-action="Create" class="btn-new-route">
-                    <i class="fa-solid fa-plus"></i> Nova Rota
+                    <i class="fa-solid fa-plus me-2"></i> Nova Rota
                 </a>
             }
-
-            <a asp-controller="@(User.IsInRole("Admin") ? "Admin" : "Funcionario")" asp-action="Dashboard" class="btn-new-route">
-                <i class="fa-solid fa-arrow-left"></i> Voltar
+            <a asp-controller="@(User.IsInRole("Admin") ? "Admin" : "Funcionario")" asp-action="Dashboard" class="btn-new-route" style="background-color: var(--cor-bege); color: var(--cor-castanho);">
+                <i class="fa-solid fa-arrow-left me-2"></i> Voltar
             </a>
-
         </div>
     </div>
 
@@ -419,17 +419,14 @@
             <div class="stat-number">@ViewBag.TotalRoutes</div>
             <div class="stat-label">Total de Rotas</div>
         </div>
-
         <div class="stat-card" data-accent="pending">
             <div class="stat-number">@ViewBag.Pending</div>
             <div class="stat-label">Pendentes</div>
         </div>
-
         <div class="stat-card" data-accent="active">
             <div class="stat-number">@ViewBag.InProgress</div>
             <div class="stat-label">Em Curso</div>
         </div>
-
         <div class="stat-card" data-accent="done">
             <div class="stat-number">@ViewBag.Completed</div>
             <div class="stat-label">Concluídas</div>
@@ -437,58 +434,39 @@
     </div>
 
     <div class="filter-bar">
-        <a asp-action="Index"
-           class="filter-btn @(string.IsNullOrEmpty(ViewBag.CurrentFilter as string) ? "active" : "")">
-            Todas
-        </a>
-
-        <a asp-action="Index" asp-route-statusFilter="Pending"
-           class="filter-btn @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">
-            Pendentes
-        </a>
-
-        <a asp-action="Index" asp-route-statusFilter="InProgress"
-           class="filter-btn @(ViewBag.CurrentFilter == "InProgress" ? "active" : "")">
-            Em Curso
-        </a>
-
-        <a asp-action="Index" asp-route-statusFilter="Completed"
-           class="filter-btn @(ViewBag.CurrentFilter == "Completed" ? "active" : "")">
-            Concluídas
-        </a>
+        <a asp-action="Index" class="filter-btn @(string.IsNullOrEmpty(ViewBag.CurrentFilter as string) ? "active" : "")">Todas</a>
+        <a asp-action="Index" asp-route-statusFilter="Pending" class="filter-btn @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">Pendentes</a>
+        <a asp-action="Index" asp-route-statusFilter="InProgress" class="filter-btn @(ViewBag.CurrentFilter == "InProgress" ? "active" : "")">Em Curso</a>
+        <a asp-action="Index" asp-route-statusFilter="Completed" class="filter-btn @(ViewBag.CurrentFilter == "Completed" ? "active" : "")">Concluídas</a>
     </div>
 
-    <div class="routes-table-wrapper">
-
+    <div class="routes-table-wrapper table-responsive" style="width: 100%; overflow-x: auto;">
         @if (!Model.Any())
         {
             <div class="empty-state">
-                <i class="fa-solid fa-route"></i>
-                <p>Nenhuma rota encontrada.</p>
-
+                <i class="fa-solid fa-route" style="font-size: 3rem; color: #d6c3a3; margin-bottom: 15px;"></i>
+                <h4 style="color: var(--cor-castanho); font-weight: 600;">Nenhuma rota encontrada.</h4>
                 @if (isAdmin)
                 {
-                    <a asp-action="Create" class="btn-new-route">
-                        <i class="fa-solid fa-plus"></i> Criar Primeira Rota
+                    <a asp-action="Create" class="btn-new-route" style="margin-top: 15px; display: inline-block;">
+                        <i class="fa-solid fa-plus me-2"></i> Criar Primeira Rota
                     </a>
                 }
             </div>
         }
         else
         {
-            <table class="routes-table">
+            <table class="routes-table" style="min-width: 800px;">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Estado</th>
-                        <th>Contentores</th>
-                        <th>Atribuído</th>
-                        <th>Criado</th>
-                        @* <th>Ações</th> *@
+                        <th style="white-space: nowrap;">Código</th>
+                        <th style="white-space: nowrap; text-align: left;">Nome</th>
+                        <th style="white-space: nowrap;">Estado</th>
+                        <th style="white-space: nowrap;" title="Número de paragens planeadas nesta rota">Contentores <i class="fa-solid fa-circle-info ms-1" style="font-size: 0.8rem; color: var(--cor-bege);"></i></th>
+                        <th style="white-space: nowrap;">Atribuído</th>
+                        <th style="white-space: nowrap;">Criado</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach (var route in Model)
                     {
@@ -499,15 +477,11 @@
                             data-assign-url="@Url.Action("Assign", new { id = route.Id })"
                             data-edit-url="@Url.Action("Edit", new { id = route.Id })"
                             data-optimise-url="@Url.Action("Optimise", new { id = route.Id })">
-                            <td>
-                                <span class="route-code">@route.Code</span>
-                            </td>
-
-                            <td>
-                                <strong>@route.Name</strong>
-                            </td>
-
-                            <td>
+                            
+                            <td style="white-space: nowrap;"><span class="route-code">@route.Code</span></td>
+                            <td style="text-align: left;"><strong>@route.Name</strong></td>
+                            
+                            <td style="white-space: nowrap;">
                                 @{
                                     var (badgeClass, icon) = route.Status switch
                                     {
@@ -518,56 +492,23 @@
                                         _ => ("badge-pending", "fa-clock")
                                     };
                                 }
-
-                                <span class="badge @badgeClass">
-                                    <i class="fa-solid @icon"></i>
-                                    @route.Status
-                                </span>
+                                <span class="badge @badgeClass"><i class="fa-solid @icon me-1"></i> @route.Status</span>
                             </td>
-
+                            
                             <td>@route.RouteContainers.Count</td>
-
-                            <td>
+                            
+                            <td style="white-space: nowrap;">
                                 @if (route.AssignedEmployee != null)
                                 {
-                                    @route.AssignedEmployee.Username
+                                    <i class="fa-solid fa-user me-1" style="color: var(--cor-castanho);"></i> @route.AssignedEmployee.Username
                                 }
                                 else
                                 {
-                                    <span style="color:#777;">Não atribuída</span>
+                                    <span style="color:#aaa;"><i class="fa-solid fa-user-xmark me-1"></i> Não atribuída</span>
                                 }
                             </td>
-
-                            <td>
-                                @route.CreatedAt.ToString("dd/MM/yyyy")
-                            </td>
-
-                            @* <td>
-                                <div class="dropdown-wrapper">
-                                    <button class="btn-dots" onclick="toggleDropdown(event, this)">⋯</button>
-                                    <div class="dropdown-menu">
-                                        <a asp-action="Details" asp-route-id="@route.Id">
-                                            <i class="fa-solid fa-eye"></i> Ver detalhes
-                                        </a>
-
-                                        @if (isAdmin)
-                                        {
-                                            <div class="dropdown-divider"></div>
-                                            <form asp-action="Delete"
-                                                  asp-route-id="@route.Id"
-                                                  method="post"
-                                                  id="delete-form-@route.Id">
-                                                @Html.AntiForgeryToken()
-                                                <button type="button"
-                                                        class="dropdown-danger"
-                                                        onclick="confirmDelete(@route.Id)">
-                                                    <i class="fa-solid fa-trash"></i> Eliminar
-                                                </button>
-                                            </form>
-                                        }
-                                    </div>
-                                </div>
-                            </td> *@
+                            
+                            <td style="white-space: nowrap;">@route.CreatedAt.ToString("dd/MM/yyyy")</td>
                         </tr>
                     }
                 </tbody>

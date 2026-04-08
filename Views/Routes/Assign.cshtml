@@ -212,31 +212,31 @@
 <div class="page-container">
     <div class="assign-wrapper">
         <div class="panel">
-            <div class="panel-title" style="justify-content: space-between; margin-bottom: 25px;">
+            <div class="panel-title" style="justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <i class="fa-solid fa-user-plus"></i>
                     <span>Atribuir Rota a Funcionário</span>
+                    <span data-bs-toggle="tooltip" title="O funcionário selecionado receberá imediatamente esta rota na sua lista de tarefas diárias." style="cursor: help; color: #bcaaa4; margin-left: 5px; font-size: 1.1rem;">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </span>
                 </div>
                 <a asp-action="Details" asp-route-id="@route?.Id"
-                   style="text-decoration:none; color: white; background: var(--cor-castanho); border-radius: 8px; gap: 6px; padding: 6px 12px; font-size: .75rem; display: flex; align-items: center; font-weight: 500;">
-                    <i class="fa-solid fa-chevron-left" style="color: white; font-size: .7rem;"></i> Voltar
+                       style="text-decoration:none; color: white; background: var(--cor-castanho); border-radius: 8px; gap: 6px; padding: 6px 12px; font-size: .8rem; display: flex; align-items: center; font-weight: 600; transition: all 0.2s;">
+                    <i class="fa-solid fa-chevron-left"></i> Voltar
                 </a>
             </div>
 
-            <!-- informacoes da rota -->
             <div class="route-card">
                 <span class="route-card-code">@route?.Code</span>
                 <div class="route-card-name">@route?.Name</div>
 
-                <div style="margin-top:8px;font-size:.8rem;color:var(--muted);">
-                    Estado:
-                    <strong style="color:var(--cor-castanho)">
-                        @route?.Status
-                    </strong>
+                <div style="margin-top:8px;font-size:.85rem;color:var(--muted);">
+                    Estado atual:
+                    <strong style="color:var(--cor-castanho)">@route?.Status</strong>
                 </div>
 
-                <div style="font-size:.75rem;color:var(--muted);margin-top:4px;">
-                    Criada em: @route?.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                <div style="font-size:.8rem;color:var(--muted);margin-top:4px;">
+                    <i class="fa-regular fa-calendar me-1"></i> Criada em: @route?.CreatedAt.ToString("dd/MM/yyyy 'às' HH:mm")
                 </div>
             </div>
 
@@ -244,20 +244,23 @@
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="RouteId" />
 
-                <label style="font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;display:block;">
-                    Selecione um Funcionário
+                <label style="font-size:.85rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--cor-castanho); margin-bottom:12px; display:block;">
+                    Selecione o Motorista
                 </label>
 
-                <input type="text" id="empSearch" placeholder="Pesquisar funcionário..."
-                       style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);margin-bottom:12px;font-size:.85rem;">
+                <div style="position: relative; margin-bottom: 15px;">
+                    <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                    <input type="text" id="empSearch" placeholder="Pesquisar funcionário por nome ou e-mail..."
+                           style="width:100%; padding:12px 15px 12px 40px; border-radius:10px; border:1px solid var(--border); font-size:.9rem; outline:none; transition: border-color 0.3s;">
+                </div>
 
                 <span asp-validation-for="EmployeeId" class="field-error"></span>
 
                 @if (!employees.Any())
                 {
                     <div class="no-employees">
-                        <i class="fa-solid fa-users" style="font-size:2rem;opacity:.3;display:block;margin-bottom:10px;"></i>
-                        Nenhum funcionário disponível no sistema.
+                        <i class="fa-solid fa-users" style="font-size:2.5rem; color: #d6c3a3; display:block; margin-bottom:10px;"></i>
+                        Nenhum motorista ou funcionário disponível no sistema.
                     </div>
                 }
                 else
@@ -266,8 +269,7 @@
                         @foreach (var emp in employees)
                         {
                             <label class="emp-item" onclick="selectEmp(this, @emp.Id)">
-                                <input type="radio" name="EmployeeId" value="@emp.Id" 
-                                       @(Model.EmployeeId == emp.Id ? "checked" : "") />
+                                <input type="radio" name="EmployeeId" value="@emp.Id" @(Model.EmployeeId == emp.Id ? "checked" : "") />
                                 <div class="emp-avatar">@emp.Username.Substring(0, 1)</div>
                                 <div class="emp-info">
                                     <div class="emp-name">@emp.Username</div>
@@ -281,13 +283,10 @@
                     </div>
                 }
 
-                <button type="submit" class="btn-assign" @(employees.Any() ? "" : "disabled")>
-                    <i class="fa-solid fa-check" style="margin-right:6px;"></i>
-                    Atribuir Rota
+                <button type="submit" class="btn-assign" @(employees.Any() ? "" : "disabled") style="display: flex; justify-content: center; align-items: center; border-radius: 50px;">
+                    <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i> Confirmar Atribuição
                 </button>
             </form>
-
-            <a asp-action="Details" asp-route-id="@route?.Id" class="btn-cancel">Cancelar</a>
         </div>
     </div>
 </div>

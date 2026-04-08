@@ -9,17 +9,19 @@
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
 }
 
-<div class="page-container">
+<div class="page-container" style="display: flex; justify-content: center; padding-top: 40px;">
 
-    <div class="card-box" style="max-width: 700px;">
+    <div class="card-box" style="max-width: 700px; width: 100%; padding: 40px;">
 
-        <!-- Título + Botão Voltar -->
         <div class="card-title"
-             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #f0ebe3; padding-bottom: 20px;">
 
-            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">
+            <h3 style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63; display: flex; align-items: center;">
                 Atualizar estado da ocorrência
-            </span>
+                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Mantenha o estado atualizado para que o cidadão e a autarquia consigam acompanhar o progresso." style="cursor: help; color: #bcaaa4; margin-left: 12px; font-size: 1.1rem;">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
+            </h3>
 
             <a asp-controller="Occurrences"
                asp-action="AssignedIncidents"
@@ -29,34 +31,53 @@
 
         </div>
 
-        <!-- Estado Atual -->
-        <div class="mb-3">
-            <label class="form-label fw-bold">Estado atual</label>
-
-            <div class="status-badge"
-                 style="background-color: #e4d4b8; color: #795c4d; padding: 8px 16px;
-                        border-radius: 20px; font-weight: 600; display:inline-block;">
-                @Model.CurrentStatus.ToDisplayName()
-            </div>
-        </div>
-
-        <!-- Formulário -->
         <form asp-controller="Occurrences" asp-action="UpdateStatus" method="post">
+
             <input type="hidden" asp-for="OccurrenceId" />
 
-            <div class="mb-3">
-                <label asp-for="NewStatus" class="form-label fw-bold">Novo estado</label>
-                <select asp-for="NewStatus"
-                        asp-items="Html.GetEnumSelectList<OccurrenceStatus>()"
-                        class="form-control">
-                </select>
+            <div style="background-color: #fcfbf9; border: 1px dashed #d6c3a3; border-radius: 15px; padding: 30px 20px; margin-bottom: 30px;">
+
+                <div class="row align-items-center text-center">
+
+                    <div class="col-md-5">
+                        <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 12px; display: block; letter-spacing: 0.5px;">
+                            Estado Atual
+                        </label>
+                        <span style="display: inline-block; padding: 10px 20px; background-color: #e4d4b8; color: #795c4d; border-radius: 50px; font-weight: bold; font-size: 1rem;">
+                            <i class="fa-solid fa-tag me-2"></i> @Model.CurrentStatus.ToDisplayName()
+                        </span>
+                    </div>
+
+                    <div class="col-md-2 arrow-container" style="display: flex; justify-content: center; align-items: center;">
+                        <i class="fa-solid fa-arrow-right-long" style="color: #d6c3a3; font-size: 2rem;"></i>
+                    </div>
+
+                    <div class="col-md-5" style="text-align: left;">
+                        <label style="font-weight: 700; color: #8d6e63; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; letter-spacing: 0.5px;">
+                            Novo Estado
+                            <span data-bs-toggle="tooltip" title="Selecione a fase atual em que se encontra o trabalho." style="cursor: help; color: #bcaaa4; margin-left: 8px;">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </span>
+                        </label>
+
+                        <div class="input-group" style="position: relative;">
+                            <i class="fa-solid fa-rotate input-icon"></i>
+                            <select asp-for="NewStatus"
+                                    asp-items="Html.GetEnumSelectList<EcoCityWaste.Models.OccurrenceStatus>()"
+                                    class="custom-select">
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
             <button type="submit"
                     class="btn-primary w-100"
-                    style="padding: 10px 24px; font-size: 1rem; border-radius: 50px;">
-                <i class="fa-solid fa-rotate"></i> Atualizar estado
+                    style="padding: 15px; font-size: 1.1rem; border-radius: 50px; display: flex; justify-content: center; align-items: center;">
+                <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Alterações
             </button>
+
         </form>
 
     </div>
@@ -67,37 +88,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 }
 
-
 <style>
-    /* Badge de estado (base) */
-    .status-badge {
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 600;
-        display: inline-block;
-    }
-
-    /* Cores específicas por estado (se quiseres usar) */
-    .status-pending {
-        background-color: #f0ad4e;
-        color: white;
-    }
-
-    .status-inprogress {
-        background-color: #0275d8;
-        color: white;
-    }
-
-    .status-resolved {
-        background-color: #5cb85c;
-        color: white;
-    }
-
-    .status-cancelled {
-        background-color: #d9534f;
-        color: white;
-    }
-
     .btn-vista-analitica {
         background-color: #e4d4b8;
         color: #795c4d !important;
@@ -114,11 +105,53 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-        .btn-vista-analitica:hover {
-            background-color: #d6c3a3;
-            border-color: #d6c3a3;
-            color: #795c4d !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
-        }
+    .btn-vista-analitica:hover {
+        background-color: #d6c3a3;
+        border-color: #d6c3a3;
+        color: #795c4d !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
+     }
+
+    .input-group {
+        position: relative;
+        width: 100%;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .custom-select {
+        width: 100%;
+        padding: 0 45px 0 50px; /* Icone à esquerda e a seta à direita */
+        border-radius: 50px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        height: 50px;
+        outline: none;
+        transition: 0.3s;
+        background-color: white;
+        color: #555;
+        font-weight: 500;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238d6e63'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: calc(100% - 15px) center;
+        background-size: 30px;
+        cursor: pointer;
+    }
+
+    .custom-select:focus {
+        border-color: #8d6e63;
+        box-shadow: 0 0 8px rgba(141, 110, 99, 0.2);
+    }
 </style>
