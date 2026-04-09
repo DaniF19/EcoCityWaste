@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcoCityWaste.Controllers
 {
+    /// <summary>
+    /// Controlador responsável por gerar o painel de estatísticas interno.
+    /// O acesso é estritamente reservado aos Administradores e Funcionários da autarquia.
+    /// </summary>
     [Authorize(Roles = "Admin,Funcionario")]
     public class DashboardController : Controller
     {
@@ -16,6 +20,13 @@ namespace EcoCityWaste.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Carrega a página principal do Dashboard.
+        /// Faz os cálculos agregados todos na base de dados (contagens de ocorrências por estado, 
+        /// contentores em estado crítico, médias de enchimento) para preparar os dados 
+        /// que vão alimentar o ecrã.
+        /// </summary>
+        /// <returns>A vista do Dashboard preenchida com o <see cref="DashboardViewModel"/>.</returns>
         public async Task<IActionResult> Index()
         {
             var hoje = DateTime.Today;

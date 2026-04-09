@@ -1,0 +1,1428 @@
+{
+  "source_base_path": "C:/Users/bruno/Desktop/EcoCityWaste",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.AccountController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.AccountController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.AccountController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.AccountController.yml\" sourcestartlinenumber=\"1\">Controlador central que gere toda a autenticação da plataforma.\nTrata de logins (locais e Google), registos, cookies de sessão e recuperação de palavras-passe.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.AdminController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.AdminController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.AdminController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.AdminController.yml\" sourcestartlinenumber=\"1\">Controlador reservado exclusivamente para os Administradores.\nA anotação de autorização garante que ninguém com outro perfil consegue aceder a estas rotas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.CitizenController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.CitizenController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.CitizenController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.CitizenController.yml\" sourcestartlinenumber=\"1\">Controlador dedicado ao portal do Cidadão.\nAgrupa as páginas onde os munícipes interagem com o sistema de gestão de resíduos da autarquia.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.ContainersController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.ContainersController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.ContainersController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.ContainersController.yml\" sourcestartlinenumber=\"1\">Controlador principal para a gestão dos contentores de lixo.\nApenas Administradores e Funcionários têm permissão para aceder a estas páginas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.DashboardController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.DashboardController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.DashboardController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.DashboardController.yml\" sourcestartlinenumber=\"1\">Controlador responsável por gerar o painel de estatísticas interno.\nO acesso é estritamente reservado aos Administradores e Funcionários da autarquia.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.FuncionarioController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.FuncionarioController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.FuncionarioController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.FuncionarioController.yml\" sourcestartlinenumber=\"1\">Controlador exclusivo para os funcionários da autarquia.\nA anotação [Authorize] garante que cidadãos ou utilizadores não registados não conseguem aceder a estas páginas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.HomeController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.HomeController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.HomeController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.HomeController.yml\" sourcestartlinenumber=\"1\">Controlador responsável pela página inicial e páginas consequentes.\nGere também o redirecionamento inteligente de utilizadores já autenticados.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.NotificationsController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.NotificationsController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.NotificationsController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.NotificationsController.yml\" sourcestartlinenumber=\"1\">Controlador responsável por gerir o centro de notificações da plataforma.\nPermite que Administradores, Funcionários e Cidadãos visualizem e interajam com os seus alertas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.OccurrencesController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.OccurrencesController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.OccurrencesController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.OccurrencesController.yml\" sourcestartlinenumber=\"1\">Controlador responsável por todo o ciclo de vida das ocorrências.\nGere desde o reporte inicial pelo cidadão até à atribuição e resolução pelos funcionários.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.RoutesController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.RoutesController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.RoutesController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.RoutesController.yml\" sourcestartlinenumber=\"1\">Controlador responsável pela gestão de rotas de recolha de resíduos.\nPermite o planeamento, otimização, atribuição e monitorização das rotas no terreno.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.UsersController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.UsersController.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers.UsersController",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Controllers.UsersController.yml\" sourcestartlinenumber=\"1\">Controlador responsável pela gestão administrativa de utilizadores.\nPermite criar, editar, visualizar e remover contas de utilizador do sistema.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Controllers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Controllers",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Data.AppDbContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Data.AppDbContext.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Data.AppDbContext",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Data.AppDbContext.yml\" sourcestartlinenumber=\"1\">Contexto da Base de Dados da aplicação.\nFaz a ponte entre os Models e as tabelas do SQL Server através do Entity Framework Core.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Data.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Data",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Dtos.UpdateContainerStatusDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Dtos.UpdateContainerStatusDto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Dtos.UpdateContainerStatusDto",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Dtos.UpdateContainerStatusDto.yml\" sourcestartlinenumber=\"1\">Objeto de Transferência de Dados usado para simplificar a atualização do estado de um contentor.\nServe para enviar apenas a informação essencial, otimizando o tráfego de dados.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Dtos.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Dtos.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Dtos",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Helpers.ContainerStatusExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Helpers.ContainerStatusExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Helpers.ContainerStatusExtensions",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Helpers.ContainerStatusExtensions.yml\" sourcestartlinenumber=\"1\">Classe auxiliar que contém métodos de extensão para a enumeração ContainerStatus.\nServe para centralizar a lógica de tradução ao utilizador.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Helpers.IncidentStatusExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Helpers.IncidentStatusExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Helpers.IncidentStatusExtensions",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Helpers.IncidentStatusExtensions.yml\" sourcestartlinenumber=\"1\">Classe de extensão para formatar os estados das ocorrências/incidentes.\nComo os estados são guardados na base de dados em formatos sem espaços (ex: &quot;EmAnalise&quot;),\nesta classe ajuda a convertê-los para um formato legível no portal.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Helpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Helpers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Helpers",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Hubs.SimulationHub.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Hubs.SimulationHub.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Hubs.SimulationHub",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Hubs.SimulationHub.yml\" sourcestartlinenumber=\"1\">Hub do SignalR responsável pela gestão da simulação de rotas em tempo real.\nPermite uma comunicação bidirecional entre o servidor e os clientes conectados.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Hubs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Hubs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Hubs",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddContainerStatusHistory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddContainerStatusHistory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddContainerStatusHistory",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddContainerStatusHistory.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddFailureLogs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddFailureLogs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddFailureLogs",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddFailureLogs.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddGoogleAuthFields.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddGoogleAuthFields.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddGoogleAuthFields",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddGoogleAuthFields.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddLastUpdatedAt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddLastUpdatedAt.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddLastUpdatedAt",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddLastUpdatedAt.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddNotifications.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddNotifications.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddNotifications",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddNotifications.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddReportOccurrence.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddReportOccurrence.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddReportOccurrence",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddReportOccurrence.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddRouteManagement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddRouteManagement.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddRouteManagement",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddRouteManagement.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddUserIdToNotifications.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddUserIdToNotifications.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddUserIdToNotifications",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddUserIdToNotifications.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.AddUserRole.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.AddUserRole.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.AddUserRole",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.AddUserRole.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.CreateContainerTable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.CreateContainerTable.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.CreateContainerTable",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.CreateContainerTable.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.ImagePathNullable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.ImagePathNullable.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.ImagePathNullable",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.ImagePathNullable.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.InitialCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.InitialCreate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.InitialCreate",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.InitialCreate.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.NewFieldsNotification.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.NewFieldsNotification.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.NewFieldsNotification",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.NewFieldsNotification.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.OccurrenceAssign.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.OccurrenceAssign.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.OccurrenceAssign",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.OccurrenceAssign.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.OccurrencePhoto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.OccurrencePhoto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.OccurrencePhoto",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.OccurrencePhoto.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.OcorrencesUserForeignKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.OcorrencesUserForeignKey.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.OcorrencesUserForeignKey",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.OcorrencesUserForeignKey.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.StatusEnum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.StatusEnum.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.StatusEnum",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.StatusEnum.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.Teste.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.Teste.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.Teste",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.Teste.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations._0503.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations._0503.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations._0503",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations._0503.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations._0903.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations._0903.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations._0903",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations._0903.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations._1103.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations._1103.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations._1103",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations._1103.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.initial.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.initial.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations.initial",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Migrations.initial.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Migrations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Migrations.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Migrations",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.Container.ContainerStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.Container.ContainerStatus.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.Container.ContainerStatus",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.Container.ContainerStatus.yml\" sourcestartlinenumber=\"1\">Define os vários estados em que o equipamento pode estar.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.Container.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.Container.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.Container",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.Container.yml\" sourcestartlinenumber=\"1\">Representa um contentor de lixo físico espalhado pelo município.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.ContainerStatusHistory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.ContainerStatusHistory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.ContainerStatusHistory",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.ContainerStatusHistory.yml\" sourcestartlinenumber=\"1\">Tabela de histórico que guarda o registo de todas as alterações sofridas por um contentor.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.FailureLog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.FailureLog.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.FailureLog",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.FailureLog.yml\" sourcestartlinenumber=\"1\">Tabela para registar os erros e exceções não tratadas que acontecem no sistema.\nÚtil para os developers conseguirem fazer debugging e resolver problemas futuros.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.Notification.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.Notification.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.Notification",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.Notification.yml\" sourcestartlinenumber=\"1\">Representa um alerta ou notificação gerada pelo sistema para um utilizador.\nServe para avisar sobre contentores cheios, novas ocorrências ou mudanças de estado.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.Occurrence.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.Occurrence.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.Occurrence",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.Occurrence.yml\" sourcestartlinenumber=\"1\">Entidade que representa um problema reportado por um cidadão\n(ex: contentor a transbordar, vandalismo, lixo na via pública).</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.OccurrenceStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.OccurrenceStatus.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.OccurrenceStatus",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.OccurrenceStatus.yml\" sourcestartlinenumber=\"1\">Enumeração que mapeia o fluxo e ciclo de vida de uma ocorrência.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.Route.RouteStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.Route.RouteStatus.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.Route.RouteStatus",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.Route.RouteStatus.yml\" sourcestartlinenumber=\"1\">Os possíveis estados do ciclo de vida da rota de recolha.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.Route.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.Route.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.Route",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.Route.yml\" sourcestartlinenumber=\"1\">Entidade que representa o planeamento de uma rota de recolha de lixo.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.RouteContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.RouteContainer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.RouteContainer",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.RouteContainer.yml\" sourcestartlinenumber=\"1\">Tabela intermédia que faz a ligação entre a rota e os contentores que vão ser recolhidos.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.User.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.User.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.User",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Models.User.yml\" sourcestartlinenumber=\"1\">Representa um utilizador da plataforma. Centraliza os dados de autenticação\ne define o nível de acesso (Role) que a pessoa tem no sistema.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.ViewModels.OptimisedRouteDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.ViewModels.OptimisedRouteDto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.ViewModels.OptimisedRouteDto",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.ViewModels.OptimisedStopDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.ViewModels.OptimisedStopDto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.ViewModels.OptimisedStopDto",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.ViewModels.RouteAssignViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.ViewModels.RouteAssignViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.ViewModels.RouteAssignViewModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.ViewModels.RouteCreateViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.ViewModels.RouteCreateViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.ViewModels.RouteCreateViewModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.ViewModels.RouteEditViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.ViewModels.RouteEditViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.ViewModels.RouteEditViewModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.ViewModels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.ViewModels.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models.ViewModels",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Models.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Models",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.ContainerHistoryService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.ContainerHistoryService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.ContainerHistoryService",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.ContainerHistoryService.yml\" sourcestartlinenumber=\"1\">Serviço especializado na gestão e registo do histórico de estados dos contentores.\nGarante que todas as alterações relevantes fiquem gravadas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.FailureLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.FailureLogger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.FailureLogger",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.FailureLogger.yml\" sourcestartlinenumber=\"1\">Serviço responsável por registar falhas críticas e exceções do sistema.\nPermite aos administradores diagnosticar erros que ocorreram em produção sem expor detalhes sensíveis ao utilizador final.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.IEmailService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.IEmailService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.IEmailService",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.IEmailService.yml\" sourcestartlinenumber=\"1\">Interface que define a assinatura do método para os serviços de envio de mensagens eletrónicas.\nPermite a separação entre a lógica de negócio e o fornecedor específico de e-mail.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.IRouteService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.IRouteService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.IRouteService",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.IRouteService.yml\" sourcestartlinenumber=\"1\">Interface que define a assinatura do método para a gestão de rotas de recolha.\nCentraliza toda a lógica de negócio relacionada com o planeamento, otimização e monitorização de trajetos.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.NotificationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.NotificationService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.NotificationService",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.NotificationService.yml\" sourcestartlinenumber=\"1\">Serviço responsável pela gestão e distribuição de alertas dentro da plataforma.\nPermite a criação de notificações automáticas baseadas em eventos do sistema ou ações de utilizadores.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.RouteOptimisationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.RouteOptimisationService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.RouteOptimisationService",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.RouteOptimisationService.yml\" sourcestartlinenumber=\"1\">Serviço de logística responsável por calcular a ordem ideal de recolha de resíduos.\nUtiliza um algoritmo baseado no vizinho mais próximo,\npriorizando contentores com níveis de enchimento críticos.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.RouteService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.RouteService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.RouteService",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.RouteService.yml\" sourcestartlinenumber=\"1\">Implementação principal do serviço de gestão de rotas.\nOrquestra a criação, atribuição, otimização e conclusão das tarefas de recolha de resíduos.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.SensorSimulationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.SensorSimulationService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services.SensorSimulationService",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.Services.SensorSimulationService.yml\" sourcestartlinenumber=\"1\">Serviço de segundo plano que simula o comportamento de sensores IoT.\nEste serviço corre continuamente enquanto a aplicação estiver ligada, atualizando\nautomaticamente o nível de enchimento dos contentores para simular o uso real pelos cidadãos.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Services.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Services",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.AssignOccurrenceViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.AssignOccurrenceViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.AssignOccurrenceViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.AssignOccurrenceViewModel.yml\" sourcestartlinenumber=\"1\">ModelView para a funcionalidade de atribuição de ocorrências a funcionários.\nTransporta a lista de anomalias pendentes, a lista de colaboradores disponíveis\ne métricas de carga de trabalho para apoiar a decisão do administrador.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.ContainerEditViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.ContainerEditViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.ContainerEditViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.ContainerEditViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para a edição de contentores existentes.\nDefine os campos que podem ser modificados por um administrador, isolando a lógica de edição da entidade de base de dados.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.ContainerRegisterViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.ContainerRegisterViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.ContainerRegisterViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.ContainerRegisterViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel responsável pelo formulário de registo de novos contentores no sistema.\nDefine as regras de validação necessárias para garantir que nenhum contentor é criado sem os dados essenciais.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.CreateUserViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.CreateUserViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.CreateUserViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.CreateUserViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para a criação manual de novos utilizadores pelo administrador.\nEste modelo facilita a captura de dados iniciais de conta antes do processo de hashing da password.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.DashboardViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.DashboardViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.DashboardViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.DashboardViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel centralizador para o painel de controlo da aplicação.\nReúne estatísticas consolidadas e indicadores de performance para visualização rápida pela administração.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.ErrorViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.ErrorViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.ErrorViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.ErrorViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para a apresentação de detalhes técnicos em caso de erro na aplicação.\nAjuda no debug e no rastreio de problemas reportados pelos utilizadores.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.ForgotPasswordViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.ForgotPasswordViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.ForgotPasswordViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.ForgotPasswordViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para o processo de recuperação de acesso à conta.\nCaptura o endereço de e-mail do utilizador para o envio das instruções de redefinição de password.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.LoginViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.LoginViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.LoginViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.LoginViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel responsável por capturar e validar as credenciais de acesso durante o processo de autenticação.\nAtua como intermediário entre o formulário de login e o serviço de segurança.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.OptimisedRouteDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.OptimisedRouteDto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.OptimisedRouteDto",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.OptimisedRouteDto.yml\" sourcestartlinenumber=\"1\">DTO que transporta o resultado do algoritmo de otimização geoespacial.\nContém a sequência ideal de paragens e as métricas de eficiência calculadas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.OptimisedStopDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.OptimisedStopDto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.OptimisedStopDto",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.OptimisedStopDto.yml\" sourcestartlinenumber=\"1\">Representa uma paragem individual dentro de uma rota otimizada.\nInclui dados geográficos necessários para a renderização em mapas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.RegisterViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.RegisterViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.RegisterViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.RegisterViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel responsável pelo processo de registo de novos cidadãos na plataforma.\nContém regras de validação rigorosas para garantir a segurança das contas e a integridade dos dados.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.ReportOccurrenceViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.ReportOccurrenceViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.ReportOccurrenceViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.ReportOccurrenceViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para capturar os dados de um novo reporte de anomalia submetido por um cidadão.\nInclui validações de formulário para garantir que a equipa técnica recebe informações precisas e detalhadas.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.ResetPasswordViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.ResetPasswordViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.ResetPasswordViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.ResetPasswordViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para a definição de uma nova palavra-passe após um pedido de recuperação.\nContém o token de segurança necessário para validar a operação e os campos para a nova credencial.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.RouteAssignViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.RouteAssignViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.RouteAssignViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.RouteAssignViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel simplificado para o processo de atribuição de uma rota a um colaborador operacional.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.RouteCreateViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.RouteCreateViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.RouteCreateViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.RouteCreateViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para o formulário de criação de novas rotas.\nCaptura a intenção inicial do administrador e a seleção manual de contentores.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.RouteEditViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.RouteEditViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.RouteEditViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.RouteEditViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel para edição de rotas existentes.\nPermite a reordenação de paragens e a atualização de metadados da rota.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.UpdateStatusViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.UpdateStatusViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels.UpdateStatusViewModel",
+      "Summary": "<p sourcefile=\"api/EcoCityWaste.ViewModels.UpdateStatusViewModel.yml\" sourcestartlinenumber=\"1\">ViewModel utilizado para a atualização do estado de progresso de uma ocorrência.\nFacilita a transição de estados por parte de administradores ou funcionários.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.ViewModels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.ViewModels.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.ViewModels",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Views.Containers.IndexModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Views.Containers.IndexModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Views.Containers.IndexModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Views.Containers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Views.Containers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Views.Containers",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Views.Occurrences.ReportStatusModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Views.Occurrences.ReportStatusModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Views.Occurrences.ReportStatusModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Views.Occurrences.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Views.Occurrences.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Views.Occurrences",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Views.Routes.SimulateModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Views.Routes.SimulateModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Views.Routes.SimulateModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/EcoCityWaste.Views.Routes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/EcoCityWaste.Views.Routes.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcoCityWaste.Views.Routes",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "wwwroot/lib/jquery-validation/LICENSE.md",
+      "output": {
+        ".html": {
+          "relative_path": "wwwroot/lib/jquery-validation/LICENSE.html"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

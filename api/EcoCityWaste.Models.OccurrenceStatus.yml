@@ -1,0 +1,270 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Models.OccurrenceStatus
+  commentId: T:EcoCityWaste.Models.OccurrenceStatus
+  id: OccurrenceStatus
+  parent: EcoCityWaste.Models
+  children:
+  - EcoCityWaste.Models.OccurrenceStatus.EmAnalise
+  - EcoCityWaste.Models.OccurrenceStatus.EmResolucao
+  - EcoCityWaste.Models.OccurrenceStatus.Pendente
+  - EcoCityWaste.Models.OccurrenceStatus.Rejeitado
+  - EcoCityWaste.Models.OccurrenceStatus.Resolvido
+  langs:
+  - csharp
+  - vb
+  name: OccurrenceStatus
+  nameWithType: OccurrenceStatus
+  fullName: EcoCityWaste.Models.OccurrenceStatus
+  type: Enum
+  source:
+    remote:
+      path: Models/Occurrence.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: OccurrenceStatus
+    path: Models/Occurrence.cs
+    startLine: 88
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Enumeração que mapeia o fluxo e ciclo de vida de uma ocorrência.
+  example: []
+  syntax:
+    content: public enum OccurrenceStatus
+    content.vb: Public Enum OccurrenceStatus
+- uid: EcoCityWaste.Models.OccurrenceStatus.Pendente
+  commentId: F:EcoCityWaste.Models.OccurrenceStatus.Pendente
+  id: Pendente
+  parent: EcoCityWaste.Models.OccurrenceStatus
+  langs:
+  - csharp
+  - vb
+  name: Pendente
+  nameWithType: OccurrenceStatus.Pendente
+  fullName: EcoCityWaste.Models.OccurrenceStatus.Pendente
+  type: Field
+  source:
+    remote:
+      path: Models/Occurrence.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Pendente
+    path: Models/Occurrence.cs
+    startLine: 90
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Pendente")]
+
+      Pendente = 0
+    return:
+      type: EcoCityWaste.Models.OccurrenceStatus
+    content.vb: >-
+      <Display(Name:="Pendente")>
+
+      Pendente = 0
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Pendente
+- uid: EcoCityWaste.Models.OccurrenceStatus.EmAnalise
+  commentId: F:EcoCityWaste.Models.OccurrenceStatus.EmAnalise
+  id: EmAnalise
+  parent: EcoCityWaste.Models.OccurrenceStatus
+  langs:
+  - csharp
+  - vb
+  name: EmAnalise
+  nameWithType: OccurrenceStatus.EmAnalise
+  fullName: EcoCityWaste.Models.OccurrenceStatus.EmAnalise
+  type: Field
+  source:
+    remote:
+      path: Models/Occurrence.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: EmAnalise
+    path: Models/Occurrence.cs
+    startLine: 93
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Em Análise")]
+
+      EmAnalise = 1
+    return:
+      type: EcoCityWaste.Models.OccurrenceStatus
+    content.vb: >-
+      <Display(Name:="Em Análise")>
+
+      EmAnalise = 1
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Em Análise
+- uid: EcoCityWaste.Models.OccurrenceStatus.EmResolucao
+  commentId: F:EcoCityWaste.Models.OccurrenceStatus.EmResolucao
+  id: EmResolucao
+  parent: EcoCityWaste.Models.OccurrenceStatus
+  langs:
+  - csharp
+  - vb
+  name: EmResolucao
+  nameWithType: OccurrenceStatus.EmResolucao
+  fullName: EcoCityWaste.Models.OccurrenceStatus.EmResolucao
+  type: Field
+  source:
+    remote:
+      path: Models/Occurrence.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: EmResolucao
+    path: Models/Occurrence.cs
+    startLine: 96
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Em Resolução")]
+
+      EmResolucao = 2
+    return:
+      type: EcoCityWaste.Models.OccurrenceStatus
+    content.vb: >-
+      <Display(Name:="Em Resolução")>
+
+      EmResolucao = 2
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Em Resolução
+- uid: EcoCityWaste.Models.OccurrenceStatus.Resolvido
+  commentId: F:EcoCityWaste.Models.OccurrenceStatus.Resolvido
+  id: Resolvido
+  parent: EcoCityWaste.Models.OccurrenceStatus
+  langs:
+  - csharp
+  - vb
+  name: Resolvido
+  nameWithType: OccurrenceStatus.Resolvido
+  fullName: EcoCityWaste.Models.OccurrenceStatus.Resolvido
+  type: Field
+  source:
+    remote:
+      path: Models/Occurrence.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Resolvido
+    path: Models/Occurrence.cs
+    startLine: 99
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Resolvido")]
+
+      Resolvido = 3
+    return:
+      type: EcoCityWaste.Models.OccurrenceStatus
+    content.vb: >-
+      <Display(Name:="Resolvido")>
+
+      Resolvido = 3
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Resolvido
+- uid: EcoCityWaste.Models.OccurrenceStatus.Rejeitado
+  commentId: F:EcoCityWaste.Models.OccurrenceStatus.Rejeitado
+  id: Rejeitado
+  parent: EcoCityWaste.Models.OccurrenceStatus
+  langs:
+  - csharp
+  - vb
+  name: Rejeitado
+  nameWithType: OccurrenceStatus.Rejeitado
+  fullName: EcoCityWaste.Models.OccurrenceStatus.Rejeitado
+  type: Field
+  source:
+    remote:
+      path: Models/Occurrence.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Rejeitado
+    path: Models/Occurrence.cs
+    startLine: 102
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Rejeitado")]
+
+      Rejeitado = 4
+    return:
+      type: EcoCityWaste.Models.OccurrenceStatus
+    content.vb: >-
+      <Display(Name:="Rejeitado")>
+
+      Rejeitado = 4
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Rejeitado
+references:
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+- uid: EcoCityWaste.Models.OccurrenceStatus
+  commentId: T:EcoCityWaste.Models.OccurrenceStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.OccurrenceStatus.html
+  name: OccurrenceStatus
+  nameWithType: OccurrenceStatus
+  fullName: EcoCityWaste.Models.OccurrenceStatus

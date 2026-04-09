@@ -1,0 +1,367 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Models.Container.ContainerStatus
+  commentId: T:EcoCityWaste.Models.Container.ContainerStatus
+  id: Container.ContainerStatus
+  parent: EcoCityWaste.Models
+  children:
+  - EcoCityWaste.Models.Container.ContainerStatus.Broken
+  - EcoCityWaste.Models.Container.ContainerStatus.Empty
+  - EcoCityWaste.Models.Container.ContainerStatus.Full
+  - EcoCityWaste.Models.Container.ContainerStatus.Good
+  - EcoCityWaste.Models.Container.ContainerStatus.Maintenance
+  langs:
+  - csharp
+  - vb
+  name: Container.ContainerStatus
+  nameWithType: Container.ContainerStatus
+  fullName: EcoCityWaste.Models.Container.ContainerStatus
+  type: Enum
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ContainerStatus
+    path: Models/Container.cs
+    startLine: 12
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Define os vários estados em que o equipamento pode estar.
+  example: []
+  syntax:
+    content: public enum Container.ContainerStatus
+    content.vb: Public Enum Container.ContainerStatus
+  extensionMethods:
+  - EcoCityWaste.Models.Container.ContainerStatus.EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName
+- uid: EcoCityWaste.Models.Container.ContainerStatus.Good
+  commentId: F:EcoCityWaste.Models.Container.ContainerStatus.Good
+  id: Good
+  parent: EcoCityWaste.Models.Container.ContainerStatus
+  langs:
+  - csharp
+  - vb
+  name: Good
+  nameWithType: Container.ContainerStatus.Good
+  fullName: EcoCityWaste.Models.Container.ContainerStatus.Good
+  type: Field
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Good
+    path: Models/Container.cs
+    startLine: 14
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Bom")]
+
+      Good = 0
+    return:
+      type: EcoCityWaste.Models.Container.ContainerStatus
+    content.vb: >-
+      <Display(Name:="Bom")>
+
+      Good = 0
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Bom
+- uid: EcoCityWaste.Models.Container.ContainerStatus.Full
+  commentId: F:EcoCityWaste.Models.Container.ContainerStatus.Full
+  id: Full
+  parent: EcoCityWaste.Models.Container.ContainerStatus
+  langs:
+  - csharp
+  - vb
+  name: Full
+  nameWithType: Container.ContainerStatus.Full
+  fullName: EcoCityWaste.Models.Container.ContainerStatus.Full
+  type: Field
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Full
+    path: Models/Container.cs
+    startLine: 15
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Cheio")]
+
+      Full = 1
+    return:
+      type: EcoCityWaste.Models.Container.ContainerStatus
+    content.vb: >-
+      <Display(Name:="Cheio")>
+
+      Full = 1
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Cheio
+- uid: EcoCityWaste.Models.Container.ContainerStatus.Empty
+  commentId: F:EcoCityWaste.Models.Container.ContainerStatus.Empty
+  id: Empty
+  parent: EcoCityWaste.Models.Container.ContainerStatus
+  langs:
+  - csharp
+  - vb
+  name: Empty
+  nameWithType: Container.ContainerStatus.Empty
+  fullName: EcoCityWaste.Models.Container.ContainerStatus.Empty
+  type: Field
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Empty
+    path: Models/Container.cs
+    startLine: 16
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Vazio")]
+
+      Empty = 2
+    return:
+      type: EcoCityWaste.Models.Container.ContainerStatus
+    content.vb: >-
+      <Display(Name:="Vazio")>
+
+      Empty = 2
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Vazio
+- uid: EcoCityWaste.Models.Container.ContainerStatus.Broken
+  commentId: F:EcoCityWaste.Models.Container.ContainerStatus.Broken
+  id: Broken
+  parent: EcoCityWaste.Models.Container.ContainerStatus
+  langs:
+  - csharp
+  - vb
+  name: Broken
+  nameWithType: Container.ContainerStatus.Broken
+  fullName: EcoCityWaste.Models.Container.ContainerStatus.Broken
+  type: Field
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Broken
+    path: Models/Container.cs
+    startLine: 17
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Avariado")]
+
+      Broken = 3
+    return:
+      type: EcoCityWaste.Models.Container.ContainerStatus
+    content.vb: >-
+      <Display(Name:="Avariado")>
+
+      Broken = 3
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Avariado
+- uid: EcoCityWaste.Models.Container.ContainerStatus.Maintenance
+  commentId: F:EcoCityWaste.Models.Container.ContainerStatus.Maintenance
+  id: Maintenance
+  parent: EcoCityWaste.Models.Container.ContainerStatus
+  langs:
+  - csharp
+  - vb
+  name: Maintenance
+  nameWithType: Container.ContainerStatus.Maintenance
+  fullName: EcoCityWaste.Models.Container.ContainerStatus.Maintenance
+  type: Field
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Maintenance
+    path: Models/Container.cs
+    startLine: 18
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Manutenção")]
+
+      Maintenance = 4
+    return:
+      type: EcoCityWaste.Models.Container.ContainerStatus
+    content.vb: >-
+      <Display(Name:="Manutenção")>
+
+      Maintenance = 4
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Manutenção
+references:
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+- uid: EcoCityWaste.Models.Container.ContainerStatus.EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName
+  commentId: M:EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+  parent: EcoCityWaste.Helpers.ContainerStatusExtensions
+  definition: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+  href: EcoCityWaste.Helpers.ContainerStatusExtensions.html#EcoCityWaste_Helpers_ContainerStatusExtensions_ToDisplayName_EcoCityWaste_Models_Container_ContainerStatus_
+  name: ToDisplayName(ContainerStatus)
+  nameWithType: ContainerStatusExtensions.ToDisplayName(Container.ContainerStatus)
+  fullName: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+  spec.csharp:
+  - uid: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+    name: ToDisplayName
+    href: EcoCityWaste.Helpers.ContainerStatusExtensions.html#EcoCityWaste_Helpers_ContainerStatusExtensions_ToDisplayName_EcoCityWaste_Models_Container_ContainerStatus_
+  - name: (
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  - name: )
+  spec.vb:
+  - uid: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+    name: ToDisplayName
+    href: EcoCityWaste.Helpers.ContainerStatusExtensions.html#EcoCityWaste_Helpers_ContainerStatusExtensions_ToDisplayName_EcoCityWaste_Models_Container_ContainerStatus_
+  - name: (
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  - name: )
+- uid: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+  commentId: M:EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+  href: EcoCityWaste.Helpers.ContainerStatusExtensions.html#EcoCityWaste_Helpers_ContainerStatusExtensions_ToDisplayName_EcoCityWaste_Models_Container_ContainerStatus_
+  name: ToDisplayName(ContainerStatus)
+  nameWithType: ContainerStatusExtensions.ToDisplayName(Container.ContainerStatus)
+  fullName: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+  spec.csharp:
+  - uid: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+    name: ToDisplayName
+    href: EcoCityWaste.Helpers.ContainerStatusExtensions.html#EcoCityWaste_Helpers_ContainerStatusExtensions_ToDisplayName_EcoCityWaste_Models_Container_ContainerStatus_
+  - name: (
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  - name: )
+  spec.vb:
+  - uid: EcoCityWaste.Helpers.ContainerStatusExtensions.ToDisplayName(EcoCityWaste.Models.Container.ContainerStatus)
+    name: ToDisplayName
+    href: EcoCityWaste.Helpers.ContainerStatusExtensions.html#EcoCityWaste_Helpers_ContainerStatusExtensions_ToDisplayName_EcoCityWaste_Models_Container_ContainerStatus_
+  - name: (
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  - name: )
+- uid: EcoCityWaste.Helpers.ContainerStatusExtensions
+  commentId: T:EcoCityWaste.Helpers.ContainerStatusExtensions
+  parent: EcoCityWaste.Helpers
+  href: EcoCityWaste.Helpers.ContainerStatusExtensions.html
+  name: ContainerStatusExtensions
+  nameWithType: ContainerStatusExtensions
+  fullName: EcoCityWaste.Helpers.ContainerStatusExtensions
+- uid: EcoCityWaste.Helpers
+  commentId: N:EcoCityWaste.Helpers
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Helpers
+  nameWithType: EcoCityWaste.Helpers
+  fullName: EcoCityWaste.Helpers
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Helpers
+    name: Helpers
+    href: EcoCityWaste.Helpers.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Helpers
+    name: Helpers
+    href: EcoCityWaste.Helpers.html
+- uid: EcoCityWaste.Models.Container.ContainerStatus
+  commentId: T:EcoCityWaste.Models.Container.ContainerStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Container.html
+  name: Container.ContainerStatus
+  nameWithType: Container.ContainerStatus
+  fullName: EcoCityWaste.Models.Container.ContainerStatus
+  spec.csharp:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  spec.vb:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html

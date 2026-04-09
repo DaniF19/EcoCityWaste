@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Views.Occurrences
+  commentId: N:EcoCityWaste.Views.Occurrences
+  id: EcoCityWaste.Views.Occurrences
+  children:
+  - EcoCityWaste.Views.Occurrences.ReportStatusModel
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Views.Occurrences
+  nameWithType: EcoCityWaste.Views.Occurrences
+  fullName: EcoCityWaste.Views.Occurrences
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Views.Occurrences.ReportStatusModel
+  commentId: T:EcoCityWaste.Views.Occurrences.ReportStatusModel
+  href: EcoCityWaste.Views.Occurrences.ReportStatusModel.html
+  name: ReportStatusModel
+  nameWithType: ReportStatusModel
+  fullName: EcoCityWaste.Views.Occurrences.ReportStatusModel

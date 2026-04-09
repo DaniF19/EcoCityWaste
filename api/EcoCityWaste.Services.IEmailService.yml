@@ -1,0 +1,122 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Services.IEmailService
+  commentId: T:EcoCityWaste.Services.IEmailService
+  id: IEmailService
+  parent: EcoCityWaste.Services
+  children:
+  - EcoCityWaste.Services.IEmailService.SendEmail(System.String,System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: IEmailService
+  nameWithType: IEmailService
+  fullName: EcoCityWaste.Services.IEmailService
+  type: Interface
+  source:
+    remote:
+      path: Services/IEmailService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: IEmailService
+    path: Services/IEmailService.cs
+    startLine: 6
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: >-
+    Interface que define a assinatura do método para os serviços de envio de mensagens eletrónicas.
+
+    Permite a separação entre a lógica de negócio e o fornecedor específico de e-mail.
+  example: []
+  syntax:
+    content: public interface IEmailService
+    content.vb: Public Interface IEmailService
+- uid: EcoCityWaste.Services.IEmailService.SendEmail(System.String,System.String,System.String)
+  commentId: M:EcoCityWaste.Services.IEmailService.SendEmail(System.String,System.String,System.String)
+  id: SendEmail(System.String,System.String,System.String)
+  parent: EcoCityWaste.Services.IEmailService
+  langs:
+  - csharp
+  - vb
+  name: SendEmail(string, string, string)
+  nameWithType: IEmailService.SendEmail(string, string, string)
+  fullName: EcoCityWaste.Services.IEmailService.SendEmail(string, string, string)
+  type: Method
+  source:
+    remote:
+      path: Services/IEmailService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: SendEmail
+    path: Services/IEmailService.cs
+    startLine: 14
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Define a assinatura do método responsável por enviar e-mails de forma síncrona.
+  example: []
+  syntax:
+    content: void SendEmail(string to, string subject, string body)
+    parameters:
+    - id: to
+      type: System.String
+      description: Endereço de e-mail do destinatário final.
+    - id: subject
+      type: System.String
+      description: O assunto que aparecerá no cabeçalho da mensagem.
+    - id: body
+      type: System.String
+      description: O conteúdo principal da mensagem, podendo incluir formatação HTML.
+    content.vb: Sub SendEmail([to] As String, subject As String, body As String)
+  overload: EcoCityWaste.Services.IEmailService.SendEmail*
+  nameWithType.vb: IEmailService.SendEmail(String, String, String)
+  fullName.vb: EcoCityWaste.Services.IEmailService.SendEmail(String, String, String)
+  name.vb: SendEmail(String, String, String)
+references:
+- uid: EcoCityWaste.Services
+  commentId: N:EcoCityWaste.Services
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Services
+  nameWithType: EcoCityWaste.Services
+  fullName: EcoCityWaste.Services
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html
+- uid: EcoCityWaste.Services.IEmailService.SendEmail*
+  commentId: Overload:EcoCityWaste.Services.IEmailService.SendEmail
+  href: EcoCityWaste.Services.IEmailService.html#EcoCityWaste_Services_IEmailService_SendEmail_System_String_System_String_System_String_
+  name: SendEmail
+  nameWithType: IEmailService.SendEmail
+  fullName: EcoCityWaste.Services.IEmailService.SendEmail
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System

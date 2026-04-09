@@ -1,0 +1,1168 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Services.IRouteService
+  commentId: T:EcoCityWaste.Services.IRouteService
+  id: IRouteService
+  parent: EcoCityWaste.Services
+  children:
+  - EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync(System.Int32,System.Collections.Generic.List{System.Int32})
+  - EcoCityWaste.Services.IRouteService.AssignRouteAsync(EcoCityWaste.ViewModels.RouteAssignViewModel,EcoCityWaste.Models.Route,EcoCityWaste.Models.User)
+  - EcoCityWaste.Services.IRouteService.CompleteRouteAsync(System.Int32,System.String,System.Boolean)
+  - EcoCityWaste.Services.IRouteService.CreateRouteAsync(EcoCityWaste.ViewModels.RouteCreateViewModel,System.String)
+  - EcoCityWaste.Services.IRouteService.DeleteRouteAsync(System.Int32)
+  - EcoCityWaste.Services.IRouteService.EditRouteAsync(EcoCityWaste.ViewModels.RouteEditViewModel)
+  - EcoCityWaste.Services.IRouteService.GetActiveContainersAsync
+  - EcoCityWaste.Services.IRouteService.GetEmployeesAsync
+  - EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync(System.Int32)
+  - EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync(System.Int32)
+  - EcoCityWaste.Services.IRouteService.GetRoutesAsync(System.String,System.String,System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: IRouteService
+  nameWithType: IRouteService
+  fullName: EcoCityWaste.Services.IRouteService
+  type: Interface
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: IRouteService
+    path: Services/IRouteService.cs
+    startLine: 9
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: >-
+    Interface que define a assinatura do método para a gestão de rotas de recolha.
+
+    Centraliza toda a lógica de negócio relacionada com o planeamento, otimização e monitorização de trajetos.
+  example: []
+  syntax:
+    content: public interface IRouteService
+    content.vb: Public Interface IRouteService
+  derivedClasses:
+  - EcoCityWaste.Services.RouteService
+- uid: EcoCityWaste.Services.IRouteService.GetRoutesAsync(System.String,System.String,System.Boolean)
+  commentId: M:EcoCityWaste.Services.IRouteService.GetRoutesAsync(System.String,System.String,System.Boolean)
+  id: GetRoutesAsync(System.String,System.String,System.Boolean)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: GetRoutesAsync(string?, string?, bool)
+  nameWithType: IRouteService.GetRoutesAsync(string?, string?, bool)
+  fullName: EcoCityWaste.Services.IRouteService.GetRoutesAsync(string?, string?, bool)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: GetRoutesAsync
+    path: Services/IRouteService.cs
+    startLine: 14
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Obtém uma lista de rotas filtrada. Se for um funcionário, o serviço garante que este apenas vê os seus próprios trajetos.
+  example: []
+  syntax:
+    content: Task<List<Route>> GetRoutesAsync(string? statusFilter, string? username, bool isEmployee)
+    parameters:
+    - id: statusFilter
+      type: System.String
+    - id: username
+      type: System.String
+    - id: isEmployee
+      type: System.Boolean
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.Route}}
+    content.vb: Function GetRoutesAsync(statusFilter As String, username As String, isEmployee As Boolean) As Task(Of List(Of Route))
+  overload: EcoCityWaste.Services.IRouteService.GetRoutesAsync*
+  nameWithType.vb: IRouteService.GetRoutesAsync(String, String, Boolean)
+  fullName.vb: EcoCityWaste.Services.IRouteService.GetRoutesAsync(String, String, Boolean)
+  name.vb: GetRoutesAsync(String, String, Boolean)
+- uid: EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync(System.Int32)
+  commentId: M:EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync(System.Int32)
+  id: GetRouteWithDetailsAsync(System.Int32)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: GetRouteWithDetailsAsync(int)
+  nameWithType: IRouteService.GetRouteWithDetailsAsync(int)
+  fullName: EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync(int)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: GetRouteWithDetailsAsync
+    path: Services/IRouteService.cs
+    startLine: 19
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Recupera os dados detalhados de uma rota, incluindo os contentores associados e o funcionário atribuído.
+  example: []
+  syntax:
+    content: Task<Route?> GetRouteWithDetailsAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+    return:
+      type: System.Threading.Tasks.Task{EcoCityWaste.Models.Route}
+    content.vb: Function GetRouteWithDetailsAsync(id As Integer) As Task(Of Route)
+  overload: EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync*
+  nameWithType.vb: IRouteService.GetRouteWithDetailsAsync(Integer)
+  fullName.vb: EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync(Integer)
+  name.vb: GetRouteWithDetailsAsync(Integer)
+- uid: EcoCityWaste.Services.IRouteService.CreateRouteAsync(EcoCityWaste.ViewModels.RouteCreateViewModel,System.String)
+  commentId: M:EcoCityWaste.Services.IRouteService.CreateRouteAsync(EcoCityWaste.ViewModels.RouteCreateViewModel,System.String)
+  id: CreateRouteAsync(EcoCityWaste.ViewModels.RouteCreateViewModel,System.String)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: CreateRouteAsync(RouteCreateViewModel, string)
+  nameWithType: IRouteService.CreateRouteAsync(RouteCreateViewModel, string)
+  fullName: EcoCityWaste.Services.IRouteService.CreateRouteAsync(EcoCityWaste.ViewModels.RouteCreateViewModel, string)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: CreateRouteAsync
+    path: Services/IRouteService.cs
+    startLine: 24
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Cria uma nova rota no sistema, gerando automaticamente um código único e associando os contentores selecionados.
+  example: []
+  syntax:
+    content: Task<(bool Success, string Code)> CreateRouteAsync(RouteCreateViewModel model, string createdBy)
+    parameters:
+    - id: model
+      type: EcoCityWaste.ViewModels.RouteCreateViewModel
+    - id: createdBy
+      type: System.String
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.String}}
+    content.vb: Function CreateRouteAsync(model As RouteCreateViewModel, createdBy As String) As Task(Of (Success As Boolean, Code As String))
+  overload: EcoCityWaste.Services.IRouteService.CreateRouteAsync*
+  nameWithType.vb: IRouteService.CreateRouteAsync(RouteCreateViewModel, String)
+  fullName.vb: EcoCityWaste.Services.IRouteService.CreateRouteAsync(EcoCityWaste.ViewModels.RouteCreateViewModel, String)
+  name.vb: CreateRouteAsync(RouteCreateViewModel, String)
+- uid: EcoCityWaste.Services.IRouteService.EditRouteAsync(EcoCityWaste.ViewModels.RouteEditViewModel)
+  commentId: M:EcoCityWaste.Services.IRouteService.EditRouteAsync(EcoCityWaste.ViewModels.RouteEditViewModel)
+  id: EditRouteAsync(EcoCityWaste.ViewModels.RouteEditViewModel)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: EditRouteAsync(RouteEditViewModel)
+  nameWithType: IRouteService.EditRouteAsync(RouteEditViewModel)
+  fullName: EcoCityWaste.Services.IRouteService.EditRouteAsync(EcoCityWaste.ViewModels.RouteEditViewModel)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: EditRouteAsync
+    path: Services/IRouteService.cs
+    startLine: 29
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Permite a edição das informações básicas e da lista de contentores de uma rota existente.
+  example: []
+  syntax:
+    content: Task<bool> EditRouteAsync(RouteEditViewModel model)
+    parameters:
+    - id: model
+      type: EcoCityWaste.ViewModels.RouteEditViewModel
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+    content.vb: Function EditRouteAsync(model As RouteEditViewModel) As Task(Of Boolean)
+  overload: EcoCityWaste.Services.IRouteService.EditRouteAsync*
+- uid: EcoCityWaste.Services.IRouteService.CompleteRouteAsync(System.Int32,System.String,System.Boolean)
+  commentId: M:EcoCityWaste.Services.IRouteService.CompleteRouteAsync(System.Int32,System.String,System.Boolean)
+  id: CompleteRouteAsync(System.Int32,System.String,System.Boolean)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: CompleteRouteAsync(int, string?, bool)
+  nameWithType: IRouteService.CompleteRouteAsync(int, string?, bool)
+  fullName: EcoCityWaste.Services.IRouteService.CompleteRouteAsync(int, string?, bool)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: CompleteRouteAsync
+    path: Services/IRouteService.cs
+    startLine: 34
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Finaliza uma rota, registando o momento da conclusão e libertando o funcionário para novas tarefas.
+  example: []
+  syntax:
+    content: Task<bool> CompleteRouteAsync(int id, string? username, bool isEmployee)
+    parameters:
+    - id: id
+      type: System.Int32
+    - id: username
+      type: System.String
+    - id: isEmployee
+      type: System.Boolean
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+    content.vb: Function CompleteRouteAsync(id As Integer, username As String, isEmployee As Boolean) As Task(Of Boolean)
+  overload: EcoCityWaste.Services.IRouteService.CompleteRouteAsync*
+  nameWithType.vb: IRouteService.CompleteRouteAsync(Integer, String, Boolean)
+  fullName.vb: EcoCityWaste.Services.IRouteService.CompleteRouteAsync(Integer, String, Boolean)
+  name.vb: CompleteRouteAsync(Integer, String, Boolean)
+- uid: EcoCityWaste.Services.IRouteService.AssignRouteAsync(EcoCityWaste.ViewModels.RouteAssignViewModel,EcoCityWaste.Models.Route,EcoCityWaste.Models.User)
+  commentId: M:EcoCityWaste.Services.IRouteService.AssignRouteAsync(EcoCityWaste.ViewModels.RouteAssignViewModel,EcoCityWaste.Models.Route,EcoCityWaste.Models.User)
+  id: AssignRouteAsync(EcoCityWaste.ViewModels.RouteAssignViewModel,EcoCityWaste.Models.Route,EcoCityWaste.Models.User)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: AssignRouteAsync(RouteAssignViewModel, Route, User)
+  nameWithType: IRouteService.AssignRouteAsync(RouteAssignViewModel, Route, User)
+  fullName: EcoCityWaste.Services.IRouteService.AssignRouteAsync(EcoCityWaste.ViewModels.RouteAssignViewModel, EcoCityWaste.Models.Route, EcoCityWaste.Models.User)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: AssignRouteAsync
+    path: Services/IRouteService.cs
+    startLine: 39
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Atribui formalmente uma rota a um funcionário e despoleta os mecanismos de notificação.
+  example: []
+  syntax:
+    content: Task AssignRouteAsync(RouteAssignViewModel model, Route route, User employee)
+    parameters:
+    - id: model
+      type: EcoCityWaste.ViewModels.RouteAssignViewModel
+    - id: route
+      type: EcoCityWaste.Models.Route
+    - id: employee
+      type: EcoCityWaste.Models.User
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Function AssignRouteAsync(model As RouteAssignViewModel, route As Route, employee As User) As Task
+  overload: EcoCityWaste.Services.IRouteService.AssignRouteAsync*
+- uid: EcoCityWaste.Services.IRouteService.DeleteRouteAsync(System.Int32)
+  commentId: M:EcoCityWaste.Services.IRouteService.DeleteRouteAsync(System.Int32)
+  id: DeleteRouteAsync(System.Int32)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: DeleteRouteAsync(int)
+  nameWithType: IRouteService.DeleteRouteAsync(int)
+  fullName: EcoCityWaste.Services.IRouteService.DeleteRouteAsync(int)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: DeleteRouteAsync
+    path: Services/IRouteService.cs
+    startLine: 44
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Remove uma rota e as suas associações da base de dados.
+  example: []
+  syntax:
+    content: Task<bool> DeleteRouteAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+    content.vb: Function DeleteRouteAsync(id As Integer) As Task(Of Boolean)
+  overload: EcoCityWaste.Services.IRouteService.DeleteRouteAsync*
+  nameWithType.vb: IRouteService.DeleteRouteAsync(Integer)
+  fullName.vb: EcoCityWaste.Services.IRouteService.DeleteRouteAsync(Integer)
+  name.vb: DeleteRouteAsync(Integer)
+- uid: EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync(System.Int32,System.Collections.Generic.List{System.Int32})
+  commentId: M:EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync(System.Int32,System.Collections.Generic.List{System.Int32})
+  id: ApplyOptimisationAsync(System.Int32,System.Collections.Generic.List{System.Int32})
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: ApplyOptimisationAsync(int, List<int>)
+  nameWithType: IRouteService.ApplyOptimisationAsync(int, List<int>)
+  fullName: EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync(int, System.Collections.Generic.List<int>)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ApplyOptimisationAsync
+    path: Services/IRouteService.cs
+    startLine: 49
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Aplica a nova ordem de recolha de contentores após um processo de otimização de trajeto.
+  example: []
+  syntax:
+    content: Task<bool> ApplyOptimisationAsync(int routeId, List<int> orderedContainerIds)
+    parameters:
+    - id: routeId
+      type: System.Int32
+    - id: orderedContainerIds
+      type: System.Collections.Generic.List{System.Int32}
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+    content.vb: Function ApplyOptimisationAsync(routeId As Integer, orderedContainerIds As List(Of Integer)) As Task(Of Boolean)
+  overload: EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync*
+  nameWithType.vb: IRouteService.ApplyOptimisationAsync(Integer, List(Of Integer))
+  fullName.vb: EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync(Integer, System.Collections.Generic.List(Of Integer))
+  name.vb: ApplyOptimisationAsync(Integer, List(Of Integer))
+- uid: EcoCityWaste.Services.IRouteService.GetActiveContainersAsync
+  commentId: M:EcoCityWaste.Services.IRouteService.GetActiveContainersAsync
+  id: GetActiveContainersAsync
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: GetActiveContainersAsync()
+  nameWithType: IRouteService.GetActiveContainersAsync()
+  fullName: EcoCityWaste.Services.IRouteService.GetActiveContainersAsync()
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: GetActiveContainersAsync
+    path: Services/IRouteService.cs
+    startLine: 54
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Devolve apenas os contentores que estão em estado "Ativo" e aptos para entrar numa rota.
+  example: []
+  syntax:
+    content: Task<List<Container>> GetActiveContainersAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.Container}}
+    content.vb: Function GetActiveContainersAsync() As Task(Of List(Of Container))
+  overload: EcoCityWaste.Services.IRouteService.GetActiveContainersAsync*
+- uid: EcoCityWaste.Services.IRouteService.GetEmployeesAsync
+  commentId: M:EcoCityWaste.Services.IRouteService.GetEmployeesAsync
+  id: GetEmployeesAsync
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: GetEmployeesAsync()
+  nameWithType: IRouteService.GetEmployeesAsync()
+  fullName: EcoCityWaste.Services.IRouteService.GetEmployeesAsync()
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: GetEmployeesAsync
+    path: Services/IRouteService.cs
+    startLine: 59
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Devolve a lista de utilizadores que possuem permissões de "Funcionario" para efeitos de atribuição.
+  example: []
+  syntax:
+    content: Task<List<User>> GetEmployeesAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.User}}
+    content.vb: Function GetEmployeesAsync() As Task(Of List(Of User))
+  overload: EcoCityWaste.Services.IRouteService.GetEmployeesAsync*
+- uid: EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync(System.Int32)
+  commentId: M:EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync(System.Int32)
+  id: GetOptimisedRouteAsync(System.Int32)
+  parent: EcoCityWaste.Services.IRouteService
+  langs:
+  - csharp
+  - vb
+  name: GetOptimisedRouteAsync(int)
+  nameWithType: IRouteService.GetOptimisedRouteAsync(int)
+  fullName: EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync(int)
+  type: Method
+  source:
+    remote:
+      path: Services/IRouteService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: GetOptimisedRouteAsync
+    path: Services/IRouteService.cs
+    startLine: 64
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Calcula e devolve uma sugestão de rota otimizada com base na localização geográfica dos contentores.
+  example: []
+  syntax:
+    content: Task<(Route? Route, OptimisedRouteDto? Result)> GetOptimisedRouteAsync(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{EcoCityWaste.Models.Route,EcoCityWaste.ViewModels.OptimisedRouteDto}}
+    content.vb: Function GetOptimisedRouteAsync(id As Integer) As Task(Of (Route As Route, Result As OptimisedRouteDto))
+  overload: EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync*
+  nameWithType.vb: IRouteService.GetOptimisedRouteAsync(Integer)
+  fullName.vb: EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync(Integer)
+  name.vb: GetOptimisedRouteAsync(Integer)
+references:
+- uid: EcoCityWaste.Services
+  commentId: N:EcoCityWaste.Services
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Services
+  nameWithType: EcoCityWaste.Services
+  fullName: EcoCityWaste.Services
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html
+- uid: EcoCityWaste.Services.IRouteService.GetRoutesAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.GetRoutesAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_GetRoutesAsync_System_String_System_String_System_Boolean_
+  name: GetRoutesAsync
+  nameWithType: IRouteService.GetRoutesAsync
+  fullName: EcoCityWaste.Services.IRouteService.GetRoutesAsync
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.Route}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.Route}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<List<Route>>
+  nameWithType: Task<List<Route>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.List<EcoCityWaste.Models.Route>>
+  nameWithType.vb: Task(Of List(Of Route))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.List(Of EcoCityWaste.Models.Route))
+  name.vb: Task(Of List(Of Route))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: )
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_GetRouteWithDetailsAsync_System_Int32_
+  name: GetRouteWithDetailsAsync
+  nameWithType: IRouteService.GetRouteWithDetailsAsync
+  fullName: EcoCityWaste.Services.IRouteService.GetRouteWithDetailsAsync
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.Tasks.Task{EcoCityWaste.Models.Route}
+  commentId: T:System.Threading.Tasks.Task{EcoCityWaste.Models.Route}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Route>
+  nameWithType: Task<Route>
+  fullName: System.Threading.Tasks.Task<EcoCityWaste.Models.Route>
+  nameWithType.vb: Task(Of Route)
+  fullName.vb: System.Threading.Tasks.Task(Of EcoCityWaste.Models.Route)
+  name.vb: Task(Of Route)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: )
+- uid: EcoCityWaste.Services.IRouteService.CreateRouteAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.CreateRouteAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_CreateRouteAsync_EcoCityWaste_ViewModels_RouteCreateViewModel_System_String_
+  name: CreateRouteAsync
+  nameWithType: IRouteService.CreateRouteAsync
+  fullName: EcoCityWaste.Services.IRouteService.CreateRouteAsync
+- uid: EcoCityWaste.ViewModels.RouteCreateViewModel
+  commentId: T:EcoCityWaste.ViewModels.RouteCreateViewModel
+  parent: EcoCityWaste.ViewModels
+  href: EcoCityWaste.ViewModels.RouteCreateViewModel.html
+  name: RouteCreateViewModel
+  nameWithType: RouteCreateViewModel
+  fullName: EcoCityWaste.ViewModels.RouteCreateViewModel
+- uid: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.String}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.String}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(bool Success, string Code)>
+  nameWithType: Task<(bool Success, string Code)>
+  fullName: System.Threading.Tasks.Task<(bool Success, string Code)>
+  nameWithType.vb: Task(Of (Success As Boolean, Code As String))
+  fullName.vb: System.Threading.Tasks.Task(Of (Success As Boolean, Code As String))
+  name.vb: Task(Of (Success As Boolean, Code As String))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.String}.Success
+    name: Success
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.string-.success
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.String}.Code
+    name: Code
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.string-.code
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.Boolean,System.String}.Success
+    name: Success
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.string-.success
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.String}.Code
+    name: Code
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.string-.code
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: EcoCityWaste.ViewModels
+  commentId: N:EcoCityWaste.ViewModels
+  href: EcoCityWaste.html
+  name: EcoCityWaste.ViewModels
+  nameWithType: EcoCityWaste.ViewModels
+  fullName: EcoCityWaste.ViewModels
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+- uid: EcoCityWaste.Services.IRouteService.EditRouteAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.EditRouteAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_EditRouteAsync_EcoCityWaste_ViewModels_RouteEditViewModel_
+  name: EditRouteAsync
+  nameWithType: IRouteService.EditRouteAsync
+  fullName: EcoCityWaste.Services.IRouteService.EditRouteAsync
+- uid: EcoCityWaste.ViewModels.RouteEditViewModel
+  commentId: T:EcoCityWaste.ViewModels.RouteEditViewModel
+  parent: EcoCityWaste.ViewModels
+  href: EcoCityWaste.ViewModels.RouteEditViewModel.html
+  name: RouteEditViewModel
+  nameWithType: RouteEditViewModel
+  fullName: EcoCityWaste.ViewModels.RouteEditViewModel
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: EcoCityWaste.Services.IRouteService.CompleteRouteAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.CompleteRouteAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_CompleteRouteAsync_System_Int32_System_String_System_Boolean_
+  name: CompleteRouteAsync
+  nameWithType: IRouteService.CompleteRouteAsync
+  fullName: EcoCityWaste.Services.IRouteService.CompleteRouteAsync
+- uid: EcoCityWaste.Services.IRouteService.AssignRouteAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.AssignRouteAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_AssignRouteAsync_EcoCityWaste_ViewModels_RouteAssignViewModel_EcoCityWaste_Models_Route_EcoCityWaste_Models_User_
+  name: AssignRouteAsync
+  nameWithType: IRouteService.AssignRouteAsync
+  fullName: EcoCityWaste.Services.IRouteService.AssignRouteAsync
+- uid: EcoCityWaste.ViewModels.RouteAssignViewModel
+  commentId: T:EcoCityWaste.ViewModels.RouteAssignViewModel
+  parent: EcoCityWaste.ViewModels
+  href: EcoCityWaste.ViewModels.RouteAssignViewModel.html
+  name: RouteAssignViewModel
+  nameWithType: RouteAssignViewModel
+  fullName: EcoCityWaste.ViewModels.RouteAssignViewModel
+- uid: EcoCityWaste.Models.Route
+  commentId: T:EcoCityWaste.Models.Route
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Route.html
+  name: Route
+  nameWithType: Route
+  fullName: EcoCityWaste.Models.Route
+- uid: EcoCityWaste.Models.User
+  commentId: T:EcoCityWaste.Models.User
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.User.html
+  name: User
+  nameWithType: User
+  fullName: EcoCityWaste.Models.User
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+- uid: EcoCityWaste.Services.IRouteService.DeleteRouteAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.DeleteRouteAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_DeleteRouteAsync_System_Int32_
+  name: DeleteRouteAsync
+  nameWithType: IRouteService.DeleteRouteAsync
+  fullName: EcoCityWaste.Services.IRouteService.DeleteRouteAsync
+- uid: EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_ApplyOptimisationAsync_System_Int32_System_Collections_Generic_List_System_Int32__
+  name: ApplyOptimisationAsync
+  nameWithType: IRouteService.ApplyOptimisationAsync
+  fullName: EcoCityWaste.Services.IRouteService.ApplyOptimisationAsync
+- uid: System.Collections.Generic.List{System.Int32}
+  commentId: T:System.Collections.Generic.List{System.Int32}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<int>
+  nameWithType: List<int>
+  fullName: System.Collections.Generic.List<int>
+  nameWithType.vb: List(Of Integer)
+  fullName.vb: System.Collections.Generic.List(Of Integer)
+  name.vb: List(Of Integer)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: EcoCityWaste.Services.IRouteService.GetActiveContainersAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.GetActiveContainersAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_GetActiveContainersAsync
+  name: GetActiveContainersAsync
+  nameWithType: IRouteService.GetActiveContainersAsync
+  fullName: EcoCityWaste.Services.IRouteService.GetActiveContainersAsync
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.Container}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.Container}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<List<Container>>
+  nameWithType: Task<List<Container>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.List<EcoCityWaste.Models.Container>>
+  nameWithType.vb: Task(Of List(Of Container))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.List(Of EcoCityWaste.Models.Container))
+  name.vb: Task(Of List(Of Container))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: )
+  - name: )
+- uid: EcoCityWaste.Services.IRouteService.GetEmployeesAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.GetEmployeesAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_GetEmployeesAsync
+  name: GetEmployeesAsync
+  nameWithType: IRouteService.GetEmployeesAsync
+  fullName: EcoCityWaste.Services.IRouteService.GetEmployeesAsync
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.User}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.List{EcoCityWaste.Models.User}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<List<User>>
+  nameWithType: Task<List<User>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.List<EcoCityWaste.Models.User>>
+  nameWithType.vb: Task(Of List(Of User))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.List(Of EcoCityWaste.Models.User))
+  name.vb: Task(Of List(Of User))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: EcoCityWaste.Models.User
+    name: User
+    href: EcoCityWaste.Models.User.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: EcoCityWaste.Models.User
+    name: User
+    href: EcoCityWaste.Models.User.html
+  - name: )
+  - name: )
+- uid: EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync*
+  commentId: Overload:EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync
+  href: EcoCityWaste.Services.IRouteService.html#EcoCityWaste_Services_IRouteService_GetOptimisedRouteAsync_System_Int32_
+  name: GetOptimisedRouteAsync
+  nameWithType: IRouteService.GetOptimisedRouteAsync
+  fullName: EcoCityWaste.Services.IRouteService.GetOptimisedRouteAsync
+- uid: System.Threading.Tasks.Task{System.ValueTuple{EcoCityWaste.Models.Route,EcoCityWaste.ViewModels.OptimisedRouteDto}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{EcoCityWaste.Models.Route,EcoCityWaste.ViewModels.OptimisedRouteDto}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(Route Route, OptimisedRouteDto Result)>
+  nameWithType: Task<(Route Route, OptimisedRouteDto Result)>
+  fullName: System.Threading.Tasks.Task<(EcoCityWaste.Models.Route Route, EcoCityWaste.ViewModels.OptimisedRouteDto Result)>
+  nameWithType.vb: Task(Of (Route As Route, Result As OptimisedRouteDto))
+  fullName.vb: System.Threading.Tasks.Task(Of (Route As EcoCityWaste.Models.Route, Result As EcoCityWaste.ViewModels.OptimisedRouteDto))
+  name.vb: Task(Of (Route As Route, Result As OptimisedRouteDto))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: " "
+  - uid: System.ValueTuple{EcoCityWaste.Models.Route,EcoCityWaste.ViewModels.OptimisedRouteDto}.Route
+    name: Route
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-ecocitywaste.models.route,ecocitywaste.viewmodels.optimisedroutedto-.route
+  - name: ','
+  - name: " "
+  - uid: EcoCityWaste.ViewModels.OptimisedRouteDto
+    name: OptimisedRouteDto
+    href: EcoCityWaste.ViewModels.OptimisedRouteDto.html
+  - name: " "
+  - uid: System.ValueTuple{EcoCityWaste.Models.Route,EcoCityWaste.ViewModels.OptimisedRouteDto}.Result
+    name: Result
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-ecocitywaste.models.route,ecocitywaste.viewmodels.optimisedroutedto-.result
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{EcoCityWaste.Models.Route,EcoCityWaste.ViewModels.OptimisedRouteDto}.Route
+    name: Route
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-ecocitywaste.models.route,ecocitywaste.viewmodels.optimisedroutedto-.route
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{EcoCityWaste.Models.Route,EcoCityWaste.ViewModels.OptimisedRouteDto}.Result
+    name: Result
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-ecocitywaste.models.route,ecocitywaste.viewmodels.optimisedroutedto-.result
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: EcoCityWaste.ViewModels.OptimisedRouteDto
+    name: OptimisedRouteDto
+    href: EcoCityWaste.ViewModels.OptimisedRouteDto.html
+  - name: )
+  - name: )

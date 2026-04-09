@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  id: EcoCityWaste.Models
+  children:
+  - EcoCityWaste.Models.Container
+  - EcoCityWaste.Models.Container.ContainerStatus
+  - EcoCityWaste.Models.ContainerStatusHistory
+  - EcoCityWaste.Models.FailureLog
+  - EcoCityWaste.Models.Notification
+  - EcoCityWaste.Models.Occurrence
+  - EcoCityWaste.Models.OccurrenceStatus
+  - EcoCityWaste.Models.Route
+  - EcoCityWaste.Models.Route.RouteStatus
+  - EcoCityWaste.Models.RouteContainer
+  - EcoCityWaste.Models.User
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Models.Container
+  commentId: T:EcoCityWaste.Models.Container
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Container.html
+  name: Container
+  nameWithType: Container
+  fullName: EcoCityWaste.Models.Container
+- uid: EcoCityWaste.Models.Container.ContainerStatus
+  commentId: T:EcoCityWaste.Models.Container.ContainerStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Container.html
+  name: Container.ContainerStatus
+  nameWithType: Container.ContainerStatus
+  fullName: EcoCityWaste.Models.Container.ContainerStatus
+  spec.csharp:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  spec.vb:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+- uid: EcoCityWaste.Models.ContainerStatusHistory
+  commentId: T:EcoCityWaste.Models.ContainerStatusHistory
+  href: EcoCityWaste.Models.ContainerStatusHistory.html
+  name: ContainerStatusHistory
+  nameWithType: ContainerStatusHistory
+  fullName: EcoCityWaste.Models.ContainerStatusHistory
+- uid: EcoCityWaste.Models.FailureLog
+  commentId: T:EcoCityWaste.Models.FailureLog
+  href: EcoCityWaste.Models.FailureLog.html
+  name: FailureLog
+  nameWithType: FailureLog
+  fullName: EcoCityWaste.Models.FailureLog
+- uid: EcoCityWaste.Models.Notification
+  commentId: T:EcoCityWaste.Models.Notification
+  href: EcoCityWaste.Models.Notification.html
+  name: Notification
+  nameWithType: Notification
+  fullName: EcoCityWaste.Models.Notification
+- uid: EcoCityWaste.Models.Occurrence
+  commentId: T:EcoCityWaste.Models.Occurrence
+  href: EcoCityWaste.Models.Occurrence.html
+  name: Occurrence
+  nameWithType: Occurrence
+  fullName: EcoCityWaste.Models.Occurrence
+- uid: EcoCityWaste.Models.OccurrenceStatus
+  commentId: T:EcoCityWaste.Models.OccurrenceStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.OccurrenceStatus.html
+  name: OccurrenceStatus
+  nameWithType: OccurrenceStatus
+  fullName: EcoCityWaste.Models.OccurrenceStatus
+- uid: EcoCityWaste.Models.Route
+  commentId: T:EcoCityWaste.Models.Route
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Route.html
+  name: Route
+  nameWithType: Route
+  fullName: EcoCityWaste.Models.Route
+- uid: EcoCityWaste.Models.Route.RouteStatus
+  commentId: T:EcoCityWaste.Models.Route.RouteStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Route.html
+  name: Route.RouteStatus
+  nameWithType: Route.RouteStatus
+  fullName: EcoCityWaste.Models.Route.RouteStatus
+  spec.csharp:
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: .
+  - uid: EcoCityWaste.Models.Route.RouteStatus
+    name: RouteStatus
+    href: EcoCityWaste.Models.Route.RouteStatus.html
+  spec.vb:
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: .
+  - uid: EcoCityWaste.Models.Route.RouteStatus
+    name: RouteStatus
+    href: EcoCityWaste.Models.Route.RouteStatus.html
+- uid: EcoCityWaste.Models.RouteContainer
+  commentId: T:EcoCityWaste.Models.RouteContainer
+  href: EcoCityWaste.Models.RouteContainer.html
+  name: RouteContainer
+  nameWithType: RouteContainer
+  fullName: EcoCityWaste.Models.RouteContainer
+- uid: EcoCityWaste.Models.User
+  commentId: T:EcoCityWaste.Models.User
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.User.html
+  name: User
+  nameWithType: User
+  fullName: EcoCityWaste.Models.User
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html

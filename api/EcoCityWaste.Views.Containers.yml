@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Views.Containers
+  commentId: N:EcoCityWaste.Views.Containers
+  id: EcoCityWaste.Views.Containers
+  children:
+  - EcoCityWaste.Views.Containers.IndexModel
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Views.Containers
+  nameWithType: EcoCityWaste.Views.Containers
+  fullName: EcoCityWaste.Views.Containers
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Views.Containers.IndexModel
+  commentId: T:EcoCityWaste.Views.Containers.IndexModel
+  href: EcoCityWaste.Views.Containers.IndexModel.html
+  name: IndexModel
+  nameWithType: IndexModel
+  fullName: EcoCityWaste.Views.Containers.IndexModel

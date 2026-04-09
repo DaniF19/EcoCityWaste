@@ -1,0 +1,46 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Data
+  commentId: N:EcoCityWaste.Data
+  id: EcoCityWaste.Data
+  children:
+  - EcoCityWaste.Data.AppDbContext
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Data
+  nameWithType: EcoCityWaste.Data
+  fullName: EcoCityWaste.Data
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Data.AppDbContext
+  commentId: T:EcoCityWaste.Data.AppDbContext
+  parent: EcoCityWaste.Data
+  href: EcoCityWaste.Data.AppDbContext.html
+  name: AppDbContext
+  nameWithType: AppDbContext
+  fullName: EcoCityWaste.Data.AppDbContext
+- uid: EcoCityWaste.Data
+  commentId: N:EcoCityWaste.Data
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Data
+  nameWithType: EcoCityWaste.Data
+  fullName: EcoCityWaste.Data
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Data
+    name: Data
+    href: EcoCityWaste.Data.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Data
+    name: Data
+    href: EcoCityWaste.Data.html

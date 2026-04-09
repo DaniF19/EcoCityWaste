@@ -1,0 +1,53 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Helpers
+  commentId: N:EcoCityWaste.Helpers
+  id: EcoCityWaste.Helpers
+  children:
+  - EcoCityWaste.Helpers.ContainerStatusExtensions
+  - EcoCityWaste.Helpers.IncidentStatusExtensions
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Helpers
+  nameWithType: EcoCityWaste.Helpers
+  fullName: EcoCityWaste.Helpers
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Helpers.ContainerStatusExtensions
+  commentId: T:EcoCityWaste.Helpers.ContainerStatusExtensions
+  parent: EcoCityWaste.Helpers
+  href: EcoCityWaste.Helpers.ContainerStatusExtensions.html
+  name: ContainerStatusExtensions
+  nameWithType: ContainerStatusExtensions
+  fullName: EcoCityWaste.Helpers.ContainerStatusExtensions
+- uid: EcoCityWaste.Helpers.IncidentStatusExtensions
+  commentId: T:EcoCityWaste.Helpers.IncidentStatusExtensions
+  href: EcoCityWaste.Helpers.IncidentStatusExtensions.html
+  name: IncidentStatusExtensions
+  nameWithType: IncidentStatusExtensions
+  fullName: EcoCityWaste.Helpers.IncidentStatusExtensions
+- uid: EcoCityWaste.Helpers
+  commentId: N:EcoCityWaste.Helpers
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Helpers
+  nameWithType: EcoCityWaste.Helpers
+  fullName: EcoCityWaste.Helpers
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Helpers
+    name: Helpers
+    href: EcoCityWaste.Helpers.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Helpers
+    name: Helpers
+    href: EcoCityWaste.Helpers.html

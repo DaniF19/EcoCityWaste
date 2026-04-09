@@ -1,0 +1,635 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.ViewModels.RegisterViewModel
+  commentId: T:EcoCityWaste.ViewModels.RegisterViewModel
+  id: RegisterViewModel
+  parent: EcoCityWaste.ViewModels
+  children:
+  - EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword
+  - EcoCityWaste.ViewModels.RegisterViewModel.Email
+  - EcoCityWaste.ViewModels.RegisterViewModel.Name
+  - EcoCityWaste.ViewModels.RegisterViewModel.Password
+  - EcoCityWaste.ViewModels.RegisterViewModel.Username
+  langs:
+  - csharp
+  - vb
+  name: RegisterViewModel
+  nameWithType: RegisterViewModel
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel
+  type: Class
+  source:
+    remote:
+      path: ViewModels/RegisterViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: RegisterViewModel
+    path: ViewModels/RegisterViewModel.cs
+    startLine: 8
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    ViewModel responsável pelo processo de registo de novos cidadãos na plataforma.
+
+    Contém regras de validação rigorosas para garantir a segurança das contas e a integridade dos dados.
+  example: []
+  syntax:
+    content: public class RegisterViewModel
+    content.vb: Public Class RegisterViewModel
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Username
+  commentId: P:EcoCityWaste.ViewModels.RegisterViewModel.Username
+  id: Username
+  parent: EcoCityWaste.ViewModels.RegisterViewModel
+  langs:
+  - csharp
+  - vb
+  name: Username
+  nameWithType: RegisterViewModel.Username
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Username
+  type: Property
+  source:
+    remote:
+      path: ViewModels/RegisterViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Username
+    path: ViewModels/RegisterViewModel.cs
+    startLine: 13
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Nome de utilizador para identificação no sistema.
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "O nome de utilizador é obrigatório.")]
+
+      [Display(Name = "Username")]
+
+      public string Username { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="O nome de utilizador é obrigatório.")>
+
+      <Display(Name:="Username")>
+
+      Public Property Username As String
+  overload: EcoCityWaste.ViewModels.RegisterViewModel.Username*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: O nome de utilizador é obrigatório.
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Username
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Email
+  commentId: P:EcoCityWaste.ViewModels.RegisterViewModel.Email
+  id: Email
+  parent: EcoCityWaste.ViewModels.RegisterViewModel
+  langs:
+  - csharp
+  - vb
+  name: Email
+  nameWithType: RegisterViewModel.Email
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Email
+  type: Property
+  source:
+    remote:
+      path: ViewModels/RegisterViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Email
+    path: ViewModels/RegisterViewModel.cs
+    startLine: 21
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Endereço de e-mail que servirá para login e comunicações do sistema.
+
+    Validado para garantir um formato de correio eletrónico legítimo.
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "O e-mail é obrigatório.")]
+
+      [EmailAddress(ErrorMessage = "Introduza um e-mail válido.")]
+
+      public string Email { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="O e-mail é obrigatório.")>
+
+      <EmailAddress(ErrorMessage:="Introduza um e-mail válido.")>
+
+      Public Property Email As String
+  overload: EcoCityWaste.ViewModels.RegisterViewModel.Email*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: O e-mail é obrigatório.
+  - type: System.ComponentModel.DataAnnotations.EmailAddressAttribute
+    ctor: System.ComponentModel.DataAnnotations.EmailAddressAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: Introduza um e-mail válido.
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Password
+  commentId: P:EcoCityWaste.ViewModels.RegisterViewModel.Password
+  id: Password
+  parent: EcoCityWaste.ViewModels.RegisterViewModel
+  langs:
+  - csharp
+  - vb
+  name: Password
+  nameWithType: RegisterViewModel.Password
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Password
+  type: Property
+  source:
+    remote:
+      path: ViewModels/RegisterViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Password
+    path: ViewModels/RegisterViewModel.cs
+    startLine: 29
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Palavra-passe definida pelo utilizador.
+
+    Impõe um comprimento mínimo de 6 caracteres para reforçar a segurança da conta.
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "A password é obrigatória.")]
+
+      [MinLength(6, ErrorMessage = "A password deve ter pelo menos 6 caracteres.")]
+
+      [DataType(DataType.Password)]
+
+      public string Password { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="A password é obrigatória.")>
+
+      <MinLength(6, ErrorMessage:="A password deve ter pelo menos 6 caracteres.")>
+
+      <DataType(DataType.Password)>
+
+      Public Property Password As String
+  overload: EcoCityWaste.ViewModels.RegisterViewModel.Password*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: A password é obrigatória.
+  - type: System.ComponentModel.DataAnnotations.MinLengthAttribute
+    ctor: System.ComponentModel.DataAnnotations.MinLengthAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 6
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: A password deve ter pelo menos 6 caracteres.
+  - type: System.ComponentModel.DataAnnotations.DataTypeAttribute
+    ctor: System.ComponentModel.DataAnnotations.DataTypeAttribute.#ctor(System.ComponentModel.DataAnnotations.DataType)
+    arguments:
+    - type: System.ComponentModel.DataAnnotations.DataType
+      value: 11
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword
+  commentId: P:EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword
+  id: ConfirmPassword
+  parent: EcoCityWaste.ViewModels.RegisterViewModel
+  langs:
+  - csharp
+  - vb
+  name: ConfirmPassword
+  nameWithType: RegisterViewModel.ConfirmPassword
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword
+  type: Property
+  source:
+    remote:
+      path: ViewModels/RegisterViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ConfirmPassword
+    path: ViewModels/RegisterViewModel.cs
+    startLine: 38
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Campo de confirmação da palavra-passe.
+
+    Utiliza o atributo Compare para garantir, no lado do cliente e do servidor, que ambos os campos são idênticos.
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "A confirmação da password é obrigatória.")]
+
+      [DataType(DataType.Password)]
+
+      [Compare("Password", ErrorMessage = "As passwords não coincidem.")]
+
+      public string ConfirmPassword { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="A confirmação da password é obrigatória.")>
+
+      <DataType(DataType.Password)>
+
+      <Compare("Password", ErrorMessage:="As passwords não coincidem.")>
+
+      Public Property ConfirmPassword As String
+  overload: EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: A confirmação da password é obrigatória.
+  - type: System.ComponentModel.DataAnnotations.DataTypeAttribute
+    ctor: System.ComponentModel.DataAnnotations.DataTypeAttribute.#ctor(System.ComponentModel.DataAnnotations.DataType)
+    arguments:
+    - type: System.ComponentModel.DataAnnotations.DataType
+      value: 11
+  - type: System.ComponentModel.DataAnnotations.CompareAttribute
+    ctor: System.ComponentModel.DataAnnotations.CompareAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Password
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: As passwords não coincidem.
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Name
+  commentId: P:EcoCityWaste.ViewModels.RegisterViewModel.Name
+  id: Name
+  parent: EcoCityWaste.ViewModels.RegisterViewModel
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: RegisterViewModel.Name
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Name
+  type: Property
+  source:
+    remote:
+      path: ViewModels/RegisterViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Name
+    path: ViewModels/RegisterViewModel.cs
+    startLine: 46
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Nome opcional do cidadão para personalização do perfil e comunicações.
+  example: []
+  syntax:
+    content: public string? Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: EcoCityWaste.ViewModels.RegisterViewModel.Name*
+references:
+- uid: EcoCityWaste.ViewModels
+  commentId: N:EcoCityWaste.ViewModels
+  href: EcoCityWaste.html
+  name: EcoCityWaste.ViewModels
+  nameWithType: EcoCityWaste.ViewModels
+  fullName: EcoCityWaste.ViewModels
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Username*
+  commentId: Overload:EcoCityWaste.ViewModels.RegisterViewModel.Username
+  href: EcoCityWaste.ViewModels.RegisterViewModel.html#EcoCityWaste_ViewModels_RegisterViewModel_Username
+  name: Username
+  nameWithType: RegisterViewModel.Username
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Username
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Email*
+  commentId: Overload:EcoCityWaste.ViewModels.RegisterViewModel.Email
+  href: EcoCityWaste.ViewModels.RegisterViewModel.html#EcoCityWaste_ViewModels_RegisterViewModel_Email
+  name: Email
+  nameWithType: RegisterViewModel.Email
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Email
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Password*
+  commentId: Overload:EcoCityWaste.ViewModels.RegisterViewModel.Password
+  href: EcoCityWaste.ViewModels.RegisterViewModel.html#EcoCityWaste_ViewModels_RegisterViewModel_Password
+  name: Password
+  nameWithType: RegisterViewModel.Password
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Password
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword*
+  commentId: Overload:EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword
+  href: EcoCityWaste.ViewModels.RegisterViewModel.html#EcoCityWaste_ViewModels_RegisterViewModel_ConfirmPassword
+  name: ConfirmPassword
+  nameWithType: RegisterViewModel.ConfirmPassword
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.ConfirmPassword
+- uid: EcoCityWaste.ViewModels.RegisterViewModel.Name*
+  commentId: Overload:EcoCityWaste.ViewModels.RegisterViewModel.Name
+  href: EcoCityWaste.ViewModels.RegisterViewModel.html#EcoCityWaste_ViewModels_RegisterViewModel_Name
+  name: Name
+  nameWithType: RegisterViewModel.Name
+  fullName: EcoCityWaste.ViewModels.RegisterViewModel.Name

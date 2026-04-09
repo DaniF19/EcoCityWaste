@@ -15,13 +15,16 @@ using static EcoCityWaste.Models.Container;
 
 namespace EcoCityWaste.Controllers
 {
+    /// <summary>
+    /// Controlador principal para a gestão dos contentores de lixo.
+    /// Apenas Administradores e Funcionários têm permissão para aceder a estas páginas.
+    /// </summary>
     [Authorize(Roles = "Admin,Funcionario")]
     public class ContainersController : Controller
     {
         private readonly AppDbContext _context;
         private readonly GeocodingService _geo;
         private readonly ContainerHistoryService _historyService;
-
 
         public ContainersController(AppDbContext context, GeocodingService geo, ContainerHistoryService historyService)
         {
@@ -30,7 +33,14 @@ namespace EcoCityWaste.Controllers
             _historyService = historyService;
         }
 
-        // GET: Containers
+        /// <summary>
+        /// Carrega a página principal de gestão de contentores.
+        /// Calcula as estatísticas para os cartões de topo e aplica filtros de pesquisa e ordenação na tabela.
+        /// </summary>
+        /// <param name="searchString">Texto pesquisado (código ou localização).</param>
+        /// <param name="statusFilter">Filtro aplicado (ex: "Cheio", "Ativos", "Papel").</param>
+        /// <param name="sortOrder">Ordem das colunas (crescente/decrescente).</param>
+        /// <returns>A vista com a lista de contentores filtrada.</returns>
         public async Task<IActionResult> Index(string searchString, string statusFilter, string sortOrder)
         {
             try
@@ -66,7 +76,6 @@ namespace EcoCityWaste.Controllers
                     "Manutenção" => Container.ContainerStatus.Maintenance,
                     _ => null
                 };
-
 
                 // Filtros
                 if (!String.IsNullOrEmpty(statusFilter))
@@ -112,14 +121,19 @@ namespace EcoCityWaste.Controllers
                 return View(new List<EcoCityWaste.Models.Container>());
             }
         }
-    
-        // GET: /Container/Register
+
+        /// <summary>
+        /// Devolve a vista com o formulário para registar um novo contentor.
+        /// </summary>
         public IActionResult Register()
         {
             return View();
         }
 
-        // POST: /Container/Register
+        /// <summary>
+        /// Processa o formulário de registo. Usa o GeocodingService para transformar a morada 
+        /// introduzida em coordenadas GPS reais antes de guardar na base de dados.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Register(ContainerRegisterViewModel model)
         {
@@ -160,7 +174,8 @@ namespace EcoCityWaste.Controllers
 
                 _context.Contentores.Add(container);
                 await _context.SaveChangesAsync();
-                //ricardo
+
+                // Regista a criação no histórico
                 await _historyService.AddHistory(container, User?.Identity?.Name);
 
                 ViewBag.Success = "Contentor registado com sucesso!";
@@ -168,11 +183,6 @@ namespace EcoCityWaste.Controllers
 
                 return View();
             }
-            //catch
-            //{
-            //    ViewBag.Error = "Erro ao registar o contentor.";
-            //    return View(model);
-            //}
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
@@ -180,16 +190,18 @@ namespace EcoCityWaste.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Lista simples de todos os contentores (sem os filtros complexos do Index).
+        /// </summary>
         public async Task<IActionResult> List()
         {
-            var containers = await _context.Contentores
-                                           //.Where(c => c.IsActive) to show just the active ones
-                                           .ToListAsync();
-
+            var containers = await _context.Contentores.ToListAsync();
             return View(containers);
         }
 
+        /// <summary>
+        /// Mostra a página de edição para um contentor específico.
+        /// </summary>
         public async Task<IActionResult> Edit(int id)
         {
             var container = await _context.Contentores.FindAsync(id);
@@ -200,6 +212,10 @@ namespace EcoCityWaste.Controllers
             return View(container);
         }
 
+        /// <summary>
+        /// Atualiza os dados principais do contentor. Se o estado mudar para avariado ou manutenção,
+        /// desativa o contentor automaticamente para que não entre nas rotas de recolha.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Edit(ContainerEditViewModel model)
         {
@@ -216,6 +232,7 @@ namespace EcoCityWaste.Controllers
                 container.Location = model.Location;
                 container.Type = model.Type;
                 container.Status = model.Status;
+
                 // Desativar o contentor se estiver avariado ou em manutenção
                 if (model.Status == ContainerStatus.Broken || model.Status == ContainerStatus.Maintenance)
                 {
@@ -228,7 +245,8 @@ namespace EcoCityWaste.Controllers
                 container.LastUpdated = DateTime.Now;
 
                 await _context.SaveChangesAsync();
-                //Ricardo
+
+                // Grava a alteração no histórico
                 await _historyService.AddHistory(container, User?.Identity?.Name);
                 return RedirectToAction("List");
             }
@@ -239,7 +257,10 @@ namespace EcoCityWaste.Controllers
             }
         }
 
-        // Desativar contentor
+        /// <summary>
+        /// O contentor deixa de estar ativo no sistema, 
+        /// mas os seus dados não são apagados para não quebrar os relatórios antigos.
+        /// </summary>
         public async Task<IActionResult> Deactivate(int id)
         {
             var container = await _context.Contentores.FindAsync(id);
@@ -252,15 +273,13 @@ namespace EcoCityWaste.Controllers
 
             await _context.SaveChangesAsync();
 
-            //ricardo
             await _historyService.AddHistory(container, User?.Identity?.Name);
             return RedirectToAction("List");
         }
 
-
-
-        //Historico do contentor
-
+        /// <summary>
+        /// Devolve a vista com a cronologia de todas as mudanças de estado ou nível deste contentor.
+        /// </summary>
         public async Task<IActionResult> History(int id)
         {
             var history = await _context.ContainerStatusHistories
@@ -271,6 +290,7 @@ namespace EcoCityWaste.Controllers
             return View(history);
         }
 
+        // Método interno de backup caso o serviço falhe, mantém a mesma lógica do HistoryService.
         private async Task AddHistory(Container container)
         {
             if (_context.ContainerStatusHistories == null)
@@ -290,6 +310,9 @@ namespace EcoCityWaste.Controllers
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Vista simplificada em lista, focada apenas nos estados físicos atuais.
+        /// </summary>
         public async Task<IActionResult> ListStatus()
         {
             var containers = await _context.Contentores
@@ -298,6 +321,28 @@ namespace EcoCityWaste.Controllers
             return View(containers);
         }
 
+        /// <summary>
+        /// Ecrã rápido (normalmente para os funcionários no terreno) para alterar apenas o estado físico do contentor.
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> EditStatus(int id)
+        {
+            var container = await _context.Contentores.FindAsync(id);
+            if (container == null)
+                return NotFound();
+
+            var model = new UpdateContainerStatusDto
+            {
+                Id = container.Id,
+                Status = container.Status.ToString()
+            };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Processa a alteração rápida de estado. Volta a aplicar a regra de desativar automaticamente se estiver avariado.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(int id, UpdateContainerStatusDto dto)
         {
@@ -310,6 +355,7 @@ namespace EcoCityWaste.Controllers
                 return BadRequest("Estado inválido.");
 
             container.Status = newStatus;
+
             // Desativar o contentor se estiver avariado ou em manutenção
             if (newStatus == Container.ContainerStatus.Broken || newStatus == Container.ContainerStatus.Maintenance)
             {
@@ -329,28 +375,13 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction(nameof(ListStatus));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> EditStatus(int id)
-        {
-            var container = await _context.Contentores.FindAsync(id);
-            if (container == null)
-                return NotFound();
-
-            var model = new UpdateContainerStatusDto
-            {
-                Id = container.Id,
-                Status = container.Status.ToString()
-            };
-
-            return View(model);
-        }
-
-        // Container code generator
+        /// <summary>
+        /// Método auxiliar para criar códigos incrementais bonitos para os contentores (Ex: CNT-001, CNT-002).
+        /// </summary>
         private string GenerateContainerCode()
         {
             var count = _context.Contentores.Count() + 1;
             return $"CNT-{count:D3}";
         }
-
     }
 }

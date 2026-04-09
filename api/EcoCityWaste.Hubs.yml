@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Hubs
+  commentId: N:EcoCityWaste.Hubs
+  id: EcoCityWaste.Hubs
+  children:
+  - EcoCityWaste.Hubs.SimulationHub
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Hubs
+  nameWithType: EcoCityWaste.Hubs
+  fullName: EcoCityWaste.Hubs
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Hubs.SimulationHub
+  commentId: T:EcoCityWaste.Hubs.SimulationHub
+  href: EcoCityWaste.Hubs.SimulationHub.html
+  name: SimulationHub
+  nameWithType: SimulationHub
+  fullName: EcoCityWaste.Hubs.SimulationHub

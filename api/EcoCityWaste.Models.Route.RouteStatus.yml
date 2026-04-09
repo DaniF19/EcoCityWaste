@@ -1,0 +1,244 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Models.Route.RouteStatus
+  commentId: T:EcoCityWaste.Models.Route.RouteStatus
+  id: Route.RouteStatus
+  parent: EcoCityWaste.Models
+  children:
+  - EcoCityWaste.Models.Route.RouteStatus.Cancelled
+  - EcoCityWaste.Models.Route.RouteStatus.Completed
+  - EcoCityWaste.Models.Route.RouteStatus.InProgress
+  - EcoCityWaste.Models.Route.RouteStatus.Pending
+  langs:
+  - csharp
+  - vb
+  name: Route.RouteStatus
+  nameWithType: Route.RouteStatus
+  fullName: EcoCityWaste.Models.Route.RouteStatus
+  type: Enum
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: RouteStatus
+    path: Models/Route.cs
+    startLine: 15
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Os possíveis estados do ciclo de vida da rota de recolha.
+  example: []
+  syntax:
+    content: public enum Route.RouteStatus
+    content.vb: Public Enum Route.RouteStatus
+- uid: EcoCityWaste.Models.Route.RouteStatus.Pending
+  commentId: F:EcoCityWaste.Models.Route.RouteStatus.Pending
+  id: Pending
+  parent: EcoCityWaste.Models.Route.RouteStatus
+  langs:
+  - csharp
+  - vb
+  name: Pending
+  nameWithType: Route.RouteStatus.Pending
+  fullName: EcoCityWaste.Models.Route.RouteStatus.Pending
+  type: Field
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Pending
+    path: Models/Route.cs
+    startLine: 17
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Pendente")]
+
+      Pending = 0
+    return:
+      type: EcoCityWaste.Models.Route.RouteStatus
+    content.vb: >-
+      <Display(Name:="Pendente")>
+
+      Pending = 0
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Pendente
+- uid: EcoCityWaste.Models.Route.RouteStatus.InProgress
+  commentId: F:EcoCityWaste.Models.Route.RouteStatus.InProgress
+  id: InProgress
+  parent: EcoCityWaste.Models.Route.RouteStatus
+  langs:
+  - csharp
+  - vb
+  name: InProgress
+  nameWithType: Route.RouteStatus.InProgress
+  fullName: EcoCityWaste.Models.Route.RouteStatus.InProgress
+  type: Field
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: InProgress
+    path: Models/Route.cs
+    startLine: 18
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Em Curso")]
+
+      InProgress = 1
+    return:
+      type: EcoCityWaste.Models.Route.RouteStatus
+    content.vb: >-
+      <Display(Name:="Em Curso")>
+
+      InProgress = 1
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Em Curso
+- uid: EcoCityWaste.Models.Route.RouteStatus.Completed
+  commentId: F:EcoCityWaste.Models.Route.RouteStatus.Completed
+  id: Completed
+  parent: EcoCityWaste.Models.Route.RouteStatus
+  langs:
+  - csharp
+  - vb
+  name: Completed
+  nameWithType: Route.RouteStatus.Completed
+  fullName: EcoCityWaste.Models.Route.RouteStatus.Completed
+  type: Field
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Completed
+    path: Models/Route.cs
+    startLine: 19
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Concluída")]
+
+      Completed = 2
+    return:
+      type: EcoCityWaste.Models.Route.RouteStatus
+    content.vb: >-
+      <Display(Name:="Concluída")>
+
+      Completed = 2
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Concluída
+- uid: EcoCityWaste.Models.Route.RouteStatus.Cancelled
+  commentId: F:EcoCityWaste.Models.Route.RouteStatus.Cancelled
+  id: Cancelled
+  parent: EcoCityWaste.Models.Route.RouteStatus
+  langs:
+  - csharp
+  - vb
+  name: Cancelled
+  nameWithType: Route.RouteStatus.Cancelled
+  fullName: EcoCityWaste.Models.Route.RouteStatus.Cancelled
+  type: Field
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Cancelled
+    path: Models/Route.cs
+    startLine: 20
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  syntax:
+    content: >-
+      [Display(Name = "Cancelada")]
+
+      Cancelled = 3
+    return:
+      type: EcoCityWaste.Models.Route.RouteStatus
+    content.vb: >-
+      <Display(Name:="Cancelada")>
+
+      Cancelled = 3
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.DisplayAttribute
+    ctor: System.ComponentModel.DataAnnotations.DisplayAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: Name
+      type: System.String
+      value: Cancelada
+references:
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+- uid: EcoCityWaste.Models.Route.RouteStatus
+  commentId: T:EcoCityWaste.Models.Route.RouteStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Route.html
+  name: Route.RouteStatus
+  nameWithType: Route.RouteStatus
+  fullName: EcoCityWaste.Models.Route.RouteStatus
+  spec.csharp:
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: .
+  - uid: EcoCityWaste.Models.Route.RouteStatus
+    name: RouteStatus
+    href: EcoCityWaste.Models.Route.RouteStatus.html
+  spec.vb:
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    href: EcoCityWaste.Models.Route.html
+  - name: .
+  - uid: EcoCityWaste.Models.Route.RouteStatus
+    name: RouteStatus
+    href: EcoCityWaste.Models.Route.RouteStatus.html

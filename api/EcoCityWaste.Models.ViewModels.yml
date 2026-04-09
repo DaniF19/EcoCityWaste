@@ -1,0 +1,85 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Models.ViewModels
+  commentId: N:EcoCityWaste.Models.ViewModels
+  id: EcoCityWaste.Models.ViewModels
+  children:
+  - EcoCityWaste.Models.ViewModels.OptimisedRouteDto
+  - EcoCityWaste.Models.ViewModels.OptimisedStopDto
+  - EcoCityWaste.Models.ViewModels.RouteAssignViewModel
+  - EcoCityWaste.Models.ViewModels.RouteCreateViewModel
+  - EcoCityWaste.Models.ViewModels.RouteEditViewModel
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Models.ViewModels
+  nameWithType: EcoCityWaste.Models.ViewModels
+  fullName: EcoCityWaste.Models.ViewModels
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Models.ViewModels.RouteCreateViewModel
+  commentId: T:EcoCityWaste.Models.ViewModels.RouteCreateViewModel
+  parent: EcoCityWaste.Models.ViewModels
+  href: EcoCityWaste.Models.ViewModels.RouteCreateViewModel.html
+  name: RouteCreateViewModel
+  nameWithType: RouteCreateViewModel
+  fullName: EcoCityWaste.Models.ViewModels.RouteCreateViewModel
+- uid: EcoCityWaste.Models.ViewModels.RouteEditViewModel
+  commentId: T:EcoCityWaste.Models.ViewModels.RouteEditViewModel
+  parent: EcoCityWaste.Models.ViewModels
+  href: EcoCityWaste.Models.ViewModels.RouteEditViewModel.html
+  name: RouteEditViewModel
+  nameWithType: RouteEditViewModel
+  fullName: EcoCityWaste.Models.ViewModels.RouteEditViewModel
+- uid: EcoCityWaste.Models.ViewModels.RouteAssignViewModel
+  commentId: T:EcoCityWaste.Models.ViewModels.RouteAssignViewModel
+  parent: EcoCityWaste.Models.ViewModels
+  href: EcoCityWaste.Models.ViewModels.RouteAssignViewModel.html
+  name: RouteAssignViewModel
+  nameWithType: RouteAssignViewModel
+  fullName: EcoCityWaste.Models.ViewModels.RouteAssignViewModel
+- uid: EcoCityWaste.Models.ViewModels.OptimisedRouteDto
+  commentId: T:EcoCityWaste.Models.ViewModels.OptimisedRouteDto
+  parent: EcoCityWaste.Models.ViewModels
+  href: EcoCityWaste.Models.ViewModels.OptimisedRouteDto.html
+  name: OptimisedRouteDto
+  nameWithType: OptimisedRouteDto
+  fullName: EcoCityWaste.Models.ViewModels.OptimisedRouteDto
+- uid: EcoCityWaste.Models.ViewModels.OptimisedStopDto
+  commentId: T:EcoCityWaste.Models.ViewModels.OptimisedStopDto
+  href: EcoCityWaste.Models.ViewModels.OptimisedStopDto.html
+  name: OptimisedStopDto
+  nameWithType: OptimisedStopDto
+  fullName: EcoCityWaste.Models.ViewModels.OptimisedStopDto
+- uid: EcoCityWaste.Models.ViewModels
+  commentId: N:EcoCityWaste.Models.ViewModels
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models.ViewModels
+  nameWithType: EcoCityWaste.Models.ViewModels
+  fullName: EcoCityWaste.Models.ViewModels
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  - name: .
+  - uid: EcoCityWaste.Models.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.Models.ViewModels.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  - name: .
+  - uid: EcoCityWaste.Models.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.Models.ViewModels.html
