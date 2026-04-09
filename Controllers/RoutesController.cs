@@ -12,11 +12,13 @@ namespace EcoCityWaste.Controllers
     {
         private readonly IRouteService _routeService;
         private readonly AppDbContext _context;
+        private readonly FailureLogger _failureLogger;
 
-        public RoutesController(IRouteService routeService, AppDbContext context)
+        public RoutesController(IRouteService routeService, AppDbContext context, FailureLogger failureLogger)
         {
             _routeService = routeService;
             _context = context;
+            _failureLogger = failureLogger;
         }
 
         // listar rotas
@@ -194,11 +196,30 @@ namespace EcoCityWaste.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _routeService.DeleteRouteAsync(id);
-            if (!success) return NotFound();
+            try
+            {
+                // throw new Exception("Teste de falha controlada");
+                
+                var success = await _routeService.DeleteRouteAsync(id);
 
-            TempData["SuccessMessage"] = "Rota eliminada com sucesso.";
-            return RedirectToAction(nameof(Index));
+                if (!success)
+                    return NotFound();
+
+                TempData["SuccessMessage"] = "Rota eliminada com sucesso.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                await _failureLogger.LogAsync(
+                    ex,
+                    nameof(RoutesController),
+                    nameof(Delete),
+                    User.Identity?.Name);
+
+                TempData["ErrorMessage"] = "Ocorreu um erro inesperado. A operação foi registada.";
+
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // otimizar rota de recolha

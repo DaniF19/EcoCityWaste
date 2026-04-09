@@ -11,11 +11,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
+using Xunit.Abstractions;
+
 
 namespace EcoCityWasteProjetoESA.Tests
 {
     public class ContainersControllerTests
     {
+        private readonly ITestOutputHelper _output;
+
+        public ContainersControllerTests(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
         private AppDbContext GetDbContext()
         {
             // Base de Dados na Memória
@@ -451,6 +461,24 @@ namespace EcoCityWasteProjetoESA.Tests
             // Assert
             Assert.NotNull(model);
             Assert.Equal(2, model.Count);
+        }
+
+        [Fact]
+        public async Task GetCoordinates_ValidAddress_ReturnsCoordinates()
+        {
+            // Arrange
+            var httpClient = new HttpClient();
+            var service = new GeocodingService(httpClient);
+
+            // Act
+            var result = await service.GetCoordinates("Barreiro");
+
+            _output.WriteLine($"Latitude: {result.lat}");
+            _output.WriteLine($"Longitude: {result.lon}");
+
+            // Assert
+            Assert.NotEqual(0, result.lat);
+            Assert.NotEqual(0, result.lon);
         }
 
     }

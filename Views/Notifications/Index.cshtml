@@ -13,12 +13,17 @@
         @if (Model.Any())
         {
             <div class="topbar-actions">
+                <form asp-action="MarkAllAsRead" method="post">
+                    <button type="submit" class="btn-eco btn-eco-outline">
+                        <i class="fa-solid fa-trash"></i> Marcar Todas como Lido
+                    </button>
+                </form>
                 <form asp-action="ClearAll" method="post">
                     <button type="submit" class="btn-eco btn-eco-outline">
                         <i class="fa-solid fa-trash"></i> Limpar Todas
                     </button>
                 </form>
-            </div>
+            </div>     
         }
 
         @if (!Model.Any())

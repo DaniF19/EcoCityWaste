@@ -71,11 +71,14 @@ namespace EcoCityWasteProjetoESA.Tests
 
             var notificationService = new NotificationService(context);
 
+            var failureLogger = new FailureLogger(context);
+
             var controller = new OccurrencesController(
                 context,
                 mockEnvironment.Object,
                 configuration,
-                notificationService
+                notificationService,
+                failureLogger
             );
 
             // Criar o utilizador autenticado com a Role correta
