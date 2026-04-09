@@ -21,7 +21,7 @@ namespace EcoCityWaste.Controllers
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             var notifications = await _context.Notifications
-                .Where(n => n.UserId == userId)
+                .Where(n => n.UserId == userId) 
                 .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();
 
@@ -47,11 +47,30 @@ namespace EcoCityWaste.Controllers
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var notifications = await _context.Notifications
-                .Where(n => n.UserId == userId)  // <-- scoped to user
+                .Where(n => n.UserId == userId) 
                 .ToListAsync();
 
             _context.Notifications.RemoveRange(notifications);
             await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkAllAsRead()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var notifications = await _context.Notifications
+                .Where(n => n.UserId == userId && !n.IsRead)
+                .ToListAsync();
+
+            foreach (var notification in notifications)
+            {
+                notification.IsRead = true;
+            }
+
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
     }

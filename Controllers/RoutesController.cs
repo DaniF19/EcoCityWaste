@@ -198,7 +198,7 @@ namespace EcoCityWaste.Controllers
         {
             try
             {
-                throw new Exception("Teste de falha controlada");
+                // throw new Exception("Teste de falha controlada");
                 
                 var success = await _routeService.DeleteRouteAsync(id);
 
