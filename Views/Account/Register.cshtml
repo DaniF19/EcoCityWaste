@@ -1,9 +1,10 @@
 @model EcoCityWaste.ViewModels.RegisterViewModel
 @{
-    Layout = null;
+Layout = null;
 }
 
 <!DOCTYPE html>
+
 <html lang="pt-pt">
 <head>
     <meta charset="UTF-8">
@@ -14,116 +15,188 @@
 </head>
 <body>
 
-    <div class="main-container">
+<div class="main-container">
 
-        <div class="left-panel">
-            <div class="logo-container">
-                <img src="~/img/logo.png" alt="EcoCityWaste Logo" class="logo" style="transform: translateX(50px);" />
-            </div>
-        </div>
 
-        <div class="right-panel">
-            <div class="auth-box">
-
-                <div class="auth-header">
-                    <h2 class="inactive">
-                        <a asp-controller="Account" asp-action="Login" style="text-decoration:none;color:inherit;">Login</a>
-                    </h2>
-                    <h1 class="active">Registar</h1>
-                </div>
-
-                <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 15px;"></div>
-
-                <form asp-controller="Account" asp-action="Register" method="post">
-                    @Html.AntiForgeryToken()
-
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                            Nome de Utilizador
-                            <span title="Este será o nome visível nas suas ocorrências reportadas." style="cursor: help; color: #bcaaa4; margin-left: 8px; font-size: 1rem;">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </span>
-                        </label>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <i class="fa-solid fa-user input-icon"></i>
-                            <input asp-for="Username" placeholder="Ex: JoaoSilva" required />
-                        </div>
-                        <span asp-validation-for="Username" class="field-error"></span>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                            E-mail
-                            <span title="Usaremos este e-mail apenas para o notificar sobre o estado das suas ocorrências." style="cursor: help; color: #bcaaa4; margin-left: 8px; font-size: 1rem;">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </span>
-                        </label>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <i class="fa-solid fa-envelope input-icon"></i>
-                            <input asp-for="Email" placeholder="Ex: joao@email.com" required />
-                        </div>
-                        <span asp-validation-for="Email" class="field-error"></span>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                            Palavra-Passe
-                            <span title="A palavra-passe deve conter pelo menos 8 caracteres, incluindo um número e uma letra maiúscula." style="cursor: help; color: #bcaaa4; margin-left: 8px; font-size: 1rem;">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </span>
-                        </label>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <i class="fa-solid fa-key input-icon"></i>
-                            <input asp-for="Password" id="password" type="password" placeholder="Defina a palavra-passe" required />
-                            <i class="fa-solid fa-eye password-toggle" data-target="password"></i>
-                        </div>
-                        <span asp-validation-for="Password" class="field-error"></span>
-                    </div>
-
-                    <div style="margin-bottom: 25px;">
-                        <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                            Confirmar Palavra-Passe
-                        </label>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <i class="fa-solid fa-key input-icon"></i>
-                            <input asp-for="ConfirmPassword" id="confirmPassword" type="password" placeholder="Repita a palavra-passe" required />
-                            <i class="fa-solid fa-eye password-toggle" data-target="confirmPassword"></i>
-                        </div>
-                        <span asp-validation-for="ConfirmPassword" class="field-error"></span>
-                    </div>
-
-                    <div class="form-footer">
-                        <a asp-controller="Account" asp-action="Login" class="forgot-password">Já tem conta?</a>
-                        <div class="action-buttons">
-                            <button type="submit" class="btn-login">Registar</button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
+<!-- LEFT PANEL -->
+<div class="left-panel">
+    <div class="logo-container">
+        <img src="~/img/logo.png"
+             alt="EcoCityWaste Logo"
+             class="logo"
+             style="transform: translateX(50px);" />
     </div>
+</div>
 
-    <script>
-        document.querySelectorAll(".password-toggle").forEach(toggle => {
-            toggle.addEventListener("click", function () {
-                const input = document.getElementById(this.dataset.target);
-                if (!input) return;
-                if (input.type === "password") {
-                    input.type = "text";
-                    this.classList.remove("fa-eye");
-                    this.classList.add("fa-eye-slash");
-                } else {
-                    input.type = "password";
-                    this.classList.remove("fa-eye-slash");
-                    this.classList.add("fa-eye");
-                }
-            });
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+
+    <div class="auth-box">
+
+        <!-- HEADER -->
+        <div class="auth-header">
+            <h2 class="inactive">
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   style="text-decoration:none;color:inherit;">
+                    Login
+                </a>
+            </h2>
+
+            <h1 class="active">Registar</h1>
+        </div>
+
+        <!-- VALIDATION SUMMARY -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- FORM -->
+        <form asp-controller="Account"
+              asp-action="Register"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
+                    Nome de Utilizador
+                    <span title="Este será o nome visível nas suas ocorrências reportadas."
+                          style="cursor: help; color:#bcaaa4; margin-left:6px;">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </span>
+                </label>
+            
+            <!-- USERNAME -->
+            <div class="input-group">
+                <i class="fa-solid fa-user input-icon"></i>
+
+                <input asp-for="Username"
+                       placeholder="Username"
+                       required />
+
+                <span asp-validation-for="Username"
+                      class="field-error"></span>
+            </div>
+
+            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
+                E-mail
+                <span title="Usaremos este e-mail apenas para o notificar sobre o estado das suas ocorrências."
+                      style="cursor: help; color:#bcaaa4; margin-left:6px;">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
+            </label>
+
+            <!-- EMAIL -->
+            <div class="input-group">
+                <i class="fa-solid fa-envelope input-icon"></i>
+
+                <input asp-for="Email"
+                       placeholder="Email"
+                       required />
+
+                <span asp-validation-for="Email"
+                      class="field-error"></span>
+            </div>
+
+            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
+                Palavra-Passe
+                <span title="A palavra-passe deve conter pelo menos 8 caracteres, incluindo um número e uma letra maiúscula."
+                      style="cursor: help; color:#bcaaa4; margin-left:6px;">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
+            </label>
+
+            <!-- PASSWORD -->
+            <div class="input-group">
+                <i class="fa-solid fa-key input-icon"></i>
+
+                <input asp-for="Password"
+                       id="password"
+                       type="password"
+                       placeholder="Palavra-Passe"
+                       required />
+
+                <i class="fa-solid fa-eye password-toggle"
+                   data-target="password"></i>
+
+                <span asp-validation-for="Password"
+                      class="field-error"></span>
+            </div>
+
+            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
+                Confirmar Palavra-Passe
+            </label>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="input-group">
+                <i class="fa-solid fa-key input-icon"></i>
+
+                <input asp-for="ConfirmPassword"
+                       id="confirmPassword"
+                       type="password"
+                       placeholder="Palavra-Passe"
+                       required />
+
+                <i class="fa-solid fa-eye password-toggle"
+                   data-target="confirmPassword"></i>
+
+                <span asp-validation-for="ConfirmPassword"
+                      class="field-error"></span>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="form-footer">
+
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="forgot-password">
+                    Já tem conta?
+                </a>
+
+                <div class="action-buttons">
+                    <button type="submit"
+                            class="btn-login">
+                        Registar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+</div>
+
+<!-- PASSWORD TOGGLE SCRIPT -->
+
+<script>
+    document.querySelectorAll(".password-toggle").forEach(toggle => {
+        toggle.addEventListener("click", function () {
+
+            const input = document.getElementById(this.dataset.target);
+
+            if (!input) return;
+
+            if (input.type === "password") {
+                input.type = "text";
+                this.classList.remove("fa-eye");
+                this.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                this.classList.remove("fa-eye-slash");
+                this.classList.add("fa-eye");
+            }
         });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+    });
+</script>
+
+<!-- VALIDATION SCRIPTS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>
