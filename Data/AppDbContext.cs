@@ -17,6 +17,8 @@ namespace EcoCityWaste.Data
         public DbSet<EcoCityWaste.Models.Route> Routes { get; set; }
         public DbSet<RouteContainer> RouteContainers { get; set; }
 
+        public DbSet<FailureLog> FailureLogs { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -16,14 +16,16 @@ namespace EcoCityWaste.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly int _hideResolvedAfterDays;
         private readonly NotificationService _notificationService;
+        private readonly FailureLogger _failureLogger;
 
 
-        public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration, NotificationService notificationService)
+        public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration, NotificationService notificationService, FailureLogger failureLogger)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _hideResolvedAfterDays = configuration.GetValue<int>("HideResolvedAfterDays", 30); // Valor padrão de 30 dias se não estiver configurado
             _notificationService = notificationService;
+            _failureLogger = failureLogger;
         }
 
         // GET: Occurrences/Report
@@ -124,10 +126,15 @@ namespace EcoCityWaste.Controllers
 
                 return View();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Mostra mensagem se a base de dados falhar
-                ViewBag.Error = "Ocorreu um problema técnico ao tentar enviar o reporte. Por favor, tente novamente.";
+                await _failureLogger.LogAsync(
+                    ex,
+                    nameof(OccurrencesController),
+                    nameof(Report),
+                    User.Identity?.Name);
+
+                ViewBag.Error = "Ocorreu um problema técnico ao tentar enviar o reporte.";
                 return View(model);
             }
         }

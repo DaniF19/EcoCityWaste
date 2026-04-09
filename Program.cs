@@ -62,6 +62,8 @@ builder.Services.AddScoped<IRouteService, RouteService>();
 
 builder.Services.AddSignalR();
 
+builder.Services.AddScoped<FailureLogger>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
