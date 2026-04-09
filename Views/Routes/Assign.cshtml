@@ -46,10 +46,6 @@
         gap: 10px;
     }
 
-        .panel-title i {
-            color: var(--cor-castanho);
-        }
-
     .route-card {
         background: var(--surface-3);
         border: 1px solid var(--border);
@@ -245,7 +241,7 @@
                 <input type="hidden" asp-for="RouteId" />
 
                 <label style="font-size:.85rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--cor-castanho); margin-bottom:12px; display:block;">
-                    Selecione o Motorista
+                    Selecione o Funcionário
                 </label>
 
                 <div style="position: relative; margin-bottom: 15px;">
@@ -283,7 +279,7 @@
                     </div>
                 }
 
-                <button type="submit" class="btn-assign" @(employees.Any() ? "" : "disabled") style="display: flex; justify-content: center; align-items: center; border-radius: 50px;">
+                <button type="submit" class="btn-assign" @(employees.Any() ? "" : "disabled") style="display: flex; justify-content: center; align-items: center; border-radius: 10px;">
                     <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i> Confirmar Atribuição
                 </button>
             </form>

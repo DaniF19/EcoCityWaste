@@ -463,21 +463,6 @@ namespace EcoCityWasteProjetoESA.Tests
             Assert.Equal(2, model.Count);
         }
 
-        //[Fact]
-        //public async Task GetCoordinates_ValidAddress_ReturnsCoordinates()
-        //{
-        //    // Arrange
-        //    var httpClient = new HttpClient();
-        //    var service = new GeocodingService(httpClient);
-
-        //    // Act
-        //    var result = await service.GetCoordinates("avenida de angola");
-
-        //    // Assert
-        //    Assert.NotEqual(0, result.lat);
-        //    Assert.NotEqual(0, result.lon);
-        //}
-
         [Fact]
         public async Task GetCoordinates_ValidAddress_ReturnsCoordinates()
         {
@@ -490,8 +475,6 @@ namespace EcoCityWasteProjetoESA.Tests
 
             _output.WriteLine($"Latitude: {result.lat}");
             _output.WriteLine($"Longitude: {result.lon}");
-
-            Console.WriteLine($"Lat: {result.lat}, Lon: {result.lon}");
 
             // Assert
             Assert.NotEqual(0, result.lat);
