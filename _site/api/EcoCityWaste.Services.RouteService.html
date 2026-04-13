@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class RouteService | EcoCity Waste </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class RouteService | EcoCity Waste ">
+      
+      <meta name="description" content="Implementa&#231;&#227;o principal do servi&#231;o de gest&#227;o de rotas. Orquestra a cria&#231;&#227;o, atribui&#231;&#227;o, otimiza&#231;&#227;o e conclus&#227;o das tarefas de recolha de res&#237;duos.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DaniF19/EcoCityWaste/new/Docfx/apiSpec/new?filename=EcoCityWaste_Services_RouteService.md&amp;value=---%0Auid%3A%20EcoCityWaste.Services.RouteService%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="EcoCity Waste">
+            EcoCity Waste
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="EcoCityWaste.Services.RouteService">
+
+
+
+  <h1 id="EcoCityWaste_Services_RouteService" data-uid="EcoCityWaste.Services.RouteService" class="text-break">
+Class RouteService  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="EcoCityWaste.html">EcoCityWaste</a>.<a class="xref" href="EcoCityWaste.Services.html">Services</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>EcoCityWaste.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Implementação principal do serviço de gestão de rotas.
+Orquestra a criação, atribuição, otimização e conclusão das tarefas de recolha de resíduos.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class RouteService : IRouteService</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">RouteService</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="EcoCityWaste.Services.IRouteService.html">IRouteService</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="EcoCityWaste_Services_RouteService__ctor_" data-uid="EcoCityWaste.Services.RouteService.#ctor*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService__ctor_EcoCityWaste_Data_AppDbContext_EcoCityWaste_Services_RouteOptimisationService_EcoCityWaste_Services_ContainerHistoryService_" data-uid="EcoCityWaste.Services.RouteService.#ctor(EcoCityWaste.Data.AppDbContext,EcoCityWaste.Services.RouteOptimisationService,EcoCityWaste.Services.ContainerHistoryService)">
+  RouteService(AppDbContext, RouteOptimisationService, ContainerHistoryService)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RouteService(AppDbContext context, RouteOptimisationService optimiser, ContainerHistoryService historyService)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="EcoCityWaste.Data.AppDbContext.html">AppDbContext</a></dt>
+    <dd></dd>
+    <dt><code>optimiser</code> <a class="xref" href="EcoCityWaste.Services.RouteOptimisationService.html">RouteOptimisationService</a></dt>
+    <dd></dd>
+    <dt><code>historyService</code> <a class="xref" href="EcoCityWaste.Services.ContainerHistoryService.html">ContainerHistoryService</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="EcoCityWaste_Services_RouteService_ApplyOptimisationAsync_" data-uid="EcoCityWaste.Services.RouteService.ApplyOptimisationAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_ApplyOptimisationAsync_System_Int32_System_Collections_Generic_List_System_Int32__" data-uid="EcoCityWaste.Services.RouteService.ApplyOptimisationAsync(System.Int32,System.Collections.Generic.List{System.Int32})">
+  ApplyOptimisationAsync(int, List&lt;int&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L219"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Aplica uma nova ordem de recolha à base de dados e recalcula a distância total estimada.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ApplyOptimisationAsync(int routeId, List&lt;int&gt; orderedContainerIds)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>routeId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>orderedContainerIds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_AssignRouteAsync_" data-uid="EcoCityWaste.Services.RouteService.AssignRouteAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_AssignRouteAsync_EcoCityWaste_ViewModels_RouteAssignViewModel_EcoCityWaste_Models_Route_EcoCityWaste_Models_User_" data-uid="EcoCityWaste.Services.RouteService.AssignRouteAsync(EcoCityWaste.ViewModels.RouteAssignViewModel,EcoCityWaste.Models.Route,EcoCityWaste.Models.User)">
+  AssignRouteAsync(RouteAssignViewModel, Route, User)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L179"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Efetua a atribuição de uma rota a um funcionário, atualizando o estado
+e disparando uma notificação para o colaborador.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AssignRouteAsync(RouteAssignViewModel model, Route route, User employee)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>model</code> <a class="xref" href="EcoCityWaste.ViewModels.RouteAssignViewModel.html">RouteAssignViewModel</a></dt>
+    <dd></dd>
+    <dt><code>route</code> <a class="xref" href="EcoCityWaste.Models.Route.html">Route</a></dt>
+    <dd></dd>
+    <dt><code>employee</code> <a class="xref" href="EcoCityWaste.Models.User.html">User</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_CompleteRouteAsync_" data-uid="EcoCityWaste.Services.RouteService.CompleteRouteAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_CompleteRouteAsync_System_Int32_System_String_System_Boolean_" data-uid="EcoCityWaste.Services.RouteService.CompleteRouteAsync(System.Int32,System.String,System.Boolean)">
+  CompleteRouteAsync(int, string?, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L144"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Finaliza a rota no sistema. Este método é vital pois simula o esvaziamento real:
+Reinicia o nível de enchimento de todos os contentores recolhidos e gera entradas no histórico.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; CompleteRouteAsync(int id, string? username, bool isEmployee)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>username</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>isEmployee</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_CreateRouteAsync_" data-uid="EcoCityWaste.Services.RouteService.CreateRouteAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_CreateRouteAsync_EcoCityWaste_ViewModels_RouteCreateViewModel_System_String_" data-uid="EcoCityWaste.Services.RouteService.CreateRouteAsync(EcoCityWaste.ViewModels.RouteCreateViewModel,System.String)">
+  CreateRouteAsync(RouteCreateViewModel, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Cria uma nova rota de recolha. Valida a existência e atividade dos contentores
+e gera um código de rota único de forma segura.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;(bool Success, string Code)&gt; CreateRouteAsync(RouteCreateViewModel model, string createdBy)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>model</code> <a class="xref" href="EcoCityWaste.ViewModels.RouteCreateViewModel.html">RouteCreateViewModel</a></dt>
+    <dd></dd>
+    <dt><code>createdBy</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.string-.success">Success</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.string-.code">Code</a>)&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_DeleteRouteAsync_" data-uid="EcoCityWaste.Services.RouteService.DeleteRouteAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_DeleteRouteAsync_System_Int32_" data-uid="EcoCityWaste.Services.RouteService.DeleteRouteAsync(System.Int32)">
+  DeleteRouteAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L201"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Elimina uma rota do sistema e limpa as suas associações na tabela intermédia.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; DeleteRouteAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_EditRouteAsync_" data-uid="EcoCityWaste.Services.RouteService.EditRouteAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_EditRouteAsync_EcoCityWaste_ViewModels_RouteEditViewModel_" data-uid="EcoCityWaste.Services.RouteService.EditRouteAsync(EcoCityWaste.ViewModels.RouteEditViewModel)">
+  EditRouteAsync(RouteEditViewModel)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Atualiza os dados de uma rota existente. Limpa as associações antigas
+e reconstrói a lista de paragens com os novos contentores selecionados.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; EditRouteAsync(RouteEditViewModel model)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>model</code> <a class="xref" href="EcoCityWaste.ViewModels.RouteEditViewModel.html">RouteEditViewModel</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_GetActiveContainersAsync_" data-uid="EcoCityWaste.Services.RouteService.GetActiveContainersAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_GetActiveContainersAsync" data-uid="EcoCityWaste.Services.RouteService.GetActiveContainersAsync">
+  GetActiveContainersAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L255"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Lista de contentores aptos para serem incluídos em novos planeamentos.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;List&lt;Container&gt;&gt; GetActiveContainersAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="EcoCityWaste.Models.Container.html">Container</a>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_GetEmployeesAsync_" data-uid="EcoCityWaste.Services.RouteService.GetEmployeesAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_GetEmployeesAsync" data-uid="EcoCityWaste.Services.RouteService.GetEmployeesAsync">
+  GetEmployeesAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L259"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Lista de colaboradores operacionais para atribuição de tarefas.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;List&lt;User&gt;&gt; GetEmployeesAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="EcoCityWaste.Models.User.html">User</a>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_GetOptimisedRouteAsync_" data-uid="EcoCityWaste.Services.RouteService.GetOptimisedRouteAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_GetOptimisedRouteAsync_System_Int32_" data-uid="EcoCityWaste.Services.RouteService.GetOptimisedRouteAsync(System.Int32)">
+  GetOptimisedRouteAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L241"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Orquestra a execução do algoritmo de otimização geoespacial para uma rota.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;(Route? Route, OptimisedRouteDto? Result)&gt; GetOptimisedRouteAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;(<a class="xref" href="EcoCityWaste.Models.Route.html">Route</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-ecocitywaste.models.route,ecocitywaste.viewmodels.optimisedroutedto-.route">Route</a>, <a class="xref" href="EcoCityWaste.ViewModels.OptimisedRouteDto.html">OptimisedRouteDto</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-ecocitywaste.models.route,ecocitywaste.viewmodels.optimisedroutedto-.result">Result</a>)&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_GetRouteWithDetailsAsync_" data-uid="EcoCityWaste.Services.RouteService.GetRouteWithDetailsAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_GetRouteWithDetailsAsync_System_Int32_" data-uid="EcoCityWaste.Services.RouteService.GetRouteWithDetailsAsync(System.Int32)">
+  GetRouteWithDetailsAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtém todos os detalhes de uma rota específica, carregando os objetos relacionados.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Route?&gt; GetRouteWithDetailsAsync(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="EcoCityWaste.Models.Route.html">Route</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="EcoCityWaste_Services_RouteService_GetRoutesAsync_" data-uid="EcoCityWaste.Services.RouteService.GetRoutesAsync*"></a>
+
+  <h3 id="EcoCityWaste_Services_RouteService_GetRoutesAsync_System_String_System_String_System_Boolean_" data-uid="EcoCityWaste.Services.RouteService.GetRoutesAsync(System.String,System.String,System.Boolean)">
+  GetRoutesAsync(string?, string?, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Recupera a lista de rotas, aplicando filtros de estado e permissões de utilizador.
+Garante que funcionários apenas acedem ao seu próprio plano de trabalho.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;List&lt;Route&gt;&gt; GetRoutesAsync(string? statusFilter, string? username, bool isEmployee)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>statusFilter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>username</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>isEmployee</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="EcoCityWaste.Models.Route.html">Route</a>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DaniF19/EcoCityWaste/blob/Docfx/Services/RouteService.cs/#L12" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

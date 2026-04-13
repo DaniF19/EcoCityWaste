@@ -1,0 +1,100 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Services
+  commentId: N:EcoCityWaste.Services
+  id: EcoCityWaste.Services
+  children:
+  - EcoCityWaste.Services.ContainerHistoryService
+  - EcoCityWaste.Services.FailureLogger
+  - EcoCityWaste.Services.IEmailService
+  - EcoCityWaste.Services.IRouteService
+  - EcoCityWaste.Services.NotificationService
+  - EcoCityWaste.Services.RouteOptimisationService
+  - EcoCityWaste.Services.RouteService
+  - EcoCityWaste.Services.SensorSimulationService
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Services
+  nameWithType: EcoCityWaste.Services
+  fullName: EcoCityWaste.Services
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Services.ContainerHistoryService
+  commentId: T:EcoCityWaste.Services.ContainerHistoryService
+  parent: EcoCityWaste.Services
+  href: EcoCityWaste.Services.ContainerHistoryService.html
+  name: ContainerHistoryService
+  nameWithType: ContainerHistoryService
+  fullName: EcoCityWaste.Services.ContainerHistoryService
+- uid: EcoCityWaste.Services.FailureLogger
+  commentId: T:EcoCityWaste.Services.FailureLogger
+  parent: EcoCityWaste.Services
+  href: EcoCityWaste.Services.FailureLogger.html
+  name: FailureLogger
+  nameWithType: FailureLogger
+  fullName: EcoCityWaste.Services.FailureLogger
+- uid: EcoCityWaste.Services.IEmailService
+  commentId: T:EcoCityWaste.Services.IEmailService
+  parent: EcoCityWaste.Services
+  href: EcoCityWaste.Services.IEmailService.html
+  name: IEmailService
+  nameWithType: IEmailService
+  fullName: EcoCityWaste.Services.IEmailService
+- uid: EcoCityWaste.Services.IRouteService
+  commentId: T:EcoCityWaste.Services.IRouteService
+  parent: EcoCityWaste.Services
+  href: EcoCityWaste.Services.IRouteService.html
+  name: IRouteService
+  nameWithType: IRouteService
+  fullName: EcoCityWaste.Services.IRouteService
+- uid: EcoCityWaste.Services.NotificationService
+  commentId: T:EcoCityWaste.Services.NotificationService
+  parent: EcoCityWaste.Services
+  href: EcoCityWaste.Services.NotificationService.html
+  name: NotificationService
+  nameWithType: NotificationService
+  fullName: EcoCityWaste.Services.NotificationService
+- uid: EcoCityWaste.Services.RouteOptimisationService
+  commentId: T:EcoCityWaste.Services.RouteOptimisationService
+  parent: EcoCityWaste.Services
+  href: EcoCityWaste.Services.RouteOptimisationService.html
+  name: RouteOptimisationService
+  nameWithType: RouteOptimisationService
+  fullName: EcoCityWaste.Services.RouteOptimisationService
+- uid: EcoCityWaste.Services.RouteService
+  commentId: T:EcoCityWaste.Services.RouteService
+  href: EcoCityWaste.Services.RouteService.html
+  name: RouteService
+  nameWithType: RouteService
+  fullName: EcoCityWaste.Services.RouteService
+- uid: EcoCityWaste.Services.SensorSimulationService
+  commentId: T:EcoCityWaste.Services.SensorSimulationService
+  href: EcoCityWaste.Services.SensorSimulationService.html
+  name: SensorSimulationService
+  nameWithType: SensorSimulationService
+  fullName: EcoCityWaste.Services.SensorSimulationService
+- uid: EcoCityWaste.Services
+  commentId: N:EcoCityWaste.Services
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Services
+  nameWithType: EcoCityWaste.Services
+  fullName: EcoCityWaste.Services
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html

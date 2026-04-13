@@ -1,7 +1,6 @@
 using EcoCityWaste.Data;
-using EcoCityWaste.Models;
-using EcoCityWaste.Models.ViewModels;
 using EcoCityWaste.Services;
+using EcoCityWaste.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,11 @@ using System.Threading.Tasks;
 
 namespace EcoCityWaste.Controllers
 {
-    [Authorize(Roles = "Admin,Funcionario")] // apenas admins e funcionarios tem acesso as rotas
+    /// <summary>
+    /// Controlador responsável pela gestão de rotas de recolha de resíduos.
+    /// Permite o planeamento, otimização, atribuição e monitorização das rotas no terreno.
+    /// </summary>
+    [Authorize(Roles = "Admin,Funcionario")]
     public class RoutesController : Controller
     {
         private readonly AppDbContext _context;
@@ -26,7 +29,11 @@ namespace EcoCityWaste.Controllers
             _historyService = historyService;
         }
 
-        // listar rotas
+        /// <summary>
+        /// Lista as rotas disponíveis. Se o utilizador for um funcionário, 
+        /// apenas vê as rotas que lhe foram especificamente atribuídas.
+        /// </summary>
+        /// <param name="statusFilter">Filtro opcional por estado (Pendente, Em Curso, Concluída).</param>
         public async Task<IActionResult> Index(string? statusFilter)
         {
             var query = _context.Routes
@@ -56,10 +63,18 @@ namespace EcoCityWaste.Controllers
             ViewBag.InProgress = await _context.Routes.CountAsync(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress);
             ViewBag.Completed = await _context.Routes.CountAsync(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.Completed);
 
-            return View(await query.OrderByDescending(r => r.CreatedAt).ToListAsync());
+            // Indicadores rápidos para os cartões do dashboard de rotas
+            ViewBag.TotalRoutes = routes.Count;
+            ViewBag.Pending = routes.Count(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.Pending);
+            ViewBag.InProgress = routes.Count(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.InProgress);
+            ViewBag.Completed = routes.Count(r => r.Status == EcoCityWaste.Models.Route.RouteStatus.Completed);
+
+            return View(routes);
         }
 
-        // detalhes da rota
+        /// <summary>
+        /// Apresenta os detalhes de uma rota, incluindo a lista ordenada de contentores a recolher.
+        /// </summary>
         public async Task<IActionResult> Details(int id)
         {
             var route = await _context.Routes
@@ -68,19 +83,17 @@ namespace EcoCityWaste.Controllers
                     .ThenInclude(rc => rc.Container)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            if (route == null) return NotFound();
-
-            if (User.IsInRole("Funcionario"))
-            {
-                var username = User.Identity!.Name;
-                if (route.AssignedEmployee?.Username != username)
-                    return Forbid();
-            }
+            // Proteção de privacidade: um funcionário não pode visualizar as rotas dos colegas
+            if (User.IsInRole("Funcionario") &&
+                route.AssignedEmployee?.Username != User.Identity?.Name)
+                return Forbid();
 
             return View(route);
         }
 
-        // criar rota 
+        /// <summary>
+        /// Mostra o formulário de criação de rota, carregando apenas os contentores que estão ativos.
+        /// </summary>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
@@ -88,6 +101,9 @@ namespace EcoCityWaste.Controllers
             return View(new RouteCreateViewModel());
         }
 
+        /// <summary>
+        /// Processa a criação de uma nova rota no sistema.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(RouteCreateViewModel model)
@@ -105,9 +121,8 @@ namespace EcoCityWaste.Controllers
 
             if (containers.Count != model.ContainerIds.Count)
             {
-                ModelState.AddModelError("ContainerIds",
-                    "Um ou mais contentores seleccionados são inválidos ou estão inactivos.");
-                ViewBag.Containers = await ActiveContainersAsync();
+                ModelState.AddModelError("ContainerIds", "Um ou mais contentores selecionados são inválidos.");
+                ViewBag.Containers = await _routeService.GetActiveContainersAsync();
                 return View(model);
             }
 
@@ -138,7 +153,9 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // editar detalhes da rota
+        /// <summary>
+        /// Permite ao administrador editar as informações básicas ou a composição de contentores de uma rota.
+        /// </summary>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -165,53 +182,9 @@ namespace EcoCityWaste.Controllers
             return View(vm);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(RouteEditViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Containers = await ActiveContainersAsync();
-                return View(model);
-            }
-
-            var route = await _context.Routes
-                .Include(r => r.RouteContainers)
-                .FirstOrDefaultAsync(r => r.Id == model.Id);
-
-            if (route == null) return NotFound();
-
-            var validIds = await _context.Contentores
-                .Where(c => model.ContainerIds.Contains(c.Id) && c.IsActive)
-                .Select(c => c.Id)
-                .ToListAsync();
-
-            if (validIds.Count != model.ContainerIds.Count)
-            {
-                ModelState.AddModelError("ContainerIds", "Um ou mais contentores são inválidos.");
-                ViewBag.Containers = await ActiveContainersAsync();
-                return View(model);
-            }
-
-            route.Name = model.Name.Trim();
-            route.Description = model.Description?.Trim();
-
-            _context.RouteContainers.RemoveRange(route.RouteContainers);
-            for (int i = 0; i < model.ContainerIds.Count; i++)
-            {
-                route.RouteContainers.Add(new RouteContainer
-                {
-                    ContainerId = model.ContainerIds[i],
-                    PickupOrder = i + 1
-                });
-            }
-
-            await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Rota actualizada com sucesso.";
-            return RedirectToAction(nameof(Details), new { id = route.Id });
-        }
-
-        // marcar rota como concluida
+        /// <summary>
+        /// Processa a conclusão de uma rota, registando a data de finalização.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Complete(int id)
         {
@@ -253,47 +226,78 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        // para criar o codigo da rota
-        private string GenerateRouteCode()
+        /// <summary>
+        /// Carrega o formulário para atribuir uma rota a um funcionário específico.
+        /// </summary>
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Assign(int id)
         {
-            int count = _context.Routes.Count() + 1; // incremental
-            return $"RT-{count:D3}";
+            var route = await _routeService.GetRouteWithDetailsAsync(id);
+            if (route is null) return NotFound();
+
+            ViewBag.Route = route;
+            ViewBag.Employees = await _routeService.GetEmployeesAsync();
+
+            return View(new RouteAssignViewModel
+            {
+                RouteId = id,
+                EmployeeId = route.AssignedEmployeeId
+            });
         }
 
-        // auxiliar - contentores ativos
-        private Task<List<Container>> ActiveContainersAsync() =>
-            _context.Contentores
-                .Where(c => c.IsActive)
-                .OrderBy(c => c.Code)
-                .ToListAsync();
+        /// <summary>
+        /// Processa a atribuição da rota e notifica o utilizador selecionado.
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Assign(RouteAssignViewModel model)
+        {
+            var route = await _routeService.GetRouteWithDetailsAsync(model.RouteId);
+            if (route is null) return NotFound();
 
-        private Task<List<User>> EmployeesAsync() =>
-            _context.Users
-                .Where(u => u.Role == "Funcionario")
-                .OrderBy(u => u.Username)
-                .ToListAsync();
+            var employees = await _routeService.GetEmployeesAsync();
+            var employee = employees.FirstOrDefault(e => e.Id == model.EmployeeId);
 
-        // eliminar rota
+            if (employee is null)
+            {
+                ModelState.AddModelError("EmployeeId", "Funcionário inválido.");
+                ViewBag.Route = route;
+                ViewBag.Employees = employees;
+                return View(model);
+            }
+
+            await _routeService.AssignRouteAsync(model, route, employee);
+
+            TempData["SuccessMessage"] = $"Rota atribuída a {employee.Username}.";
+            return RedirectToAction(nameof(Details), new { id = route.Id });
+        }
+
+        /// <summary>
+        /// Remove uma rota do sistema. Inclui um Log de Falhas para capturar erros inesperados.
+        /// </summary>
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var route = await _context.Routes
-                .Include(r => r.RouteContainers)
-                .FirstOrDefaultAsync(r => r.Id == id);
+            try
+            {
+                var success = await _routeService.DeleteRouteAsync(id);
+                if (!success) return NotFound();
 
-            if (route == null) return NotFound();
-
-            // remover as associações primeiro para evitar os erros de FK
-            _context.RouteContainers.RemoveRange(route.RouteContainers);
-            _context.Routes.Remove(route);
-
-            await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Rota eliminada com sucesso.";
-            return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "Rota eliminada com sucesso.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                await _failureLogger.LogAsync(ex, nameof(RoutesController), nameof(Delete), User.Identity?.Name);
+                TempData["ErrorMessage"] = "Erro ao eliminar. A falha foi registada para análise.";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        // otimizar rota
+        /// <summary>
+        /// Aciona o algoritmo de otimização para sugerir a melhor ordem de recolha.
+        /// </summary>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Optimise(int id)
         {
@@ -314,6 +318,9 @@ namespace EcoCityWaste.Controllers
             return View(result);
         }
 
+        /// <summary>
+        /// Aplica a ordem de contentores sugerida pelo algoritmo de otimização à base de dados.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ApplyOptimisation(int routeId, List<int> orderedContainerIds)
@@ -336,58 +343,13 @@ namespace EcoCityWaste.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Ordem optimizada aplicada com sucesso.";
+            TempData["SuccessMessage"] = "Ordem otimizada aplicada com sucesso.";
             return RedirectToAction(nameof(Details), new { id = routeId });
         }
 
-        // atribuir rota a funcionario
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Assign(int id)
-        {
-            var route = await _context.Routes.FindAsync(id);
-            if (route == null) return NotFound();
-
-            ViewBag.Route = route;
-            ViewBag.Employees = await EmployeesAsync();
-
-            return View(new RouteAssignViewModel { RouteId = id });
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Assign(RouteAssignViewModel model)
-        {
-            var route = await _context.Routes.FindAsync(model.RouteId);
-            if (route == null) return NotFound();
-
-            var employee = await _context.Users.FindAsync(model.EmployeeId);
-            if (employee == null || employee.Role != "Funcionario")
-            {
-                ModelState.AddModelError("EmployeeId", "Funcionário inválido.");
-                ViewBag.Route = route;
-                ViewBag.Employees = await EmployeesAsync();
-                return View(model);
-            }
-
-            route.AssignedEmployeeId = model.EmployeeId;
-            route.AssignedAt = DateTime.Now;
-            route.Status = EcoCityWaste.Models.Route.RouteStatus.InProgress;
-
-            // enviar notificacao
-            _context.Notifications.Add(new Notification
-            {
-                Message = $"Foi-lhe atribuída a rota {route.Code}.",
-                UserId = employee.Id,
-                CreatedAt = DateTime.Now,
-                IsRead = false
-            });
-
-            await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = $"Rota atribuída a {employee.Username}.";
-            return RedirectToAction(nameof(Details), new { id = route.Id });
-        }
-
-        // visualizar rota de recolha no mapa
+        /// <summary>
+        /// Mostra a rota desenhada num mapa interativo.
+        /// </summary>
         public async Task<IActionResult> Map(int id)
         {
             var route = await _context.Routes
@@ -408,7 +370,9 @@ namespace EcoCityWaste.Controllers
             return View(route);
         }
 
-        // metodo que calcula a distancia total da rota com base na ordem dos contentores
+        /// <summary>
+        /// Calcula a distância total da rota percorrendo a sequência de coordenadas.
+        /// </summary>
         private async Task<double?> RecalcDistanceAsync(int routeId, List<int> orderedIds)
         {
             var containers = await _context.Contentores
@@ -416,46 +380,36 @@ namespace EcoCityWaste.Controllers
                 .ToDictionaryAsync(c => c.Id);
 
             double total = 0;
-
-            // percorrer a lista de contentores na ordem definida pelo user
-            // calcula distancia entre pares consecutivos
             for (int i = 0; i < orderedIds.Count - 1; i++)
             {
-                // tenta obter os dois contentores consecutivos
                 if (containers.TryGetValue(orderedIds[i], out var a) &&
                     containers.TryGetValue(orderedIds[i + 1], out var b))
                 {
-                    // soma a distancia entre os dois pontos
                     total += Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude);
                 }
             }
-            // arredonda a distancia total 2 casas dec
             return Math.Round(total, 2);
         }
 
-        // metodo que calcula a distancia entre dois pontos lat/long
+        /// <summary>
+        /// Implementação da fórmula matemática para calcular a distância em linha reta
+        /// entre dois pontos à superfície da Terra.
+        /// </summary>
         private static double Haversine(double lat1, double lon1, double lat2, double lon2)
         {
-            const double R = 6371.0; // raio da terra em km
-            
-            // diferencas de lat/long
+            const double R = 6371.0; // Raio da Terra em km
             double dLat = (lat2 - lat1) * Math.PI / 180;
             double dLon = (lon2 - lon1) * Math.PI / 180;
 
-            // formula de haversine
-            // 'a' representa a componente intermedia do calculo 
             double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2)
                      + Math.Cos(lat1 * Math.PI / 180) * Math.Cos(lat2 * Math.PI / 180)
                      * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-            
-            // retorna distancia entre os dois pontos
             return R * 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         }
 
-
-
-
-        // Vista da simulação
+        /// <summary>
+        /// Abre a vista de simulação em tempo real do progresso do camião na rota.
+        /// </summary>
         public async Task<IActionResult> Simulate(int id)
         {
             var route = await _context.Routes
@@ -467,6 +421,5 @@ namespace EcoCityWaste.Controllers
 
             return View(route);
         }
-
     }
 }

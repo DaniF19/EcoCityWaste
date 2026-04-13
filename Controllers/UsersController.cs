@@ -3,7 +3,6 @@ using EcoCityWaste.Models;
 using EcoCityWaste.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,10 @@ using BCrypt.Net;
 
 namespace EcoCityWaste.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pela gestão administrativa de utilizadores.
+    /// Permite criar, editar, visualizar e remover contas de utilizador do sistema.
+    /// </summary>
     public class UsersController : Controller
     {
         private readonly AppDbContext _context;
@@ -22,13 +25,19 @@ namespace EcoCityWaste.Controllers
             _context = context;
         }
 
-        // GET: Users
+        /// <summary>
+        /// Lista todos os utilizadores registados na plataforma.
+        /// </summary>
+        /// <returns>Uma vista com a listagem completa de utilizadores.</returns>
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        /// <summary>
+        /// Apresenta os detalhes completos de um utilizador específico através do seu ID.
+        /// </summary>
+        /// <param name="id">Identificador único do utilizador.</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,18 +55,21 @@ namespace EcoCityWaste.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+        /// <summary>
+        /// Abre o formulário de criação de um novo utilizador.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Processa a criação de um novo utilizador. 
+        /// Utiliza o BCrypt para garantir que a password é guardada como uma Hash segura.
+        /// </summary>
+        /// <param name="model">ViewModel com os dados do novo utilizador.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
             if (!ModelState.IsValid)
@@ -67,6 +79,7 @@ namespace EcoCityWaste.Controllers
             {
                 Username = model.Username,
                 Email = model.Email,
+                // Segurança: Nunca guardar passwords em texto limpo
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
                 Token = null,
                 TokenExpiry = null
@@ -78,8 +91,9 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        // GET: Users/Edit/5
+        /// <summary>
+        /// Carrega o formulário para editar os dados de um utilizador existente.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,12 +109,13 @@ namespace EcoCityWaste.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Guarda as alterações feitas ao perfil de um utilizador. 
+        /// Inclui proteção contra ataques e gestão de concorrência de base de dados.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Email,PasswordHash,Token,TokenExpiry")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Email,PasswordHash,Role,Token,TokenExpiry")] User user)
         {
             if (id != user.Id)
             {
@@ -130,7 +145,9 @@ namespace EcoCityWaste.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        /// <summary>
+        /// Mostra a página de confirmação para remover um utilizador.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,7 +165,9 @@ namespace EcoCityWaste.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
+        /// <summary>
+        /// Confirma a remoção definitiva do utilizador da base de dados.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -163,6 +182,9 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Método auxiliar para verificar se um utilizador ainda existe na base de dados.
+        /// </summary>
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);

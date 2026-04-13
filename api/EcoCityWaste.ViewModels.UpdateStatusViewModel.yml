@@ -1,0 +1,580 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel
+  commentId: T:EcoCityWaste.ViewModels.UpdateStatusViewModel
+  id: UpdateStatusViewModel
+  parent: EcoCityWaste.ViewModels
+  children:
+  - EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus
+  - EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt
+  - EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus
+  - EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId
+  langs:
+  - csharp
+  - vb
+  name: UpdateStatusViewModel
+  nameWithType: UpdateStatusViewModel
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel
+  type: Class
+  source:
+    remote:
+      path: ViewModels/UpdateStatusViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: UpdateStatusViewModel
+    path: ViewModels/UpdateStatusViewModel.cs
+    startLine: 8
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    ViewModel utilizado para a atualização do estado de progresso de uma ocorrência.
+
+    Facilita a transição de estados por parte de administradores ou funcionários.
+  example: []
+  syntax:
+    content: public class UpdateStatusViewModel
+    content.vb: Public Class UpdateStatusViewModel
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId
+  commentId: P:EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId
+  id: OccurrenceId
+  parent: EcoCityWaste.ViewModels.UpdateStatusViewModel
+  langs:
+  - csharp
+  - vb
+  name: OccurrenceId
+  nameWithType: UpdateStatusViewModel.OccurrenceId
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId
+  type: Property
+  source:
+    remote:
+      path: ViewModels/UpdateStatusViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: OccurrenceId
+    path: ViewModels/UpdateStatusViewModel.cs
+    startLine: 13
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Identificador único da ocorrência que será atualizada.
+  example: []
+  syntax:
+    content: public int OccurrenceId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property OccurrenceId As Integer
+  overload: EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId*
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus
+  commentId: P:EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus
+  id: CurrentStatus
+  parent: EcoCityWaste.ViewModels.UpdateStatusViewModel
+  langs:
+  - csharp
+  - vb
+  name: CurrentStatus
+  nameWithType: UpdateStatusViewModel.CurrentStatus
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus
+  type: Property
+  source:
+    remote:
+      path: ViewModels/UpdateStatusViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: CurrentStatus
+    path: ViewModels/UpdateStatusViewModel.cs
+    startLine: 19
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Estado atual da ocorrência no momento em que o formulário é carregado.
+
+    Serve como referência visual para o utilizador antes da alteração.
+  example: []
+  syntax:
+    content: public string CurrentStatus { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CurrentStatus As String
+  overload: EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus*
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt
+  commentId: P:EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt
+  id: LastUpdatedAt
+  parent: EcoCityWaste.ViewModels.UpdateStatusViewModel
+  langs:
+  - csharp
+  - vb
+  name: LastUpdatedAt
+  nameWithType: UpdateStatusViewModel.LastUpdatedAt
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt
+  type: Property
+  source:
+    remote:
+      path: ViewModels/UpdateStatusViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: LastUpdatedAt
+    path: ViewModels/UpdateStatusViewModel.cs
+    startLine: 25
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Registo da última data/hora em que a ocorrência sofreu uma modificação.
+
+    Importante para auditoria e histórico de intervenção.
+  example: []
+  syntax:
+    content: public DateTime? LastUpdatedAt { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.DateTime}
+    content.vb: Public Property LastUpdatedAt As Date?
+  overload: EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt*
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus
+  commentId: P:EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus
+  id: NewStatus
+  parent: EcoCityWaste.ViewModels.UpdateStatusViewModel
+  langs:
+  - csharp
+  - vb
+  name: NewStatus
+  nameWithType: UpdateStatusViewModel.NewStatus
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus
+  type: Property
+  source:
+    remote:
+      path: ViewModels/UpdateStatusViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: NewStatus
+    path: ViewModels/UpdateStatusViewModel.cs
+    startLine: 31
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    O novo estado selecionado para a ocorrência.
+
+    Validado de acordo com os estados permitidos no domínio do sistema (Models.OccurrenceStatus).
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "É necessário selecionar um novo estado.")]
+
+      public OccurrenceStatus NewStatus { get; set; }
+    parameters: []
+    return:
+      type: EcoCityWaste.Models.OccurrenceStatus
+    content.vb: >-
+      <Required(ErrorMessage:="É necessário selecionar um novo estado.")>
+
+      Public Property NewStatus As OccurrenceStatus
+  overload: EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: É necessário selecionar um novo estado.
+references:
+- uid: EcoCityWaste.ViewModels
+  commentId: N:EcoCityWaste.ViewModels
+  href: EcoCityWaste.html
+  name: EcoCityWaste.ViewModels
+  nameWithType: EcoCityWaste.ViewModels
+  fullName: EcoCityWaste.ViewModels
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId*
+  commentId: Overload:EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId
+  href: EcoCityWaste.ViewModels.UpdateStatusViewModel.html#EcoCityWaste_ViewModels_UpdateStatusViewModel_OccurrenceId
+  name: OccurrenceId
+  nameWithType: UpdateStatusViewModel.OccurrenceId
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.OccurrenceId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus*
+  commentId: Overload:EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus
+  href: EcoCityWaste.ViewModels.UpdateStatusViewModel.html#EcoCityWaste_ViewModels_UpdateStatusViewModel_CurrentStatus
+  name: CurrentStatus
+  nameWithType: UpdateStatusViewModel.CurrentStatus
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.CurrentStatus
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt*
+  commentId: Overload:EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt
+  href: EcoCityWaste.ViewModels.UpdateStatusViewModel.html#EcoCityWaste_ViewModels_UpdateStatusViewModel_LastUpdatedAt
+  name: LastUpdatedAt
+  nameWithType: UpdateStatusViewModel.LastUpdatedAt
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.LastUpdatedAt
+- uid: System.Nullable{System.DateTime}
+  commentId: T:System.Nullable{System.DateTime}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime?
+  nameWithType: DateTime?
+  fullName: System.DateTime?
+  nameWithType.vb: Date?
+  fullName.vb: Date?
+  name.vb: Date?
+  spec.csharp:
+  - uid: System.DateTime
+    name: DateTime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+  spec.vb:
+  - uid: System.DateTime
+    name: Date
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus*
+  commentId: Overload:EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus
+  href: EcoCityWaste.ViewModels.UpdateStatusViewModel.html#EcoCityWaste_ViewModels_UpdateStatusViewModel_NewStatus
+  name: NewStatus
+  nameWithType: UpdateStatusViewModel.NewStatus
+  fullName: EcoCityWaste.ViewModels.UpdateStatusViewModel.NewStatus
+- uid: EcoCityWaste.Models.OccurrenceStatus
+  commentId: T:EcoCityWaste.Models.OccurrenceStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.OccurrenceStatus.html
+  name: OccurrenceStatus
+  nameWithType: OccurrenceStatus
+  fullName: EcoCityWaste.Models.OccurrenceStatus
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html

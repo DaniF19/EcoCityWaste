@@ -1,0 +1,512 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Services.ContainerHistoryService
+  commentId: T:EcoCityWaste.Services.ContainerHistoryService
+  id: ContainerHistoryService
+  parent: EcoCityWaste.Services
+  children:
+  - EcoCityWaste.Services.ContainerHistoryService.#ctor(EcoCityWaste.Data.AppDbContext)
+  - EcoCityWaste.Services.ContainerHistoryService.AddHistory(EcoCityWaste.Models.Container,System.String)
+  langs:
+  - csharp
+  - vb
+  name: ContainerHistoryService
+  nameWithType: ContainerHistoryService
+  fullName: EcoCityWaste.Services.ContainerHistoryService
+  type: Class
+  source:
+    remote:
+      path: Services/ContainerHistoryService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ContainerHistoryService
+    path: Services/ContainerHistoryService.cs
+    startLine: 9
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: >-
+    Serviço especializado na gestão e registo do histórico de estados dos contentores.
+
+    Garante que todas as alterações relevantes fiquem gravadas.
+  example: []
+  syntax:
+    content: public class ContainerHistoryService
+    content.vb: Public Class ContainerHistoryService
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.Services.ContainerHistoryService.#ctor(EcoCityWaste.Data.AppDbContext)
+  commentId: M:EcoCityWaste.Services.ContainerHistoryService.#ctor(EcoCityWaste.Data.AppDbContext)
+  id: '#ctor(EcoCityWaste.Data.AppDbContext)'
+  parent: EcoCityWaste.Services.ContainerHistoryService
+  langs:
+  - csharp
+  - vb
+  name: ContainerHistoryService(AppDbContext)
+  nameWithType: ContainerHistoryService.ContainerHistoryService(AppDbContext)
+  fullName: EcoCityWaste.Services.ContainerHistoryService.ContainerHistoryService(EcoCityWaste.Data.AppDbContext)
+  type: Constructor
+  source:
+    remote:
+      path: Services/ContainerHistoryService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: .ctor
+    path: Services/ContainerHistoryService.cs
+    startLine: 16
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: Injeta o contexto da base de dados para permitir a persistência dos registos históricos.
+  example: []
+  syntax:
+    content: public ContainerHistoryService(AppDbContext context)
+    parameters:
+    - id: context
+      type: EcoCityWaste.Data.AppDbContext
+    content.vb: Public Sub New(context As AppDbContext)
+  overload: EcoCityWaste.Services.ContainerHistoryService.#ctor*
+  nameWithType.vb: ContainerHistoryService.New(AppDbContext)
+  fullName.vb: EcoCityWaste.Services.ContainerHistoryService.New(EcoCityWaste.Data.AppDbContext)
+  name.vb: New(AppDbContext)
+- uid: EcoCityWaste.Services.ContainerHistoryService.AddHistory(EcoCityWaste.Models.Container,System.String)
+  commentId: M:EcoCityWaste.Services.ContainerHistoryService.AddHistory(EcoCityWaste.Models.Container,System.String)
+  id: AddHistory(EcoCityWaste.Models.Container,System.String)
+  parent: EcoCityWaste.Services.ContainerHistoryService
+  langs:
+  - csharp
+  - vb
+  name: AddHistory(Container, string?)
+  nameWithType: ContainerHistoryService.AddHistory(Container, string?)
+  fullName: EcoCityWaste.Services.ContainerHistoryService.AddHistory(EcoCityWaste.Models.Container, string?)
+  type: Method
+  source:
+    remote:
+      path: Services/ContainerHistoryService.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: AddHistory
+    path: Services/ContainerHistoryService.cs
+    startLine: 28
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Services
+  summary: >-
+    Cria e guarda um novo registo na tabela de histórico sempre que um contentor é alterado.
+
+    Captura uma "fotografia" do estado, nível de enchimento e atividade no momento exato da modificação.
+  example: []
+  syntax:
+    content: public Task AddHistory(Container container, string? changedBy)
+    parameters:
+    - id: container
+      type: EcoCityWaste.Models.Container
+      description: O objeto do contentor que sofreu a alteração.
+    - id: changedBy
+      type: System.String
+      description: O nome do utilizador que efetuou a alteração (ou nulo, se for uma atualização automática do sistema).
+    return:
+      type: System.Threading.Tasks.Task
+      description: Uma Task assíncrona que representa a operação de salvaguarda na base de dados.
+    content.vb: Public Function AddHistory(container As Container, changedBy As String) As Task
+  overload: EcoCityWaste.Services.ContainerHistoryService.AddHistory*
+  nameWithType.vb: ContainerHistoryService.AddHistory(Container, String)
+  fullName.vb: EcoCityWaste.Services.ContainerHistoryService.AddHistory(EcoCityWaste.Models.Container, String)
+  name.vb: AddHistory(Container, String)
+references:
+- uid: EcoCityWaste.Services
+  commentId: N:EcoCityWaste.Services
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Services
+  nameWithType: EcoCityWaste.Services
+  fullName: EcoCityWaste.Services
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Services
+    name: Services
+    href: EcoCityWaste.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.Services.ContainerHistoryService.#ctor*
+  commentId: Overload:EcoCityWaste.Services.ContainerHistoryService.#ctor
+  href: EcoCityWaste.Services.ContainerHistoryService.html#EcoCityWaste_Services_ContainerHistoryService__ctor_EcoCityWaste_Data_AppDbContext_
+  name: ContainerHistoryService
+  nameWithType: ContainerHistoryService.ContainerHistoryService
+  fullName: EcoCityWaste.Services.ContainerHistoryService.ContainerHistoryService
+  nameWithType.vb: ContainerHistoryService.New
+  fullName.vb: EcoCityWaste.Services.ContainerHistoryService.New
+  name.vb: New
+- uid: EcoCityWaste.Data.AppDbContext
+  commentId: T:EcoCityWaste.Data.AppDbContext
+  parent: EcoCityWaste.Data
+  href: EcoCityWaste.Data.AppDbContext.html
+  name: AppDbContext
+  nameWithType: AppDbContext
+  fullName: EcoCityWaste.Data.AppDbContext
+- uid: EcoCityWaste.Data
+  commentId: N:EcoCityWaste.Data
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Data
+  nameWithType: EcoCityWaste.Data
+  fullName: EcoCityWaste.Data
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Data
+    name: Data
+    href: EcoCityWaste.Data.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Data
+    name: Data
+    href: EcoCityWaste.Data.html
+- uid: EcoCityWaste.Services.ContainerHistoryService.AddHistory*
+  commentId: Overload:EcoCityWaste.Services.ContainerHistoryService.AddHistory
+  href: EcoCityWaste.Services.ContainerHistoryService.html#EcoCityWaste_Services_ContainerHistoryService_AddHistory_EcoCityWaste_Models_Container_System_String_
+  name: AddHistory
+  nameWithType: ContainerHistoryService.AddHistory
+  fullName: EcoCityWaste.Services.ContainerHistoryService.AddHistory
+- uid: EcoCityWaste.Models.Container
+  commentId: T:EcoCityWaste.Models.Container
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Container.html
+  name: Container
+  nameWithType: Container
+  fullName: EcoCityWaste.Models.Container
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

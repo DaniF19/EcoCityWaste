@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Views.Routes
+  commentId: N:EcoCityWaste.Views.Routes
+  id: EcoCityWaste.Views.Routes
+  children:
+  - EcoCityWaste.Views.Routes.SimulateModel
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Views.Routes
+  nameWithType: EcoCityWaste.Views.Routes
+  fullName: EcoCityWaste.Views.Routes
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Views.Routes.SimulateModel
+  commentId: T:EcoCityWaste.Views.Routes.SimulateModel
+  href: EcoCityWaste.Views.Routes.SimulateModel.html
+  name: SimulateModel
+  nameWithType: SimulateModel
+  fullName: EcoCityWaste.Views.Routes.SimulateModel

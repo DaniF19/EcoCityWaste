@@ -1,0 +1,577 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Models.RouteContainer
+  commentId: T:EcoCityWaste.Models.RouteContainer
+  id: RouteContainer
+  parent: EcoCityWaste.Models
+  children:
+  - EcoCityWaste.Models.RouteContainer.Container
+  - EcoCityWaste.Models.RouteContainer.ContainerId
+  - EcoCityWaste.Models.RouteContainer.Id
+  - EcoCityWaste.Models.RouteContainer.PickupOrder
+  - EcoCityWaste.Models.RouteContainer.Route
+  - EcoCityWaste.Models.RouteContainer.RouteId
+  langs:
+  - csharp
+  - vb
+  name: RouteContainer
+  nameWithType: RouteContainer
+  fullName: EcoCityWaste.Models.RouteContainer
+  type: Class
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: RouteContainer
+    path: Models/Route.cs
+    startLine: 95
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Tabela intermédia que faz a ligação entre a rota e os contentores que vão ser recolhidos.
+  example: []
+  syntax:
+    content: public class RouteContainer
+    content.vb: Public Class RouteContainer
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.Models.RouteContainer.Id
+  commentId: P:EcoCityWaste.Models.RouteContainer.Id
+  id: Id
+  parent: EcoCityWaste.Models.RouteContainer
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: RouteContainer.Id
+  fullName: EcoCityWaste.Models.RouteContainer.Id
+  type: Property
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Id
+    path: Models/Route.cs
+    startLine: 100
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Chave primária da tabela intermédia.
+  example: []
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: EcoCityWaste.Models.RouteContainer.Id*
+- uid: EcoCityWaste.Models.RouteContainer.RouteId
+  commentId: P:EcoCityWaste.Models.RouteContainer.RouteId
+  id: RouteId
+  parent: EcoCityWaste.Models.RouteContainer
+  langs:
+  - csharp
+  - vb
+  name: RouteId
+  nameWithType: RouteContainer.RouteId
+  fullName: EcoCityWaste.Models.RouteContainer.RouteId
+  type: Property
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: RouteId
+    path: Models/Route.cs
+    startLine: 105
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Chave estrangeira para a Rota.
+  example: []
+  syntax:
+    content: public int RouteId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property RouteId As Integer
+  overload: EcoCityWaste.Models.RouteContainer.RouteId*
+- uid: EcoCityWaste.Models.RouteContainer.Route
+  commentId: P:EcoCityWaste.Models.RouteContainer.Route
+  id: Route
+  parent: EcoCityWaste.Models.RouteContainer
+  langs:
+  - csharp
+  - vb
+  name: Route
+  nameWithType: RouteContainer.Route
+  fullName: EcoCityWaste.Models.RouteContainer.Route
+  type: Property
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Route
+    path: Models/Route.cs
+    startLine: 110
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Propriedade de navegação para a Rota.
+  example: []
+  syntax:
+    content: >-
+      [ForeignKey("RouteId")]
+
+      public virtual Route Route { get; set; }
+    parameters: []
+    return:
+      type: EcoCityWaste.Models.Route
+    content.vb: >-
+      <ForeignKey("RouteId")>
+
+      Public Overridable Property Route As Route
+  overload: EcoCityWaste.Models.RouteContainer.Route*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute
+    ctor: System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RouteId
+- uid: EcoCityWaste.Models.RouteContainer.ContainerId
+  commentId: P:EcoCityWaste.Models.RouteContainer.ContainerId
+  id: ContainerId
+  parent: EcoCityWaste.Models.RouteContainer
+  langs:
+  - csharp
+  - vb
+  name: ContainerId
+  nameWithType: RouteContainer.ContainerId
+  fullName: EcoCityWaste.Models.RouteContainer.ContainerId
+  type: Property
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ContainerId
+    path: Models/Route.cs
+    startLine: 116
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Chave estrangeira para o Contentor.
+  example: []
+  syntax:
+    content: public int ContainerId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ContainerId As Integer
+  overload: EcoCityWaste.Models.RouteContainer.ContainerId*
+- uid: EcoCityWaste.Models.RouteContainer.Container
+  commentId: P:EcoCityWaste.Models.RouteContainer.Container
+  id: Container
+  parent: EcoCityWaste.Models.RouteContainer
+  langs:
+  - csharp
+  - vb
+  name: Container
+  nameWithType: RouteContainer.Container
+  fullName: EcoCityWaste.Models.RouteContainer.Container
+  type: Property
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Container
+    path: Models/Route.cs
+    startLine: 121
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Propriedade de navegação para o Contentor.
+  example: []
+  syntax:
+    content: >-
+      [ForeignKey("ContainerId")]
+
+      public virtual Container Container { get; set; }
+    parameters: []
+    return:
+      type: EcoCityWaste.Models.Container
+    content.vb: >-
+      <ForeignKey("ContainerId")>
+
+      Public Overridable Property Container As Container
+  overload: EcoCityWaste.Models.RouteContainer.Container*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute
+    ctor: System.ComponentModel.DataAnnotations.Schema.ForeignKeyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ContainerId
+- uid: EcoCityWaste.Models.RouteContainer.PickupOrder
+  commentId: P:EcoCityWaste.Models.RouteContainer.PickupOrder
+  id: PickupOrder
+  parent: EcoCityWaste.Models.RouteContainer
+  langs:
+  - csharp
+  - vb
+  name: PickupOrder
+  nameWithType: RouteContainer.PickupOrder
+  fullName: EcoCityWaste.Models.RouteContainer.PickupOrder
+  type: Property
+  source:
+    remote:
+      path: Models/Route.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: PickupOrder
+    path: Models/Route.cs
+    startLine: 127
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Define a ordem em que o camião deve parar neste contentor (1º, 2º, 3º, etc.).
+  example: []
+  syntax:
+    content: public int PickupOrder { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property PickupOrder As Integer
+  overload: EcoCityWaste.Models.RouteContainer.PickupOrder*
+references:
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.Models.RouteContainer.Id*
+  commentId: Overload:EcoCityWaste.Models.RouteContainer.Id
+  href: EcoCityWaste.Models.RouteContainer.html#EcoCityWaste_Models_RouteContainer_Id
+  name: Id
+  nameWithType: RouteContainer.Id
+  fullName: EcoCityWaste.Models.RouteContainer.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: EcoCityWaste.Models.RouteContainer.RouteId*
+  commentId: Overload:EcoCityWaste.Models.RouteContainer.RouteId
+  href: EcoCityWaste.Models.RouteContainer.html#EcoCityWaste_Models_RouteContainer_RouteId
+  name: RouteId
+  nameWithType: RouteContainer.RouteId
+  fullName: EcoCityWaste.Models.RouteContainer.RouteId
+- uid: EcoCityWaste.Models.RouteContainer.Route*
+  commentId: Overload:EcoCityWaste.Models.RouteContainer.Route
+  href: EcoCityWaste.Models.RouteContainer.html#EcoCityWaste_Models_RouteContainer_Route
+  name: Route
+  nameWithType: RouteContainer.Route
+  fullName: EcoCityWaste.Models.RouteContainer.Route
+- uid: EcoCityWaste.Models.Route
+  commentId: T:EcoCityWaste.Models.Route
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Route.html
+  name: Route
+  nameWithType: Route
+  fullName: EcoCityWaste.Models.Route
+- uid: EcoCityWaste.Models.RouteContainer.ContainerId*
+  commentId: Overload:EcoCityWaste.Models.RouteContainer.ContainerId
+  href: EcoCityWaste.Models.RouteContainer.html#EcoCityWaste_Models_RouteContainer_ContainerId
+  name: ContainerId
+  nameWithType: RouteContainer.ContainerId
+  fullName: EcoCityWaste.Models.RouteContainer.ContainerId
+- uid: EcoCityWaste.Models.RouteContainer.Container*
+  commentId: Overload:EcoCityWaste.Models.RouteContainer.Container
+  href: EcoCityWaste.Models.RouteContainer.html#EcoCityWaste_Models_RouteContainer_Container
+  name: Container
+  nameWithType: RouteContainer.Container
+  fullName: EcoCityWaste.Models.RouteContainer.Container
+- uid: EcoCityWaste.Models.Container
+  commentId: T:EcoCityWaste.Models.Container
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Container.html
+  name: Container
+  nameWithType: Container
+  fullName: EcoCityWaste.Models.Container
+- uid: EcoCityWaste.Models.RouteContainer.PickupOrder*
+  commentId: Overload:EcoCityWaste.Models.RouteContainer.PickupOrder
+  href: EcoCityWaste.Models.RouteContainer.html#EcoCityWaste_Models_RouteContainer_PickupOrder
+  name: PickupOrder
+  nameWithType: RouteContainer.PickupOrder
+  fullName: EcoCityWaste.Models.RouteContainer.PickupOrder

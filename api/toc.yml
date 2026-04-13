@@ -1,0 +1,282 @@
+### YamlMime:TableOfContent
+items:
+- uid: EcoCityWaste.Controllers
+  name: EcoCityWaste.Controllers
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Controllers.AccountController
+    name: AccountController
+    type: Class
+  - uid: EcoCityWaste.Controllers.AdminController
+    name: AdminController
+    type: Class
+  - uid: EcoCityWaste.Controllers.CitizenController
+    name: CitizenController
+    type: Class
+  - uid: EcoCityWaste.Controllers.ContainersController
+    name: ContainersController
+    type: Class
+  - uid: EcoCityWaste.Controllers.DashboardController
+    name: DashboardController
+    type: Class
+  - uid: EcoCityWaste.Controllers.FuncionarioController
+    name: FuncionarioController
+    type: Class
+  - uid: EcoCityWaste.Controllers.HomeController
+    name: HomeController
+    type: Class
+  - uid: EcoCityWaste.Controllers.NotificationsController
+    name: NotificationsController
+    type: Class
+  - uid: EcoCityWaste.Controllers.OccurrencesController
+    name: OccurrencesController
+    type: Class
+  - uid: EcoCityWaste.Controllers.RoutesController
+    name: RoutesController
+    type: Class
+  - uid: EcoCityWaste.Controllers.UsersController
+    name: UsersController
+    type: Class
+- uid: EcoCityWaste.Data
+  name: EcoCityWaste.Data
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Data.AppDbContext
+    name: AppDbContext
+    type: Class
+- uid: EcoCityWaste.Dtos
+  name: EcoCityWaste.Dtos
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Dtos.UpdateContainerStatusDto
+    name: UpdateContainerStatusDto
+    type: Class
+- uid: EcoCityWaste.Helpers
+  name: EcoCityWaste.Helpers
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Helpers.ContainerStatusExtensions
+    name: ContainerStatusExtensions
+    type: Class
+  - uid: EcoCityWaste.Helpers.IncidentStatusExtensions
+    name: IncidentStatusExtensions
+    type: Class
+- uid: EcoCityWaste.Hubs
+  name: EcoCityWaste.Hubs
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Hubs.SimulationHub
+    name: SimulationHub
+    type: Class
+- uid: EcoCityWaste.Migrations
+  name: EcoCityWaste.Migrations
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Migrations.AddContainerStatusHistory
+    name: AddContainerStatusHistory
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddFailureLogs
+    name: AddFailureLogs
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddGoogleAuthFields
+    name: AddGoogleAuthFields
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddLastUpdatedAt
+    name: AddLastUpdatedAt
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddNotifications
+    name: AddNotifications
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddReportOccurrence
+    name: AddReportOccurrence
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddRouteManagement
+    name: AddRouteManagement
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddUserIdToNotifications
+    name: AddUserIdToNotifications
+    type: Class
+  - uid: EcoCityWaste.Migrations.AddUserRole
+    name: AddUserRole
+    type: Class
+  - uid: EcoCityWaste.Migrations.CreateContainerTable
+    name: CreateContainerTable
+    type: Class
+  - uid: EcoCityWaste.Migrations.ImagePathNullable
+    name: ImagePathNullable
+    type: Class
+  - uid: EcoCityWaste.Migrations.InitialCreate
+    name: InitialCreate
+    type: Class
+  - uid: EcoCityWaste.Migrations.NewFieldsNotification
+    name: NewFieldsNotification
+    type: Class
+  - uid: EcoCityWaste.Migrations.OccurrenceAssign
+    name: OccurrenceAssign
+    type: Class
+  - uid: EcoCityWaste.Migrations.OccurrencePhoto
+    name: OccurrencePhoto
+    type: Class
+  - uid: EcoCityWaste.Migrations.OcorrencesUserForeignKey
+    name: OcorrencesUserForeignKey
+    type: Class
+  - uid: EcoCityWaste.Migrations.StatusEnum
+    name: StatusEnum
+    type: Class
+  - uid: EcoCityWaste.Migrations.Teste
+    name: Teste
+    type: Class
+  - uid: EcoCityWaste.Migrations._0503
+    name: _0503
+    type: Class
+  - uid: EcoCityWaste.Migrations._0903
+    name: _0903
+    type: Class
+  - uid: EcoCityWaste.Migrations._1103
+    name: _1103
+    type: Class
+  - uid: EcoCityWaste.Migrations.initial
+    name: initial
+    type: Class
+- uid: EcoCityWaste.Models
+  name: EcoCityWaste.Models
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    type: Class
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: Container.ContainerStatus
+    type: Enum
+  - uid: EcoCityWaste.Models.ContainerStatusHistory
+    name: ContainerStatusHistory
+    type: Class
+  - uid: EcoCityWaste.Models.FailureLog
+    name: FailureLog
+    type: Class
+  - uid: EcoCityWaste.Models.Notification
+    name: Notification
+    type: Class
+  - uid: EcoCityWaste.Models.Occurrence
+    name: Occurrence
+    type: Class
+  - uid: EcoCityWaste.Models.OccurrenceStatus
+    name: OccurrenceStatus
+    type: Enum
+  - uid: EcoCityWaste.Models.Route
+    name: Route
+    type: Class
+  - uid: EcoCityWaste.Models.Route.RouteStatus
+    name: Route.RouteStatus
+    type: Enum
+  - uid: EcoCityWaste.Models.RouteContainer
+    name: RouteContainer
+    type: Class
+  - uid: EcoCityWaste.Models.User
+    name: User
+    type: Class
+- uid: EcoCityWaste.Services
+  name: EcoCityWaste.Services
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Services.ContainerHistoryService
+    name: ContainerHistoryService
+    type: Class
+  - uid: EcoCityWaste.Services.FailureLogger
+    name: FailureLogger
+    type: Class
+  - uid: EcoCityWaste.Services.IEmailService
+    name: IEmailService
+    type: Interface
+  - uid: EcoCityWaste.Services.IRouteService
+    name: IRouteService
+    type: Interface
+  - uid: EcoCityWaste.Services.NotificationService
+    name: NotificationService
+    type: Class
+  - uid: EcoCityWaste.Services.RouteOptimisationService
+    name: RouteOptimisationService
+    type: Class
+  - uid: EcoCityWaste.Services.RouteService
+    name: RouteService
+    type: Class
+  - uid: EcoCityWaste.Services.SensorSimulationService
+    name: SensorSimulationService
+    type: Class
+- uid: EcoCityWaste.ViewModels
+  name: EcoCityWaste.ViewModels
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.ViewModels.AssignOccurrenceViewModel
+    name: AssignOccurrenceViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.ContainerEditViewModel
+    name: ContainerEditViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.ContainerRegisterViewModel
+    name: ContainerRegisterViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.CreateUserViewModel
+    name: CreateUserViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.DashboardViewModel
+    name: DashboardViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.ErrorViewModel
+    name: ErrorViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.ForgotPasswordViewModel
+    name: ForgotPasswordViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.LoginViewModel
+    name: LoginViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.OptimisedRouteDto
+    name: OptimisedRouteDto
+    type: Class
+  - uid: EcoCityWaste.ViewModels.OptimisedStopDto
+    name: OptimisedStopDto
+    type: Class
+  - uid: EcoCityWaste.ViewModels.RegisterViewModel
+    name: RegisterViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+    name: ReportOccurrenceViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.ResetPasswordViewModel
+    name: ResetPasswordViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.RouteAssignViewModel
+    name: RouteAssignViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.RouteCreateViewModel
+    name: RouteCreateViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.RouteEditViewModel
+    name: RouteEditViewModel
+    type: Class
+  - uid: EcoCityWaste.ViewModels.UpdateStatusViewModel
+    name: UpdateStatusViewModel
+    type: Class
+- uid: EcoCityWaste.Views.Containers
+  name: EcoCityWaste.Views.Containers
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Views.Containers.IndexModel
+    name: IndexModel
+    type: Class
+- uid: EcoCityWaste.Views.Occurrences
+  name: EcoCityWaste.Views.Occurrences
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Views.Occurrences.ReportStatusModel
+    name: ReportStatusModel
+    type: Class
+- uid: EcoCityWaste.Views.Routes
+  name: EcoCityWaste.Views.Routes
+  type: Namespace
+  items:
+  - uid: EcoCityWaste.Views.Routes.SimulateModel
+    name: SimulateModel
+    type: Class
+memberLayout: SamePage

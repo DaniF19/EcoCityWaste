@@ -11,8 +11,12 @@ using EcoCityWaste.ViewModels;
 
 namespace EcoCityWaste.Controllers
 {
-	public class AccountController : Controller
-	{
+    /// <summary>
+    /// Controlador central que gere toda a autenticação da plataforma.
+    /// Trata de logins (locais e Google), registos, cookies de sessão e recuperação de palavras-passe.
+    /// </summary>
+    public class AccountController : Controller
+    {
         private readonly IEmailService _emailService;
         private readonly AppDbContext _context;
 
@@ -22,12 +26,18 @@ namespace EcoCityWaste.Controllers
             _context = context;
         }
 
-		// GET: /Account/Login
-		public IActionResult Login()
-		{
+        /// <summary>
+        /// Mostra a página de login. Se o utilizador já tiver sessão iniciada, salta logo para a página principal.
+        /// </summary>
+        public IActionResult Login()
+        {
             return User.Identity.IsAuthenticated ? RedirectToAction("Index", "Home") : View();
         }
 
+        /// <summary>
+        /// Processa o formulário de login, verifica a hash da password e gera o cookie de sessão.
+        /// Redireciona o utilizador para o dashboard correto com base no seu nível de acesso (Role).
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -54,7 +64,7 @@ namespace EcoCityWaste.Controllers
 
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = true, // Mantem o login mesmo se fechar o browser
+                    IsPersistent = true, // Mantém o login mesmo se fechar o browser
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
                 };
 
@@ -86,15 +96,22 @@ namespace EcoCityWaste.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Dispara o desafio de autenticação para os servidores do Google.
+        /// </summary>
         public IActionResult LoginGoogle()
         {
             var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
+        /// <summary>
+        /// Lida com a resposta do Google. Se for a primeira vez que a pessoa entra, 
+        /// cria um registo automático na base de dados sem password local.
+        /// </summary>
         public async Task<IActionResult> GoogleResponse()
         {
-            // Verifica o resultado da autenticacao 
+            // Verifica o resultado da autenticação 
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             if (result.Succeeded)
@@ -130,22 +147,28 @@ namespace EcoCityWaste.Controllers
             }
         }
 
+        /// <summary>
+        /// Apaga o cookie de autenticação e termina a sessão do utilizador.
+        /// </summary>
         public async Task<IActionResult> Logout()
         {
-            // Isto apaga o Cookie e termina a sess�o
+            // Isto apaga o Cookie e termina a sessão
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Home");
         }
 
-        // Recover Password Functionality
-
+        /// <summary>
+        /// Mostra o ecrã para pedir a recuperação de password.
+        /// </summary>
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        // POST
+        /// <summary>
+        /// Gera um token único temporário e envia-o por email para o utilizador poder redefinir a password.
+        /// </summary>
         [HttpPost]
         public ActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -186,7 +209,9 @@ namespace EcoCityWaste.Controllers
             return View(model);
         }
 
-        // GET
+        /// <summary>
+        /// Valida se o token que vem no link do email ainda é válido e não expirou.
+        /// </summary>
         public ActionResult ResetPassword(string token)
         {
             var user = _context.Users.FirstOrDefault(u =>
@@ -199,7 +224,9 @@ namespace EcoCityWaste.Controllers
             return View(new ResetPasswordViewModel { Token = token });
         }
 
-        // POST
+        /// <summary>
+        /// Guarda a nova password (em formato hash) e limpa os tokens da base de dados por segurança.
+        /// </summary>
         [HttpPost]
         public ActionResult ResetPassword(ResetPasswordViewModel model)
         {
@@ -218,19 +245,23 @@ namespace EcoCityWaste.Controllers
             user.TokenExpiry = null;
 
             _context.SaveChanges();
-            
+
             return RedirectToAction("Login");
         }
 
-
-        // register
+        /// <summary>
+        /// Mostra a página de registo de um novo utilizador.
+        /// </summary>
         public IActionResult Register()
         {
-            return User.Identity.IsAuthenticated 
-                ? RedirectToAction("Index", "Home") 
+            return User.Identity.IsAuthenticated
+                ? RedirectToAction("Index", "Home")
                 : View();
         }
 
+        /// <summary>
+        /// Regista um novo utilizador no sistema. Atribui sempre a role de 'Cidadao' por defeito.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -278,11 +309,12 @@ namespace EcoCityWaste.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult AccessDenied() // to block users with no specific roles to access certain pages
+        /// <summary>
+        /// Ecrã genérico mostrado quando o utilizador tenta aceder a uma página bloqueada pela anotação [Authorize].
+        /// </summary>
+        public IActionResult AccessDenied()
         {
             return View();
         }
-
     }
-
 }

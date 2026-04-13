@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace EcoCityWaste.ViewModels | EcoCity Waste </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace EcoCityWaste.ViewModels | EcoCity Waste ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="EcoCity Waste">
+            EcoCity Waste
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="EcoCityWaste.ViewModels">
+
+  <h1 id="EcoCityWaste_ViewModels" data-uid="EcoCityWaste.ViewModels" class="text-break">Namespace EcoCityWaste.ViewModels</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.AssignOccurrenceViewModel.html">AssignOccurrenceViewModel</a></dt>
+      <dd><p>ModelView para a funcionalidade de atribuição de ocorrências a funcionários.
+Transporta a lista de anomalias pendentes, a lista de colaboradores disponíveis
+e métricas de carga de trabalho para apoiar a decisão do administrador.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.ContainerEditViewModel.html">ContainerEditViewModel</a></dt>
+      <dd><p>ViewModel utilizado para a edição de contentores existentes.
+Define os campos que podem ser modificados por um administrador, isolando a lógica de edição da entidade de base de dados.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.ContainerRegisterViewModel.html">ContainerRegisterViewModel</a></dt>
+      <dd><p>ViewModel responsável pelo formulário de registo de novos contentores no sistema.
+Define as regras de validação necessárias para garantir que nenhum contentor é criado sem os dados essenciais.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.CreateUserViewModel.html">CreateUserViewModel</a></dt>
+      <dd><p>ViewModel utilizado para a criação manual de novos utilizadores pelo administrador.
+Este modelo facilita a captura de dados iniciais de conta antes do processo de hashing da password.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.DashboardViewModel.html">DashboardViewModel</a></dt>
+      <dd><p>ViewModel centralizador para o painel de controlo da aplicação.
+Reúne estatísticas consolidadas e indicadores de performance para visualização rápida pela administração.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.ErrorViewModel.html">ErrorViewModel</a></dt>
+      <dd><p>ViewModel utilizado para a apresentação de detalhes técnicos em caso de erro na aplicação.
+Ajuda no debug e no rastreio de problemas reportados pelos utilizadores.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.ForgotPasswordViewModel.html">ForgotPasswordViewModel</a></dt>
+      <dd><p>ViewModel utilizado para o processo de recuperação de acesso à conta.
+Captura o endereço de e-mail do utilizador para o envio das instruções de redefinição de password.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.LoginViewModel.html">LoginViewModel</a></dt>
+      <dd><p>ViewModel responsável por capturar e validar as credenciais de acesso durante o processo de autenticação.
+Atua como intermediário entre o formulário de login e o serviço de segurança.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.OptimisedRouteDto.html">OptimisedRouteDto</a></dt>
+      <dd><p>DTO que transporta o resultado do algoritmo de otimização geoespacial.
+Contém a sequência ideal de paragens e as métricas de eficiência calculadas.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.OptimisedStopDto.html">OptimisedStopDto</a></dt>
+      <dd><p>Representa uma paragem individual dentro de uma rota otimizada.
+Inclui dados geográficos necessários para a renderização em mapas.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.RegisterViewModel.html">RegisterViewModel</a></dt>
+      <dd><p>ViewModel responsável pelo processo de registo de novos cidadãos na plataforma.
+Contém regras de validação rigorosas para garantir a segurança das contas e a integridade dos dados.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.ReportOccurrenceViewModel.html">ReportOccurrenceViewModel</a></dt>
+      <dd><p>ViewModel utilizado para capturar os dados de um novo reporte de anomalia submetido por um cidadão.
+Inclui validações de formulário para garantir que a equipa técnica recebe informações precisas e detalhadas.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.ResetPasswordViewModel.html">ResetPasswordViewModel</a></dt>
+      <dd><p>ViewModel utilizado para a definição de uma nova palavra-passe após um pedido de recuperação.
+Contém o token de segurança necessário para validar a operação e os campos para a nova credencial.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.RouteAssignViewModel.html">RouteAssignViewModel</a></dt>
+      <dd><p>ViewModel simplificado para o processo de atribuição de uma rota a um colaborador operacional.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.RouteCreateViewModel.html">RouteCreateViewModel</a></dt>
+      <dd><p>ViewModel utilizado para o formulário de criação de novas rotas.
+Captura a intenção inicial do administrador e a seleção manual de contentores.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.RouteEditViewModel.html">RouteEditViewModel</a></dt>
+      <dd><p>ViewModel para edição de rotas existentes.
+Permite a reordenação de paragens e a atualização de metadados da rota.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="EcoCityWaste.ViewModels.UpdateStatusViewModel.html">UpdateStatusViewModel</a></dt>
+      <dd><p>ViewModel utilizado para a atualização do estado de progresso de uma ocorrência.
+Facilita a transição de estados por parte de administradores ou funcionários.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

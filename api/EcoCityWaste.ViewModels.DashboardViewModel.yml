@@ -1,0 +1,943 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.ViewModels.DashboardViewModel
+  commentId: T:EcoCityWaste.ViewModels.DashboardViewModel
+  id: DashboardViewModel
+  parent: EcoCityWaste.ViewModels
+  children:
+  - EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos
+  - EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise
+  - EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao
+  - EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento
+  - EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo
+  - EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje
+  - EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana
+  - EcoCityWaste.ViewModels.DashboardViewModel.Pendente
+  - EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos
+  - EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado
+  - EcoCityWaste.ViewModels.DashboardViewModel.Resolvido
+  - EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores
+  - EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias
+  langs:
+  - csharp
+  - vb
+  name: DashboardViewModel
+  nameWithType: DashboardViewModel
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel
+  type: Class
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: DashboardViewModel
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 6
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    ViewModel centralizador para o painel de controlo da aplicação.
+
+    Reúne estatísticas consolidadas e indicadores de performance para visualização rápida pela administração.
+  example: []
+  syntax:
+    content: public class DashboardViewModel
+    content.vb: Public Class DashboardViewModel
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias
+  id: TotalOcorrencias
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: TotalOcorrencias
+  nameWithType: DashboardViewModel.TotalOcorrencias
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: TotalOcorrencias
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 11
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Número total de ocorrências registadas no sistema.
+  example: []
+  syntax:
+    content: public int TotalOcorrencias { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TotalOcorrencias As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.Pendente
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.Pendente
+  id: Pendente
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: Pendente
+  nameWithType: DashboardViewModel.Pendente
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.Pendente
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Pendente
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 14
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Quantidade de ocorrências que ainda aguardam triagem inicial.
+  example: []
+  syntax:
+    content: public int Pendente { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Pendente As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.Pendente*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise
+  id: EmAnalise
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: EmAnalise
+  nameWithType: DashboardViewModel.EmAnalise
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: EmAnalise
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 17
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Quantidade de ocorrências que já foram atribuídas ou estão sob verificação técnica.
+  example: []
+  syntax:
+    content: public int EmAnalise { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property EmAnalise As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao
+  id: EmResolucao
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: EmResolucao
+  nameWithType: DashboardViewModel.EmResolucao
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: EmResolucao
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 20
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Quantidade de ocorrências com intervenção no terreno em curso.
+  example: []
+  syntax:
+    content: public int EmResolucao { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property EmResolucao As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.Resolvido
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.Resolvido
+  id: Resolvido
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: Resolvido
+  nameWithType: DashboardViewModel.Resolvido
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.Resolvido
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Resolvido
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 23
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Número de anomalias que foram dadas como solucionadas.
+  example: []
+  syntax:
+    content: public int Resolvido { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Resolvido As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.Resolvido*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado
+  id: Rejeitado
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: Rejeitado
+  nameWithType: DashboardViewModel.Rejeitado
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Rejeitado
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 26
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Número de reportes que foram arquivados ou considerados inválidos.
+  example: []
+  syntax:
+    content: public int Rejeitado { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Rejeitado As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores
+  id: TotalContentores
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: TotalContentores
+  nameWithType: DashboardViewModel.TotalContentores
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: TotalContentores
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 32
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Inventário total de contentores registados no município.
+  example: []
+  syntax:
+    content: public int TotalContentores { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TotalContentores As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos
+  id: ContentoresCriticos
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: ContentoresCriticos
+  nameWithType: DashboardViewModel.ContentoresCriticos
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ContentoresCriticos
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 35
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Número de contentores que atingiram o limite de enchimento (&gt;= 90%) e requerem recolha urgente.
+  example: []
+  syntax:
+    content: public int ContentoresCriticos { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ContentoresCriticos As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje
+  id: OcorrenciasHoje
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: OcorrenciasHoje
+  nameWithType: DashboardViewModel.OcorrenciasHoje
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: OcorrenciasHoje
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 41
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Volume de novos reportes submetidos nas últimas 24 horas.
+  example: []
+  syntax:
+    content: public int OcorrenciasHoje { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property OcorrenciasHoje As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana
+  id: OcorrenciasSemana
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: OcorrenciasSemana
+  nameWithType: DashboardViewModel.OcorrenciasSemana
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: OcorrenciasSemana
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 44
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Volume de reportes submetidos nos últimos 7 dias.
+  example: []
+  syntax:
+    content: public int OcorrenciasSemana { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property OcorrenciasSemana As Integer
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento
+  id: NivelMedioEnchimento
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: NivelMedioEnchimento
+  nameWithType: DashboardViewModel.NivelMedioEnchimento
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: NivelMedioEnchimento
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 53
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Média global de enchimento de todos os contentores ativos. 
+
+    Usado para medir a pressão sobre o sistema de gestão de resíduos.
+  example: []
+  syntax:
+    content: public double NivelMedioEnchimento { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property NivelMedioEnchimento As Double
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos
+  id: PercentagemCriticos
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: PercentagemCriticos
+  nameWithType: DashboardViewModel.PercentagemCriticos
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: PercentagemCriticos
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 56
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Relação percentual entre contentores críticos e o total instalado.
+  example: []
+  syntax:
+    content: public double PercentagemCriticos { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property PercentagemCriticos As Double
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos*
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo
+  commentId: P:EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo
+  id: NivelMedioPorTipo
+  parent: EcoCityWaste.ViewModels.DashboardViewModel
+  langs:
+  - csharp
+  - vb
+  name: NivelMedioPorTipo
+  nameWithType: DashboardViewModel.NivelMedioPorTipo
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo
+  type: Property
+  source:
+    remote:
+      path: ViewModels/DashboardViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: NivelMedioPorTipo
+    path: ViewModels/DashboardViewModel.cs
+    startLine: 62
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Dicionário que mapeia o nível médio de enchimento para cada categoria de resíduo (ex: Vidro: 45%, Papel: 70%). 
+
+    Permite identificar quais os fluxos de lixo com maior rotatividade.
+  example: []
+  syntax:
+    content: public Dictionary<string, double> NivelMedioPorTipo { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Double}
+    content.vb: Public Property NivelMedioPorTipo As Dictionary(Of String, Double)
+  overload: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo*
+references:
+- uid: EcoCityWaste.ViewModels
+  commentId: N:EcoCityWaste.ViewModels
+  href: EcoCityWaste.html
+  name: EcoCityWaste.ViewModels
+  nameWithType: EcoCityWaste.ViewModels
+  fullName: EcoCityWaste.ViewModels
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_TotalOcorrencias
+  name: TotalOcorrencias
+  nameWithType: DashboardViewModel.TotalOcorrencias
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.TotalOcorrencias
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.Pendente*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.Pendente
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_Pendente
+  name: Pendente
+  nameWithType: DashboardViewModel.Pendente
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.Pendente
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_EmAnalise
+  name: EmAnalise
+  nameWithType: DashboardViewModel.EmAnalise
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.EmAnalise
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_EmResolucao
+  name: EmResolucao
+  nameWithType: DashboardViewModel.EmResolucao
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.EmResolucao
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.Resolvido*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.Resolvido
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_Resolvido
+  name: Resolvido
+  nameWithType: DashboardViewModel.Resolvido
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.Resolvido
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_Rejeitado
+  name: Rejeitado
+  nameWithType: DashboardViewModel.Rejeitado
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.Rejeitado
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_TotalContentores
+  name: TotalContentores
+  nameWithType: DashboardViewModel.TotalContentores
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.TotalContentores
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_ContentoresCriticos
+  name: ContentoresCriticos
+  nameWithType: DashboardViewModel.ContentoresCriticos
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.ContentoresCriticos
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_OcorrenciasHoje
+  name: OcorrenciasHoje
+  nameWithType: DashboardViewModel.OcorrenciasHoje
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasHoje
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_OcorrenciasSemana
+  name: OcorrenciasSemana
+  nameWithType: DashboardViewModel.OcorrenciasSemana
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.OcorrenciasSemana
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_NivelMedioEnchimento
+  name: NivelMedioEnchimento
+  nameWithType: DashboardViewModel.NivelMedioEnchimento
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioEnchimento
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_PercentagemCriticos
+  name: PercentagemCriticos
+  nameWithType: DashboardViewModel.PercentagemCriticos
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.PercentagemCriticos
+- uid: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo*
+  commentId: Overload:EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo
+  href: EcoCityWaste.ViewModels.DashboardViewModel.html#EcoCityWaste_ViewModels_DashboardViewModel_NivelMedioPorTipo
+  name: NivelMedioPorTipo
+  nameWithType: DashboardViewModel.NivelMedioPorTipo
+  fullName: EcoCityWaste.ViewModels.DashboardViewModel.NivelMedioPorTipo
+- uid: System.Collections.Generic.Dictionary{System.String,System.Double}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Double}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, double>
+  nameWithType: Dictionary<string, double>
+  fullName: System.Collections.Generic.Dictionary<string, double>
+  nameWithType.vb: Dictionary(Of String, Double)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, Double)
+  name.vb: Dictionary(Of String, Double)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

@@ -1,0 +1,46 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Dtos
+  commentId: N:EcoCityWaste.Dtos
+  id: EcoCityWaste.Dtos
+  children:
+  - EcoCityWaste.Dtos.UpdateContainerStatusDto
+  langs:
+  - csharp
+  - vb
+  name: EcoCityWaste.Dtos
+  nameWithType: EcoCityWaste.Dtos
+  fullName: EcoCityWaste.Dtos
+  type: Namespace
+  assemblies:
+  - EcoCityWaste
+references:
+- uid: EcoCityWaste.Dtos.UpdateContainerStatusDto
+  commentId: T:EcoCityWaste.Dtos.UpdateContainerStatusDto
+  parent: EcoCityWaste.Dtos
+  href: EcoCityWaste.Dtos.UpdateContainerStatusDto.html
+  name: UpdateContainerStatusDto
+  nameWithType: UpdateContainerStatusDto
+  fullName: EcoCityWaste.Dtos.UpdateContainerStatusDto
+- uid: EcoCityWaste.Dtos
+  commentId: N:EcoCityWaste.Dtos
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Dtos
+  nameWithType: EcoCityWaste.Dtos
+  fullName: EcoCityWaste.Dtos
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Dtos
+    name: Dtos
+    href: EcoCityWaste.Dtos.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Dtos
+    name: Dtos
+    href: EcoCityWaste.Dtos.html

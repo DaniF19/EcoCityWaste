@@ -1,0 +1,525 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel
+  commentId: T:EcoCityWaste.ViewModels.ContainerEditViewModel
+  id: ContainerEditViewModel
+  parent: EcoCityWaste.ViewModels
+  children:
+  - EcoCityWaste.ViewModels.ContainerEditViewModel.Id
+  - EcoCityWaste.ViewModels.ContainerEditViewModel.Location
+  - EcoCityWaste.ViewModels.ContainerEditViewModel.Status
+  - EcoCityWaste.ViewModels.ContainerEditViewModel.Type
+  langs:
+  - csharp
+  - vb
+  name: ContainerEditViewModel
+  nameWithType: ContainerEditViewModel
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel
+  type: Class
+  source:
+    remote:
+      path: ViewModels/ContainerEditViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ContainerEditViewModel
+    path: ViewModels/ContainerEditViewModel.cs
+    startLine: 8
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    ViewModel utilizado para a edição de contentores existentes.
+
+    Define os campos que podem ser modificados por um administrador, isolando a lógica de edição da entidade de base de dados.
+  example: []
+  syntax:
+    content: public class ContainerEditViewModel
+    content.vb: Public Class ContainerEditViewModel
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Id
+  commentId: P:EcoCityWaste.ViewModels.ContainerEditViewModel.Id
+  id: Id
+  parent: EcoCityWaste.ViewModels.ContainerEditViewModel
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ContainerEditViewModel.Id
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Id
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ContainerEditViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Id
+    path: ViewModels/ContainerEditViewModel.cs
+    startLine: 13
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Identificador único do contentor a ser editado.
+  example: []
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: EcoCityWaste.ViewModels.ContainerEditViewModel.Id*
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Location
+  commentId: P:EcoCityWaste.ViewModels.ContainerEditViewModel.Location
+  id: Location
+  parent: EcoCityWaste.ViewModels.ContainerEditViewModel
+  langs:
+  - csharp
+  - vb
+  name: Location
+  nameWithType: ContainerEditViewModel.Location
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Location
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ContainerEditViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Location
+    path: ViewModels/ContainerEditViewModel.cs
+    startLine: 18
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Descrição textual da localização ou morada do contentor.
+  example: []
+  syntax:
+    content: public string Location { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Location As String
+  overload: EcoCityWaste.ViewModels.ContainerEditViewModel.Location*
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Type
+  commentId: P:EcoCityWaste.ViewModels.ContainerEditViewModel.Type
+  id: Type
+  parent: EcoCityWaste.ViewModels.ContainerEditViewModel
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ContainerEditViewModel.Type
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Type
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ContainerEditViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Type
+    path: ViewModels/ContainerEditViewModel.cs
+    startLine: 23
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: 'Tipo de resíduos que o contentor aceita (ex: Vidro, Papel, Plástico, Indiferenciado).'
+  example: []
+  syntax:
+    content: public string Type { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Type As String
+  overload: EcoCityWaste.ViewModels.ContainerEditViewModel.Type*
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Status
+  commentId: P:EcoCityWaste.ViewModels.ContainerEditViewModel.Status
+  id: Status
+  parent: EcoCityWaste.ViewModels.ContainerEditViewModel
+  langs:
+  - csharp
+  - vb
+  name: Status
+  nameWithType: ContainerEditViewModel.Status
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Status
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ContainerEditViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Status
+    path: ViewModels/ContainerEditViewModel.cs
+    startLine: 29
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Estado físico atual do contentor, baseado no enumerador definido no modelo principal.
+
+    Permite alterar entre estados como "Bom", "Avariado" ou "Manutenção".
+  example: []
+  syntax:
+    content: public Container.ContainerStatus Status { get; set; }
+    parameters: []
+    return:
+      type: EcoCityWaste.Models.Container.ContainerStatus
+    content.vb: Public Property Status As Container.ContainerStatus
+  overload: EcoCityWaste.ViewModels.ContainerEditViewModel.Status*
+references:
+- uid: EcoCityWaste.ViewModels
+  commentId: N:EcoCityWaste.ViewModels
+  href: EcoCityWaste.html
+  name: EcoCityWaste.ViewModels
+  nameWithType: EcoCityWaste.ViewModels
+  fullName: EcoCityWaste.ViewModels
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Id*
+  commentId: Overload:EcoCityWaste.ViewModels.ContainerEditViewModel.Id
+  href: EcoCityWaste.ViewModels.ContainerEditViewModel.html#EcoCityWaste_ViewModels_ContainerEditViewModel_Id
+  name: Id
+  nameWithType: ContainerEditViewModel.Id
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Location*
+  commentId: Overload:EcoCityWaste.ViewModels.ContainerEditViewModel.Location
+  href: EcoCityWaste.ViewModels.ContainerEditViewModel.html#EcoCityWaste_ViewModels_ContainerEditViewModel_Location
+  name: Location
+  nameWithType: ContainerEditViewModel.Location
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Location
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Type*
+  commentId: Overload:EcoCityWaste.ViewModels.ContainerEditViewModel.Type
+  href: EcoCityWaste.ViewModels.ContainerEditViewModel.html#EcoCityWaste_ViewModels_ContainerEditViewModel_Type
+  name: Type
+  nameWithType: ContainerEditViewModel.Type
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Type
+- uid: EcoCityWaste.ViewModels.ContainerEditViewModel.Status*
+  commentId: Overload:EcoCityWaste.ViewModels.ContainerEditViewModel.Status
+  href: EcoCityWaste.ViewModels.ContainerEditViewModel.html#EcoCityWaste_ViewModels_ContainerEditViewModel_Status
+  name: Status
+  nameWithType: ContainerEditViewModel.Status
+  fullName: EcoCityWaste.ViewModels.ContainerEditViewModel.Status
+- uid: EcoCityWaste.Models.Container.ContainerStatus
+  commentId: T:EcoCityWaste.Models.Container.ContainerStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Container.html
+  name: Container.ContainerStatus
+  nameWithType: Container.ContainerStatus
+  fullName: EcoCityWaste.Models.Container.ContainerStatus
+  spec.csharp:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  spec.vb:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html

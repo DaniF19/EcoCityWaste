@@ -1,0 +1,796 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.Models.Container
+  commentId: T:EcoCityWaste.Models.Container
+  id: Container
+  parent: EcoCityWaste.Models
+  children:
+  - EcoCityWaste.Models.Container.Code
+  - EcoCityWaste.Models.Container.FillLevel
+  - EcoCityWaste.Models.Container.Id
+  - EcoCityWaste.Models.Container.InstallationDate
+  - EcoCityWaste.Models.Container.IsActive
+  - EcoCityWaste.Models.Container.LastUpdated
+  - EcoCityWaste.Models.Container.Latitude
+  - EcoCityWaste.Models.Container.Location
+  - EcoCityWaste.Models.Container.Longitude
+  - EcoCityWaste.Models.Container.Status
+  - EcoCityWaste.Models.Container.Type
+  langs:
+  - csharp
+  - vb
+  name: Container
+  nameWithType: Container
+  fullName: EcoCityWaste.Models.Container
+  type: Class
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Container
+    path: Models/Container.cs
+    startLine: 7
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Representa um contentor de lixo físico espalhado pelo município.
+  example: []
+  syntax:
+    content: public class Container
+    content.vb: Public Class Container
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.Models.Container.Id
+  commentId: P:EcoCityWaste.Models.Container.Id
+  id: Id
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: Container.Id
+  fullName: EcoCityWaste.Models.Container.Id
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Id
+    path: Models/Container.cs
+    startLine: 24
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Chave primária do contentor na base de dados.
+  example: []
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: EcoCityWaste.Models.Container.Id*
+- uid: EcoCityWaste.Models.Container.Code
+  commentId: P:EcoCityWaste.Models.Container.Code
+  id: Code
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: Code
+  nameWithType: Container.Code
+  fullName: EcoCityWaste.Models.Container.Code
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Code
+    path: Models/Container.cs
+    startLine: 29
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: 'Código único gerado para ser fácil de identificar na aplicação (ex: CNT-00123).'
+  example: []
+  syntax:
+    content: public string Code { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Code As String
+  overload: EcoCityWaste.Models.Container.Code*
+- uid: EcoCityWaste.Models.Container.Location
+  commentId: P:EcoCityWaste.Models.Container.Location
+  id: Location
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: Location
+  nameWithType: Container.Location
+  fullName: EcoCityWaste.Models.Container.Location
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Location
+    path: Models/Container.cs
+    startLine: 34
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Morada ou descrição do local onde o contentor está instalado.
+  example: []
+  syntax:
+    content: public string Location { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Location As String
+  overload: EcoCityWaste.Models.Container.Location*
+- uid: EcoCityWaste.Models.Container.Latitude
+  commentId: P:EcoCityWaste.Models.Container.Latitude
+  id: Latitude
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: Latitude
+  nameWithType: Container.Latitude
+  fullName: EcoCityWaste.Models.Container.Latitude
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Latitude
+    path: Models/Container.cs
+    startLine: 39
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Latitude para colocar o pino no mapa.
+  example: []
+  syntax:
+    content: public double Latitude { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Latitude As Double
+  overload: EcoCityWaste.Models.Container.Latitude*
+- uid: EcoCityWaste.Models.Container.Longitude
+  commentId: P:EcoCityWaste.Models.Container.Longitude
+  id: Longitude
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: Longitude
+  nameWithType: Container.Longitude
+  fullName: EcoCityWaste.Models.Container.Longitude
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Longitude
+    path: Models/Container.cs
+    startLine: 44
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Longitude para colocar o pino no mapa.
+  example: []
+  syntax:
+    content: public double Longitude { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Longitude As Double
+  overload: EcoCityWaste.Models.Container.Longitude*
+- uid: EcoCityWaste.Models.Container.Type
+  commentId: P:EcoCityWaste.Models.Container.Type
+  id: Type
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: Container.Type
+  fullName: EcoCityWaste.Models.Container.Type
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Type
+    path: Models/Container.cs
+    startLine: 49
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: 'Tipo de resíduo que o contentor leva (ex: Vidro, Papel, Indiferenciado).'
+  example: []
+  syntax:
+    content: public string Type { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Type As String
+  overload: EcoCityWaste.Models.Container.Type*
+- uid: EcoCityWaste.Models.Container.Status
+  commentId: P:EcoCityWaste.Models.Container.Status
+  id: Status
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: Status
+  nameWithType: Container.Status
+  fullName: EcoCityWaste.Models.Container.Status
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Status
+    path: Models/Container.cs
+    startLine: 54
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Estado físico atual do contentor (se está avariado, bom, em manutenção, etc.).
+  example: []
+  syntax:
+    content: public Container.ContainerStatus Status { get; set; }
+    parameters: []
+    return:
+      type: EcoCityWaste.Models.Container.ContainerStatus
+    content.vb: Public Property Status As Container.ContainerStatus
+  overload: EcoCityWaste.Models.Container.Status*
+- uid: EcoCityWaste.Models.Container.FillLevel
+  commentId: P:EcoCityWaste.Models.Container.FillLevel
+  id: FillLevel
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: FillLevel
+  nameWithType: Container.FillLevel
+  fullName: EcoCityWaste.Models.Container.FillLevel
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: FillLevel
+    path: Models/Container.cs
+    startLine: 59
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Percentagem de ocupação (0 a 100%). Estes dados normalmente vêm dos sensores.
+  example: []
+  syntax:
+    content: public int FillLevel { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property FillLevel As Integer
+  overload: EcoCityWaste.Models.Container.FillLevel*
+- uid: EcoCityWaste.Models.Container.InstallationDate
+  commentId: P:EcoCityWaste.Models.Container.InstallationDate
+  id: InstallationDate
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: InstallationDate
+  nameWithType: Container.InstallationDate
+  fullName: EcoCityWaste.Models.Container.InstallationDate
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: InstallationDate
+    path: Models/Container.cs
+    startLine: 64
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Data em que o contentor foi registado e instalado na rua.
+  example: []
+  syntax:
+    content: public DateTime InstallationDate { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Public Property InstallationDate As Date
+  overload: EcoCityWaste.Models.Container.InstallationDate*
+- uid: EcoCityWaste.Models.Container.LastUpdated
+  commentId: P:EcoCityWaste.Models.Container.LastUpdated
+  id: LastUpdated
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: LastUpdated
+  nameWithType: Container.LastUpdated
+  fullName: EcoCityWaste.Models.Container.LastUpdated
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: LastUpdated
+    path: Models/Container.cs
+    startLine: 69
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Guarda a data e hora da última vez que o sistema ou o sensor atualizou os dados do contentor.
+  example: []
+  syntax:
+    content: public DateTime LastUpdated { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Public Property LastUpdated As Date
+  overload: EcoCityWaste.Models.Container.LastUpdated*
+- uid: EcoCityWaste.Models.Container.IsActive
+  commentId: P:EcoCityWaste.Models.Container.IsActive
+  id: IsActive
+  parent: EcoCityWaste.Models.Container
+  langs:
+  - csharp
+  - vb
+  name: IsActive
+  nameWithType: Container.IsActive
+  fullName: EcoCityWaste.Models.Container.IsActive
+  type: Property
+  source:
+    remote:
+      path: Models/Container.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: IsActive
+    path: Models/Container.cs
+    startLine: 74
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.Models
+  summary: Se for falso, o contentor não aparece nas listas nem entra nas rotas, mas não perdemos o histórico.
+  example: []
+  syntax:
+    content: public bool IsActive { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsActive As Boolean
+  overload: EcoCityWaste.Models.Container.IsActive*
+references:
+- uid: EcoCityWaste.Models
+  commentId: N:EcoCityWaste.Models
+  href: EcoCityWaste.html
+  name: EcoCityWaste.Models
+  nameWithType: EcoCityWaste.Models
+  fullName: EcoCityWaste.Models
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.Models
+    name: Models
+    href: EcoCityWaste.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.Models.Container.Id*
+  commentId: Overload:EcoCityWaste.Models.Container.Id
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_Id
+  name: Id
+  nameWithType: Container.Id
+  fullName: EcoCityWaste.Models.Container.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: EcoCityWaste.Models.Container.Code*
+  commentId: Overload:EcoCityWaste.Models.Container.Code
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_Code
+  name: Code
+  nameWithType: Container.Code
+  fullName: EcoCityWaste.Models.Container.Code
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: EcoCityWaste.Models.Container.Location*
+  commentId: Overload:EcoCityWaste.Models.Container.Location
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_Location
+  name: Location
+  nameWithType: Container.Location
+  fullName: EcoCityWaste.Models.Container.Location
+- uid: EcoCityWaste.Models.Container.Latitude*
+  commentId: Overload:EcoCityWaste.Models.Container.Latitude
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_Latitude
+  name: Latitude
+  nameWithType: Container.Latitude
+  fullName: EcoCityWaste.Models.Container.Latitude
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: EcoCityWaste.Models.Container.Longitude*
+  commentId: Overload:EcoCityWaste.Models.Container.Longitude
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_Longitude
+  name: Longitude
+  nameWithType: Container.Longitude
+  fullName: EcoCityWaste.Models.Container.Longitude
+- uid: EcoCityWaste.Models.Container.Type*
+  commentId: Overload:EcoCityWaste.Models.Container.Type
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_Type
+  name: Type
+  nameWithType: Container.Type
+  fullName: EcoCityWaste.Models.Container.Type
+- uid: EcoCityWaste.Models.Container.Status*
+  commentId: Overload:EcoCityWaste.Models.Container.Status
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_Status
+  name: Status
+  nameWithType: Container.Status
+  fullName: EcoCityWaste.Models.Container.Status
+- uid: EcoCityWaste.Models.Container.ContainerStatus
+  commentId: T:EcoCityWaste.Models.Container.ContainerStatus
+  parent: EcoCityWaste.Models
+  href: EcoCityWaste.Models.Container.html
+  name: Container.ContainerStatus
+  nameWithType: Container.ContainerStatus
+  fullName: EcoCityWaste.Models.Container.ContainerStatus
+  spec.csharp:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+  spec.vb:
+  - uid: EcoCityWaste.Models.Container
+    name: Container
+    href: EcoCityWaste.Models.Container.html
+  - name: .
+  - uid: EcoCityWaste.Models.Container.ContainerStatus
+    name: ContainerStatus
+    href: EcoCityWaste.Models.Container.ContainerStatus.html
+- uid: EcoCityWaste.Models.Container.FillLevel*
+  commentId: Overload:EcoCityWaste.Models.Container.FillLevel
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_FillLevel
+  name: FillLevel
+  nameWithType: Container.FillLevel
+  fullName: EcoCityWaste.Models.Container.FillLevel
+- uid: EcoCityWaste.Models.Container.InstallationDate*
+  commentId: Overload:EcoCityWaste.Models.Container.InstallationDate
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_InstallationDate
+  name: InstallationDate
+  nameWithType: Container.InstallationDate
+  fullName: EcoCityWaste.Models.Container.InstallationDate
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date
+- uid: EcoCityWaste.Models.Container.LastUpdated*
+  commentId: Overload:EcoCityWaste.Models.Container.LastUpdated
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_LastUpdated
+  name: LastUpdated
+  nameWithType: Container.LastUpdated
+  fullName: EcoCityWaste.Models.Container.LastUpdated
+- uid: EcoCityWaste.Models.Container.IsActive*
+  commentId: Overload:EcoCityWaste.Models.Container.IsActive
+  href: EcoCityWaste.Models.Container.html#EcoCityWaste_Models_Container_IsActive
+  name: IsActive
+  nameWithType: Container.IsActive
+  fullName: EcoCityWaste.Models.Container.IsActive
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean

@@ -1,0 +1,575 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+  commentId: T:EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+  id: ReportOccurrenceViewModel
+  parent: EcoCityWaste.ViewModels
+  children:
+  - EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode
+  - EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description
+  - EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType
+  - EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo
+  langs:
+  - csharp
+  - vb
+  name: ReportOccurrenceViewModel
+  nameWithType: ReportOccurrenceViewModel
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+  type: Class
+  source:
+    remote:
+      path: ViewModels/ReportOccurrenceViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ReportOccurrenceViewModel
+    path: ViewModels/ReportOccurrenceViewModel.cs
+    startLine: 9
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    ViewModel utilizado para capturar os dados de um novo reporte de anomalia submetido por um cidadão.
+
+    Inclui validações de formulário para garantir que a equipa técnica recebe informações precisas e detalhadas.
+  example: []
+  syntax:
+    content: public class ReportOccurrenceViewModel
+    content.vb: Public Class ReportOccurrenceViewModel
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode
+  commentId: P:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode
+  id: ContainerCode
+  parent: EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+  langs:
+  - csharp
+  - vb
+  name: ContainerCode
+  nameWithType: ReportOccurrenceViewModel.ContainerCode
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ReportOccurrenceViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: ContainerCode
+    path: ViewModels/ReportOccurrenceViewModel.cs
+    startLine: 15
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Código identificador do contentor onde foi detetada a anomalia (ex: RT-001).
+
+    Este campo é obrigatório para que o sistema possa localizar o equipamento no mapa.
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Por favor, selecione o contentor.")]
+
+      public string ContainerCode { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Por favor, selecione o contentor.")>
+
+      Public Property ContainerCode As String
+  overload: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: Por favor, selecione o contentor.
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType
+  commentId: P:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType
+  id: OccurrenceType
+  parent: EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+  langs:
+  - csharp
+  - vb
+  name: OccurrenceType
+  nameWithType: ReportOccurrenceViewModel.OccurrenceType
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ReportOccurrenceViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: OccurrenceType
+    path: ViewModels/ReportOccurrenceViewModel.cs
+    startLine: 21
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: Categoria da ocorrência.
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Selecione o tipo de anomalia.")]
+
+      public string OccurrenceType { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Selecione o tipo de anomalia.")>
+
+      Public Property OccurrenceType As String
+  overload: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: Selecione o tipo de anomalia.
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description
+  commentId: P:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description
+  id: Description
+  parent: EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: ReportOccurrenceViewModel.Description
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ReportOccurrenceViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Description
+    path: ViewModels/ReportOccurrenceViewModel.cs
+    startLine: 28
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Explicação detalhada do problema detetado pelo cidadão.
+
+    Exige um mínimo de 10 caracteres para evitar reportes vagos ou sem contexto.
+  example: []
+  syntax:
+    content: >-
+      [Required(ErrorMessage = "Por favor, descreva o problema.")]
+
+      [MinLength(10, ErrorMessage = "A descrição deve ter pelo menos 10 caracteres.")]
+
+      public string Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Required(ErrorMessage:="Por favor, descreva o problema.")>
+
+      <MinLength(10, ErrorMessage:="A descrição deve ter pelo menos 10 caracteres.")>
+
+      Public Property Description As String
+  overload: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description*
+  attributes:
+  - type: System.ComponentModel.DataAnnotations.RequiredAttribute
+    ctor: System.ComponentModel.DataAnnotations.RequiredAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: Por favor, descreva o problema.
+  - type: System.ComponentModel.DataAnnotations.MinLengthAttribute
+    ctor: System.ComponentModel.DataAnnotations.MinLengthAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 10
+    namedArguments:
+    - name: ErrorMessage
+      type: System.String
+      value: A descrição deve ter pelo menos 10 caracteres.
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo
+  commentId: P:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo
+  id: Photo
+  parent: EcoCityWaste.ViewModels.ReportOccurrenceViewModel
+  langs:
+  - csharp
+  - vb
+  name: Photo
+  nameWithType: ReportOccurrenceViewModel.Photo
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo
+  type: Property
+  source:
+    remote:
+      path: ViewModels/ReportOccurrenceViewModel.cs
+      branch: Docfx
+      repo: https://github.com/DaniF19/EcoCityWaste.git
+    id: Photo
+    path: ViewModels/ReportOccurrenceViewModel.cs
+    startLine: 36
+  assemblies:
+  - EcoCityWaste
+  namespace: EcoCityWaste.ViewModels
+  summary: >-
+    Ficheiro de imagem enviado pelo utilizador como prova visual da ocorrência.
+
+    Este campo é opcional, permitindo submeter o reporte mesmo sem fotografia.
+  example: []
+  syntax:
+    content: public IFormFile? Photo { get; set; }
+    parameters: []
+    return:
+      type: Microsoft.AspNetCore.Http.IFormFile
+    content.vb: Public Property Photo As IFormFile
+  overload: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo*
+references:
+- uid: EcoCityWaste.ViewModels
+  commentId: N:EcoCityWaste.ViewModels
+  href: EcoCityWaste.html
+  name: EcoCityWaste.ViewModels
+  nameWithType: EcoCityWaste.ViewModels
+  fullName: EcoCityWaste.ViewModels
+  spec.csharp:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+  spec.vb:
+  - uid: EcoCityWaste
+    name: EcoCityWaste
+    href: EcoCityWaste.html
+  - name: .
+  - uid: EcoCityWaste.ViewModels
+    name: ViewModels
+    href: EcoCityWaste.ViewModels.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode*
+  commentId: Overload:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode
+  href: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.html#EcoCityWaste_ViewModels_ReportOccurrenceViewModel_ContainerCode
+  name: ContainerCode
+  nameWithType: ReportOccurrenceViewModel.ContainerCode
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.ContainerCode
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType*
+  commentId: Overload:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType
+  href: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.html#EcoCityWaste_ViewModels_ReportOccurrenceViewModel_OccurrenceType
+  name: OccurrenceType
+  nameWithType: ReportOccurrenceViewModel.OccurrenceType
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.OccurrenceType
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description*
+  commentId: Overload:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description
+  href: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.html#EcoCityWaste_ViewModels_ReportOccurrenceViewModel_Description
+  name: Description
+  nameWithType: ReportOccurrenceViewModel.Description
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Description
+- uid: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo*
+  commentId: Overload:EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo
+  href: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.html#EcoCityWaste_ViewModels_ReportOccurrenceViewModel_Photo
+  name: Photo
+  nameWithType: ReportOccurrenceViewModel.Photo
+  fullName: EcoCityWaste.ViewModels.ReportOccurrenceViewModel.Photo
+- uid: Microsoft.AspNetCore.Http.IFormFile
+  commentId: T:Microsoft.AspNetCore.Http.IFormFile
+  parent: Microsoft.AspNetCore.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.iformfile
+  name: IFormFile
+  nameWithType: IFormFile
+  fullName: Microsoft.AspNetCore.Http.IFormFile
+- uid: Microsoft.AspNetCore.Http
+  commentId: N:Microsoft.AspNetCore.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.AspNetCore.Http
+  nameWithType: Microsoft.AspNetCore.Http
+  fullName: Microsoft.AspNetCore.Http
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http
