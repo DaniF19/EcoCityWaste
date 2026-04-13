@@ -1,6 +1,8 @@
-﻿using EcoCityWaste.Data;
+﻿using BCrypt.Net;
+using EcoCityWaste.Data;
 using EcoCityWaste.Models;
 using EcoCityWaste.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BCrypt.Net;
 
 namespace EcoCityWaste.Controllers
 {
@@ -53,6 +54,40 @@ namespace EcoCityWaste.Controllers
             }
 
             return View(user);
+        }
+        /// <summary>
+        /// Apresenta os detalhes completos de um funcionário específico através do seu ID.
+        /// </summary>
+        /// <param name="id">Identificador único do utilizador.</param>
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult GetEmployeeDetails(int id)
+        {
+            var emp = _context.Users
+                .FirstOrDefault(u => u.Id == id && u.Role == "Funcionario");
+
+            if (emp == null)
+                return NotFound();
+
+            // Ocorrências resolvidas
+            var resolved = _context.Occurrences
+                .Count(o => o.AssignedEmployeeId == id &&
+                            (o.Status == OccurrenceStatus.Resolvido.ToString() ||
+                             o.Status == OccurrenceStatus.Rejeitado.ToString()));
+
+            // Ocorrências por resolver
+            var pending = _context.Occurrences
+                .Count(o => o.AssignedEmployeeId == id &&
+                            (o.Status == OccurrenceStatus.EmAnalise.ToString() ||
+                             o.Status == OccurrenceStatus.EmResolucao.ToString()));
+
+            return Json(new
+            {
+                username = emp.Username,
+                email = emp.Email,
+                resolvedCount = resolved,
+                pendingCount = pending
+            });
         }
 
         /// <summary>

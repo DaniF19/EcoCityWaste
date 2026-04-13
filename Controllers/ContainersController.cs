@@ -70,8 +70,6 @@ namespace EcoCityWaste.Controllers
                 Container.ContainerStatus? statusEnum = statusFilter switch
                 {
                     "Bom" => Container.ContainerStatus.Good,
-                    "Cheio" => Container.ContainerStatus.Full,
-                    "Vazio" => Container.ContainerStatus.Empty,
                     "Avariado" => Container.ContainerStatus.Broken,
                     "Manutenção" => Container.ContainerStatus.Maintenance,
                     _ => null
@@ -209,7 +207,15 @@ namespace EcoCityWaste.Controllers
             if (container == null)
                 return NotFound();
 
-            return View(container);
+            var vm = new ContainerEditViewModel
+            {
+                Id = container.Id,
+                Location = container.Location,
+                Type = container.Type,
+                Status = container.Status
+            };
+
+            return View(vm);
         }
 
         /// <summary>

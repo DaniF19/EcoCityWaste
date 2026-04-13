@@ -1,4 +1,6 @@
-﻿namespace EcoCityWaste.Helpers
+﻿using EcoCityWaste.Models;
+
+namespace EcoCityWaste.Helpers
 {
     /// <summary>
     /// Classe de extensão para formatar os estados das ocorrências/incidentes.
@@ -13,16 +15,16 @@
         /// </summary>
         /// <param name="status">O estado vindo da base de dados.</param>
         /// <returns>O nome formatado (ex: de "EmResolucao" para "Em Resolução").</returns>
-        public static string ToDisplayName(this string status)
+        public static string ToDisplayName(this OccurrenceStatus status)
         {
             return status switch
             {
-                "Pendente" => "Pendente",
-                "EmAnalise" => "Em Análise",
-                "EmResolucao" => "Em Resolução",
-                "Resolvido" => "Resolvido",
-                "Rejeitado" => "Rejeitado",
-                _ => status
+                OccurrenceStatus.Pendente => "Pendente",
+                OccurrenceStatus.EmAnalise => "Em Análise",
+                OccurrenceStatus.EmResolucao => "Em Resolução",
+                OccurrenceStatus.Resolvido => "Resolvido",
+                OccurrenceStatus.Rejeitado => "Rejeitado",
+                _ => status.ToString()
             };
         }
     }

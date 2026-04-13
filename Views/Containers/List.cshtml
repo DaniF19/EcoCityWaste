@@ -1,3 +1,5 @@
+@using EcoCityWaste.Helpers
+
 @model List<EcoCityWaste.Models.Container>
 
 @{
@@ -7,20 +9,38 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
 }
+@{
+    var isAdmin = User.IsInRole("Admin");
+    var returnUrl = isAdmin
+        ? Url.Action("Dashboard", "Admin")
+        : Url.Action("Dashboard", "Funcionario");
+}
+
 
 <div class="page-container">
 
     <div class="card-box" style="max-width: 900px;">
 
-        <div class="card-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div class="card-title"
+             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
 
-            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">Lista de Contentores</span>
+            <span style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #8d6e63;">
+                Lista de Contentores
+            </span>
 
-            <a asp-controller="Containers" asp-action="Index" class="btn-vista-analitica">
-                <i class="fa-solid fa-chart-pie"></i> Vista Analítica
-            </a>
+            <div style="display: flex; gap: 12px;">
+                <a href="@returnUrl" class="btn-vista-analitica">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar
+                </a>
+
+                <a asp-controller="Containers" asp-action="Index" class="btn-vista-analitica">
+                    <i class="fa-solid fa-chart-pie"></i> Vista Analítica
+                </a>
+            </div>
+
 
         </div>
+
 
         @if (!Model.Any())
         {
@@ -45,7 +65,7 @@
                         <tr>
                             <td>@container.Location</td>
                             <td>@container.Type</td>
-                            <td>@Html.DisplayFor(modelItem => container.Status)</td>
+                            <td>@container.Status.GetDisplayName()</td>
                             <td>@container.InstallationDate.ToString("dd/MM/yyyy HH:mm")</td>
                             <td>@container.LastUpdated.ToString("dd/MM/yyyy HH:mm")</td>
                             <td style="text-align:center; display:flex; flex-direction:column; gap:6px; align-items:center;">
@@ -53,7 +73,7 @@
                                    asp-action="Edit"
                                    asp-route-id="@container.Id"
                                    class="btn-primary"
-                                   style="padding:6px 12px; font-size:14px;">
+                                   style="padding:6px 12px; font-size:14px; text-decoration:none">
                                     Editar
                                 </a>
 
@@ -61,7 +81,7 @@
                                    asp-action="History"
                                    asp-route-id="@container.Id"
                                    class="btn-primary"
-                                   style="padding:6px 12px; font-size:14px;">
+                                   style="padding:6px 12px; font-size:14px; text-decoration:none">
                                     Histórico
                                 </a>
                             </td>
@@ -92,11 +112,11 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-        .btn-vista-analitica:hover {
-            background-color: #d6c3a3; /* Um bege ligeiramente mais escuro no hover */
-            border-color: #d6c3a3;
-            color: #795c4d !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
-        }
+    .btn-vista-analitica:hover {
+        background-color: #d6c3a3; /* Um bege ligeiramente mais escuro no hover */
+        border-color: #d6c3a3;
+        color: #795c4d !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(141, 110, 99, 0.2);
+    }
 </style>

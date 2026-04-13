@@ -1,4 +1,5 @@
-﻿@model IEnumerable<EcoCityWaste.Models.ContainerStatusHistory>
+﻿@using EcoCityWaste.Helpers
+@model IEnumerable<EcoCityWaste.Models.ContainerStatusHistory>
 
 @{
     ViewData["Title"] = "Histórico do Contentor";
@@ -12,8 +13,17 @@
 
     <div class="card-box">
 
-        <div class="card-title">
-            Histórico do Contentor
+        <div class="card-title"
+             style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+
+            <span style="margin:0; font-size:1.5rem; font-weight:bold; color:#8d6e63;">
+                Histórico Contentor
+            </span>
+
+            <a asp-controller="Containers" asp-action="List" class="btn-vista-analitica">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+
         </div>
 
         <table class="table">
@@ -28,24 +38,16 @@
             </thead>
 
             <tbody>
-
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>@item.ChangedAt.ToString("dd/MM/yyyy HH:mm")</td>
-
-                        <td>@item.Status</td>
-
+                        <td>@item.Status.GetDisplayName()</td>
                         <td>@item.FillLevel%</td>
-
-                        <td>
-                            @(item.IsActive ? "Sim" : "Não")
-                        </td>
-
+                        <td>@(item.IsActive ? "Sim" : "Não")</td>
                         <td>@item.ChangedBy</td>
                     </tr>
                 }
-
             </tbody>
         </table>
 

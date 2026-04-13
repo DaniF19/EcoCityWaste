@@ -17,7 +17,7 @@ namespace EcoCityWaste.ViewModels
         /// Estado atual da ocorrência no momento em que o formulário é carregado.
         /// Serve como referência visual para o utilizador antes da alteração.
         /// </summary>
-        public string CurrentStatus { get; set; } = string.Empty;
+        public Models.OccurrenceStatus CurrentStatus { get; set; }
 
         /// <summary>
         /// Registo da última data/hora em que a ocorrência sofreu uma modificação.

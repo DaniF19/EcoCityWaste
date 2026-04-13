@@ -58,6 +58,13 @@ builder.Services.AddHttpClient<GeocodingService>();
 // servico para os controllers utilizarem o container history
 builder.Services.AddScoped<ContainerHistoryService>();
 
+// servico de rotas
+builder.Services.AddScoped<IRouteService, RouteService>();
+
+// logger de falhas
+builder.Services.AddScoped<FailureLogger>();
+
+
 builder.Services.AddSignalR();
 
 var app = builder.Build();

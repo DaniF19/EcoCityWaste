@@ -1,4 +1,4 @@
-@model EcoCityWaste.Models.Container
+@model EcoCityWaste.ViewModels.ContainerEditViewModel
 
 @{
     ViewData["Title"] = "Editar Contentor";
@@ -12,8 +12,17 @@
 
     <div class="card-box">
 
-        <div class="card-title">
-            Editar Contentor
+        <div class="card-title"
+             style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+
+            <span style="margin:0; font-size:1.5rem; font-weight:bold; color:#8d6e63;">
+                Editar Contentor
+            </span>
+
+            <a asp-controller="Containers" asp-action="List" class="btn-vista-analitica">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+
         </div>
 
         <form asp-action="Edit" method="post">
@@ -23,7 +32,7 @@
 
             <div class="input-group">
                 <i class="fa-solid fa-location-dot input-icon"></i>
-                <input asp-for="Location" placeholder="Localização" />
+                <input asp-for="Location" class="eco-input" placeholder="Localização" />
                 <span asp-validation-for="Location" class="field-error"></span>
             </div>
 
@@ -69,6 +78,7 @@
 
             <label class="field-label">Estado Atual</label>
             <div class="selection-grid">
+
                 <label class="selection-item">
                     <input type="radio" asp-for="Status" value="Good" />
                     <div class="selection-content">
@@ -76,6 +86,7 @@
                         <span>Bom</span>
                     </div>
                 </label>
+
                 <label class="selection-item">
                     <input type="radio" asp-for="Status" value="Maintenance" />
                     <div class="selection-content">
@@ -83,6 +94,7 @@
                         <span>Manutenção</span>
                     </div>
                 </label>
+
                 <label class="selection-item">
                     <input type="radio" asp-for="Status" value="Broken" />
                     <div class="selection-content">
@@ -90,8 +102,10 @@
                         <span>Avariado</span>
                     </div>
                 </label>
+
             </div>
             <span asp-validation-for="Status" class="field-error"></span>
+
 
             <button type="submit" class="btn-primary" style="margin-top: 30px;">
                 Guardar Alterações
