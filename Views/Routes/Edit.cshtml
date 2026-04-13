@@ -321,7 +321,7 @@
 
 <div class="page-container">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-        <a asp-action="Details" asp-route-id="@Model.Id" style="text-decoration:none;color: white;background: rgb(141, 110, 99);border-radius: 8px;border: 1px solid rgba(255, 255, 255, .1);gap: 6px;padding: 7px 14px;font-size: .82rem;text-decoration: none;">
+        <a asp-action="Details" asp-route-id="@Model.Id" style="color:var(--muted);text-decoration:none;font-size:.88rem;">
             <i class="fa-solid fa-chevron-left"></i> Rota
         </a>
         <h1 style="font-size:1.5rem;font-weight:700;color:var(--cor-castanho);margin:0;">
@@ -339,7 +339,7 @@
                 <div class="panel" style="margin-bottom:20px;">
                     <div class="panel-title"><i class="fa-solid fa-pen-to-square"></i> Informações</div>
                     <div class="field-group">
-                        <label>Nome da Rota</label>
+                        <label>Nome da Rota *</label>
                         <input asp-for="Name" />
                         <span asp-validation-for="Name" class="field-error"></span>
                     </div>

@@ -58,11 +58,7 @@ builder.Services.AddHttpClient<GeocodingService>();
 // servico para os controllers utilizarem o container history
 builder.Services.AddScoped<ContainerHistoryService>();
 
-builder.Services.AddScoped<IRouteService, RouteService>();
-
 builder.Services.AddSignalR();
-
-builder.Services.AddScoped<FailureLogger>();
 
 var app = builder.Build();
 
@@ -80,6 +76,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapHub<SimulationHub>("/simulationHub");
 

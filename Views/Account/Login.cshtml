@@ -15,9 +15,10 @@
 <body>
 
     <div class="main-container">
+
         <div class="left-panel">
             <div class="logo-container">
-                <img src="~/img/logo.png" alt="EcoCityWaste Logótipo" class="logo" style="transform: translateX(50px);">
+                <img src="~/img/logo.png" alt="EcoCityWaste Log�tipo" class="logo" style="transform: translateX(50px);">
             </div>
         </div>
 
@@ -42,28 +43,15 @@
 
                 <form asp-controller="Account" asp-action="Login" method="post">
 
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                            E-mail
-                        </label>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <i class="fa-solid fa-envelope input-icon"></i>
-                            <input asp-for="Email" placeholder="Insira o seu e-mail" required>
-                        </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input asp-for="Email" placeholder="Email" required>
                     </div>
 
-                    <div style="margin-bottom: 25px;">
-                        <label style="font-weight: 700; color: #795c4d; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                            Palavra-Passe
-                            <span title="A sua palavra-passe é encriptada e armazenada de forma segura." style="cursor: help; color: #bcaaa4; margin-left: 8px; font-size: 1rem;">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </span>
-                        </label>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <i class="fa-solid fa-key input-icon"></i>
-                            <input asp-for="Password" id="password-field" type="password" placeholder="Insira a palavra-passe" required>
-                            <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
-                        </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-key input-icon"></i>
+                        <input asp-for="Password" id="password-field" placeholder="Palavra-Passe" required>
+                        <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
                     </div>
 
                     <div class="form-footer">
@@ -81,18 +69,23 @@
                 </form>
             </div>
         </div>
+
     </div>
 
-    <script>
-        const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('#password-field');
-
-        togglePassword.addEventListener('click', function (e) {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            this.classList.toggle('fa-eye');
-            this.classList.toggle('fa-eye-slash');
-        });
-    </script>
 </body>
 </html>
+
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password-field');
+
+    togglePassword.addEventListener('click', function (e) {
+        // 1. Alternar o tipo do input entre 'password' e 'text'
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+
+        // 2. Alternar o �cone (olho aberto / olho riscado)
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>

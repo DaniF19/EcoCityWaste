@@ -262,11 +262,11 @@
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
     <script>
         const stopsData = [
-        @foreach (var stop in stops)
-        {
-            var c = stop.Container;
-            @Html.Raw($"{{ id:{c.Id}, order:{stop.PickupOrder}, code:'{c.Code}', loc:'{c.Location.Replace("'", "\\'")}', fill:{c.FillLevel}, lat:{c.Latitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}, lng:{c.Longitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)} }},")
-        }
+            @foreach (var stop in stops)
+            {
+                    var c = stop.Container;
+                    @Html.Raw($"{{ id:{c.Id}, order:{stop.PickupOrder}, code:'{c.Code}', loc:'{c.Location.Replace("'", "\\'")}', fill:{c.FillLevel}, lat:{c.Latitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}, lng:{c.Longitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)} }},")
+            }
         ];
 
         const routeId = @Model.Id;
@@ -275,188 +275,188 @@
         // --- Mapa ---
         const map = L.map('map');
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
+            attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
         }).addTo(map);
 
         // --- Ícone contentor ---
         function makeIcon(order, fill, collected = false) {
-        const color = collected ? '#22c55e' : fill >= 80 ? '#ef4444' : fill >= 50 ? '#f59e0b' : '#22c55e';
-        const label = collected ? '✓' : order;
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="44" viewBox="0 0 36 44">
-        <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 26 18 26S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="${color}" opacity="0.95"/>
-        <text x="18" y="22" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="white" font-family="system-ui,sans-serif">${label}</text>
-        </svg>`;
-        return L.divIcon({ className: '', html: svg, iconSize: [36, 44], iconAnchor: [18, 44], popupAnchor: [0, -46] });
+            const color = collected ? '#22c55e' : fill >= 80 ? '#ef4444' : fill >= 50 ? '#f59e0b' : '#22c55e';
+            const label = collected ? '✓' : order;
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="44" viewBox="0 0 36 44">
+                <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 26 18 26S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="${color}" opacity="0.95"/>
+                <text x="18" y="22" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="white" font-family="system-ui,sans-serif">${label}</text>
+            </svg>`;
+            return L.divIcon({ className: '', html: svg, iconSize: [36, 44], iconAnchor: [18, 44], popupAnchor: [0, -46] });
         }
 
         // --- Ícone camião ---
         const truckIcon = L.divIcon({
-        className: '',
-        html: '<div style="font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))">🚛</div>',
-        iconSize: [36, 36],
-        iconAnchor: [18, 18]
+            className: '',
+            html: '<div style="font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))">🚛</div>',
+            iconSize: [36, 36],
+            iconAnchor: [18, 18]
         });
 
         // --- Marcadores ---
         const markers = {};
         validStops.forEach(s => {
-        markers[s.id] = L.marker([s.lat, s.lng], { icon: makeIcon(s.order, s.fill) })
-        .addTo(map)
-        .bindPopup(`<b>${s.code}</b><br>${s.loc}<br>Nível: ${s.fill}%`);
+            markers[s.id] = L.marker([s.lat, s.lng], { icon: makeIcon(s.order, s.fill) })
+                .addTo(map)
+                .bindPopup(`<b>${s.code}</b><br>${s.loc}<br>Nível: ${s.fill}%`);
         });
 
         let truckMarker = null;
-        let routeSegments = [];
+        let routeSegments = []; 
         let simRunning = false;
         let currentStop = 0;
 
         
         async function fetchOSRMRoute(from, to) {
-        const url = `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.routes && data.routes.length > 0) {
+            const url = `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.routes && data.routes.length > 0) {
                 
-        return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
-        }
+                return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+            }
             
-        return [[from.lat, from.lng], [to.lat, to.lng]];
+            return [[from.lat, from.lng], [to.lat, to.lng]];
         }
 
         
         async function drawFullRoute() {
-        setStatus('A calcular rota pelas ruas...');
-        let allCoords = [];
+            setStatus('A calcular rota pelas ruas...');
+            let allCoords = [];
 
-        for (let i = 0; i < validStops.length - 1; i++) {
-        const coords = await fetchOSRMRoute(validStops[i], validStops[i + 1]);
-        routeSegments.push(coords);
-        allCoords = allCoords.concat(coords);
-        }
+            for (let i = 0; i < validStops.length - 1; i++) {
+                const coords = await fetchOSRMRoute(validStops[i], validStops[i + 1]);
+                routeSegments.push(coords);
+                allCoords = allCoords.concat(coords);
+            }
 
-        // linha azul da rota completa
-        L.polyline(allCoords, { color: '#3b82f6', weight: 5, opacity: 0.85 }).addTo(map);
-        map.fitBounds(L.polyline(allCoords).getBounds(), { padding: [40, 40] });
+            // linha azul da rota completa
+            L.polyline(allCoords, { color: '#3b82f6', weight: 5, opacity: 0.85 }).addTo(map);
+            map.fitBounds(L.polyline(allCoords).getBounds(), { padding: [40, 40] });
 
-        // camião no primeiro ponto
-        truckMarker = L.marker([validStops[0].lat, validStops[0].lng], { icon: truckIcon })
-        .addTo(map)
-        .bindPopup('🚛 Camião de recolha');
+            // camião no primeiro ponto
+            truckMarker = L.marker([validStops[0].lat, validStops[0].lng], { icon: truckIcon })
+                .addTo(map)
+                .bindPopup('🚛 Camião de recolha');
 
-        document.getElementById('btnStart').disabled = false;
-        setStatus('Pronto! Clica em "Iniciar simulação".');
+            document.getElementById('btnStart').disabled = false;
+            setStatus('Pronto! Clica em "Iniciar simulação".');
         }
 
         // --- Animar camião ao longo das coordenadas de um segmento ---
         function animateAlongSegment(coords, onComplete) {
-        let i = 0;
-        const speed = 80;
+            let i = 0;
+            const speed = 80; 
 
-        function step() {
-        if (i >= coords.length) {
-        onComplete();
-        return;
-        }
-        truckMarker.setLatLng(coords[i]);
-        map.panTo(coords[i], { animate: true, duration: 0.1 });
-        i++;
-        setTimeout(step, speed);
-        }
-        step();
+            function step() {
+                if (i >= coords.length) {
+                    onComplete();
+                    return;
+                }
+                truckMarker.setLatLng(coords[i]);
+                map.panTo(coords[i], { animate: true, duration: 0.1 });
+                i++;
+                setTimeout(step, speed);
+            }
+            step();
         }
 
         // --- Simulação ---
         function runSimulation() {
-        if (currentStop >= validStops.length) {
-        setStatus('✅ Rota concluída! Todos os contentores recolhidos.');
-        document.getElementById('btnStart').disabled = true;
-        return;
-        }
+            if (currentStop >= validStops.length) {
+                setStatus('✅ Rota concluída! Todos os contentores recolhidos.');
+                document.getElementById('btnStart').disabled = true;
+                return;
+            }
 
-        const stop = validStops[currentStop];
-        setStatus(`🚛 A recolher contentor ${stop.code} (${currentStop + 1}/${validStops.length})...`);
+            const stop = validStops[currentStop];
+            setStatus(`🚛 A recolher contentor ${stop.code} (${currentStop + 1}/${validStops.length})...`);
 
-        // highlight na sidebar
-        document.querySelectorAll('.map-stop').forEach(el => el.classList.remove('active'));
-        const sidebarEl = document.getElementById('sidebar-stop-' + stop.id);
-        if (sidebarEl) {
-        sidebarEl.classList.add('active');
-        sidebarEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+            // highlight na sidebar
+            document.querySelectorAll('.map-stop').forEach(el => el.classList.remove('active'));
+            const sidebarEl = document.getElementById('sidebar-stop-' + stop.id);
+            if (sidebarEl) {
+                sidebarEl.classList.add('active');
+                sidebarEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
 
-        if (currentStop === 0) {
+            if (currentStop === 0) {
                 
-        setTimeout(() => {
-        markCollected(stop);
-        currentStop++;
-        setTimeout(runSimulation, 800);
-        }, 1000);
-        } else {
+                setTimeout(() => {
+                    markCollected(stop);
+                    currentStop++;
+                    setTimeout(runSimulation, 800);
+                }, 1000);
+            } else {
                 
-        const segment = routeSegments[currentStop - 1];
-        animateAlongSegment(segment, () => {
-        setTimeout(() => {
-        markCollected(stop);
-        currentStop++;
-        setTimeout(runSimulation, 800);
-        }, 600);
-        });
-        }
+                const segment = routeSegments[currentStop - 1];
+                animateAlongSegment(segment, () => {
+                    setTimeout(() => {
+                        markCollected(stop);
+                        currentStop++;
+                        setTimeout(runSimulation, 800);
+                    }, 600);
+                });
+            }
         }
 
         function markCollected(stop) {
             
-        markers[stop.id].setIcon(makeIcon(stop.order, stop.fill, true));
+            markers[stop.id].setIcon(makeIcon(stop.order, stop.fill, true));
 
-        // atualiza sidebar
-        const sidebarEl = document.getElementById('sidebar-stop-' + stop.id);
-        if (sidebarEl) {
-        sidebarEl.classList.remove('active');
-        sidebarEl.classList.add('collected');
-        }
-        const numEl = document.getElementById('num-' + stop.id);
-        if (numEl) {
-        numEl.classList.add('collected');
-        numEl.textContent = '✓';
-        }
+            // atualiza sidebar
+            const sidebarEl = document.getElementById('sidebar-stop-' + stop.id);
+            if (sidebarEl) {
+                sidebarEl.classList.remove('active');
+                sidebarEl.classList.add('collected');
+            }
+            const numEl = document.getElementById('num-' + stop.id);
+            if (numEl) {
+                numEl.classList.add('collected');
+                numEl.textContent = '✓';
+            }
         }
 
         function setStatus(msg) {
-        document.getElementById('statusMsg').textContent = msg;
+            document.getElementById('statusMsg').textContent = msg;
         }
 
         // --- Botões ---
         document.getElementById('btnStart').addEventListener('click', () => {
-        if (simRunning) return;
-        simRunning = true;
-        currentStop = 0;
-        document.getElementById('btnStart').disabled = true;
-        document.getElementById('btnReset').disabled = false;
-        runSimulation();
+            if (simRunning) return;
+            simRunning = true;
+            currentStop = 0;
+            document.getElementById('btnStart').disabled = true;
+            document.getElementById('btnReset').disabled = false;
+            runSimulation();
         });
 
         document.getElementById('btnReset').addEventListener('click', () => {
-        location.reload();
+            location.reload();
         });
 
         
         const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/simulationHub")
-        .build();
+            .withUrl("/simulationHub")
+            .build();
 
         connection.on("RouteLoaded", () => {
             
         });
 
         connection.start()
-        .then(() => connection.invoke("StartSimulation", routeId))
-        .catch(() => {});
+            .then(() => connection.invoke("StartSimulation", routeId))
+            .catch(() => {});
 
         
         if (validStops.length > 0) {
-        drawFullRoute();
+            drawFullRoute();
         } else {
-        setStatus('Sem contentores com GPS nesta rota.');
+            setStatus('Sem contentores com GPS nesta rota.');
         }
     </script>
 }

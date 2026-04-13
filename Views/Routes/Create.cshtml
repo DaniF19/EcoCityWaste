@@ -309,19 +309,11 @@
 
 <div class="page-container">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-        @* <a asp-action="Index" style="color:var(--muted);text-decoration:none;font-size:.88rem;">
-            <i class="fa-solid fa-chevron-left"></i> Rotas
-        </a> *@
-        <a asp-action="Index" style="text-decoration:none;color: white;background: rgb(141, 110, 99);border-radius: 8px;border: 1px solid rgba(255, 255, 255, .1);gap: 6px;padding: 7px 14px;font-size: .82rem;text-decoration: none;">
+        <a asp-action="Index" style="color:var(--muted);text-decoration:none;font-size:.88rem;">
             <i class="fa-solid fa-chevron-left"></i> Rotas
         </a>
         <h1 style="font-size:1.5rem;font-weight:700;color:var(--cor-castanho);margin:0;">
             <i class="fa-solid fa-plus-circle" style="color:var(--blue);"></i> Criar Nova Rota
-            <span data-bs-toggle="tooltip"
-                  title="Planeie uma nova rota adicionando contentores e ordenando-os na lista de recolha."
-                  style="cursor: help; color: #bcaaa4; margin-left: 10px;">
-                <i class="fa-solid fa-circle-info"></i>
-            </span>
         </h1>
     </div>
 
@@ -400,7 +392,7 @@
 
                     <div class="tip">
                         <i class="fa-solid fa-circle-info"></i>
-                        Clique nos contentores à esquerda para adicionar. Arraste os itens nesta lista para reordenar a rota.
+                        Clique nos contentores para adicionar. Arraste para reordenar.
                     </div>
 
                     <span id="containerIdsError" class="field-error" style="display:none;margin-bottom:10px;">

@@ -12,13 +12,11 @@
 
     <div class="card-box" style="max-width: 1100px;">
 
+        <!-- Título + Botão Voltar -->
         <div class="card-title">
 
-            <span class="page-title" style="display: flex; align-items: center;">
+            <span class="page-title">
                 Dashboard de Indicadores Ambientais
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Visão global em tempo real dos sensores e das ocorrências reportadas." style="cursor: help; color: #bcaaa4; margin-left: 12px; font-size: 1.2rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
             </span>
 
             @{
@@ -26,19 +24,15 @@
             }
 
             <a asp-controller="@backController"
-                   asp-action="Dashboard"
-                   class="btn-vista-analitica">
+               asp-action="Dashboard"
+               class="btn-vista-analitica">
                 <i class="fa-solid fa-arrow-left"></i> Voltar
             </a>
 
         </div>
 
-        <h4 class="fw-bold" style="color:#795c4d; margin-bottom:15px; display: flex; align-items: center;">
-            Ocorrências
-            <span data-bs-toggle="tooltip" title="Volume e estado atual dos problemas submetidos pela população." style="cursor: help; color: #bcaaa4; margin-left: 10px; font-size: 1rem;">
-                <i class="fa-solid fa-circle-info"></i>
-            </span>
-        </h4>
+        <!-- Indicadores de Ocorrências -->
+        <h4 class="fw-bold" style="color:#795c4d; margin-bottom:15px;">Ocorrências</h4>
 
         <div class="dashboard-grid">
             <div class="kpi-card">
@@ -72,12 +66,8 @@
             </div>
         </div>
 
-        <h4 class="fw-bold" style="color:#795c4d; margin:25px 0 15px; display: flex; align-items: center;">
-            Contentores
-            <span data-bs-toggle="tooltip" title="Estado de ocupação da rede física de recolha espalhada pelo município." style="cursor: help; color: #bcaaa4; margin-left: 10px; font-size: 1rem;">
-                <i class="fa-solid fa-circle-info"></i>
-            </span>
-        </h4>
+        <!-- Indicadores de Contentores -->
+        <h4 class="fw-bold" style="color:#795c4d; margin:25px 0 15px;">Contentores</h4>
 
         <div class="dashboard-grid">
             <div class="kpi-card">
@@ -87,19 +77,12 @@
 
             <div class="kpi-card">
                 <span class="kpi-value">@Model.ContentoresCriticos</span>
-                <span class="kpi-label" style="display: flex; align-items: center; justify-content: center;">
-                    Contentores Críticos (+90%)
-                    <i class="fa-solid fa-circle-info ms-2" data-bs-toggle="tooltip" title="Contentores na iminência de transbordar. Devem ser priorizados." style="cursor: help; color: #bcaaa4;"></i>
-                </span>
+                <span class="kpi-label">Contentores Críticos (+90%)</span>
             </div>
         </div>
 
-        <h4 class="fw-bold" style="color:#795c4d; margin:25px 0 15px; display: flex; align-items: center;">
-            Indicadores Ambientais
-            <span data-bs-toggle="tooltip" title="Métricas agregadas para análise de eficiência global." style="cursor: help; color: #bcaaa4; margin-left: 10px; font-size: 1rem;">
-                <i class="fa-solid fa-circle-info"></i>
-            </span>
-        </h4>
+        <!-- Indicadores Ambientais -->
+        <h4 class="fw-bold" style="color:#795c4d; margin:25px 0 15px;">Indicadores Ambientais</h4>
 
         <div class="dashboard-grid">
             <div class="kpi-card">
@@ -113,12 +96,8 @@
             </div>
         </div>
 
-        <h5 class="fw-bold" style="color:#795c4d; margin:25px 0 10px; display: flex; align-items: center;">
-            Enchimento Médio por Tipo
-            <span data-bs-toggle="tooltip" title="Ajuda a identificar que tipo de lixo necessita de maior frequência de recolha." style="cursor: help; color: #bcaaa4; margin-left: 10px; font-size: 1rem;">
-                <i class="fa-solid fa-circle-info"></i>
-            </span>
-        </h5>
+        <!-- Enchimento por Tipo -->
+        <h5 class="fw-bold" style="color:#795c4d; margin:25px 0 10px;">Enchimento Médio por Tipo</h5>
 
         <table class="table table-striped" style="margin-top:10px;">
             <thead>
@@ -139,6 +118,7 @@
         </table>
 
     </div>
+
 </div>
 
 @section Scripts {
@@ -147,48 +127,49 @@
 
 <style>
     .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
     }
 
     .kpi-card {
-    background-color: #e4d4b8;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease;
+        background-color: #e4d4b8;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease;
     }
 
-    .kpi-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(141,110,99,0.2);
-    }
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(141,110,99,0.2);
+        }
 
     .kpi-value {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #795c4d;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #795c4d;
     }
 
     .kpi-label {
-    font-size: 0.95rem;
-    color: #5f4a3f;
+        font-size: 0.95rem;
+        color: #5f4a3f;
     }
 
     .card-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
     }
 
     .page-title {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #8d6e63;
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #8d6e63;
     }
+
 </style>

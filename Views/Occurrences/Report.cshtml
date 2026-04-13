@@ -37,14 +37,20 @@
         <form asp-action="Report" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
-            <input type="hidden" asp-for="ContainerCode" id="hidden-container-code" />
-
-            <label class="field-label" style="display: flex; align-items: center; margin-bottom: 8px;">
-                Localização do Contentor
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Selecione a morada. O código do contentor (CNT-XXXX) será preenchido automaticamente." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
+            <div class="input-group">
+                <i class="fa-solid fa-qrcode input-icon"></i>
+                <select asp-for="ContainerCode" id="select-code" class="custom-select">
+                    <option value="">Selecione o Código...</option>
+                    @if (ViewBag.ContainersList != null)
+                    {
+                        foreach (var c in ViewBag.ContainersList)
+                        {
+                            <option value="@c.Code">@c.Code</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="ContainerCode" class="field-error"></span>
+            </div>
 
             <div class="input-group">
                 <i class="fa-solid fa-location-dot input-icon"></i>
@@ -54,19 +60,14 @@
                     {
                         foreach (var c in ViewBag.ContainersList)
                         {
-                            <option value="@c.Code">@c.Location (@c.Type)</option>
+                            <option value="@c.Code">@c.Location</option>
                         }
                     }
                 </select>
-                <span asp-validation-for="ContainerCode" class="field-error"></span>
             </div>
 
             <label class="field-label">Informação do Contentor</label>
             <div class="info-grid">
-                <div class="info-item">
-                    <i id="codeIcon" class="fa-solid fa-qrcode"></i>
-                    <input type="text" id="auto-code" readonly placeholder="Código" />
-                </div>
                 <div class="info-item">
                     <i id="statusIcon" class="fa-solid fa-heart-pulse"></i>
                     <input type="text" id="auto-status" readonly placeholder="Estado" />
@@ -81,12 +82,7 @@
                 </div>
             </div>
 
-            <label class="field-label" style="margin-top: 20px; display: flex; align-items: center;">
-                Tipo de Anomalia
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Selecione a opção que melhor descreve o problema visível no local." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
+            <label class="field-label" style="margin-top: 20px;">Tipo de Anomalia</label>
             <div class="selection-grid">
                 <label class="selection-item">
                     <input type="radio" asp-for="OccurrenceType" value="Lixo no Chão" />
@@ -130,12 +126,6 @@
             </div>
             <span asp-validation-for="OccurrenceType" class="field-error"></span>
 
-            <label class="field-label" style="margin-top: 25px; display: flex; align-items: center; margin-bottom: 8px;">
-                Descrição do Problema
-                <span data-bs-toggle="tooltip" data-bs-placement="right" title="Forneça detalhes que ajudem a equipa de limpeza, como a quantidade de lixo ou a gravidade dos danos." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
             <div class="input-group" style="margin-top: 15px;">
                 <i class="fa-solid fa-comment-dots input-icon" style="top: 25px;"></i>
                 <textarea asp-for="Description" placeholder="Descreva o problema com mais detalhe..."></textarea>
@@ -145,9 +135,6 @@
             <div style="margin-top: 20px;">
                 <label class="field-label" style="display: block; margin-bottom: 8px; font-weight: 600; color: #8d6e63; text-transform: uppercase; font-size: 0.85rem;">
                     <i class="fa-solid fa-camera me-2"></i> Anexar Fotografia (Opcional)
-                    <span data-bs-toggle="tooltip" data-bs-placement="right" title="A fotografia ajuda a nossa equipa a avaliar o problema mais rapidamente e a enviar o veículo adequado." style="cursor: help; color: #8d6e63; margin-left: 10px; font-size: 1.1rem; text-transform: none;">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </span>
                 </label>
 
                 <div style="position: relative; display: flex; align-items: center; background-color: white; border: 1px solid #ddd; border-radius: 10px; padding: 6px; overflow: hidden;">
@@ -218,7 +205,7 @@
     /* Grelha para os campos automáticos */
     .info-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 10px;
         margin-bottom: 25px;
     }
@@ -238,16 +225,13 @@
 
         .info-item input {
             width: 100%;
-            padding: 10px 5px 10px 32px;
+            padding: 10px 10px 10px 35px;
             border-radius: 15px;
             border: 1px solid #ddd;
             background-color: #f9f9f9;
             color: #555;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 </style>
 
@@ -258,43 +242,28 @@
         // Recebe os dados JSON injetados pelo Controlador
         const containersData = @Html.Raw(ViewBag.ContainersJson ?? "[]");
 
-        // Elementos do DOM
+        const selectCode = document.getElementById('select-code');
         const selectLocation = document.getElementById('select-location');
-        const hiddenCode = document.getElementById('hidden-container-code');
-
-        const autoCode = document.getElementById('auto-code');
         const autoStatus = document.getElementById('auto-status');
         const autoOccupation = document.getElementById('auto-occupation');
         const autoType = document.getElementById('auto-type');
 
-        // Evento quando o cidadão escolhe uma localização
-        selectLocation.addEventListener('change', function() {
+        // Sincronizar: Código -> Localização
+        selectCode.addEventListener('change', function() {
             const selectedCode = this.value;
-
-            // Atualiza o input escondido
-            hiddenCode.value = selectedCode;
-
-            // Apaga a opção "Selecione a Localização..."
-            if (selectedCode !== "") {
-                const emptyOption = this.querySelector('option[value=""]');
-                if (emptyOption) emptyOption.remove();
-            }
-
-            // Preenche os cartões
+            selectLocation.value = selectedCode;
             fillAutoFields(selectedCode);
         });
 
-        // Caso a página carregue já com um código selecionado
-        document.addEventListener("DOMContentLoaded", function() {
-            if (selectLocation.value !== "") {
-                hiddenCode.value = selectLocation.value;
-                fillAutoFields(selectLocation.value);
-            }
+        // Sincronizar: Localização -> Código
+        selectLocation.addEventListener('change', function() {
+            const selectedCode = this.value;
+            selectCode.value = selectedCode;
+            fillAutoFields(selectedCode);
         });
 
         function fillAutoFields(code) {
             if (!code) {
-                autoCode.value = '';
                 autoStatus.value = '';
                 autoOccupation.value = '';
                 autoType.value = '';
@@ -304,7 +273,6 @@
             const container = containersData.find(c => c.Code === code);
 
             if (container) {
-                autoCode.value = container.Code || 'N/D';
                 autoStatus.value = container.Status || 'N/D';
 
                 if (container.FillLevel !== undefined && container.FillLevel !== null) {
@@ -320,52 +288,55 @@
         }
 
          function updateInfoColors(status, fillLevel, type) {
-            // Cor do Estado
+
+            // 1. Cor do Estado
             const statusIcon = document.getElementById('statusIcon');
             if (statusIcon) {
                 switch (status.toLowerCase()) {
-                    case 'bom': statusIcon.style.color = '#27ae60'; break;
+                    case 'bom': statusIcon.style.color = '#27ae60'; break; // Verde
                     case 'avariado':
-                    case 'cheio': statusIcon.style.color = '#e74c3c'; break;
-                    case 'manutenção': statusIcon.style.color = '#f39c12'; break;
-                    default: statusIcon.style.color = '#95a5a6';
+                    case 'cheio': statusIcon.style.color = '#e74c3c'; break; // Vermelho
+                    case 'manutenção': statusIcon.style.color = '#f39c12'; break; // Laranja
+                    default: statusIcon.style.color = '#95a5a6'; // Cinzento
                 }
             }
 
-            // Cor da Ocupação
+            // 2. Cor da Ocupação (Lê o número, tirando o símbolo %)
             const fillIcon = document.getElementById('fillIcon');
-            if (fillIcon && fillLevel !== 'N/D') {
+            if (fillIcon) {
                 let level = parseInt(fillLevel.replace('%', ''));
+
                 if (level >= 80) {
-                    fillIcon.style.color = '#e74c3c';
+                    fillIcon.style.color = '#e74c3c'; // Vermelho (Alerta)
                 } else if (level >= 50) {
-                    fillIcon.style.color = '#f39c12';
+                    fillIcon.style.color = '#f39c12'; // Laranja (Atenção)
                 } else {
-                    fillIcon.style.color = '#27ae60';
+                    fillIcon.style.color = '#27ae60'; // Verde (Tranquilo)
                 }
             }
 
-            // Cor do Tipo de Resíduo
+            // 3. Cor do Tipo de Resíduo
             const iconType = document.getElementById('typeIcon');
             if (iconType) {
                 switch (type.toLowerCase()) {
                     case 'plástico':
-                    case 'embalagens': iconType.style.color = '#f1c40f'; break;
+                    case 'embalagens': iconType.style.color = '#f1c40f'; break; // Amarelo
                     case 'papel':
-                    case 'cartão': iconType.style.color = '#3498db'; break;
-                    case 'vidro': iconType.style.color = '#27ae60'; break;
-                    case 'indiferenciado': iconType.style.color = '#34495e'; break;
+                    case 'cartão': iconType.style.color = '#3498db'; break; // Azul
+                    case 'vidro': iconType.style.color = '#27ae60'; break; // Verde
+                    case 'indiferenciado': iconType.style.color = '#34495e'; break; // Cinzento Escuro
                     default: iconType.style.color = '#95a5a6';
                 }
             }
         }
 
-        // Seleção do ficheiro da fotografia
         document.getElementById('file-input').addEventListener('change', function(e) {
             var fileName = document.getElementById('fileName');
+
+            // Verifica se algum ficheiro foi selecionado
             if (e.target.files && e.target.files.length > 0) {
                 fileName.textContent = e.target.files[0].name;
-                fileName.style.color = '#8d6e63';
+                fileName.style.color = '#8d6e63'; // Fica castanho para dar destaque
                 fileName.style.fontWeight = '600';
             } else {
                 fileName.textContent = 'Nenhuma fotografia selecionada';
@@ -373,5 +344,6 @@
                 fileName.style.fontWeight = 'normal';
             }
         });
+
     </script>
 }

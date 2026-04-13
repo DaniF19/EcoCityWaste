@@ -36,10 +36,10 @@ namespace EcoCityWaste.Services
 
             foreach (var admin in admins)
             {
-                _context.Notifications.Add(new Notification
+                var notification = new Notification
                 {
                     ContainerId = container.Id,
-                    Message = $"O Contentor {container.Code} atingiu um nível crítico ({container.FillLevel}%)",
+                    Message = $"O Contentor {container.Code} Atingiu um Nível Crítico ({container.FillLevel}%)",
                     UserId = admin.Id,
                     CreatedAt = DateTime.Now,
                     IsRead = false,

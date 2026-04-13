@@ -35,6 +35,7 @@
     gap:12px;
 }
 
+/* Info banner */
 
 .info-banner{
     background: #f3ebe8;
@@ -62,6 +63,7 @@
     color:var(--cor-castanho);
 }
 
+/* Layout */
 
 .optimise-grid{
     display:grid;
@@ -74,6 +76,7 @@
     .optimise-grid{grid-template-columns:1fr;}
 }
 
+/* Panels */
 
 .panel{
     background:var(--surface);
@@ -97,6 +100,7 @@
     color:var(--cor-castanho);
 }
 
+/* Stops */
 
 .opt-stop{
     display:flex;
@@ -147,6 +151,7 @@
     margin-top:2px;
 }
 
+/* Fill indicators */
 
 .fill-pill{
     font-size:.75rem;
@@ -180,6 +185,7 @@
     border:1px solid #f1b0b7;
 }
 
+/* Sidebar summary */
 
 .summary-row{
     display:flex;
@@ -203,6 +209,7 @@
     font-weight:600;
 }
 
+/* Buttons */
 
 .btn-apply{
     width:100%;
@@ -241,6 +248,8 @@
     border-color:var(--cor-castanho);
 }
 
+/* Arrows */
+
 .arrow-indicator{
     display:flex;
     align-items:center;
@@ -255,39 +264,38 @@
 <div class="page-container">
     <div style="margin-bottom:16px;">
         <a asp-action="Details" asp-route-id="@route?.Id"
-               style="text-decoration:none;color: white;background: var(--cor-castanho);border-radius: 8px;border: 1px solid rgba(255, 255, 255, .1);gap: 6px;padding: 7px 14px;font-size: .82rem;text-decoration: none;">
+           style="color:var(--muted);text-decoration:none;font-size:.85rem;">
             <i class="fa-solid fa-chevron-left"></i> Voltar à Rota
         </a>
     </div>
 
     <div class="optimise-header">
         <div>
-            <h1 style="font-size:1.5rem;font-weight:800;color:var(--cor-castanho);margin:0 0 4px 0; display: flex; align-items: center;">
-                <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--cor-castanho);margin-right:8px;"></i>
-                Optimização de Rota Inteligente
-                <span data-bs-toggle="tooltip" title="A otimização refaz o percurso para minimizar a distância total, priorizando sempre os contentores mais cheios." style="cursor: help; color: #bcaaa4; margin-left: 12px; font-size: 1.1rem;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
+            <h1 style="font-size:1.5rem;font-weight:800;color:var(--cor-castanho);margin:0 0 4px 0;">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--cyan);margin-right:8px;"></i>
+                Optimização de Rota
             </h1>
-            <p style="color:var(--muted);margin:0;font-size:.88rem; font-weight: 600;">
+            <p style="color:var(--muted);margin:0;font-size:.88rem;">
                 @route?.Code – @route?.Name
             </p>
         </div>
     </div>
 
-    <div class="info-banner" style="display: flex; align-items: flex-start; gap: 15px; border-left: 4px solid var(--cor-castanho); background: #fffcf5;">
-        <i class="fa-solid fa-microchip" style="color: var(--cor-castanho); font-size: 1.8rem; margin-top: 5px;"></i>
-        <p style="color: #555;">
-            O nosso algoritmo analisou as coordenadas GPS e o nível de lixo atual.<br>
-            Contentores com um nível de enchimento <strong>≥ 80% foram colocados no início da rota</strong> para evitar transbordo, e a distância de condução foi minimizada para <strong>poupar combustível</strong>. Reveja a nova ordem abaixo antes de aplicar.
+    <div class="info-banner">
+        <i class="fa-solid fa-circle-info"></i>
+        <p>
+            Os contentores com um nivel de enchimento ≥ 80% serão priorizados
+            e a distância total de percurso será calculado para ser minimizado. 
+            Confirme a ordem antes de aplicar.
         </p>
     </div>
 
     <div class="optimise-grid">
+        <!-- Stops list -->
         <div class="panel">
             <div class="panel-title">
-                <i class="fa-solid fa-route"></i>
-                Percurso Sugerido (@Model.Stops.Count paragens)
+                <i class="fa-solid fa-list-ol"></i>
+                Ordem Optimizada (@Model.Stops.Count paragens)
             </div>
 
             @for (int i = 0; i < Model.Stops.Count; i++)
@@ -301,16 +309,16 @@
                             <span class="opt-code">@s.Code</span>
                             @if (s.FillLevel >= 80)
                             {
-                                <span class="high-fill-badge" data-bs-toggle="tooltip" title="Priorizado devido ao nível de lixo elevado.">
+                                <span class="high-fill-badge">
                                     <i class="fa-solid fa-fire"></i> Crítico
                                 </span>
                             }
                         </div>
-                        <div class="opt-loc" style="font-weight: 600;">@s.Location</div>
+                        <div class="opt-loc">@s.Location</div>
                         @if (s.Latitude == 0 && s.Longitude == 0)
                         {
-                            <div style="font-size:.75rem;color:#f1c40f;margin-top:4px;">
-                                <i class="fa-solid fa-triangle-exclamation"></i> Sem GPS (foi ordenado para o fim)
+                            <div style="font-size:.75rem;color:var(--amber);margin-top:2px;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Sem coordenadas GPS
                             </div>
                         }
                     </div>
@@ -320,39 +328,42 @@
                 @if (i < Model.Stops.Count - 1)
                 {
                     <div class="arrow-indicator">
-                        <i class="fa-solid fa-arrow-down" style="color: #ccc;"></i>
+                        <i class="fa-solid fa-arrow-down"></i>
+                        <span>próxima paragem</span>
                     </div>
                 }
             }
         </div>
 
+        <!-- Sidebar summary + apply -->
         <div>
-            <div class="panel" style="position: sticky; top: 20px;">
-                <div class="panel-title" style="margin-bottom:14px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-                    <i class="fa-solid fa-chart-pie"></i> Resumo da Análise
+            <div class="panel">
+                <div class="panel-title" style="margin-bottom:14px;">
+                    <i class="fa-solid fa-chart-simple"></i> Resumo
                 </div>
 
                 <div class="summary-row">
-                    <span class="summary-label">Total de Paragens</span>
+                    <span class="summary-label">Paragens</span>
                     <span class="summary-value">@Model.Stops.Count</span>
                 </div>
-                <div class="summary-row" data-bs-toggle="tooltip" data-bs-placement="left" title="Distância estimada com base na rede rodoviária real.">
-                    <span class="summary-label">Distância Prevista</span>
-                    <span class="summary-value" style="color: black;">@Model.EstimatedDistanceKm km</span>
+                <div class="summary-row">
+                    <span class="summary-label">Distância est.</span>
+                    <span class="summary-value">@Model.EstimatedDistanceKm km</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Paragens Críticas</span>
-                    <span class="summary-value" style="color:var(--cor-vermelho-erro);">
+                    <span class="summary-label">Críticos (≥80%)</span>
+                    <span class="summary-value" style="color:var(--red);">
                         @Model.Stops.Count(s => s.FillLevel >= 80)
                     </span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Ignorados (Sem GPS)</span>
-                    <span class="summary-value" style="color:var(--cor-aviso);">
+                    <span class="summary-label">Sem GPS</span>
+                    <span class="summary-value" style="color:var(--amber);">
                         @Model.Stops.Count(s => s.Latitude == 0 && s.Longitude == 0)
                     </span>
                 </div>
 
+                <!-- Apply form -->
                 <form asp-action="ApplyOptimisation" method="post" id="apply-optimisation-form">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="routeId" value="@route?.Id" />
@@ -360,13 +371,14 @@
                     {
                         <input type="hidden" name="orderedContainerIds" value="@s.ContainerId" />
                     }
-                    <button type="button" class="btn-apply" onclick="confirmOptimisation()" style="border-radius: 10px;">
-                        <i class="fa-solid fa-check me-2"></i> Gravar Nova Ordem
+                    <button type="button" class="btn-apply" onclick="confirmOptimisation()">
+                        <i class="fa-solid fa-check" style="margin-right:6px;"></i>
+                        Aplicar Optimização
                     </button>
                 </form>
 
-                <a asp-action="Details" asp-route-id="@route?.Id" class="btn-cancel" style="border-radius: 10px; margin-top: 10px;">
-                    Cancelar Optimização
+                <a asp-action="Details" asp-route-id="@route?.Id" class="btn-cancel">
+                    Cancelar
                 </a>
             </div>
         </div>
@@ -379,7 +391,6 @@
             title: 'Aplicar Optimização?',
             text: "A nova ordem de paragens será guardada nesta rota.",
             icon: 'question',
-            iconColor: 'rgb(141, 110, 99)',
             showCancelButton: true,
             confirmButtonColor: 'rgb(141, 110, 99)',
             cancelButtonColor: '#777',

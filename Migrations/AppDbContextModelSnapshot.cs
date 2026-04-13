@@ -102,38 +102,6 @@ namespace EcoCityWaste.Migrations
                     b.ToTable("ContainerStatusHistories");
                 });
 
-            modelBuilder.Entity("EcoCityWaste.Models.FailureLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Action")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Controller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("OccurredAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("StackTrace")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FailureLogs");
-                });
-
             modelBuilder.Entity("EcoCityWaste.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -142,7 +110,7 @@ namespace EcoCityWaste.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ContainerId")
+                    b.Property<int>("ContainerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -151,14 +119,8 @@ namespace EcoCityWaste.Migrations
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LinkUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotificationType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
@@ -195,9 +157,6 @@ namespace EcoCityWaste.Migrations
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("OccurrenceType")
                         .IsRequired()

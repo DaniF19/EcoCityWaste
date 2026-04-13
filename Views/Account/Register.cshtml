@@ -56,14 +56,6 @@ Layout = null;
 
             @Html.AntiForgeryToken()
 
-            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
-                    Nome de Utilizador
-                    <span title="Este será o nome visível nas suas ocorrências reportadas."
-                          style="cursor: help; color:#bcaaa4; margin-left:6px;">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </span>
-                </label>
-            
             <!-- USERNAME -->
             <div class="input-group">
                 <i class="fa-solid fa-user input-icon"></i>
@@ -76,14 +68,6 @@ Layout = null;
                       class="field-error"></span>
             </div>
 
-            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
-                E-mail
-                <span title="Usaremos este e-mail apenas para o notificar sobre o estado das suas ocorrências."
-                      style="cursor: help; color:#bcaaa4; margin-left:6px;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
-
             <!-- EMAIL -->
             <div class="input-group">
                 <i class="fa-solid fa-envelope input-icon"></i>
@@ -95,14 +79,6 @@ Layout = null;
                 <span asp-validation-for="Email"
                       class="field-error"></span>
             </div>
-
-            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
-                Palavra-Passe
-                <span title="A palavra-passe deve conter pelo menos 8 caracteres, incluindo um número e uma letra maiúscula."
-                      style="cursor: help; color:#bcaaa4; margin-left:6px;">
-                    <i class="fa-solid fa-circle-info"></i>
-                </span>
-            </label>
 
             <!-- PASSWORD -->
             <div class="input-group">
@@ -121,10 +97,6 @@ Layout = null;
                       class="field-error"></span>
             </div>
 
-            <label style="font-weight:700; color:#795c4d; font-size:0.8rem; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; letter-spacing:0.5px;">
-                Confirmar Palavra-Passe
-            </label>
-
             <!-- CONFIRM PASSWORD -->
             <div class="input-group">
                 <i class="fa-solid fa-key input-icon"></i>
@@ -132,7 +104,7 @@ Layout = null;
                 <input asp-for="ConfirmPassword"
                        id="confirmPassword"
                        type="password"
-                       placeholder="Palavra-Passe"
+                       placeholder="Confirmar Palavra-Passe"
                        required />
 
                 <i class="fa-solid fa-eye password-toggle"

@@ -1,12 +1,15 @@
 ﻿using EcoCityWaste.Data;
-using EcoCityWaste.Helpers;
 using EcoCityWaste.Models;
-using EcoCityWaste.Services;
 using EcoCityWaste.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace EcoCityWaste.Controllers
 {
@@ -18,9 +21,6 @@ namespace EcoCityWaste.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly int _hideResolvedAfterDays;
-        private readonly NotificationService _notificationService;
-        private readonly FailureLogger _failureLogger;
 
         public OccurrencesController(AppDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration, NotificationService notificationService, FailureLogger failureLogger)
         {
@@ -38,8 +38,7 @@ namespace EcoCityWaste.Controllers
         public IActionResult Report()
         {
             var containers = _context.Contentores
-                .Select(c => new
-                {
+                .Select(c => new {
                     c.Code,
                     c.Location,
                     c.Type,
@@ -48,12 +47,19 @@ namespace EcoCityWaste.Controllers
                 }).ToList();
 
             var translate = containers
-                .Select(c => new
-                {
+                .Select(c => new {
                     c.Code,
                     c.Location,
                     c.Type,
-                    Status = c.Status.ToDisplayName(),
+                    Status = c.Status switch
+                    {
+                        Container.ContainerStatus.Good => "Bom",
+                        Container.ContainerStatus.Full => "Cheio",
+                        Container.ContainerStatus.Empty => "Vazio",
+                        Container.ContainerStatus.Broken => "Avariado",
+                        Container.ContainerStatus.Maintenance => "Manutenção",
+                        _ => "Desconhecido"
+                    },
                     c.FillLevel
                 }).ToList();
 
@@ -110,7 +116,7 @@ namespace EcoCityWaste.Controllers
                 ViewBag.Success = "Obrigado! A anomalia foi registada e será analisada em breve.";
                 return View();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Registo de falha na base de dados
                 await _failureLogger.LogAsync(ex, nameof(OccurrencesController), nameof(Report), User.Identity?.Name);
@@ -187,8 +193,14 @@ namespace EcoCityWaste.Controllers
             occurrence.AssignedEmployeeId = model.SelectedEmployeeId;
             occurrence.Status = OccurrenceStatus.EmAnalise.ToString();
             occurrence.AssignedAt = DateTime.Now;
-            occurrence.LastUpdatedAt = DateTime.Now;
 
+            _context.Notifications.Add(new Notification
+            {
+                Message = $"Foi-lhe atribuída uma ocorrência ({occurrence.OccurrenceType}).",
+                UserId = model.SelectedEmployeeId,
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            });
             await _context.SaveChangesAsync();
 
             // Sistema de Notificações em tempo real

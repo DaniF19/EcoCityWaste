@@ -92,6 +92,9 @@ namespace EcoCityWaste.Controllers
             {
                 notification.IsRead = true;
             }
+            var notifications = await _context.Notifications.ToListAsync();
+
+            _context.Notifications.RemoveRange(notifications);
 
             await _context.SaveChangesAsync();
 

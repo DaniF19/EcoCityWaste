@@ -27,7 +27,7 @@ namespace EcoCityWasteProjetoESA.Tests
                 new Container { Id = 11, Code = "C2", Location = "Avenida Luísa Todi", Type = "Papel", IsActive = true, Latitude = 38.6, Longitude = -8.9 }
             );
 
-            context.Users.Add(new User { Id = 1, Username = "worker1", Email = "worker1@gmail.com", PasswordHash = "hash", Role = "Funcionario" });
+            context.Users.Add(new User { Id = 1, Username = "worker1", Email = "worker1@gmail.com", PasswordHash="hash", Role = "Funcionario" });
 
             context.SaveChanges();
             return context;
@@ -35,26 +35,25 @@ namespace EcoCityWasteProjetoESA.Tests
 
         private RoutesController GetController(AppDbContext context, string username = "admin", string role = "Admin")
         {
-            // build the real service with the in-memory context
             var optimiser = new RouteOptimisationService();
             var historyService = new ContainerHistoryService(context);
-            var routeService = new RouteService(context, optimiser, historyService);
-            var failureLogger = new FailureLogger(context);
 
-            var controller = new RoutesController(routeService, context, failureLogger);
+            var controller = new RoutesController(context, optimiser, historyService);
 
+            // simular user identity
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, role)
             }, "mock"));
 
+            // tempdata
             var mockTempDataProvider = new Mock<ITempDataProvider>();
             var tempData = new TempDataDictionary(new DefaultHttpContext(), mockTempDataProvider.Object);
 
             controller.ControllerContext = new ControllerContext
             {
-                HttpContext = new DefaultHttpContext { User = user }
+                HttpContext = new DefaultHttpContext { User = user },
             };
 
             controller.TempData = tempData;
@@ -183,7 +182,7 @@ namespace EcoCityWasteProjetoESA.Tests
             {
                 Id = 1,
                 Name = "Worker Route",
-                AssignedEmployee = await context.Users.FirstAsync()
+                AssignedEmployee = await context.Users.FirstAsync() 
             });
             // Route not assigned
             context.Routes.Add(new EcoCityWaste.Models.Route { Id = 2, Name = "Admin Route" });
@@ -197,71 +196,6 @@ namespace EcoCityWasteProjetoESA.Tests
             // Assert
             Assert.Single(model);
             Assert.Equal("Worker Route", model[0].Name);
-        }
-
-        [Fact]
-        public async Task Index_CallsService_WithCorrectParameters()
-        {
-            // Arrange
-            var mockService = new Mock<IRouteService>();
-
-            mockService.Setup(s => s.GetRoutesAsync("Pending", "admin", false))
-                       .ReturnsAsync(new List<EcoCityWaste.Models.Route>());
-
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            var context = new AppDbContext(options);
-            var failureLogger = new FailureLogger(context);
-
-            var controller = new RoutesController(mockService.Object, context, failureLogger);
-
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "admin"),
-                new Claim(ClaimTypes.Role, "Admin")
-            }, "mock"));
-
-            controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = user }
-            };
-
-            // Act
-            var result = await controller.Index("Pending");
-
-            // Assert
-            mockService.Verify(s => s.GetRoutesAsync("Pending", "admin", false), Times.Once);
-            Assert.IsType<ViewResult>(result);
-        }
-
-        [Fact]
-        public async Task GetRoutesAsync_FiltersByEmployee()
-        {
-            // Arrange
-            using var context = GetDbContext();
-
-            context.Routes.Add(new EcoCityWaste.Models.Route
-            {
-                Name = "Mine",
-                AssignedEmployee = await context.Users.FirstAsync()
-            });
-
-            context.Routes.Add(new EcoCityWaste.Models.Route
-            {
-                Name = "Other"
-            });
-
-            await context.SaveChangesAsync();
-
-            var service = new RouteService(context, new RouteOptimisationService(), new ContainerHistoryService(context));
-
-            // Act
-            var result = await service.GetRoutesAsync(null, "worker1", true);
-
-            // Assert
-            Assert.Single(result);
-            Assert.Equal("Mine", result[0].Name);
         }
     }
 }
