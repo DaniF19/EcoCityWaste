@@ -45,7 +45,9 @@ namespace EcoCityWaste.Services
                     IsRead = false,
                     LinkUrl = $"/Containers/Details/{container.Id}",
                     NotificationType = "container"
-                });
+                };
+                
+                _context.Notifications.Add(notification);
             }
             await _context.SaveChangesAsync();
         }
